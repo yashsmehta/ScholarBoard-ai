@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An interactive visualization of researchers positioned by their research similarity">
+    <meta name="theme-color" content="#4a6fa5">
+    <title>UniMinds.ai</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/futura-pt" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>UniMinds.ai</h1>
+            <p>Find and explore scientists visually</p>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div id="map-container">
+                <div class="map-overlay">
+                    <div class="map-controls">
+                        <button id="zoom-in" title="Zoom In"><i class="fas fa-plus"></i></button>
+                        <button id="zoom-out" title="Zoom Out"><i class="fas fa-minus"></i></button>
+                        <button id="reset-view" title="Reset View"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                </div>
+                <button class="search-toggle-btn" id="search-toggle">
+                    <i class="fas fa-search"></i> Ask Research Question
+                </button>
+                <div class="search-container" id="search-container">
+                    <div class="search-box">
+                        <input type="text" id="research-query" placeholder="Enter a research question or idea...">
+                        <button id="search-button"><i class="fas fa-search"></i> Find Experts</button>
+                    </div>
+                    <div id="search-results" class="hidden">
+                        <h3>Top Researchers for Your Query</h3>
+                        <div id="results-list"></div>
+                        <button id="close-results"><i class="fas fa-times"></i> Close Results</button>
+                    </div>
+                </div>
+                <div id="researcher-map"></div>
+            </div>
+            <div id="sidebar">
+                <div class="sidebar-header">
+                    <h2>Researcher Profile</h2>
+                    <button id="close-sidebar"><i class="fas fa-times"></i></button>
+                </div>
+                <div id="researcher-details">
+                    <div class="placeholder-message">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Select a researcher to view their profile</p>
+                        <small>Explore the map by clicking on researcher nodes</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Preload placeholder image -->
+    <link rel="preload" href="images/placeholder.jpg" as="image">
+    
+    <script src="js/script.js"></script>
+</body>
+</html> 

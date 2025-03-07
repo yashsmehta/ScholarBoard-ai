@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    // Create header animation
+    createHeaderAnimation();
+    
     // Load scholar data
     try {
         console.log('Loading scholar data from data/scholars.json...');
@@ -71,20 +74,94 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Set up projection buttons
         setupProjectionButtons();
         
+        // Set up filter functionality
+        setupFilters(validScholars);
+        
+        // Set up search functionality
+        setupSearch(validScholars);
+        
     } catch (error) {
         console.error('Error loading scholar data:', error);
         document.getElementById('scholar-map').innerHTML = '<div style="color: red; padding: 20px; text-align: center;">Error loading scholar data. Please check the console for details.</div>';
     }
 });
 
-function setupSidebar() {
-    // Set up sidebar close button
-    const closeButton = document.getElementById('close-sidebar');
-    if (closeButton) {
-        closeButton.addEventListener('click', () => {
-            document.getElementById('sidebar').classList.remove('active');
-        });
+function createHeaderAnimation() {
+    const container = document.getElementById('header-animation');
+    if (!container) return;
+    
+    // Clear any existing content
+    container.innerHTML = '';
+    
+    // Create nodes
+    const nodeCount = 15;
+    const nodes = [];
+    const headerWidth = container.offsetWidth;
+    const headerHeight = container.offsetHeight;
+    
+    for (let i = 0; i < nodeCount; i++) {
+        const node = document.createElement('div');
+        node.className = 'node';
+        
+        // Random position
+        const x = Math.random() * headerWidth;
+        const y = Math.random() * headerHeight;
+        
+        node.style.left = `${x}px`;
+        node.style.top = `${y}px`;
+        
+        // Random size
+        const size = 3 + Math.random() * 5;
+        node.style.width = `${size}px`;
+        node.style.height = `${size}px`;
+        
+        // Random animation delay
+        node.style.animationDelay = `${Math.random() * 2}s`;
+        
+        container.appendChild(node);
+        nodes.push({ element: node, x, y, size });
     }
+    
+    // Create connections between nearby nodes
+    const maxDistance = 150;
+    
+    for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+            const nodeA = nodes[i];
+            const nodeB = nodes[j];
+            
+            // Calculate distance between nodes
+            const dx = nodeB.x - nodeA.x;
+            const dy = nodeB.y - nodeA.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // Only connect nodes that are close enough
+            if (distance < maxDistance) {
+                const connection = document.createElement('div');
+                connection.className = 'connection';
+                
+                // Position and size the connection
+                connection.style.left = `${nodeA.x + nodeA.size / 2}px`;
+                connection.style.top = `${nodeA.y + nodeA.size / 2}px`;
+                connection.style.width = `${distance}px`;
+                
+                // Calculate the angle
+                const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+                connection.style.transform = `rotate(${angle}deg)`;
+                
+                // Opacity based on distance
+                const opacity = 1 - (distance / maxDistance);
+                connection.style.opacity = opacity;
+                
+                container.appendChild(connection);
+            }
+        }
+    }
+}
+
+function setupSidebar() {
+    // No need for close button functionality as sidebar is always visible
+    console.log('Setting up sidebar with always-visible layout');
 }
 
 function createScholarMap(scholars) {
@@ -98,9 +175,10 @@ function createScholarMap(scholars) {
     const projectionMethod = window.currentProjection || 'umap';
     console.log(`Creating map with ${projectionMethod} projection`);
     
-    // Create a color map for countries
+    // Create a color map for countries and count scholars per country
     const countries = [...new Set(scholars.map(s => s.country).filter(Boolean))];
     const colorMap = {};
+    const countryCount = {};
     const colors = [
         '#4285F4', '#EA4335', '#FBBC05', '#34A853', // Google colors
         '#8AB4F8', '#F28B82', '#FDD663', '#81C995', // Lighter versions
@@ -109,12 +187,23 @@ function createScholarMap(scholars) {
         '#174EA6', '#A50E0E', '#E37400', '#0D652D'  // Even darker versions
     ];
     
-    countries.forEach((country, i) => {
+    // Count scholars per country
+    scholars.forEach(scholar => {
+        if (scholar.country) {
+            countryCount[scholar.country] = (countryCount[scholar.country] || 0) + 1;
+        }
+    });
+    
+    // Sort countries by count (descending)
+    const sortedCountries = countries.sort((a, b) => countryCount[b] - countryCount[a]);
+    
+    // Assign colors to countries
+    sortedCountries.forEach((country, i) => {
         colorMap[country] = colors[i % colors.length];
     });
     
-    // Create a legend for countries
-    createCountryLegend(colorMap);
+    // Create a legend for top countries
+    createCountryLegend(colorMap, countryCount, scholars.length);
     
     // Calculate the min and max coordinates to normalize
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
@@ -178,7 +267,6 @@ function createScholarMap(scholars) {
         dot.className = 'scholar-dot';
         dot.setAttribute('data-id', scholar.id);
         dot.setAttribute('data-name', scholar.name);
-        dot.setAttribute('title', `${scholar.name}${scholar.institution ? ` (${scholar.institution})` : ''}`);
         
         // Position the dot
         dot.style.position = 'absolute';
@@ -194,30 +282,44 @@ function createScholarMap(scholars) {
         dot.style.cursor = 'pointer';
         dot.style.transition = 'all 0.2s ease';
         
-        // Add hover effect
+        // Create tooltip that follows mouse
+        const tooltip = document.createElement('div');
+        tooltip.className = 'scholar-tooltip';
+        tooltip.textContent = scholar.name;
+        tooltip.style.display = 'none';
+        document.body.appendChild(tooltip);
+        
+        // Add hover effect with tooltip following mouse
         dot.addEventListener('mouseenter', () => {
             dot.style.width = '24px';
             dot.style.height = '24px';
             dot.style.zIndex = '100';
+            tooltip.style.display = 'block';
+        });
+        
+        dot.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            tooltip.style.left = `${x + 15}px`;
+            tooltip.style.top = `${y - 15}px`;
         });
         
         dot.addEventListener('mouseleave', () => {
             dot.style.width = '16px';
             dot.style.height = '16px';
             dot.style.zIndex = '1';
+            tooltip.style.display = 'none';
         });
         
         // Add click event to show scholar details
         dot.addEventListener('click', () => {
             // Remove highlight from all dots
             document.querySelectorAll('.scholar-dot').forEach(d => {
-                d.style.border = '2px solid white';
-                d.style.boxShadow = '0 0 5px rgba(0,0,0,0.2)';
+                d.classList.remove('highlighted');
             });
             
-            // Highlight this dot
-            dot.style.border = '3px solid #ffcc00';
-            dot.style.boxShadow = '0 0 10px rgba(255,204,0,0.7)';
+            // Add highlight to this dot
+            dot.classList.add('highlighted');
             
             // Show scholar details
             showScholarDetails(scholar);
@@ -311,17 +413,20 @@ function createScholarMap(scholars) {
     }
 }
 
-function createCountryLegend(colorMap) {
+function createCountryLegend(colorMap, countryCount, totalScholars) {
     // Create a legend container
     const legendContainer = document.createElement('div');
     legendContainer.className = 'country-legend';
-    legendContainer.innerHTML = '<h3>Countries</h3>';
+    legendContainer.innerHTML = '<h3>Top Countries</h3>';
     
-    // Create legend items
-    const countries = Object.keys(colorMap).sort();
+    // Get top 4 countries by count
+    const countries = Object.keys(countryCount).sort((a, b) => countryCount[b] - countryCount[a]);
+    const topCountries = countries.slice(0, 4);
     
-    countries.forEach(country => {
+    topCountries.forEach(country => {
         const color = colorMap[country];
+        const count = countryCount[country];
+        const percentage = ((count / totalScholars) * 100).toFixed(1);
         
         const legendItem = document.createElement('div');
         legendItem.className = 'legend-item';
@@ -334,8 +439,13 @@ function createCountryLegend(colorMap) {
         countryName.className = 'country-name';
         countryName.textContent = country;
         
+        const countryPercentage = document.createElement('span');
+        countryPercentage.className = 'country-percentage';
+        countryPercentage.textContent = `(${percentage}%)`;
+        
         legendItem.appendChild(colorSwatch);
         legendItem.appendChild(countryName);
+        legendItem.appendChild(countryPercentage);
         legendContainer.appendChild(legendItem);
     });
     
@@ -351,9 +461,6 @@ function showScholarDetails(scholar) {
     const detailsContainer = document.getElementById('scholar-details');
     
     if (!sidebar || !detailsContainer) return;
-    
-    // Show the sidebar
-    sidebar.classList.add('active');
     
     // Show loading state
     detailsContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading scholar profile...</div>';
@@ -443,8 +550,36 @@ function formatResearchText(text) {
             return `<h5>${paragraph.substring(3)}</h5>`;
         }
         
+        // Format lists
+        if (paragraph.includes('\n- ')) {
+            const parts = paragraph.split('\n- ');
+            const intro = parts[0];
+            const listItems = parts.slice(1);
+            
+            return `
+                <p>${intro}</p>
+                <ul>
+                    ${listItems.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            `;
+        }
+        
+        // Highlight keywords
+        const keywordsToHighlight = [
+            'neural networks', 'deep learning', 'machine learning', 'artificial intelligence',
+            'computer vision', 'natural language processing', 'cognitive science', 'neuroscience',
+            'perception', 'attention', 'memory', 'consciousness', 'brain', 'cognition'
+        ];
+        
+        let formattedParagraph = paragraph;
+        
+        keywordsToHighlight.forEach(keyword => {
+            const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+            formattedParagraph = formattedParagraph.replace(regex, match => `<strong>${match}</strong>`);
+        });
+        
         // Regular paragraph
-        return `<p>${paragraph}</p>`;
+        return `<p>${formattedParagraph}</p>`;
     }).join('');
 }
 
@@ -474,4 +609,407 @@ function updateScholarCoordinates(method) {
     if (window.scholarsData) {
         createScholarMap(window.scholarsData);
     }
+}
+
+function setupFilters(scholars) {
+    // Get filter elements
+    const filterToggle = document.getElementById('filter-toggle');
+    const filterDropdown = document.querySelector('.filter-dropdown');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const filterOptions = document.getElementById('filter-options');
+    const applyButton = document.getElementById('apply-filters');
+    const clearButton = document.getElementById('clear-filters');
+    
+    // Store filter state
+    const filterState = {
+        type: 'country', // Default filter type
+        selectedFilters: []
+    };
+    
+    // Toggle filter dropdown
+    filterToggle.addEventListener('click', () => {
+        filterDropdown.classList.toggle('active');
+        filterToggle.classList.toggle('active');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!filterToggle.contains(e.target) && !filterDropdown.contains(e.target)) {
+            filterDropdown.classList.remove('active');
+            filterToggle.classList.remove('active');
+        }
+    });
+    
+    // Switch between filter tabs
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs
+            filterTabs.forEach(t => t.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            tab.classList.add('active');
+            
+            // Update filter type
+            filterState.type = tab.dataset.type;
+            
+            // Reset selected filters
+            filterState.selectedFilters = [];
+            
+            // Update filter options
+            populateFilterOptions(scholars, filterState.type);
+        });
+    });
+    
+    // Apply filters
+    applyButton.addEventListener('click', () => {
+        applyFilters(scholars);
+        filterDropdown.classList.remove('active');
+        filterToggle.classList.remove('active');
+        
+        // Update filter button text to show active filters
+        if (filterState.selectedFilters.length > 0) {
+            filterToggle.innerHTML = `<i class="fas fa-filter"></i> Filtered (${filterState.selectedFilters.length})`;
+            filterToggle.classList.add('active');
+        } else {
+            filterToggle.innerHTML = `<i class="fas fa-filter"></i> Filter`;
+            filterToggle.classList.remove('active');
+        }
+    });
+    
+    // Clear filters
+    clearButton.addEventListener('click', () => {
+        filterState.selectedFilters = [];
+        
+        // Uncheck all checkboxes
+        const checkboxes = filterOptions.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        
+        // Apply filters (which will show all scholars)
+        applyFilters(scholars);
+        
+        // Reset filter button text
+        filterToggle.innerHTML = `<i class="fas fa-filter"></i> Filter`;
+        filterToggle.classList.remove('active');
+    });
+    
+    // Initial population of filter options
+    populateFilterOptions(scholars, filterState.type);
+    
+    // Function to populate filter options based on type
+    function populateFilterOptions(scholars, type) {
+        // Clear existing options
+        filterOptions.innerHTML = '';
+        
+        // Get unique values and counts
+        const valueMap = new Map();
+        
+        scholars.forEach(scholar => {
+            const value = scholar[type];
+            if (value) {
+                if (valueMap.has(value)) {
+                    valueMap.set(value, valueMap.get(value) + 1);
+                } else {
+                    valueMap.set(value, 1);
+                }
+            }
+        });
+        
+        // Sort values by count (descending)
+        const sortedValues = [...valueMap.entries()]
+            .sort((a, b) => b[1] - a[1]);
+        
+        // Create filter options
+        sortedValues.forEach(([value, count]) => {
+            const option = document.createElement('div');
+            option.className = 'filter-option';
+            
+            const isChecked = filterState.selectedFilters.includes(value);
+            
+            option.innerHTML = `
+                <label>
+                    <input type="checkbox" value="${value}" ${isChecked ? 'checked' : ''}>
+                    ${value}
+                </label>
+                <span class="count">${count}</span>
+            `;
+            
+            // Add event listener to checkbox
+            const checkbox = option.querySelector('input[type="checkbox"]');
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    // Add to selected filters
+                    if (!filterState.selectedFilters.includes(value)) {
+                        filterState.selectedFilters.push(value);
+                    }
+                } else {
+                    // Remove from selected filters
+                    filterState.selectedFilters = filterState.selectedFilters.filter(f => f !== value);
+                }
+            });
+            
+            filterOptions.appendChild(option);
+        });
+    }
+    
+    // Function to apply filters
+    function applyFilters(scholars) {
+        // Get all scholar dots
+        const dots = document.querySelectorAll('.scholar-dot');
+        
+        // If no filters selected, show all scholars
+        if (filterState.selectedFilters.length === 0) {
+            dots.forEach(dot => {
+                dot.classList.remove('filtered-dot');
+            });
+            return;
+        }
+        
+        // Apply filters
+        dots.forEach(dot => {
+            const scholarId = dot.getAttribute('data-id');
+            const scholar = scholars.find(s => s.id === scholarId);
+            
+            if (scholar) {
+                const value = scholar[filterState.type];
+                
+                if (value && filterState.selectedFilters.includes(value)) {
+                    // Scholar matches filter, show it
+                    dot.classList.remove('filtered-dot');
+                } else {
+                    // Scholar doesn't match filter, hide it
+                    dot.classList.add('filtered-dot');
+                }
+            }
+        });
+    }
+}
+
+function setupSearch(scholars) {
+    const searchInput = document.getElementById('scholar-search');
+    const searchButton = document.getElementById('search-button');
+    const searchResults = document.getElementById('search-results');
+    
+    // Function to perform fuzzy search
+    function fuzzySearch(query, scholars) {
+        if (!query) return [];
+        
+        query = query.toLowerCase();
+        
+        // Score each scholar based on how well they match the query
+        const scoredScholars = scholars.map(scholar => {
+            const name = scholar.name.toLowerCase();
+            let score = 0;
+            
+            // Exact match gets highest score
+            if (name === query) {
+                score = 100;
+            }
+            // Starts with query gets high score
+            else if (name.startsWith(query)) {
+                score = 80;
+            }
+            // Contains query as a word gets medium score
+            else if (name.includes(` ${query}`) || name.includes(`${query} `)) {
+                score = 60;
+            }
+            // Contains query anywhere gets lower score
+            else if (name.includes(query)) {
+                score = 40;
+            }
+            // Check for partial matches (each word in the name)
+            else {
+                const nameWords = name.split(' ');
+                for (const word of nameWords) {
+                    if (word.startsWith(query)) {
+                        score = Math.max(score, 30);
+                    } else if (word.includes(query)) {
+                        score = Math.max(score, 20);
+                    }
+                }
+            }
+            
+            // Calculate Levenshtein distance for more fuzzy matching
+            const distance = levenshteinDistance(query, name);
+            const maxLength = Math.max(query.length, name.length);
+            const similarityScore = (1 - distance / maxLength) * 20;
+            
+            score += similarityScore;
+            
+            return { scholar, score };
+        });
+        
+        // Filter out scholars with zero score and sort by score (descending)
+        return scoredScholars
+            .filter(item => item.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .map(item => item.scholar);
+    }
+    
+    // Calculate Levenshtein distance between two strings
+    function levenshteinDistance(a, b) {
+        const matrix = [];
+        
+        // Initialize matrix
+        for (let i = 0; i <= b.length; i++) {
+            matrix[i] = [i];
+        }
+        
+        for (let j = 0; j <= a.length; j++) {
+            matrix[0][j] = j;
+        }
+        
+        // Fill in the rest of the matrix
+        for (let i = 1; i <= b.length; i++) {
+            for (let j = 1; j <= a.length; j++) {
+                if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                    matrix[i][j] = matrix[i - 1][j - 1];
+                } else {
+                    matrix[i][j] = Math.min(
+                        matrix[i - 1][j - 1] + 1, // substitution
+                        matrix[i][j - 1] + 1,     // insertion
+                        matrix[i - 1][j] + 1      // deletion
+                    );
+                }
+            }
+        }
+        
+        return matrix[b.length][a.length];
+    }
+    
+    // Function to highlight matching text
+    function highlightMatch(text, query) {
+        if (!query) return text;
+        
+        const regex = new RegExp(`(${query})`, 'gi');
+        return text.replace(regex, '<span class="search-result-highlight">$1</span>');
+    }
+    
+    // Function to display search results
+    function displaySearchResults(results, query) {
+        searchResults.innerHTML = '';
+        
+        if (results.length === 0) {
+            searchResults.innerHTML = '<div class="search-no-results">No scholars found matching your search</div>';
+            return;
+        }
+        
+        results.forEach(scholar => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'search-result-item';
+            
+            const highlightedName = highlightMatch(scholar.name, query);
+            
+            resultItem.innerHTML = `
+                <div class="search-result-image">
+                    <img src="images/${scholar.profile_pic || 'placeholder.jpg'}" alt="${scholar.name}" onerror="this.src='images/placeholder.jpg'">
+                </div>
+                <div class="search-result-info">
+                    <div class="search-result-name">${highlightedName}</div>
+                    ${scholar.institution ? `<div class="search-result-institution">${scholar.institution}</div>` : ''}
+                </div>
+            `;
+            
+            // Add click event to show scholar details and highlight on map
+            resultItem.addEventListener('click', () => {
+                // Show scholar details
+                showScholarDetails(scholar);
+                
+                // Highlight scholar on map
+                highlightScholarOnMap(scholar.id);
+                
+                // Hide search results
+                searchResults.classList.remove('active');
+            });
+            
+            searchResults.appendChild(resultItem);
+        });
+    }
+    
+    // Function to highlight scholar on map
+    function highlightScholarOnMap(scholarId) {
+        // Remove highlight from all dots
+        document.querySelectorAll('.scholar-dot').forEach(dot => {
+            dot.classList.remove('highlighted');
+            dot.classList.remove('highlighted-scholar');
+        });
+        
+        // Add highlight to the matching scholar dot
+        const dot = document.querySelector(`.scholar-dot[data-id="${scholarId}"]`);
+        if (dot) {
+            dot.classList.add('highlighted');
+            dot.classList.add('highlighted-scholar');
+            
+            // Scroll the dot into view
+            const dotsContainer = document.querySelector('.dots-container');
+            if (dotsContainer) {
+                // Get dot position
+                const dotRect = dot.getBoundingClientRect();
+                const containerRect = dotsContainer.getBoundingClientRect();
+                
+                // Calculate center position
+                const centerX = dotRect.left + dotRect.width / 2 - containerRect.left;
+                const centerY = dotRect.top + dotRect.height / 2 - containerRect.top;
+                
+                // Get current transform
+                const transform = window.getComputedStyle(dotsContainer).transform;
+                const matrix = new DOMMatrix(transform);
+                
+                // Calculate new transform to center the dot
+                const scale = matrix.a; // Current scale
+                const newTranslateX = -centerX * scale + containerRect.width / 2;
+                const newTranslateY = -centerY * scale + containerRect.height / 2;
+                
+                // Apply new transform
+                dotsContainer.style.transform = `translate(${newTranslateX}px, ${newTranslateY}px) scale(${scale})`;
+            }
+        }
+    }
+    
+    // Handle search input
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim();
+        
+        if (query.length >= 2) {
+            const results = fuzzySearch(query, scholars);
+            displaySearchResults(results, query);
+            searchResults.classList.add('active');
+        } else {
+            searchResults.classList.remove('active');
+        }
+    });
+    
+    // Handle search button click
+    searchButton.addEventListener('click', () => {
+        const query = searchInput.value.trim();
+        
+        if (query.length >= 2) {
+            const results = fuzzySearch(query, scholars);
+            displaySearchResults(results, query);
+            searchResults.classList.add('active');
+        }
+    });
+    
+    // Handle Enter key in search input
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const query = searchInput.value.trim();
+            
+            if (query.length >= 2) {
+                const results = fuzzySearch(query, scholars);
+                displaySearchResults(results, query);
+                searchResults.classList.add('active');
+            }
+        }
+    });
+    
+    // Close search results when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && 
+            !searchButton.contains(e.target) && 
+            !searchResults.contains(e.target)) {
+            searchResults.classList.remove('active');
+        }
+    });
 } 

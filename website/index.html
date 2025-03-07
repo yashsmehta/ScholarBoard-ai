@@ -15,6 +15,7 @@
 </head>
 <body>
     <header>
+        <div class="header-animation" id="header-animation"></div>
         <div class="header-content">
             <h1>ScholarBoard.ai</h1>
             <p>Find and explore scholars visually</p>
@@ -24,11 +25,41 @@
     <main>
         <div class="container">
             <div id="map-container">
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="scholar-search" placeholder="Search scholars by name...">
+                        <button id="search-button"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div id="search-results" class="search-results">
+                        <!-- Search results will be populated by JavaScript -->
+                    </div>
+                </div>
                 <div class="map-overlay">
                     <div class="map-controls">
                         <button id="zoom-in" title="Zoom In"><i class="fas fa-plus"></i></button>
                         <button id="zoom-out" title="Zoom Out"><i class="fas fa-minus"></i></button>
                         <button id="reset-view" title="Reset View"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                </div>
+                <div class="filter-container">
+                    <button id="filter-toggle" class="filter-toggle">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                    <div class="filter-dropdown">
+                        <div class="filter-section">
+                            <h3>Filter By</h3>
+                            <div class="filter-tabs">
+                                <button class="filter-tab active" data-type="country">Country</button>
+                                <button class="filter-tab" data-type="institution">Institution</button>
+                            </div>
+                        </div>
+                        <div class="filter-options" id="filter-options">
+                            <!-- Filter options will be populated by JavaScript -->
+                        </div>
+                        <div class="filter-actions">
+                            <button id="apply-filters" class="apply-button">Apply</button>
+                            <button id="clear-filters" class="clear-button">Clear All</button>
+                        </div>
                     </div>
                 </div>
                 <div class="projection-selector">
@@ -44,7 +75,6 @@
             <div id="sidebar">
                 <div class="sidebar-header">
                     <h2>Scholar Profile</h2>
-                    <button id="close-sidebar"><i class="fas fa-times"></i></button>
                 </div>
                 <div id="scholar-details">
                     <div class="placeholder-message">

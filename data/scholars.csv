@@ -1,11 +1,205 @@
 scholar_id,scholar_name,institution,country
-001,Gabriel Kreiman,Harvard University,USA
-002,Michael Bonner,Johns Hopkins University,USA
-003,Jim DiCarlo,MIT,USA
-004,Dan Yamins,Stanford University,USA
-005,Leyla Isik,Johns Hopkins University,USA
-006,Nancy Kanwisher,MIT,USA
-007,Winrich Freiwald,Rockefeller University,USA
-008,Jack L. Gallant,UC Berkeley,USA
-009,David J. Heeger,New York University,USA
-010,Margaret S. Livingstone,Harvard University,USA
+172,Adam James Reeves,Northeastern University,United States
+093,Aedan Yue Li,University of Toronto,Canada
+174,Alan Perotti,Institute for Scientific Interchange Foundation,Italy
+100,Alekh Karkada Ashok,Brown University,United States
+139,Alessio Borriero,Università degli Studi di Torino,Italy
+099,Amrita Mukherjee,Indian Institute of Information Technology; Allahabad,India
+153,Ana G. Hernandez‑Reynoso,Department of Biomedical Engineering,United States
+118,Anatol G. Feldman,University of Montreal,Canada
+167,Andrea Alamia,Brain and Cognition Research Center in Toulouse,France
+085,Andrew H. Farkas,College of Liberal Arts and Sciences,United States
+065,Anirvan S. Nandy,Yale School of Medicine,United States
+162,Anna Wang Roe,Zhejiang University School of Medicine,China
+110,Antoine Grimaldi,Institut de Neurosciences de la Timone,France
+047,Apurva Ratan Murty,Georgia Tech,United States
+048,Aran Nayebi,CMU,United States
+029,Aude Oliva,MIT,United States
+089,Avijit Paul,Tufts School of Engineering,United States
+137,Bharath Chandra Talluri,National Eye Institute (NEI),United States
+150,Bradley C. Duchaine,Faculty of Arts and Sciences,United States
+135,Brian P. Keane,University of Rochester Medical Center,United States
+012,Bruno A. Olshausen,UC Berkeley,United States
+155,Burcu A. Urgen,Bilkent Üniversitesi,Türkiye
+084,C. J. Spence,University of Oxford Medical Sciences Division,United Kingdom
+045,Carsen Stringer,HHMI Janelia,United States
+141,Carson M. Castillo,Duke University School of Medicine,United States
+102,Chenghang Zhang,University of Maryland; College Park,United States
+037,Chris Baker,NIH,United States
+088,Christian H. Poth,Universität Bielefeld,Germany
+151,Colenso M. Speer,University of Maryland; College Park,United States
+126,Cristopher M. Niell,University of Oregon,United States
+004,Dan Yamins,Stanford University,United States
+062,Daniel A. Butts,College of Computer; Mathematical; & Natural Sciences,United States
+043,Daniel Bear,Stanford University,United States
+210,Daniel S. Margulies,University of Oxford Medical Sciences Division,United Kingdom
+192,David A. Waldman,Arizona State University Downtown Phoenix Campus,United States
+054,David Freedman,University of Chicago,United States
+008,David J. Heeger,New York University,United States
+181,David L. Sheinberg,Division of Biology and Medicine,United States
+076,David Pitcher,University of York,United Kingdom
+026,Davide Zoccolan,SISSA,Italy
+175,Dean Sabatinelli,Franklin College of Arts and Sciences,United States
+116,Dirk B. Walther,University of Toronto,Canada
+051,Dobromir Rahnev,Georgia Tech,United States
+147,Dongfeng Chen,Harvard Medical School,United States
+017,Doris Y. Tsao,UC Berkeley,United States
+038,Dwight Kravitz,George Washington University,United States
+053,Earl K. Miller,MIT,United States
+052,Edmund T. Rolls,University of Oxford,United Kingdom
+107,Elias B. Issa,Columbia University,United States
+079,Elizabeth A. Jefferies,University of York,United Kingdom
+098,Emalie G. McMahon,Johns Hopkins University,United States
+041,Evelina Fedorenko,MIT,United States
+182,Evelina G. Fedorenko,Harvard University,United States
+152,Fareeha Faruk,The University of Texas at Dallas,United States
+193,Fred M. Rieke,University of Washington,United States
+114,Gabriel Jacob Diaz,Rochester Institute of Technology,United States
+009,Gabriel Kreiman,Harvard University,United States
+207,Gabriella Vigliocco,University College London,United Kingdom
+039,Gemma Roig,Goethe University,Germany
+173,Georg B. Keller,Universität Basel,Switzerland
+078,Gregory William Schwartz,Northwestern University Feinberg School of Medicine,United States
+203,Guorong Wu,Department of Computer Science,United States
+165,Hendrikje Nienborg,National Eye Institute (NEI),United States
+097,Hiroki Oishi,University of California; Berkeley,United States
+119,Ian C. Fiebelkorn,University of Rochester Medical Center,United States
+138,Incheol Kang,National Eye Institute (NEI),United States
+011,J. Anthony Movshon,New York University,United States
+007,Jack L. Gallant,UC Berkeley,United States
+056,Jacob L Yates,UC Berkeley,United States
+034,Jacob Prince,Harvard University,United States
+112,James M. Shine,Hochschule Fresenius,Germany
+127,Jeffrey R. Capadona,Department of Biomedical Engineering,United States
+132,Jeremy I. Skipper,University College London,United Kingdom
+068,Jesús Malo,Universitat de València,Spain
+073,Jiawei Zhou,Wenzhou Medical University,China
+005,Jim DiCarlo,MIT,United States
+146,Joel Pearson,UNSW Sydney,Australia
+033,Johannes Mehrer,EPFL,Switzerland
+040,John D Murray,Yale University,United States
+081,John H. H Reynolds,Salk Institute for Biological Studies,United States
+092,Jon Sen,Keele University; School of Medicine,United Kingdom
+212,Jonathan M. Smallwood,Queen’s University,Canada
+057,Jonathan Peirce,University of Nottingham,United Kingdom
+055,Jonathan Pillow,Princeton University,United States
+104,Jorge Almeida,University of Coimbra,Portugal
+086,Jorge Vila-Tomás,Universitat de València,Spain
+143,Juan Manuel Angueyra,University of Washington,United States
+154,Julie Chen,Harvard Medical School,United States
+050,Katharina Dobs,Justus Liebig University,Germany
+159,Kathryn L. Bonnen,Indiana University School of Optometry,United States
+077,Katrin Franke,Stanford University School of Medicine,United States
+020,Kenneth D. Harris,UCL,United Kingdom
+046,Kenneth Harris,UCL,United Kingdom
+178,Kinsang Cho,Harvard Medical School,United States
+042,Kohitij Kar,York University,Canada
+163,Kuntal Ghosh,Indian Statistical Institute; Kolkata,India
+075,Laurent Udo Perrinet,Friedrich Miescher Institute for Biomedical Research,Switzerland
+025,Laurenz Wiskott,Ruhr University Bochum,Germany
+204,Lena Smirnova,Johns Hopkins University,United States
+002,Leyla Isik,Johns Hopkins University,United States
+022,Li Zhaoping,University of Tübingen,Germany
+206,Marc O. Ernst,Universität Ulm,Germany
+148,Marcel A.J. Van Gerven,Donders Institute for Brain; Cognition and Behaviour,Netherlands
+188,Marco Tamietto,Università degli Studi di Torino,Italy
+010,Margaret S. Livingstone,Harvard University,United States
+036,Martin N. Hebart,Justus Liebig University,Germany
+035,Martin Schrimpf,EPFL,Switzerland
+067,Maryam Vaziri-Pashkam,National Institute of Mental Health,United States
+019,Matteo Carandini,UCL,United Kingdom
+184,Matteo Diano,Università degli Studi di Torino,Italy
+072,Matthew W. Self,Nederlands Herseninstituut,Netherlands
+018,Matthias Bethge,University of Tübingen,Germany
+049,Meenakshi Khosla,UCSD,United States
+001,Michael Bonner,Johns Hopkins University,United States
+066,Michael J. Arcaro,University of Pennsylvania,United States
+191,Michael Joseph Young,Harvard Medical School,United States
+059,Michael McCloskey,Johns Hopkins University,United States
+196,Michel Cayouette,Institut de Recherches Cliniques de Montréal,Canada
+109,Mihai Bendea,The University of Texas at Dallas,United States
+064,Mitchell P. Morton,Yale School of Medicine,United States
+070,Monica Gori,Istituto Italiano di Tecnologia,Italy
+111,Monika P. Jadi,Yale School of Medicine,United States
+003,Nancy Kanwisher,MIT,United States
+094,Narges Doostani,Freie Universität Berlin,Germany
+096,Nicholas Kaliss,Gladstone Institute of Neurological Disease,United States
+129,Nicola Di Stefano,Istituto Di Scienze E Tecnologie Della Cognizione; Rome,Italy
+014,Nicole C. Rust,University of Pennsylvania,United States
+176,Nikolai P. Skiba,Duke University School of Medicine,United States
+031,Nikolaus Kriegeskorte,Columbia University,United States
+087,Nyomi V. Hudson,Yale School of Medicine,United States
+058,Odelia Schwartz,University of Miami,United States
+149,Ole Riis Jensen,University of Oxford Medical Sciences Division,United Kingdom
+117,Pablo Hernández-Cámara,Universitat de València,Spain
+157,Paolo Papale,Nederlands Herseninstituut,Netherlands
+016,Pawan Sinha,MIT,United States
+128,Petr Y. Baranov,Schepens Eye Research Institute,United States
+080,Philipp Berens,Eberhard Karls Universität Tübingen,Germany
+023,Pieter R. Roelfsema,Netherlands Institute for Neuroscience,Netherlands
+060,Pieter Roelf Roelfsema,Amsterdam UMC - University of Amsterdam,Netherlands
+044,Pouya Bashivan,McGill University,Canada
+030,Radoslaw Martin Cichy,Freie Universität Berlin,Germany
+170,Randolph R. Blake,Vanderbilt University School of Medicine,United States
+166,Raunak Sinha,University of Wisconsin School of Medicine and Public Health,United States
+211,Robert David Stevens,Johns Hopkins University School of Medicine,United States
+180,Robert F. Hess,Université McGill,Canada
+195,Robert Thomas Knight,University of California; Berkeley,United States
+208,Rufin VanRullen,Brain and Cognition Research Center in Toulouse,France
+074,Sabine Kastner,Princeton University,United States
+063,Sachira Denagamage,Yale School of Medicine,United States
+142,Sarah B. Herald,Dartmouth College,United States
+071,Serge O. Dumoulin,Spinoza Centre for Neuroimaging,Netherlands
+024,Shimon Ullman,Weizmann Institute of Science,Israel
+144,Shreya Tirumala Kumara,Erik Jonsson School of Engineering and Computer Science,United States
+186,Sichen Tao,University of Toyama,Japan
+198,Simon van Gaal,Universiteit van Amsterdam,Netherlands
+027,Sripati P. Arun,IISc Bangalore,India
+124,Supraja G. Varadarajan,Stanford University,United States
+185,Takeshi Yoshimatsu,WashU Medicine,United States
+028,Talia Konkle,Harvard University,United States
+015,Terrence J. Sejnowski,Salk Institute,United States
+197,Thomas Euler,Eberhard Karls Universität Tübingen,Germany
+209,Thomas Hartung,Johns Hopkins Bloomberg School of Public Health,United States
+108,Thomas J. Smith,The University of Texas at Dallas,United States
+190,Thomas Robert Clandinin,Stanford University,United States
+082,Thomas Serre,Brown University,United States
+169,Thomas V. Johnson,Wilmer Eye Institute,United States
+200,Tie Jun Huang,Peking University,China
+032,Tim C Kietzmann,University of Osnabrück,Germany
+187,Tingting Dan,The University of North Carolina at Chapel Hill,United States
+125,Tirso RJ Gonzalez Alam,University of York,United Kingdom
+013,Tomaso A. Poggio,MIT,United States
+164,Trevor R. Smith,West Virginia University,United States
+158,Tylor R. Lewis,Duke University School of Medicine,United States
+199,Uta Noppeney,Donders Institute for Brain; Cognition and Behaviour,Netherlands
+156,Vadim Yu Arshavsky,Duke University School of Medicine,United States
+083,Valero Laparra,Universitat de València,Spain
+171,Weisi Lin,School of Computer Science and Engineering,Singapore
+177,William N. Grimes,National Institute of Neurological Disorders and Stroke,United States
+006,Winrich Freiwald,Rockefeller University,United States
+145,Yanchao Bi,Peking University,China
+140,Ying Hao,Duke University School of Medicine,United States
+122,Yingchoon Wu,Institute for Neural Computation,United States
+205,Yuki Todo,Kanazawa University,Japan
+160,Zachary F. Jessen,Northwestern University,United States
+194,Zhaofei Yu,Peking University,China
+131,Zheng Tang,University of Toyama,Japan
+161,Ziquan Wei,The University of North Carolina at Chapel Hill,United States
+021,Zoe Kourtzi,University of Cambridge,United Kingdom
+183,Árni Kjalar Kristjánsson,Haskoli Islands,Iceland
+250,Marlene Behrmann,University of Pittsburgh,United States
+251,David C. Plaut,University of Pittsburgh,United States
+252,Suzanne Scherf,Penn State University,United States
+253,Eero P. Simoncelli,New York University,United States
+254,Brian Wandell,Stanford University,United States
+255,Sabine Süsstrunk,EPFL,Switzerland
+256,Martin Banks,UC Berkeley,United States
+257,Alan Bovik,University of Texas at Austin,United States
+258,Denis Pelli,New York University,United States
+259,Johan Wagemans,KU Leuven,Belgium
+260,Hans Op de Beeck,KU Leuven,Belgium
+
+
+
+

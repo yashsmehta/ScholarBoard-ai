@@ -6,3 +6,7 @@ __pycache__/
 __init__*
 *.egg-info
 *.npz
+*.nc
+.cursorignore
+data/profile_pics/
+data/perplexity_info/

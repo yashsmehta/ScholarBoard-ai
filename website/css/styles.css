@@ -205,28 +205,58 @@ main {
     width: 100%;
     height: 100%;
     position: relative;
-    transition: transform var(--transition-speed) ease;
-    background-color: white;
-    background-image: 
-        linear-gradient(to right, rgba(220, 220, 220, 0.07) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(220, 220, 220, 0.07) 1px, transparent 1px),
-        radial-gradient(circle, rgba(220, 220, 220, 0.12) 1px, transparent 1.5px),
-        linear-gradient(to bottom right, rgba(250, 250, 255, 0.5), rgba(245, 245, 250, 0.5));
-    background-size: 40px 40px, 40px 40px, 40px 40px, 100% 100%;
-    background-position: center center;
+    overflow: hidden;
+    background-color: var(--light-color);
+}
+
+.dots-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.scholar-dot {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 1;
+}
+
+.scholar-dot:hover {
+    width: 24px;
+    height: 24px;
+    z-index: 100;
+}
+
+.scholar-dot.highlighted {
+    border: 3px solid #ffcc00;
+    box-shadow: 0 0 10px rgba(255,204,0,0.7);
 }
 
 /* Sidebar styles */
 #sidebar {
-    flex: 0 0 var(--sidebar-width);
+    width: 0;
+    height: 100%;
     background-color: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    padding: 1.5rem;
-    max-height: 700px;
-    display: flex;
-    flex-direction: column;
-    transition: all var(--transition-speed);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    transition: width var(--transition-speed) ease;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+#sidebar.active {
+    width: 400px;
 }
 
 .sidebar-header {
@@ -373,8 +403,8 @@ main {
     z-index: 1;
     display: block;
     opacity: 1;
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
 }
 
 .scholar-node:hover {
@@ -386,38 +416,37 @@ main {
     z-index: 10;
 }
 
-.scholar-node.active .profile-pic {
-    border: 3px solid var(--primary-color);
+.scholar-node.active .scholar-dot {
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--primary-color);
 }
 
-.profile-pic {
-    width: 50px;
-    height: 50px;
+/* Dot style */
+.scholar-dot {
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-    object-fit: cover;
+    background-color: var(--primary-color);
     border: 2px solid white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-}
-
-.scholar-label {
     position: absolute;
-    top: 100%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 5px;
+    transform: translate(-50%, -50%);
 }
 
-.scholar-info {
+.scholar-node:hover .scholar-dot {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Hide the old profile-pic class */
+.profile-pic {
+    display: none;
+}
+
+/* Scholar tooltip */
+.scholar-tooltip {
     position: absolute;
     top: 100%;
     left: 50%;
@@ -428,26 +457,34 @@ main {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     width: 180px;
     opacity: 0;
-    pointer-events: none;
+    visibility: hidden;
     transition: all 0.3s ease;
     z-index: 10;
     margin-top: 10px;
+    pointer-events: none;
 }
 
-.scholar-node:hover .scholar-info {
+.scholar-node:hover .scholar-tooltip {
     opacity: 1;
-    pointer-events: auto;
+    visibility: visible;
     transform: translateX(-50%) translateY(5px);
 }
 
-.scholar-name {
+.tooltip-name {
     font-weight: 600;
     font-size: 0.9rem;
     margin-bottom: 0.2rem;
+    color: var(--secondary-color);
 }
 
-.scholar-node:hover .scholar-label {
-    opacity: 1;
+.tooltip-country {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Remove old styles */
+.scholar-label, .scholar-info {
+    display: none;
 }
 
 /* Search container styles - positioned on the map */
@@ -623,23 +660,22 @@ main {
 
 .result-name {
     font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.1rem;
 }
 
 .result-institution {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     color: #666;
+    margin-bottom: 0.1rem;
 }
 
 .result-similarity {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 20px;
     font-size: 0.8rem;
-    font-weight: 600;
-    white-space: nowrap;
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-left: auto;
+    padding-left: 0.5rem;
 }
 
 #close-results {
@@ -662,6 +698,63 @@ main {
 
 #close-results:hover {
     background-color: #e0e0e0;
+}
+
+/* Add styles for scholar metadata in the sidebar */
+.scholar-metadata {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.metadata-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.metadata-item i {
+    color: var(--primary-color);
+    width: 16px;
+    text-align: center;
+}
+
+.scholar-research {
+    margin-top: 1.5rem;
+}
+
+.scholar-research h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.research-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #444;
+}
+
+/* Loading state for scholar details */
+.loading-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.loading-details i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.loading-details p {
+    font-size: 0.9rem;
 }
 
 /* Responsive styles */
@@ -718,4 +811,307 @@ main {
     header p {
         font-size: 1rem;
     }
+    
+    #sidebar.active {
+        width: 100%;
+    }
+}
+
+/* Country legend styles */
+.country-legend {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 250px;
+    z-index: 10;
+    overflow: hidden;
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.legend-title {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.legend-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.legend-items {
+    padding: 0.5rem;
+    overflow-y: auto;
+    max-height: 300px;
+    transition: max-height 0.3s ease;
+}
+
+.legend-items.collapsed {
+    max-height: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.legend-country {
+    color: #333;
+}
+
+/* Projection selector */
+.projection-selector {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    z-index: 10;
+}
+
+.projection-selector span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-right: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.projection-buttons {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.projection-button {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.5rem;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.projection-button:hover {
+    background-color: #e0e0e0;
+}
+
+.projection-button.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* SVG Scholar Map Styles */
+.nodes-group {
+    transition: transform 0.3s ease;
+}
+
+.scholar-node {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.scholar-node circle {
+    transition: r 0.2s ease, stroke-width 0.2s ease;
+}
+
+.scholar-node.highlighted circle {
+    r: 12;
+    stroke-width: 3;
+    stroke: #ffcc00;
+    filter: drop-shadow(0 0 5px rgba(255, 204, 0, 0.7));
+}
+
+/* Country Legend Styles */
+.country-legend {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 100;
+    max-width: 250px;
+}
+
+.country-legend h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: var(--dark-color);
+    font-family: var(--font-heading);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.color-swatch {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.country-name {
+    font-size: 14px;
+    color: var(--text-color);
+    font-family: var(--font-body);
+}
+
+/* Profile Styles */
+.profile-header {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+    border: 3px solid var(--primary-color);
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h3 {
+    margin-bottom: 5px;
+    color: var(--dark-color);
+    font-family: var(--font-heading);
+}
+
+.profile-info .institution {
+    font-size: 14px;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+}
+
+.profile-info .country {
+    font-size: 14px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+}
+
+.profile-info .country i {
+    margin-right: 5px;
+    color: var(--primary-color);
+}
+
+.profile-content {
+    margin-top: 20px;
+}
+
+.research-info h4 {
+    margin-bottom: 10px;
+    color: var(--dark-color);
+    font-family: var(--font-heading);
+}
+
+.research-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.research-text h4 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+
+.research-text h5 {
+    margin-top: 12px;
+    margin-bottom: 5px;
+    color: var(--secondary-color);
+}
+
+.research-text p {
+    margin-bottom: 10px;
+}
+
+.no-info {
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    color: var(--primary-color);
+}
+
+.loading i {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    color: var(--accent-color);
+}
+
+.error i {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.error small {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
 } 

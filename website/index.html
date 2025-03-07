@@ -31,18 +31,12 @@
                         <button id="reset-view" title="Reset View"><i class="fas fa-sync-alt"></i></button>
                     </div>
                 </div>
-                <button class="search-toggle-btn" id="search-toggle">
-                    <i class="fas fa-search"></i> Ask Research Question
-                </button>
-                <div class="search-container" id="search-container">
-                    <div class="search-box">
-                        <input type="text" id="research-query" placeholder="Enter a research question or idea...">
-                        <button id="search-button"><i class="fas fa-search"></i> Find Experts</button>
-                    </div>
-                    <div id="search-results" class="hidden">
-                        <h3>Top Scholars for Your Query</h3>
-                        <div id="results-list"></div>
-                        <button id="close-results"><i class="fas fa-times"></i> Close Results</button>
+                <div class="projection-selector">
+                    <span>Projection: </span>
+                    <div class="projection-buttons">
+                        <button class="projection-button" data-method="pca">PCA</button>
+                        <button class="projection-button" data-method="tsne">t-SNE</button>
+                        <button class="projection-button active" data-method="umap">UMAP</button>
                     </div>
                 </div>
                 <div id="scholar-map"></div>

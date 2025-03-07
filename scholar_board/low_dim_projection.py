@@ -168,13 +168,6 @@ def create_scholar_projections():
         
         projection_data.append(entry)
     
-    # Save projection data to JSON
-    projection_file = data_dir / 'scholar_projections.json'
-    with open(projection_file, 'w') as f:
-        json.dump(projection_data, f, indent=2)
-    
-    print(f"Saved projection data to {projection_file}")
-    
     # Create visualizations
     create_projection_visualizations(projections, scholar_names, scholar_countries, data_dir)
     

@@ -89,7 +89,6 @@ def query_perplexity(scholar_name, institution, scholar_id):
             f.write(content)
             
         print(f"Saved raw response for {scholar_name} to {output_file}")
-        exit()
         
         return content
     except Exception as e:

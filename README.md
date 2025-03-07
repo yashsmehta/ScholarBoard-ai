@@ -1,47 +1,75 @@
-# Scientist Board
+# ScholarBoard.ai
 
-A project to analyze and visualize researchers based on their research areas.
+A project to analyze and visualize scholars based on their research areas.
 
 ## Components
 
-### 1. Researcher Information Extraction
+### 1. Scholar Information Extraction
 
-- `researcher_info/info_extractor.py`: Extracts researcher information from various sources
-- `researcher_info/get_embeddings.py`: Generates embeddings for researcher research areas using OpenAI's API
-- `researcher_info/create_umap.py`: Creates a 2D visualization of researcher similarity using UMAP
+- `scholar_board/scholar_info/plex_info_extractor.py`: Extracts scholar information using Plexity API
+- `scholar_board/scholar_info/deepseek_cleaner.py`: Cleans scholar data using DeepSeek API
+- `scholar_board/get_embeddings.py`: Generates embeddings for scholar research areas using OpenAI's API
+- `scholar_board/low_dim_projection.py`: Creates 2D projections using PCA, UMAP, and t-SNE
 
-### 2. Researcher Database
+### 2. Scholar Database
 
-- `data/researcher_database.npz`: Contains researcher data including embeddings and UMAP coordinates
-- `data/researcher_metadata.json`: Contains researcher metadata in a readable JSON format
-- `data/profile_pics/`: Contains profile pictures of researchers
+- `data/scholar_embeddings.nc`: Contains scholar embeddings and projections in xarray netCDF format
+- `data/scholar_metadata.json`: Contains scholar metadata in a readable JSON format
+- `data/scholar_projections.json`: Contains 2D coordinates for each projection method
+- `data/scholar_info/`: Contains raw and cleaned text files for each scholar
+- `data/profile_pics/`: Contains profile pictures of scholars
+- `data/visualizations/`: Contains visualization plots of the projections
 
-### 3. Researcher Visualization Website
+### 3. Scholar Visualization Website
 
-- `website/`: Contains a static website that visualizes researchers based on their UMAP coordinates
+- `website/`: Contains a static website that visualizes scholars based on their research similarity
 - `website/index.html`: The main HTML file for the website
 - `website/css/styles.css`: CSS styles for the website
 - `website/js/script.js`: JavaScript code for the interactive map
-- `website/prepare_data.py`: Script to extract researcher data and copy profile pictures
+- `website/prepare_data.py`: Script to extract scholar data and copy profile pictures
 - `website/serve.py`: Script to serve the website locally
 
 ## How to Run
 
-### Generate Embeddings and UMAP
+### Complete Pipeline
 
-1. Set up your OpenAI API key in a `.env` file:
+1. Set up your API keys in a `.env` file:
    ```
-   OPENAI_API_KEY=your_api_key_here
-   ```
-
-2. Run the embedding generation script:
-   ```
-   python -m researcher_info.get_embeddings
+   OPENAI_API_KEY=your_openai_api_key_here
+   PERPLEXITY_API_KEY=your_perplexity_api_key_here
+   DEEPSEEK_API_KEY=your_deepseek_api_key_here
    ```
 
-3. Run the UMAP generation script:
+2. Run the complete pipeline:
    ```
-   python -m researcher_info.create_umap
+   python scripts/run_pipeline.py
+   ```
+
+### Individual Steps
+
+1. Update CSV columns from researcher_* to scholar_*:
+   ```
+   python scripts/update_csv_columns.py
+   ```
+
+2. Extract scholar info using Plexity API:
+   ```
+   python -m scholar_board.scholar_info.plex_info_extractor
+   ```
+
+3. Clean scholar data using DeepSeek API:
+   ```
+   python -m scholar_board.scholar_info.deepseek_cleaner
+   ```
+
+4. Generate embeddings:
+   ```
+   python -m scholar_board.get_embeddings
+   ```
+
+5. Generate low-dimensional projections:
+   ```
+   python -m scholar_board.low_dim_projection
    ```
 
 ### Run the Visualization Website
@@ -60,15 +88,16 @@ A project to analyze and visualize researchers based on their research areas.
 
 ## Features
 
-- Generate embeddings for researcher research areas
-- Reduce dimensionality of embeddings to 2D using UMAP
-- Visualize researchers on a 2D map based on their research similarity
+- Generate embeddings for scholar research areas
+- Store embeddings efficiently using xarray
+- Create multiple 2D projections using PCA, UMAP, and t-SNE
+- Visualize scholars on a 2D map based on their research similarity
 - Interactive web interface with zoom and pan functionality
-- Profile pictures and institution information for each researcher
+- Profile pictures and institution information for each scholar
 
-# Researcher Information Extractor
+# Scholar Information Extractor
 
-Queries Perplexity API to gather comprehensive information about researchers from a CSV file.
+Queries Plexity API to gather comprehensive information about scholars from a CSV file, cleans the data using DeepSeek API, and generates embeddings.
 
 ## Installation
 
@@ -82,81 +111,52 @@ uv pip install -e .
 
 ## Configuration
 
-Create a `.env` file with your Perplexity API key:
+Create a `.env` file with your API keys:
 
 ```
-PERPLEXITY_API_KEY=your_api_key_here
+PERPLEXITY_API_KEY=your_perplexity_api_key_here
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 ## Input Format
 
-Create `researchers.csv` with columns:
-- `researcher_name`: Name of the researcher
-- `institution`: Researcher's institution
+Create `scholars.csv` with columns:
+- `scholar_id`: Unique identifier for the scholar
+- `scholar_name`: Name of the scholar
+- `institution`: Scholar's institution
+- `country`: Scholar's country
 
 Example:
 ```csv
-researcher_name, institution
-Michael Bonner, Johns Hopkins University
-Tyler Bonnen, UC Berkeley
-Nancy Kanwisher, MIT
+scholar_id,scholar_name,institution,country
+001,Michael Bonner,Johns Hopkins University,USA
+002,Leyla Isik,Johns Hopkins University,USA
+003,Nancy Kanwisher,MIT,USA
 ```
 
-## Usage
+## Data Processing Pipeline
 
-```bash
-# Default usage (JSON output)
-researcher-info
+1. **Data Collection**: Extract scholar information using Plexity API
+   - Raw data saved to `data/scholar_info/<scholar_name>_<scholar_id>_raw.txt`
 
-# CSV output format
-researcher-info --format csv
+2. **Data Cleaning**: Clean and structure the raw data using DeepSeek API
+   - Cleaned data saved to `data/scholar_info/<scholar_name>_<scholar_id>_cleaned.txt`
 
-# Custom input/output files
-researcher-info --input my_researchers.csv --output results.json
-```
+3. **Embedding Generation**: Generate embeddings from cleaned data using OpenAI API
+   - Embeddings saved to `data/scholar_embeddings.nc` in xarray format
 
-Alternative Python usage:
-
-```python
-# JSON output (recommended)
-from researcher_info.json_extractor import extract_researcher_info_json
-extract_researcher_info_json(input_file="researchers.csv", output_file="researcher_areas.json")
-
-# CSV output
-from researcher_info.csv_extractor import extract_researcher_info
-extract_researcher_info(input_file="researchers.csv", output_file="researcher_areas.csv")
-```
-
-## Output
-
-### JSON Output (Recommended)
-Structured data for each researcher:
-```json
-[
-  {
-    "name": "Researcher Name",
-    "institution": "Institution Name",
-    "info": {
-      "research_areas": ["Area 1", "Area 2"],
-      "research_questions": "Description of questions",
-      "known_for": "What they're known for",
-      "current_work": "Current research focus",
-      "key_papers": ["Paper 1", "Paper 2"],
-      "methodology": "Research approach",
-      "collaborations": "Notable collaborations",
-      "impact": "Impact on the field",
-      "comprehensive_summary": "Detailed summary"
-    }
-  }
-]
-```
-
-### CSV Output
-Single file with columns for name, institution, and research information.
+4. **Dimensionality Reduction**: Generate 2D projections using multiple methods
+   - PCA: Linear dimensionality reduction
+   - t-SNE: Non-linear dimensionality reduction that preserves local structure
+   - UMAP: Non-linear dimensionality reduction that preserves both local and global structure
+   - Projections saved to the same xarray dataset and to `data/scholar_projections.json`
+   - Visualizations saved to `data/visualizations/`
 
 ## Troubleshooting
 
 - **Missing dependencies**: Run `uv pip install -e .` again
-- **API key issues**: Ensure `.env` file exists with correct API key
+- **API key issues**: Ensure `.env` file exists with correct API keys
+- **Directory structure**: Ensure required directories exist
 
-Notes: Rate limited (2s between requests), progress saved after each researcher, uses "llama-3.1-sonar-large-128k-online" model. 
+Notes: Rate limited (2s between requests), progress saved after each scholar, uses "sonar-pro-online" model for Plexity API and "text-embedding-3-small" for embeddings. 

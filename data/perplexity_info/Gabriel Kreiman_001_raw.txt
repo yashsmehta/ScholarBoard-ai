@@ -1,0 +1,48 @@
+1. Lab and Research Areas
+• Kreiman Lab at Harvard Medical School
+• Main research areas: Computational neuroscience, visual cognition, artificial intelligence
+• Subdisciplines: Neural circuits, visual recognition, learning and memory, biologically-inspired AI
+
+2. Core Research Questions
+Dr. Kreiman's research aims to:
+• Elucidate how neural circuits compute and process visual information
+• Understand mechanisms of pattern completion, visual search, and context-dependent processing
+• Investigate formation and consolidation of episodic memories in medial temporal lobe circuits
+• Develop biologically-inspired artificial intelligence systems for visual recognition and interpretation
+
+3. Major Contributions
+Dr. Kreiman is recognized for:
+• Discovering invariant visual representations by single neurons in the human brain
+• Elucidating spatiotemporal dynamics of object completion in ventral visual cortex
+• Developing deep neural networks that mimic properties of biological neuronal responses and perception
+• Identifying cognitive boundary signals in the medial temporal lobe that shape episodic memory representation
+
+4. Current Research / Ongoing Projects
+• Investigating neural correlates of minimal recognizable configurations in human brain
+• Developing adversarial collaborations to critically evaluate theories of consciousness
+• Creating efficient stream learning algorithms through tuned compositional feature replays
+• Enhancing human image category learning through model-based image selection and enhancement
+
+5. Methodology and Approach
+Dr. Kreiman employs a multidisciplinary approach combining:
+• Invasive neurophysiological recordings in the human brain
+• Behavioral measurements and psychophysics
+• Computational modeling and deep learning
+• Intracranial field potential (IFP) analysis
+• State-of-the-art AI techniques for image generation and neuronal preference discovery
+
+6. Research Beliefs / Philosophy
+Dr. Kreiman believes in:
+• Bridging neuroscience and artificial intelligence to advance both fields
+• Elucidating brain function at multiple levels, from single neurons to neural circuits
+• Developing biologically-inspired AI systems to better understand and replicate human cognition
+• Combining empirical observations with computational models to unravel complex brain processes
+
+7. Academic / Research Trajectory
+• Undergraduate: Universidad de Buenos Aires, Argentina (Physics)
+• PhD: California Institute of Technology (Computation and Neural Systems)
+• Postdoctoral: Massachusetts Institute of Technology (with Prof. Tomaso Poggio)
+• Career milestones:
+  - Professor at Harvard Medical School
+  - Faculty at Children's Hospital and Center for Brain Science, Harvard University
+  - Associate Director and Thrust Leader, Harvard/MIT Center for Brains, Minds, and Machines

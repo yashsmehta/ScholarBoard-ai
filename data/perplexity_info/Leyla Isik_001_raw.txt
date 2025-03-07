@@ -1,0 +1,38 @@
+1. Lab and Research Areas
+• Lab: Computational Cognitive Neuroscience Laboratory
+• Main research areas: Visual and social perception, computational cognitive neuroscience
+• Subdisciplines: Human vision, social interaction recognition, neural computations, AI systems
+
+2. Core Research Questions
+• How do humans rapidly process complex visual and social information?
+• What are the neural computations underlying social interaction perception?
+• How can insights from human vision inform more effective AI systems?
+• How does the brain extract complex social information from visual input with speed and ease?
+
+3. Major Contributions
+• Demonstrated hierarchical extraction of social interaction information along the lateral visual pathway
+• Developed SocialGNN, a graph neural network model for social interaction recognition
+• Identified unique neural responses to communicative interactions in bilateral STS regions
+• Advanced understanding of the computational and neural basis of dynamic, social vision
+
+4. Current Research / Ongoing Projects
+• Investigating differences in social perception between neurotypical adults and individuals with autism
+• Analyzing developmental changes in social perception and visual processing
+• Comparing human brain responses to AI model responses for dynamic social scenes
+• Developing computational models integrating cognitive science and neuroscience insights
+
+5. Methodology and Approach
+• Combines behavioral studies, computational modeling, cognitive neuroscience, and neuroimaging
+• Utilizes fMRI to study neural responses to various visual stimuli
+• Employs intracranial recordings for high temporal resolution neural data
+• Develops and applies advanced computational models, including graph neural networks
+• Analyzes responses from multiple AI models and compares them to human brain data
+
+6. Research Beliefs / Philosophy
+Dr. Isik believes in applying computational vision tools to study complex social perception tasks. She emphasizes the importance of understanding human vision to develop more effective AI systems. Dr. Isik advocates for a broader definition of vision that includes dynamic social interactions, moving beyond static scene and object recognition.
+
+7. Academic / Research Trajectory
+• Undergraduate: Johns Hopkins University (specific major not provided)
+• PhD: Massachusetts Institute of Technology (Advisor: Tomaso Poggio)
+• Postdoctoral experience: MIT and Harvard, Center for Brains, Minds, and Machines (Mentors: Nancy Kanwisher and Gabriel Kreiman)
+• Current position: Clare Boothe Luce Assistant Professor of Cognitive Science at Johns Hopkins University, with appointments in Biomedical Engineering and Kavli Neuroscience Discovery Institute

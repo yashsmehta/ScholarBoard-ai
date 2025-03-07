@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "researcher-info-extractor"
+name = "scholarboard-ai"
 version = "0.1.0"
-description = "Extract comprehensive information about researchers using Perplexity API"
+description = "Analyze and visualize scholars based on their research areas"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
@@ -23,13 +23,16 @@ dependencies = [
     "llvmlite>=0.41.1",
     "umap-learn>=0.5.7",
     "matplotlib>=3.7.5",
+    "xarray>=2023.1.0",
+    "netCDF4>=1.6.0",
+    "scikit-learn>=1.2.0",
 ]
 
 [project.scripts]
-researcher-info = "researcher_info.cli:main"
+scholarboard = "scholar_board.cli:main"
 
 [tool.setuptools]
-packages = ["researcher_info"]
+packages = ["scholar_board"]
 
 [tool.uv]
 dev-dependencies = [] 

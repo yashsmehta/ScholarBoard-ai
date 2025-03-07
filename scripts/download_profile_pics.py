@@ -10,22 +10,22 @@ from urllib.parse import quote_plus
 
 def download_profile_pictures():
     """
-    Download profile pictures for researchers listed in researchers.csv
+    Download profile pictures for scholars listed in scholars.csv
     using a simple and direct approach.
     """
     # Create output directory
     output_dir = Path("data/profile_pics")
     output_dir.mkdir(exist_ok=True, parents=True)
     
-    # Read researchers.csv
-    researchers = []
+    # Read scholars.csv
+    scholars = []
     try:
-        with open("data/researchers.csv", "r") as f:
+        with open("data/scholars.csv", "r") as f:
             reader = csv.DictReader(f)
-            researchers = list(reader)
-        print(f"Found {len(researchers)} researchers in CSV file")
+            scholars = list(reader)
+        print(f"Found {len(scholars)} scholars in CSV file")
     except Exception as e:
-        print(f"Error reading researchers.csv: {e}")
+        print(f"Error reading scholars.csv: {e}")
         return
     
     # Track successful and failed downloads
@@ -39,13 +39,13 @@ def download_profile_pictures():
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36"
     ]
     
-    # Download profile picture for each researcher
-    for i, researcher in enumerate(researchers):
-        name = researcher.get("researcher_name", "").strip()
-        institution = researcher.get("institution", "").strip()
+    # Download profile picture for each scholar
+    for i, scholar in enumerate(scholars):
+        name = scholar.get("scholar_name", "").strip()
+        institution = scholar.get("institution", "").strip()
         
         if not name:
-            print(f"Skipping row {i+1}: Missing researcher name")
+            print(f"Skipping row {i+1}: Missing scholar name")
             failed += 1
             continue
         
@@ -59,7 +59,7 @@ def download_profile_pictures():
             successful += 1
             continue
         
-        print(f"Processing {name} ({i+1}/{len(researchers)})")
+        print(f"Processing {name} ({i+1}/{len(scholars)})")
         
         # Try multiple methods to find an image
         image_url = None
@@ -82,11 +82,11 @@ def download_profile_pictures():
                     "messages": [
                         {
                             "role": "system",
-                            "content": "You are a helpful assistant that provides direct image URLs for researchers."
+                            "content": "You are a helpful assistant that provides direct image URLs for scholars."
                         },
                         {
                             "role": "user",
-                            "content": f"Find a direct URL to a professional headshot or portrait image of {name}, who is a researcher at {institution}. Only respond with the direct image URL and nothing else. The URL must end with .jpg, .jpeg, or .png."
+                            "content": f"Find a direct URL to a professional headshot or portrait image of {name}, who is a scholar at {institution}. Only respond with the direct image URL and nothing else. The URL must end with .jpg, .jpeg, or .png. Important that the image should be a headshot of the person."
                         }
                     ]
                 }
@@ -115,7 +115,7 @@ def download_profile_pictures():
                 print(f"Trying Bing image search for {name}")
                 
                 # Construct search query
-                query = f"{name} {institution} researcher headshot"
+                query = f"{name} {institution} scholar headshot"
                 encoded_query = quote_plus(query)
                 
                 # Bing image search URL
@@ -149,7 +149,7 @@ def download_profile_pictures():
                 print(f"Trying Google image search for {name}")
                 
                 # Construct search query
-                query = f"{name} {institution} researcher"
+                query = f"{name} {institution} scholar"
                 encoded_query = quote_plus(query)
                 
                 # Google image search URL
@@ -227,8 +227,8 @@ def download_profile_pictures():
     
     # Print summary
     print(f"\nDownload complete!")
-    print(f"Successfully downloaded: {successful}/{len(researchers)}")
-    print(f"Failed: {failed}/{len(researchers)}")
+    print(f"Successfully downloaded: {successful}/{len(scholars)}")
+    print(f"Failed: {failed}/{len(scholars)}")
     print(f"Images saved to: {output_dir}")
 
 if __name__ == "__main__":

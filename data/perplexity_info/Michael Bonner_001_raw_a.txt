@@ -1,0 +1,42 @@
+1. Lab and Research Areas
+• Bonner Lab at Johns Hopkins University
+• Main research areas: Cognitive neuroscience, artificial intelligence, computational vision
+• Subdisciplines: Visual information processing, neural representations, deep learning models, high-dimensional brain representations
+
+2. Core Research Questions
+• How is visual information processed and represented in biological systems?
+• What are the core statistical principles governing visual representation in the brain?
+• How can we understand the full complexity of high-dimensional human brain representations?
+• What are the computational and neural underpinnings of biological vision?
+
+3. Major Contributions
+Dr. Bonner is recognized for:
+• Revealing that neural representations are intrinsically high-dimensional, challenging traditional views of low-dimensional neural representations
+• Developing new theoretical perspectives and methods to understand complex brain representations
+• Advancing understanding of the intersection between neuroscience, AI, and computational vision
+• Uncovering similarities between artificial and biological vision systems using novel statistical approaches
+
+4. Current Research / Ongoing Projects
+• Exploring uncharted dimensions of human brain representation (with Dr. Brice Menard)
+• Investigating canonical representations of artificial and biological vision
+• Studying high-performing computational models of visual cortex marked by high intrinsic dimensionality
+• Examining emergent selectivity for scenes, object properties, and contour statistics in feedforward models of scene-preferring cortex
+
+5. Methodology and Approach
+• Combines neuroimaging (fMRI, EEG) with computational modeling
+• Utilizes advanced imaging techniques and deep learning models
+• Employs high-dimensional data analysis and statistical methods
+• Uses both laboratory experiments and online behavioral studies (e.g., Amazon Mechanical Turk)
+
+6. Research Beliefs / Philosophy
+Dr. Bonner believes in pushing neuroscience research beyond traditional characterizations of neural representations. He emphasizes the importance of understanding high-dimensional brain operations and advocates for new theoretical perspectives to comprehend the full complexity of human brain representations.
+
+7. Academic / Research Trajectory
+• Undergraduate: Pennsylvania State University (BS in Biochemistry and Molecular Biology, minors in Chemistry and Microbiology)
+• PhD: University of Pennsylvania (Neuroscience, 2012)
+   Advisor: Professor Murray Grossman
+   Dissertation: Neural representations at the interface of perception and memory
+• Postdoctoral Fellow: University of Pennsylvania
+   Department of Neurology (2013-2014)
+   Department of Psychology (2014-2018)
+• Assistant Professor: Johns Hopkins University, Department of Cognitive Science (2019-present)

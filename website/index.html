@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="An interactive visualization of researchers positioned by their research similarity">
+    <meta name="description" content="An interactive visualization of scholars positioned by their research similarity">
     <meta name="theme-color" content="#4a6fa5">
-    <title>UniMinds.ai</title>
+    <title>ScholarBoard.ai</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,8 +16,8 @@
 <body>
     <header>
         <div class="header-content">
-            <h1>UniMinds.ai</h1>
-            <p>Find and explore scientists visually</p>
+            <h1>ScholarBoard.ai</h1>
+            <p>Find and explore scholars visually</p>
         </div>
     </header>
     
@@ -40,23 +40,23 @@
                         <button id="search-button"><i class="fas fa-search"></i> Find Experts</button>
                     </div>
                     <div id="search-results" class="hidden">
-                        <h3>Top Researchers for Your Query</h3>
+                        <h3>Top Scholars for Your Query</h3>
                         <div id="results-list"></div>
                         <button id="close-results"><i class="fas fa-times"></i> Close Results</button>
                     </div>
                 </div>
-                <div id="researcher-map"></div>
+                <div id="scholar-map"></div>
             </div>
             <div id="sidebar">
                 <div class="sidebar-header">
-                    <h2>Researcher Profile</h2>
+                    <h2>Scholar Profile</h2>
                     <button id="close-sidebar"><i class="fas fa-times"></i></button>
                 </div>
-                <div id="researcher-details">
+                <div id="scholar-details">
                     <div class="placeholder-message">
                         <i class="fas fa-user-circle"></i>
-                        <p>Select a researcher to view their profile</p>
-                        <small>Explore the map by clicking on researcher nodes</small>
+                        <p>Select a scholar to view their profile</p>
+                        <small>Explore the map by clicking on scholar nodes</small>
                     </div>
                 </div>
             </div>

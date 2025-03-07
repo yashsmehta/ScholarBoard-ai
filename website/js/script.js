@@ -1,49 +1,114 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Load researcher data
+    // Load scholar data
     try {
-        const response = await fetch('data/researchers.json');
-        const researchers = await response.json();
+        console.log('Loading scholar data from data/scholars.json...');
         
-        if (researchers.length === 0) {
-            console.error('No researcher data found');
+        // Add a cache-busting parameter to the URL
+        const timestamp = new Date().getTime();
+        const url = `data/scholars.json?_=${timestamp}`;
+        console.log('URL with cache-busting:', url);
+        
+        // Check if the file exists by making a HEAD request
+        try {
+            const headResponse = await fetch(url, { method: 'HEAD' });
+            console.log('HEAD request status:', headResponse.status, headResponse.statusText);
+        } catch (headError) {
+            console.error('HEAD request failed:', headError);
+        }
+        
+        const response = await fetch(url);
+        console.log('Fetch response:', response.status, response.statusText);
+        
+        if (!response.ok) {
+            throw new Error(`Failed to load scholars.json: ${response.status} ${response.statusText}`);
+        }
+        
+        const scholars = await response.json();
+        console.log(`Loaded ${scholars.length} scholars`);
+        
+        if (scholars.length === 0) {
+            console.error('No scholar data found');
+            document.getElementById('scholar-map').innerHTML = '<div style="color: red; padding: 20px; text-align: center;">No scholar data found. Please check the console for errors.</div>';
+            return;
+        }
+        
+        // Log a sample scholar to debug
+        console.log('Sample scholar data:', scholars[0]);
+        
+        // Check if scholars have the required properties
+        const validScholars = scholars.filter(scholar => {
+            if (!scholar.id || !scholar.name || !scholar.coords || !Array.isArray(scholar.coords) || scholar.coords.length !== 2) {
+                console.warn('Invalid scholar data:', scholar);
+                return false;
+            }
+            return true;
+        });
+        
+        console.log(`Found ${validScholars.length} valid scholars out of ${scholars.length}`);
+        
+        if (validScholars.length === 0) {
+            document.getElementById('scholar-map').innerHTML = '<div style="color: red; padding: 20px; text-align: center;">No valid scholar data found. Please check the console for details.</div>';
             return;
         }
         
         // Preload images to avoid rendering issues
-        preloadImages(researchers);
+        preloadImages(validScholars);
         
-        // Create the researcher map
-        createResearcherMap(researchers);
+        // Create the scholar map
+        createScholarMap(validScholars);
         
         // Set up sidebar functionality
         setupSidebar();
         
         // Set up search functionality
-        setupSearch(researchers);
+        setupSearch(validScholars);
         
         // Set up search toggle functionality
         setupSearchToggle();
     } catch (error) {
-        console.error('Error loading researcher data:', error);
+        console.error('Error loading scholar data:', error);
+        // Try loading from the old file as fallback
+        try {
+            console.log('Attempting to load from researchers.json as fallback...');
+            const fallbackResponse = await fetch('data/researchers.json');
+            console.log('Fallback response:', fallbackResponse.status, fallbackResponse.statusText);
+            
+            if (fallbackResponse.ok) {
+                const researchers = await fallbackResponse.json();
+                console.log(`Loaded ${researchers.length} researchers from fallback`);
+                console.log('Sample researcher data:', researchers[0]);
+                
+                alert('Warning: Using legacy data format. Please run prepare_data.py to update the data.');
+                
+                // Use the researchers data
+                preloadImages(researchers);
+                createScholarMap(researchers);
+                setupSidebar();
+                setupSearch(researchers);
+                setupSearchToggle();
+            }
+        } catch (e) {
+            console.error('Fallback also failed:', e);
+        }
     }
 });
 
-function preloadImages(researchers) {
-    // Preload all researcher profile images
-    researchers.forEach(researcher => {
-        if (researcher.profile_pic) {
+function preloadImages(scholars) {
+    // Preload all scholar profile images
+    scholars.forEach(scholar => {
+        if (scholar.profile_pic) {
             const img = new Image();
-            img.src = `images/${researcher.profile_pic}`;
+            img.src = `images/${scholar.profile_pic}`;
             img.onerror = () => {
-                console.warn(`Failed to load image for ${researcher.name}`);
-                // Set a default image path in the researcher data
-                researcher.profile_pic = 'placeholder.jpg';
+                console.warn(`Failed to load image for ${scholar.name}`);
+                // Set a default image path in the scholar data
+                scholar.profile_pic = 'placeholder.jpg';
             };
         }
     });
 }
 
-function setupSearch(researchers) {
+function setupSearch(scholars) {
     const searchButton = document.getElementById('search-button');
     const queryInput = document.getElementById('research-query');
     const searchResults = document.getElementById('search-results');
@@ -82,36 +147,52 @@ function setupSearch(researchers) {
         searchResults.classList.remove('hidden');
         
         try {
-            // In a real application, this would be an API call to a backend service
-            // For this demo, we'll simulate a search by waiting and then returning random results
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // Call our search API
+            const response = await fetch('/api/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: query,
+                    top_n: 8,
+                    use_low_dim: false // Use high-dimensional embeddings for more accurate results
+                })
+            });
             
-            // Simulate search results by selecting random researchers
-            // In a real app, this would be based on actual relevance to the query
-            const numResults = Math.min(8, researchers.length);
-            const shuffled = [...researchers].sort(() => 0.5 - Math.random());
-            const results = shuffled.slice(0, numResults).map(r => ({
-                ...r,
-                // Simulate a relevance score between 70-95%
-                similarity: Math.floor(70 + Math.random() * 25)
-            }));
+            if (!response.ok) {
+                throw new Error(`Search request failed with status ${response.status}`);
+            }
             
-            // Sort by similarity (highest first)
-            results.sort((a, b) => b.similarity - a.similarity);
+            const data = await response.json();
+            const results = data.scholars || [];
+            
+            // Map the results to our expected format
+            const formattedResults = results.map(result => {
+                // Find the full scholar data from our loaded scholars
+                const scholarData = scholars.find(s => s.id === result.scholar_id) || {};
+                
+                return {
+                    id: result.scholar_id,
+                    name: result.name,
+                    profile_pic: scholarData.profile_pic || 'placeholder.jpg',
+                    similarity: Math.round(result.similarity * 100) // Convert to percentage
+                };
+            });
             
             // Display results
-            displaySearchResults(results, researchers);
+            displaySearchResults(formattedResults, scholars);
         } catch (error) {
             console.error('Search error:', error);
             resultsList.innerHTML = '<div class="error"><i class="fas fa-exclamation-circle"></i> An error occurred during search. Please try again.</div>';
         }
     }
     
-    function displaySearchResults(results, allResearchers) {
+    function displaySearchResults(results, allScholars) {
         resultsList.innerHTML = '';
         
         if (results.length === 0) {
-            resultsList.innerHTML = '<div class="no-results">No matching researchers found</div>';
+            resultsList.innerHTML = '<div class="no-results">No matching scholars found</div>';
             return;
         }
         
@@ -120,7 +201,7 @@ function setupSearch(researchers) {
         resultsContainer.className = 'results-container';
         
         // Add each result to the container
-        results.forEach((researcher, index) => {
+        results.forEach((scholar, index) => {
             const resultItem = document.createElement('div');
             resultItem.className = 'result-item';
             if (index < 3) {
@@ -128,31 +209,33 @@ function setupSearch(researchers) {
             }
             
             // Ensure profile pic exists or use placeholder
-            const profilePic = researcher.profile_pic || 'placeholder.jpg';
+            const profilePic = scholar.profile_pic || 'placeholder.jpg';
             
             resultItem.innerHTML = `
-                <img src="images/${profilePic}" alt="${researcher.name}" onerror="this.src='images/placeholder.jpg'">
+                <img src="images/${profilePic}" alt="${scholar.name}" onerror="this.src='images/placeholder.jpg'">
                 <div class="result-info">
-                    <div class="result-name">${researcher.name}</div>
-                    <div class="result-institution">${researcher.institution || 'Independent Researcher'}</div>
+                    <div class="result-name">${scholar.name}</div>
                 </div>
-                <div class="result-similarity">${researcher.similarity}% match</div>
+                <div class="result-similarity">${scholar.similarity}% match</div>
             `;
             
-            // Add click event to highlight researcher on the map
+            // Add click event to highlight scholar on the map
             resultItem.addEventListener('click', () => {
-                // Find the researcher node on the map
-                const researcherNode = document.querySelector(`.researcher-node[data-id="${researcher.id}"]`);
+                // Find the scholar node on the map
+                const scholarNode = document.querySelector(`.scholar-node[data-id="${scholar.id}"]`);
                 
-                if (researcherNode) {
+                if (scholarNode) {
                     // Highlight the node
-                    highlightResearcherNode(researcherNode);
+                    highlightScholarNode(scholarNode);
                     
-                    // Center the view on the researcher
-                    window.centerViewOnResearcher(researcherNode);
+                    // Center the view on the scholar
+                    window.centerViewOnScholar(scholarNode);
                     
-                    // Show researcher details
-                    showResearcherDetails(researcher);
+                    // Show scholar details
+                    const fullScholarData = allScholars.find(s => s.id === scholar.id);
+                    if (fullScholarData) {
+                        showScholarDetails(fullScholarData);
+                    }
                     
                     // Close search results
                     searchResults.classList.add('hidden');
@@ -169,7 +252,7 @@ function setupSearch(researchers) {
         resultsList.appendChild(resultsContainer);
     }
     
-    function highlightResearcherNode(node) {
+    function highlightScholarNode(node) {
         // Add a temporary highlight effect
         node.classList.add('highlight-pulse');
         
@@ -195,19 +278,24 @@ function setupSidebar() {
         sidebar.style.display = 'none';
         mapContainer.style.flex = '1 1 100%';
         
-        // Remove active class from all researcher nodes
-        document.querySelectorAll('.researcher-node.active').forEach(node => {
+        // Remove active class from all scholar nodes
+        document.querySelectorAll('.scholar-node.active').forEach(node => {
             node.classList.remove('active');
         });
     });
 }
 
-function createResearcherMap(researchers) {
+function createScholarMap(scholars) {
     const mapContainer = document.getElementById('map-container');
-    const researcherMap = document.getElementById('researcher-map');
+    const scholarMap = document.getElementById('scholar-map');
+    
+    console.log(`Creating scholar map with ${scholars.length} scholars`);
+    
+    // Clear any existing content
+    scholarMap.innerHTML = '';
     
     // Find min and max coordinates to normalize
-    const allCoords = researchers.map(r => r.coords);
+    const allCoords = scholars.map(r => r.coords);
     const xCoords = allCoords.map(c => c[0]);
     const yCoords = allCoords.map(c => c[1]);
     
@@ -215,6 +303,8 @@ function createResearcherMap(researchers) {
     const maxX = Math.max(...xCoords);
     const minY = Math.min(...yCoords);
     const maxY = Math.max(...yCoords);
+    
+    console.log(`Coordinate ranges: X(${minX} to ${maxX}), Y(${minY} to ${maxY})`);
     
     // Calculate padding (15% of the range)
     const xPadding = (maxX - minX) * 0.15;
@@ -227,8 +317,8 @@ function createResearcherMap(researchers) {
     let isDragging = false;
     let startX, startY;
     
-    // Function to center the view on a researcher
-    window.centerViewOnResearcher = function(node) {
+    // Function to center the view on a scholar
+    window.centerViewOnScholar = function(node) {
         // Get the map container dimensions and position
         const mapRect = mapContainer.getBoundingClientRect();
         
@@ -246,150 +336,129 @@ function createResearcherMap(researchers) {
         const nodeRelativeY = nodeY - mapRect.top;
         
         // Calculate the distance from the center of the map
-        const distanceFromCenterX = Math.abs(visibleMapCenterX - nodeRelativeX);
-        const distanceFromCenterY = Math.abs(visibleMapCenterY - nodeRelativeY);
+        const distanceFromCenterX = visibleMapCenterX - nodeRelativeX;
+        const distanceFromCenterY = visibleMapCenterY - nodeRelativeY;
         
-        // Define thresholds for when centering should occur (as percentage of container size)
-        const thresholdX = mapRect.width * 0.3; // Only center if node is more than 30% away from center
-        const thresholdY = mapRect.height * 0.3;
+        // Update the translation to center the node
+        translateX += distanceFromCenterX;
+        translateY += distanceFromCenterY;
         
-        // Only apply centering if the node is far enough from the center
-        if (distanceFromCenterX > thresholdX || distanceFromCenterY > thresholdY) {
-            // Calculate the translation needed to center the node
-            const dx = visibleMapCenterX - nodeRelativeX;
-            const dy = visibleMapCenterY - nodeRelativeY;
-            
-            // Update the translation values (keeping the current scale)
-            translateX += dx;
-            translateY += dy;
-            
-            // Apply the transform with a smooth animation
-            researcherMap.style.transition = 'transform 0.5s ease-out';
-            applyTransform();
-            
-            // Remove the transition after animation completes
-            setTimeout(() => {
-                researcherMap.style.transition = 'none';
-            }, 500);
-            
-            // Log centering information for debugging
-            console.log('Centering applied:', {
-                mapCenter: { x: visibleMapCenterX, y: visibleMapCenterY },
-                nodePosition: { x: nodeRelativeX, y: nodeRelativeY },
-                translation: { dx, dy },
-                newTranslation: { x: translateX, y: translateY }
-            });
-        }
+        // Apply the transform
+        applyTransform();
     };
     
     // Function to apply transform
     function applyTransform() {
-        researcherMap.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        scholarMap.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
     }
     
-    // Add researchers to the map
-    researchers.forEach(researcher => {
-        // Create researcher node
-        const node = document.createElement('div');
-        node.className = 'researcher-node';
-        
-        // Add float animation with random delay for a more natural look
-        node.classList.add('float');
-        node.style.animationDelay = `${Math.random() * 2}s`;
-        
-        node.dataset.name = researcher.name;
-        node.dataset.id = researcher.id;
-        
-        // Normalize coordinates to fit the container with padding
-        const normalizedX = ((researcher.coords[0] - minX + xPadding) / (maxX - minX + 2 * xPadding)) * 100;
-        const normalizedY = ((researcher.coords[1] - minY + yPadding) / (maxY - minY + 2 * yPadding)) * 100;
-        
-        // Position the node
-        node.style.left = `${normalizedX}%`;
-        node.style.top = `${normalizedY}%`;
-        
-        // Create profile picture
-        const profilePic = document.createElement('img');
-        profilePic.className = 'profile-pic';
-        
-        if (researcher.profile_pic) {
-            profilePic.src = `images/${researcher.profile_pic}`;
-            profilePic.alt = `${researcher.name}`;
-        } else {
-            // Use placeholder if no profile picture
-            profilePic.src = 'images/placeholder.jpg';
-            profilePic.alt = 'No profile picture';
-        }
-        
-        // Add error handler for images
-        profilePic.onerror = function() {
-            this.src = 'images/placeholder.jpg';
-            this.alt = 'No profile picture';
-        };
-        
-        // Create researcher label (name below icon)
-        const label = document.createElement('div');
-        label.className = 'researcher-label';
-        label.textContent = researcher.name;
-        
-        // Create researcher info
-        const info = document.createElement('div');
-        info.className = 'researcher-info';
-        
-        const name = document.createElement('div');
-        name.className = 'researcher-name';
-        name.textContent = researcher.name;
-        
-        const institution = document.createElement('div');
-        institution.className = 'researcher-institution';
-        institution.textContent = researcher.institution || 'Independent Researcher';
-        
-        // Assemble the node
-        info.appendChild(name);
-        info.appendChild(institution);
-        node.appendChild(profilePic);
-        node.appendChild(label);
-        node.appendChild(info);
-        
-        // Add click event to show details in sidebar
-        node.addEventListener('click', () => {
-            showResearcherDetails(researcher);
+    // Add scholars to the map
+    console.log(`Adding ${scholars.length} scholars to the map`);
+    let nodesCreated = 0;
+    
+    scholars.forEach((scholar, index) => {
+        try {
+            // Create scholar node
+            const node = document.createElement('div');
+            node.className = 'scholar-node';
             
-            // Remove active class from all nodes
-            document.querySelectorAll('.researcher-node.active').forEach(n => {
-                n.classList.remove('active');
+            // Add animation delay for staggered appearance
+            node.style.animationDelay = `${Math.random() * 2}s`;
+            
+            node.dataset.name = scholar.name;
+            node.dataset.id = scholar.id;
+            
+            // Normalize coordinates to fit the container with padding
+            const normalizedX = ((scholar.coords[0] - minX + xPadding) / (maxX - minX + 2 * xPadding)) * 100;
+            const normalizedY = ((scholar.coords[1] - minY + yPadding) / (maxY - minY + 2 * yPadding)) * 100;
+            
+            // Position the node
+            node.style.left = `${normalizedX}%`;
+            node.style.top = `${normalizedY}%`;
+            
+            // Create profile picture
+            const profilePic = document.createElement('img');
+            profilePic.className = 'profile-pic';
+            
+            if (scholar.profile_pic) {
+                profilePic.src = `images/${scholar.profile_pic}`;
+                profilePic.alt = `${scholar.name}`;
+            } else {
+                // Use placeholder if no profile picture
+                profilePic.src = 'images/placeholder.jpg';
+                profilePic.alt = 'Profile placeholder';
+            }
+            
+            // Create label
+            const label = document.createElement('div');
+            label.className = 'scholar-label';
+            label.textContent = scholar.name;
+            
+            // Create scholar info
+            const info = document.createElement('div');
+            info.className = 'scholar-info';
+            
+            const name = document.createElement('div');
+            name.className = 'scholar-name';
+            name.textContent = scholar.name;
+            
+            // Assemble the node
+            info.appendChild(name);
+            node.appendChild(profilePic);
+            node.appendChild(label);
+            node.appendChild(info);
+            
+            // Add click event to show details in sidebar
+            node.addEventListener('click', () => {
+                showScholarDetails(scholar);
+                
+                // Remove active class from all nodes
+                document.querySelectorAll('.scholar-node.active').forEach(n => {
+                    n.classList.remove('active');
+                });
+                
+                // Add active class to this node
+                node.classList.add('active');
+                
+                // Show sidebar
+                document.getElementById('sidebar').style.display = 'block';
+                
+                // Adjust map container flex
+                mapContainer.style.flex = '1 1 70%';
             });
             
-            // Add active class to clicked node
-            node.classList.add('active');
+            // Add hover effect for info display
+            node.addEventListener('mouseenter', () => {
+                info.style.opacity = '1';
+                info.style.visibility = 'visible';
+                info.style.transform = 'translateX(-50%) translateY(5px)';
+            });
             
-            // Center the view on the clicked researcher
-            window.centerViewOnResearcher(node);
+            node.addEventListener('mouseleave', () => {
+                info.style.opacity = '0';
+                info.style.visibility = 'hidden';
+                info.style.transform = 'translateX(-50%)';
+            });
             
-            // Show sidebar if hidden
-            const sidebar = document.getElementById('sidebar');
-            sidebar.style.display = 'flex';
+            // Add to map
+            scholarMap.appendChild(node);
+            nodesCreated++;
             
-            // Adjust map container width
-            mapContainer.style.flex = `0 0 calc(100% - var(--sidebar-width) - 1.5rem)`;
-        });
-        
-        // Add hover effect for info display
-        node.addEventListener('mouseenter', () => {
-            info.style.opacity = '1';
-            info.style.visibility = 'visible';
-            info.style.transform = 'translateX(-50%) translateY(5px)';
-        });
-        
-        node.addEventListener('mouseleave', () => {
-            info.style.opacity = '0';
-            info.style.visibility = 'hidden';
-            info.style.transform = 'translateX(-50%)';
-        });
-        
-        // Add to map
-        researcherMap.appendChild(node);
+            // Log progress for large datasets
+            if (index % 100 === 0 || index === scholars.length - 1) {
+                console.log(`Added ${index + 1}/${scholars.length} scholars to the map`);
+            }
+        } catch (error) {
+            console.error(`Error adding scholar ${scholar.name} (${scholar.id}) to map:`, error);
+        }
     });
+    
+    console.log(`Created ${nodesCreated} scholar nodes on the map`);
+    
+    // Add a message if no nodes were created
+    if (nodesCreated === 0) {
+        scholarMap.innerHTML = '<div style="color: red; padding: 20px; text-align: center;">Failed to create any scholar nodes. Please check the console for errors.</div>';
+    }
     
     // Set up zoom controls
     const zoomInButton = document.getElementById('zoom-in');
@@ -423,7 +492,7 @@ function createResearcherMap(researchers) {
     
     // Pan with mouse drag
     mapContainer.addEventListener('mousedown', (e) => {
-        if (e.target === researcherMap || e.target === mapContainer) {
+        if (e.target === scholarMap || e.target === mapContainer) {
             isDragging = true;
             startX = e.clientX - translateX;
             startY = e.clientY - translateY;
@@ -445,53 +514,54 @@ function createResearcherMap(researchers) {
     });
 }
 
-function showResearcherDetails(researcher) {
-    const detailsContainer = document.getElementById('researcher-details');
+function showScholarDetails(scholar) {
+    const detailsContainer = document.getElementById('scholar-details');
     
     // Ensure profile pic exists or use placeholder
-    const profilePic = researcher.profile_pic || 'placeholder.jpg';
+    const profilePic = scholar.profile_pic || 'placeholder.jpg';
     
     // Create details HTML
     let detailsHTML = `
-        <div class="researcher-profile">
-            <img src="images/${profilePic}" alt="${researcher.name}" onerror="this.src='images/placeholder.jpg'">
-            <h3>${researcher.name}</h3>
-            <p>${researcher.institution || 'Independent Researcher'}</p>
+        <div class="scholar-profile">
+            <img src="images/${profilePic}" alt="${scholar.name}" onerror="this.src='images/placeholder.jpg'">
+            <h3>${scholar.name}</h3>
         </div>
     `;
     
-    if (researcher.research_areas && researcher.research_areas.length > 0) {
-        // Format the research areas text for better readability
-        const formattedText = formatResearchText(researcher.research_areas);
-        
+    // Add projections information
+    if (scholar.projections) {
         detailsHTML += `
-            <div class="research-area">
-                <h4>Research Areas</h4>
-                <div class="research-content">${formattedText}</div>
-            </div>
-        `;
-    } else {
-        detailsHTML += `
-            <div class="research-area">
-                <h4>Research Areas</h4>
-                <p>No research area information available.</p>
+            <div class="scholar-projections">
+                <h4>Projection Methods</h4>
+                <div class="projection-buttons">
+                    <button class="projection-button" data-method="pca">PCA</button>
+                    <button class="projection-button" data-method="tsne">t-SNE</button>
+                    <button class="projection-button active" data-method="umap">UMAP</button>
+                </div>
             </div>
         `;
     }
     
-    // Add animation class
-    detailsContainer.classList.add('fade-in');
-    
-    // Update details container
+    // Set the HTML content
     detailsContainer.innerHTML = detailsHTML;
     
-    // Remove animation class after animation completes
-    setTimeout(() => {
-        detailsContainer.classList.remove('fade-in');
-    }, 500);
-    
-    // Make sure sidebar is visible
-    document.getElementById('sidebar').style.display = 'flex';
+    // Add event listeners to projection buttons if they exist
+    const projectionButtons = detailsContainer.querySelectorAll('.projection-button');
+    projectionButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            projectionButtons.forEach(b => b.classList.remove('active'));
+            
+            // Add active class to clicked button
+            button.classList.add('active');
+            
+            // Get the projection method
+            const method = button.dataset.method;
+            
+            // Update the visualization (this would be implemented in a real application)
+            console.log(`Switching to ${method} projection`);
+        });
+    });
 }
 
 function formatResearchText(text) {

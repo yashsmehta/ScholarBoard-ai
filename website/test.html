@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scholar Data Test</title>
+</head>
+<body>
+    <h1>Scholar Data Test</h1>
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                console.log('Fetching scholars.json...');
+                const response = await fetch('data/scholars.json');
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to load scholars.json: ${response.status}`);
+                }
+                
+                const scholars = await response.json();
+                console.log(`Loaded ${scholars.length} scholars`);
+                
+                resultDiv.innerHTML = `
+                    <p>Successfully loaded ${scholars.length} scholars!</p>
+                    <p>First scholar: ${scholars[0].name}</p>
+                    <pre>${JSON.stringify(scholars[0], null, 2)}</pre>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `
+                    <p style="color: red;">Error loading scholars.json: ${error.message}</p>
+                    <p>Check the console for more details.</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html> 

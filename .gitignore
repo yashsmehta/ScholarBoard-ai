@@ -10,3 +10,5 @@ __init__*
 .cursorignore
 data/profile_pics/
 data/perplexity_info/
+data/*
+website/data/

@@ -6,6 +6,7 @@ import json
 import sys
 import numpy as np
 from pathlib import Path
+import shutil
 
 # Add parent directory to path to import scholar_board module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -68,49 +69,6 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
                     scholars_json_content = json.load(f)
             except Exception as e:
                 scholars_json_content = f"Error loading scholars.json: {str(e)}"
-        
-        # Create debug HTML
-        debug_html = f"""
-        <html>
-        <head>
-            <title>ScholarBoard Debug</title>
-            <style>
-                body {{ font-family: Arial, sans-serif; margin: 20px; }}
-                h1, h2 {{ color: #333; }}
-                pre {{ background-color: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }}
-                .section {{ margin-bottom: 30px; }}
-            </style>
-        </head>
-        <body>
-            <h1>ScholarBoard Debug Information</h1>
-            
-            <div class="section">
-                <h2>Paths</h2>
-                <p>Website Directory: {website_dir}</p>
-                <p>Main Data Directory: {data_dir}</p>
-                <p>Website Data Directory: {website_data_dir}</p>
-            </div>
-            
-            <div class="section">
-                <h2>Data Files</h2>
-                <p>Files in main data directory: {len(data_files)}</p>
-                <pre>{', '.join(data_files)}</pre>
-                <p>Files in website data directory: {len(website_data_files)}</p>
-                <pre>{', '.join(website_data_files)}</pre>
-            </div>
-            
-            <div class="section">
-                <h2>scholars.json</h2>
-                <p>Exists in main data: {scholars_json_exists}</p>
-                <p>Size in main data: {scholars_json_size} bytes</p>
-                <p>Exists in website data: {website_scholars_json_exists}</p>
-                <p>Size in website data: {website_scholars_json_size} bytes</p>
-                <p>Using path: {used_path}</p>
-                <p>Scholar count: {len(scholars_json_content) if isinstance(scholars_json_content, list) else 'N/A'}</p>
-            </div>
-        </body>
-        </html>
-        """
         
         self.wfile.write(debug_html.encode('utf-8'))
     
@@ -186,31 +144,60 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
             profile_pic = scholar_data.get('profile_pic', 'placeholder.jpg')
             profile_pic_path = profile_pic
             
-            # Try to load perplexity info if available
-            perplexity_file = os.path.join(DATA_DIR, 'perplexity_info', f"{scholar_id}.txt")
-            raw_text = ""
+            # Try to load formatted markdown content if available
+            scholar_name = scholar_data.get('name', '')
+            markdown_content = ""
             
-            if os.path.exists(perplexity_file):
+            # First try to find the markdown file using name and ID
+            markdown_file = os.path.join(DATA_DIR, 'formatted_scholar_info', f"{scholar_name}_{scholar_id}.md")
+            
+            if not os.path.exists(markdown_file):
+                # Try alternative formats that might exist
+                possible_files = [
+                    os.path.join(DATA_DIR, 'formatted_scholar_info', f"{scholar_name}_{scholar_id.zfill(3)}.md"),
+                    os.path.join(DATA_DIR, 'formatted_scholar_info', f"{scholar_name}_{scholar_id.zfill(2)}.md")
+                ]
+                
+                for alt_file in possible_files:
+                    if os.path.exists(alt_file):
+                        markdown_file = alt_file
+                        break
+            
+            if os.path.exists(markdown_file):
                 try:
-                    with open(perplexity_file, 'r', encoding='utf-8') as f:
-                        raw_text = f.read()
-                    print(f"Loaded perplexity file: {perplexity_file}")
+                    with open(markdown_file, 'r', encoding='utf-8') as f:
+                        markdown_content = f.read()
+                    print(f"Loaded markdown file: {markdown_file}")
                 except Exception as e:
-                    print(f"Error reading perplexity file: {str(e)}")
+                    print(f"Error reading markdown file: {str(e)}")
             else:
-                # Try alternative filename formats
-                alt_perplexity_file = os.path.join(DATA_DIR, 'perplexity_info', f"{scholar_data.get('name')}_{scholar_id}_raw.txt")
-                if os.path.exists(alt_perplexity_file):
+                print(f"No markdown file found for scholar {scholar_id}. Tried path: {markdown_file}")
+                
+                # Fall back to perplexity info if markdown not found
+                perplexity_file = os.path.join(DATA_DIR, 'perplexity_info', f"{scholar_id}.txt")
+                raw_text = ""
+                
+                if os.path.exists(perplexity_file):
                     try:
-                        with open(alt_perplexity_file, 'r', encoding='utf-8') as f:
+                        with open(perplexity_file, 'r', encoding='utf-8') as f:
                             raw_text = f.read()
-                        print(f"Loaded alternative perplexity file: {alt_perplexity_file}")
+                        print(f"Loaded perplexity file as fallback: {perplexity_file}")
                     except Exception as e:
-                        print(f"Error reading alternative perplexity file: {str(e)}")
+                        print(f"Error reading perplexity file: {str(e)}")
                 else:
-                    print(f"No perplexity file found for scholar {scholar_id}. Tried paths:")
-                    print(f"  - {perplexity_file}")
-                    print(f"  - {alt_perplexity_file}")
+                    # Try alternative filename formats for perplexity
+                    alt_perplexity_file = os.path.join(DATA_DIR, 'perplexity_info', f"{scholar_data.get('name')}_{scholar_id}_raw.txt")
+                    if os.path.exists(alt_perplexity_file):
+                        try:
+                            with open(alt_perplexity_file, 'r', encoding='utf-8') as f:
+                                raw_text = f.read()
+                            print(f"Loaded alternative perplexity file as fallback: {alt_perplexity_file}")
+                        except Exception as e:
+                            print(f"Error reading alternative perplexity file: {str(e)}")
+                    else:
+                        print(f"No perplexity file found for scholar {scholar_id}. Tried paths:")
+                        print(f"  - {perplexity_file}")
+                        print(f"  - {alt_perplexity_file}")
             
             # Prepare response data
             response_data = {
@@ -222,7 +209,8 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
                 'pca': scholar_data.get('pca', [0, 0]),
                 'tsne': scholar_data.get('tsne', [0, 0]),
                 'umap': scholar_data.get('umap', [0, 0]),
-                'raw_text': raw_text
+                'markdown_content': markdown_content,
+                'raw_text': raw_text if not markdown_content else ""
             }
             
             # Send response
@@ -249,6 +237,38 @@ def serve_website(port=8000):
     """
     Serve the website on the specified port and open it in a browser.
     """
+    # Create website/data directory if it doesn't exist
+    website_data_dir = os.path.join(WEBSITE_DIR, 'data')
+    os.makedirs(website_data_dir, exist_ok=True)
+    
+    # Copy scholars.json to website/data if it doesn't exist or is older than the source
+    scholars_json_path = os.path.join(DATA_DIR, 'scholars.json')
+    website_scholars_json_path = os.path.join(website_data_dir, 'scholars.json')
+    
+    if os.path.exists(scholars_json_path):
+        if not os.path.exists(website_scholars_json_path) or \
+           os.path.getmtime(scholars_json_path) > os.path.getmtime(website_scholars_json_path):
+            print(f"Copying scholars.json to {website_scholars_json_path}")
+            shutil.copy2(scholars_json_path, website_scholars_json_path)
+    
+    # Create website/data/formatted_scholar_info directory if it doesn't exist
+    website_markdown_dir = os.path.join(website_data_dir, 'formatted_scholar_info')
+    os.makedirs(website_markdown_dir, exist_ok=True)
+    
+    # Copy formatted markdown files to website/data/formatted_scholar_info
+    source_markdown_dir = os.path.join(DATA_DIR, 'formatted_scholar_info')
+    if os.path.exists(source_markdown_dir):
+        print(f"Copying markdown files to {website_markdown_dir}")
+        for filename in os.listdir(source_markdown_dir):
+            if filename.endswith('.md'):
+                source_file = os.path.join(source_markdown_dir, filename)
+                dest_file = os.path.join(website_markdown_dir, filename)
+                
+                # Only copy if the source file is newer or the destination doesn't exist
+                if not os.path.exists(dest_file) or \
+                   os.path.getmtime(source_file) > os.path.getmtime(dest_file):
+                    shutil.copy2(source_file, dest_file)
+    
     # Change to the website directory
     os.chdir(WEBSITE_DIR)
     

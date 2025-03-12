@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Log a sample scholar to debug
         console.log('Sample scholar data:', scholars[0]);
         
+        // Check if all scholars have a country
+        checkScholarCountries(scholars);
+        
         // Check if scholars have the required properties
         const validScholars = scholars.filter(scholar => {
             // Check if scholar has at least one projection method
@@ -93,12 +96,13 @@ function createHeaderAnimation() {
     // Clear any existing content
     container.innerHTML = '';
     
-    // Create nodes
-    const nodeCount = 15;
+    // Create floating nodes
+    const nodeCount = 25;
     const nodes = [];
     const headerWidth = container.offsetWidth;
     const headerHeight = container.offsetHeight;
     
+    // Create nodes with random positions
     for (let i = 0; i < nodeCount; i++) {
         const node = document.createElement('div');
         node.className = 'node';
@@ -107,54 +111,118 @@ function createHeaderAnimation() {
         const x = Math.random() * headerWidth;
         const y = Math.random() * headerHeight;
         
+        // Random velocity for movement
+        const vx = (Math.random() - 0.5) * 0.5;
+        const vy = (Math.random() - 0.5) * 0.5;
+        
         node.style.left = `${x}px`;
         node.style.top = `${y}px`;
         
         // Random size
-        const size = 3 + Math.random() * 5;
+        const size = 3 + Math.random() * 3;
         node.style.width = `${size}px`;
         node.style.height = `${size}px`;
         
-        // Random animation delay
-        node.style.animationDelay = `${Math.random() * 2}s`;
-        
         container.appendChild(node);
-        nodes.push({ element: node, x, y, size });
+        nodes.push({ element: node, x, y, vx, vy, size });
     }
     
-    // Create connections between nearby nodes
-    const maxDistance = 150;
-    
-    for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-            const nodeA = nodes[i];
-            const nodeB = nodes[j];
+    // Function to update node positions and connections
+    function updateNodes() {
+        // Remove all existing connections
+        const connections = container.querySelectorAll('.connection');
+        connections.forEach(conn => conn.remove());
+        
+        // Update node positions
+        for (let i = 0; i < nodes.length; i++) {
+            const node = nodes[i];
             
-            // Calculate distance between nodes
-            const dx = nodeB.x - nodeA.x;
-            const dy = nodeB.y - nodeA.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+            // Update position based on velocity
+            node.x += node.vx;
+            node.y += node.vy;
             
-            // Only connect nodes that are close enough
-            if (distance < maxDistance) {
-                const connection = document.createElement('div');
-                connection.className = 'connection';
-                
-                // Position and size the connection
-                connection.style.left = `${nodeA.x + nodeA.size / 2}px`;
-                connection.style.top = `${nodeA.y + nodeA.size / 2}px`;
-                connection.style.width = `${distance}px`;
-                
-                // Calculate the angle
-                const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-                connection.style.transform = `rotate(${angle}deg)`;
-                
-                // Opacity based on distance
-                const opacity = 1 - (distance / maxDistance);
-                connection.style.opacity = opacity;
-                
-                container.appendChild(connection);
+            // Bounce off edges
+            if (node.x <= 0 || node.x >= headerWidth - node.size) {
+                node.vx = -node.vx;
+                node.x = Math.max(0, Math.min(headerWidth - node.size, node.x));
             }
+            
+            if (node.y <= 0 || node.y >= headerHeight - node.size) {
+                node.vy = -node.vy;
+                node.y = Math.max(0, Math.min(headerHeight - node.size, node.y));
+            }
+            
+            // Apply small random changes to velocity for more natural movement
+            node.vx += (Math.random() - 0.5) * 0.05;
+            node.vy += (Math.random() - 0.5) * 0.05;
+            
+            // Limit velocity
+            const maxSpeed = 0.8;
+            const speed = Math.sqrt(node.vx * node.vx + node.vy * node.vy);
+            if (speed > maxSpeed) {
+                node.vx = (node.vx / speed) * maxSpeed;
+                node.vy = (node.vy / speed) * maxSpeed;
+            }
+            
+            // Update DOM element position
+            node.element.style.left = `${node.x}px`;
+            node.element.style.top = `${node.y}px`;
+        }
+        
+        // Create connections between nearby nodes
+        const maxDistance = 80; // Maximum distance for connection
+        
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const nodeA = nodes[i];
+                const nodeB = nodes[j];
+                
+                // Calculate distance between nodes
+                const dx = nodeB.x - nodeA.x;
+                const dy = nodeB.y - nodeA.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // Only connect nodes that are close enough
+                if (distance < maxDistance) {
+                    const connection = document.createElement('div');
+                    connection.className = 'connection';
+                    
+                    // Position and size the connection
+                    connection.style.left = `${nodeA.x + nodeA.size / 2}px`;
+                    connection.style.top = `${nodeA.y + nodeA.size / 2}px`;
+                    connection.style.width = `${distance}px`;
+                    
+                    // Calculate the angle
+                    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+                    connection.style.transform = `rotate(${angle}deg)`;
+                    
+                    // Opacity based on distance - closer nodes have stronger connections
+                    const opacity = 1 - (distance / maxDistance);
+                    connection.style.opacity = opacity;
+                    
+                    container.appendChild(connection);
+                }
+            }
+        }
+        
+        // Schedule next update
+        requestAnimationFrame(updateNodes);
+    }
+    
+    // Start the animation
+    updateNodes();
+    
+    // Make sure the header content is visible
+    const headerContent = document.querySelector('.header-content');
+    if (headerContent) {
+        headerContent.style.zIndex = '10';
+        
+        // Ensure the tagline is visible
+        const tagline = headerContent.querySelector('p');
+        if (tagline) {
+            tagline.style.display = 'block';
+            tagline.style.visibility = 'visible';
+            tagline.style.opacity = '1';
         }
     }
 }
@@ -246,6 +314,9 @@ function createScholarMap(scholars) {
     dotsContainer.style.height = '100%';
     dotsContainer.style.overflow = 'hidden';
     
+    // Store current scale for label visibility
+    window.currentScale = 1;
+    
     // Second pass: create nodes
     let nodesCreated = 0;
     scholars.forEach(scholar => {
@@ -289,27 +360,44 @@ function createScholarMap(scholars) {
         tooltip.style.display = 'none';
         document.body.appendChild(tooltip);
         
-        // Add hover effect with tooltip following mouse
-        dot.addEventListener('mouseenter', () => {
-            dot.style.width = '24px';
-            dot.style.height = '24px';
-            dot.style.zIndex = '100';
-            tooltip.style.display = 'block';
-        });
+        // Create label for scholar name (visible when zoomed in)
+        const label = document.createElement('div');
+        label.className = 'scholar-label';
+        label.textContent = scholar.name;
+        label.style.position = 'absolute';
+        label.style.left = `${normalizedX}%`;
+        label.style.top = `${normalizedY + 2}%`;
+        label.style.transform = 'translate(-50%, 0)';
+        label.style.fontSize = '10px';
+        label.style.color = '#333';
+        label.style.textAlign = 'center';
+        label.style.whiteSpace = 'nowrap';
+        label.style.pointerEvents = 'none';
+        label.style.opacity = '0';
+        label.style.transition = 'opacity 0.3s ease';
         
-        dot.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            tooltip.style.left = `${x + 15}px`;
-            tooltip.style.top = `${y - 15}px`;
+        // Show tooltip on hover
+        dot.addEventListener('mouseenter', (e) => {
+            tooltip.style.display = 'block';
+            updateTooltipPosition(e);
+            dot.style.transform = 'translate(-50%, -50%) scale(1.2)';
+            dot.style.zIndex = '10';
         });
         
         dot.addEventListener('mouseleave', () => {
-            dot.style.width = '16px';
-            dot.style.height = '16px';
-            dot.style.zIndex = '1';
             tooltip.style.display = 'none';
+            dot.style.transform = 'translate(-50%, -50%) scale(1)';
+            dot.style.zIndex = '1';
         });
+        
+        dot.addEventListener('mousemove', updateTooltipPosition);
+        
+        function updateTooltipPosition(e) {
+            const x = e.clientX;
+            const y = e.clientY;
+            tooltip.style.left = `${x}px`;
+            tooltip.style.top = `${y}px`;
+        }
         
         // Add click event to show scholar details
         dot.addEventListener('click', () => {
@@ -325,95 +413,192 @@ function createScholarMap(scholars) {
             showScholarDetails(scholar);
         });
         
-        // Add the dot to the container
+        // Add the dot and label to the container
         dotsContainer.appendChild(dot);
+        dotsContainer.appendChild(label);
         nodesCreated++;
     });
     
-    console.log(`Created ${nodesCreated} scholar dots on the map`);
+    console.log(`Created ${nodesCreated} scholar nodes`);
     
     // Add the dots container to the map
     mapContainer.appendChild(dotsContainer);
     
-    // Add zoom and pan functionality
-    let scale = 1;
-    let translateX = 0;
-    let translateY = 0;
+    // Set up zoom and pan functionality
     let isDragging = false;
     let startX, startY;
+    let translateX = 0, translateY = 0;
+    let scale = 1;
     
+    // Function to apply transform
     function applyTransform() {
         dotsContainer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        
+        // Update current scale for label visibility
+        window.currentScale = scale;
+        
+        // Show/hide labels based on zoom level
+        updateLabelVisibility();
+    }
+    
+    // Function to update label visibility based on zoom level
+    function updateLabelVisibility() {
+        const labels = document.querySelectorAll('.scholar-label');
+        
+        if (scale >= 3.5) {
+            // When zoomed in significantly, use a grid-based approach to prevent overcrowding
+            const gridSize = 40; // pixels
+            const visibleLabels = new Set();
+            const occupiedCells = new Map();
+            
+            // First pass: assign each label to a grid cell
+            labels.forEach((label, index) => {
+                // Get label position
+                const rect = label.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                // Calculate grid cell
+                const cellX = Math.floor(centerX / gridSize);
+                const cellY = Math.floor(centerY / gridSize);
+                const cellKey = `${cellX},${cellY}`;
+                
+                // If cell is already occupied, compare with existing label
+                if (occupiedCells.has(cellKey)) {
+                    const existingIndex = occupiedCells.get(cellKey);
+                    // Randomly choose which label to display in case of conflict
+                    // This ensures different labels get a chance to be displayed
+                    if (Math.random() > 0.5) {
+                        occupiedCells.set(cellKey, index);
+                        visibleLabels.delete(existingIndex);
+                        visibleLabels.add(index);
+                    }
+                } else {
+                    // Cell is free, occupy it
+                    occupiedCells.set(cellKey, index);
+                    visibleLabels.add(index);
+                }
+            });
+            
+            // Apply visibility
+            labels.forEach((label, index) => {
+                label.style.opacity = visibleLabels.has(index) ? '1' : '0';
+            });
+        } else if (scale >= 2.5) {
+            // Show a very limited number of labels when moderately zoomed in
+            const totalLabels = labels.length;
+            const visibleLabels = Math.floor(totalLabels * 0.05); // Show only 5% of labels
+            
+            // Create an array of indices and shuffle it
+            const indices = Array.from({ length: totalLabels }, (_, i) => i);
+            shuffleArray(indices);
+            
+            // Show only a subset of labels
+            labels.forEach((label, i) => {
+                label.style.opacity = indices.indexOf(i) < visibleLabels ? '1' : '0';
+            });
+        } else {
+            // Hide all labels when zoomed out
+            labels.forEach(label => {
+                label.style.opacity = '0';
+            });
+        }
+    }
+    
+    // Function to shuffle array (Fisher-Yates algorithm)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+    
+    // Mouse events for panning
+    dotsContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX - translateX;
+        startY = e.clientY - translateY;
+        dotsContainer.style.cursor = 'grabbing';
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        applyTransform();
+    });
+    
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        dotsContainer.style.cursor = 'grab';
+    });
+    
+    // Zoom controls
+    const zoomIn = document.getElementById('zoom-in');
+    const zoomOut = document.getElementById('zoom-out');
+    const resetView = document.getElementById('reset-view');
+    
+    if (zoomIn) {
+        zoomIn.addEventListener('click', () => {
+            scale = Math.min(scale * 1.5, 5); // Max zoom: 5x
+            applyTransform();
+        });
+    }
+    
+    if (zoomOut) {
+        zoomOut.addEventListener('click', () => {
+            scale = Math.max(scale / 1.5, 0.5); // Min zoom: 0.5x
+            applyTransform();
+        });
+    }
+    
+    if (resetView) {
+        resetView.addEventListener('click', () => {
+            translateX = 0;
+            translateY = 0;
+            scale = 1;
+            applyTransform();
+        });
     }
     
     // Mouse wheel zoom
     mapContainer.addEventListener('wheel', (e) => {
         e.preventDefault();
         
-        const delta = e.deltaY > 0 ? 0.9 : 1.1;
-        scale *= delta;
+        // Get mouse position relative to container
+        const rect = mapContainer.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
         
-        // Limit zoom
-        scale = Math.max(0.5, Math.min(5, scale));
+        // Calculate position in the transformed space
+        const x = (mouseX - translateX) / scale;
+        const y = (mouseY - translateY) / scale;
         
+        // Adjust scale based on wheel direction
+        const delta = -Math.sign(e.deltaY) * 0.1;
+        const newScale = Math.max(0.5, Math.min(5, scale * (1 + delta)));
+        
+        // Adjust translation to zoom toward mouse position
+        translateX = mouseX - x * newScale;
+        translateY = mouseY - y * newScale;
+        
+        scale = newScale;
         applyTransform();
     });
     
-    // Mouse pan
-    mapContainer.addEventListener('mousedown', (e) => {
-        if (e.button === 0) { // Left mouse button
-            isDragging = true;
-            startX = e.clientX - translateX;
-            startY = e.clientY - translateY;
-            mapContainer.style.cursor = 'grabbing';
-        }
-    });
-    
-    document.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-            translateX = e.clientX - startX;
-            translateY = e.clientY - startY;
-            applyTransform();
-        }
-    });
-    
-    document.addEventListener('mouseup', () => {
-        isDragging = false;
-        mapContainer.style.cursor = 'default';
-    });
-    
-    // Set up zoom controls
-    const zoomInButton = document.getElementById('zoom-in');
-    const zoomOutButton = document.getElementById('zoom-out');
-    const resetViewButton = document.getElementById('reset-view');
-    
-    if (zoomInButton) {
-        zoomInButton.addEventListener('click', () => {
-            scale *= 1.2;
-            scale = Math.min(5, scale);
-            applyTransform();
-        });
-    }
-    
-    if (zoomOutButton) {
-        zoomOutButton.addEventListener('click', () => {
-            scale *= 0.8;
-            scale = Math.max(0.5, scale);
-            applyTransform();
-        });
-    }
-    
-    if (resetViewButton) {
-        resetViewButton.addEventListener('click', () => {
-            scale = 1;
-            translateX = 0;
-            translateY = 0;
-            applyTransform();
-        });
-    }
+    // Initial transform
+    applyTransform();
 }
 
 function createCountryLegend(colorMap, countryCount, totalScholars) {
+    // Remove existing legend if any
+    const existingLegend = document.querySelector('.country-legend');
+    if (existingLegend) {
+        existingLegend.remove();
+    }
+    
     // Create a legend container
     const legendContainer = document.createElement('div');
     legendContainer.className = 'country-legend';
@@ -503,7 +688,15 @@ function showScholarDetails(scholar) {
             // Only update the profile content with the additional information
             const profileContent = detailsContainer.querySelector('.profile-content');
             if (profileContent) {
-                if (data.raw_text) {
+                if (data.markdown_content) {
+                    profileContent.innerHTML = `
+                        <div class="research-info">
+                            <div class="research-text markdown-content">
+                                ${formatMarkdown(data.markdown_content)}
+                            </div>
+                        </div>
+                    `;
+                } else if (data.raw_text) {
                     profileContent.innerHTML = `
                         <div class="research-info">
                             <h4>Research Information</h4>
@@ -532,6 +725,171 @@ function showScholarDetails(scholar) {
                 `;
             }
         });
+}
+
+function formatMarkdown(markdown) {
+    if (!markdown) return '';
+    
+    // Split the markdown into sections by headings
+    const sections = [];
+    let currentSection = { heading: null, content: [] };
+    
+    // Process the markdown line by line
+    const lines = markdown.split('\n');
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        
+        // Check if this is a heading
+        if (line.startsWith('## ')) {
+            // If we already have a section, save it
+            if (currentSection.heading) {
+                sections.push(currentSection);
+            }
+            
+            // Start a new section
+            currentSection = { 
+                heading: line.substring(3), 
+                content: []
+            };
+        } else if (line.trim() !== '') {
+            // Add non-empty lines to the current section content
+            currentSection.content.push(line);
+        }
+    }
+    
+    // Add the last section
+    if (currentSection.heading) {
+        sections.push(currentSection);
+    }
+    
+    // Generate HTML for each section
+    let html = '<div class="markdown-sections">';
+    
+    sections.forEach((section, index) => {
+        const sectionId = `section-${index}`;
+        const headingHtml = formatSectionHeading(section.heading);
+        const contentHtml = formatSectionContent(section.content);
+        
+        // Only expand the first section by default
+        const isExpanded = index === 0;
+        const iconClass = isExpanded ? 'fa-chevron-up' : 'fa-chevron-down';
+        const expandedClass = isExpanded ? 'expanded' : '';
+        
+        html += `
+            <div class="markdown-section">
+                <div class="section-header" data-target="${sectionId}">
+                    ${headingHtml}
+                    <span class="toggle-icon"><i class="fas ${iconClass}"></i></span>
+                </div>
+                <div class="section-content ${expandedClass}" id="${sectionId}">
+                    ${contentHtml}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    
+    // Add event listeners for toggling sections after the content is added to the DOM
+    setTimeout(() => {
+        const sectionHeaders = document.querySelectorAll('.section-header');
+        sectionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const targetId = header.getAttribute('data-target');
+                const content = document.getElementById(targetId);
+                const icon = header.querySelector('.toggle-icon i');
+                
+                // Toggle the content visibility
+                if (content.classList.contains('expanded')) {
+                    content.classList.remove('expanded');
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                } else {
+                    content.classList.add('expanded');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+            });
+        });
+    }, 100);
+    
+    return html;
+}
+
+function formatSectionHeading(heading) {
+    // Extract emoji if present
+    const emojiMatch = heading.match(/^([\u{1F300}-\u{1F6FF}\u{2600}-\u{26FF}])\s+(.*?)$/u);
+    if (emojiMatch) {
+        const emoji = emojiMatch[1];
+        const text = emojiMatch[2];
+        return `<h4><span class="section-emoji">${emoji}</span> ${text}</h4>`;
+    }
+    return `<h4>${heading}</h4>`;
+}
+
+function formatSectionContent(contentLines) {
+    // Join the content lines back into a single string
+    let content = contentLines.join('\n');
+    
+    // First, normalize bullet points to ensure consistent format
+    // Replace any instances where there might be extra spaces after the asterisk
+    content = content.replace(/^\*\s+/gm, '* ');
+    
+    // Process bold text first
+    content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Handle italic text, but be careful not to affect bullet points
+    content = content.replace(/(?<!\*)\*([^\*\n]+)\*/g, '<em>$1</em>');
+    
+    // Check if content contains bullet points
+    if (content.includes('\n* ') || content.startsWith('* ')) {
+        // Split by bullet points
+        const parts = content.split('\n* ');
+        
+        // The first part might be an introductory paragraph
+        let html = '';
+        let startIndex = 0;
+        
+        if (!content.startsWith('* ')) {
+            // There's an intro paragraph - clean up any standalone asterisks
+            const introPara = parts[0].replace(/(?<!\*)\*(?!\*)/g, '').trim();
+            html += `<p>${introPara}</p>`;
+            startIndex = 1;
+        }
+        
+        // Add the bullet points as a list
+        if (parts.length > startIndex) {
+            html += '<ul>';
+            for (let i = startIndex; i < parts.length; i++) {
+                if (parts[i].trim()) {
+                    // Clean up any remaining asterisks that might be part of the content
+                    let bulletContent = parts[i];
+                    
+                    // Remove any leading asterisk with space that might have been missed
+                    bulletContent = bulletContent.replace(/^\* /g, '');
+                    
+                    // Handle any standalone asterisks that might be in the content
+                    bulletContent = bulletContent.replace(/(?<!\*)\*(?!\*)/g, '');
+                    
+                    html += `<li>${bulletContent}</li>`;
+                }
+            }
+            html += '</ul>';
+        }
+        
+        return html;
+    } else {
+        // No bullet points, just format as paragraphs
+        const paragraphs = content.split('\n\n');
+        return paragraphs
+            .map(p => {
+                // Clean up any standalone asterisks
+                return p.trim().replace(/(?<!\*)\*(?!\*)/g, '');
+            })
+            .filter(p => p.length > 0)
+            .map(p => `<p>${p}</p>`)
+            .join('');
+    }
 }
 
 function formatResearchText(text) {
@@ -1012,4 +1370,35 @@ function setupSearch(scholars) {
             searchResults.classList.remove('active');
         }
     });
+}
+
+// Function to check if all scholars have a country
+function checkScholarCountries(scholars) {
+    const scholarsWithoutCountry = scholars.filter(scholar => !scholar.country);
+    
+    if (scholarsWithoutCountry.length > 0) {
+        console.warn(`Found ${scholarsWithoutCountry.length} scholars without a country:`);
+        scholarsWithoutCountry.forEach(scholar => {
+            console.warn(`- ${scholar.name} (ID: ${scholar.id})`);
+        });
+    } else {
+        console.log('All scholars have a country associated with them.');
+    }
+    
+    // Count scholars by country
+    const countryCount = {};
+    scholars.forEach(scholar => {
+        if (scholar.country) {
+            countryCount[scholar.country] = (countryCount[scholar.country] || 0) + 1;
+        }
+    });
+    
+    // Log country distribution
+    console.log('Scholar country distribution:');
+    Object.entries(countryCount)
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([country, count]) => {
+            const percentage = ((count / scholars.length) * 100).toFixed(1);
+            console.log(`- ${country}: ${count} scholars (${percentage}%)`);
+        });
 } 

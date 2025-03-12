@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import xarray as xr
+import re
 from pathlib import Path
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -15,40 +16,60 @@ if not API_KEY:
     raise ValueError("OPENAI_API_KEY not found in environment variables")
 
 def load_scholar_data():
-    """Load scholar data from raw text files"""
-    scholar_info_dir = Path("data/perplexity_info")
+    """Load scholar data from markdown files, extracting only specific sections"""
+    scholar_info_dir = Path("data/formatted_scholar_info")
     if not scholar_info_dir.exists():
         raise ValueError(f"Directory {scholar_info_dir} does not exist")
     
-    # Get all raw text files
-    raw_files = list(scholar_info_dir.glob("*_raw.txt"))
-    if not raw_files:
-        raise ValueError("No scholar files found")
+    # Get all markdown files
+    md_files = list(scholar_info_dir.glob("*.md"))
+    if not md_files:
+        raise ValueError("No scholar markdown files found")
     
-    print(f"Found {len(raw_files)} raw scholar files")
+    print(f"Found {len(md_files)} markdown scholar files")
+    
+    # Define the sections we want to extract
+    target_sections = [
+        "Core Research Questions",
+        "Research Beliefs / Philosophy"
+    ]
     
     # Load scholar data
     scholars = []
-    for file_path in tqdm(raw_files, desc="Loading scholar data"):
+    for file_path in tqdm(md_files, desc="Loading scholar data"):
         # Extract scholar_name and scholar_id from filename
-        # Format: scholar_name_scholar_id_raw.txt
+        # Format: scholar_name_scholar_id.md
         filename = file_path.stem  # Get filename without extension
         parts = filename.split('_')
         
-        # The ID should be the second-to-last part before "_raw"
-        scholar_id = parts[-2]
+        # The ID should be the last part
+        scholar_id = parts[-1]
         # The name could be multiple parts joined by underscores
-        scholar_name = '_'.join(parts[:-2])
+        scholar_name = '_'.join(parts[:-1])
         
-        # Read the raw text file
+        # Read the markdown file
         with open(file_path, 'r', encoding='utf-8') as f:
-            research_text = f.read()
+            markdown_content = f.read()
         
-        scholars.append({
-            'scholar_id': scholar_id,
-            'scholar_name': scholar_name,
-            'research_text': research_text
-        })
+        # Extract only the target sections
+        extracted_text = ""
+        
+        # Use regex to find sections
+        for section in target_sections:
+            pattern = rf"## .* {re.escape(section)}(.*?)(?=## |$)"
+            matches = re.findall(pattern, markdown_content, re.DOTALL)
+            
+            if matches:
+                extracted_text += f"## {section}\n{matches[0].strip()}\n\n"
+        
+        if extracted_text:
+            scholars.append({
+                'scholar_id': scholar_id,
+                'scholar_name': scholar_name,
+                'research_text': extracted_text.strip()
+            })
+        else:
+            print(f"Warning: No target sections found in {file_path}")
     
     return scholars
 
@@ -82,14 +103,15 @@ def main():
         scholar_data = data['scholars'].tolist()
         print(f"Loaded {len(scholar_data)} scholar records")
     else:
-        # Load scholar data
+        # Load scholar data from markdown files
+        # Only extracts "Core Research Questions" and "Research Beliefs / Philosophy" sections
         scholars = load_scholar_data()
         if not scholars:
             return
         
         print(f"Processing embeddings for {len(scholars)} scholars...")
         
-        # Extract research texts
+        # Extract research texts (already filtered to include only target sections)
         research_texts = [s['research_text'] for s in scholars]
         
         # Get embeddings

@@ -7,7 +7,7 @@ name = "scholarboard-ai"
 version = "0.1.0"
 description = "Analyze and visualize scholars based on their research areas"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
     {name = "User", email = "user@example.com"}
@@ -27,6 +27,7 @@ dependencies = [
     "netCDF4>=1.6.0",
     "scikit-learn>=1.2.0",
     "thefuzz>=0.22.1",
+    "langchain-google-genai>=2.0.11",
 ]
 
 [project.scripts]

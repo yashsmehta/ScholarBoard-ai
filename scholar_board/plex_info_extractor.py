@@ -65,7 +65,7 @@ def query_perplexity(scholar_name, institution, scholar_id):
         messages = [
             {
                 "role": "system",
-                "content": "You are a research analyst specializing in academic profiling. Provide comprehensive, technically precise information about scholars, emphasizing their research contributions, methodologies, and academic trajectory. Be direct and to the point. Be respectful (use Dr.)"
+                "content": "You are a research analyst specializing in academic profiling. Provide comprehensive, technically precise information about scholars, emphasizing their research contributions, methodologies, and academic trajectory. Be technical, direct and to the point. Be respectful (use Dr.)"
             },
             {
                 "role": "user",
@@ -110,7 +110,13 @@ def extract_scholar_info(input_file="data/scholars.csv"):
                 for row in reader:
                     if 'scholar_name' not in row or 'institution' not in row or 'scholar_id' not in row:
                         raise ValueError("CSV must have 'scholar_name', 'scholar_id', and 'institution' columns")
-                    scholars.append(row)
+                    
+                    # Clean up any quotes in the fields that might have been added due to commas
+                    cleaned_row = {
+                        key: value.strip('"\'') if isinstance(value, str) else value 
+                        for key, value in row.items()
+                    }
+                    scholars.append(cleaned_row)
         else:
             with open(input_file, 'r') as jsonfile:
                 scholars = json.load(jsonfile)

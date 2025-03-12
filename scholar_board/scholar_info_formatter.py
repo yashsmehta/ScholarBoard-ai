@@ -69,7 +69,7 @@ def process_files():
     logger.info("Files will be processed in alphabetical order")
     
     # Create output directory if it doesn't exist
-    output_dir = Path("data/formatted_scholar_info")
+    output_dir = Path("data/scholar_markdown")
     output_dir.mkdir(exist_ok=True, parents=True)
     
     # Process each file sequentially

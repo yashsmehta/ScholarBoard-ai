@@ -28,6 +28,7 @@ dependencies = [
     "scikit-learn>=1.2.0",
     "thefuzz>=0.22.1",
     "langchain-google-genai>=2.0.11",
+    "google-genai>=1.5.0",
 ]
 
 [project.scripts]

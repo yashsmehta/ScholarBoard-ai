@@ -27,7 +27,7 @@ def generate_scholar_summary(markdown_content, client):
     """Generate a three-sentence technical summary of scholar based on their markdown info."""
     prompt = f"""
     Generate a precisely three-sentence technical summary for this vision scientist, based solely on the provided information.
-    Sentence 1: Articulate their specific research focus within vision science (avoid generic terms like "vision scientist"). Start as Dr. X's research investigates ...
+    Sentence 1: Articulate their specific research focus within vision science (avoid generic terms like "vision scientist").
     Sentence 2: Describe their research questions / problems they are trying to solve.
     Sentence 3: Highlight their most significant contributions or findings to the field of vision science.
 

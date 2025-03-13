@@ -6,7 +6,7 @@
     <meta name="description" content="An interactive visualization of scholars positioned by their research similarity">
     <meta name="theme-color" content="#4a6fa5">
     <title>ScholarBoard.ai</title>
-    <link rel="stylesheet" href="css/styles.css?v=1.3">
+    <link rel="stylesheet" href="css/styles.css?v=1.5">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,8 +50,7 @@
                         <div class="filter-section">
                             <h3>Filter By</h3>
                             <div class="filter-tabs">
-                                <button class="filter-tab active" data-type="country">Country</button>
-                                <button class="filter-tab" data-type="institution">Institution</button>
+                                <button class="filter-tab active" data-type="institution">Institution</button>
                             </div>
                         </div>
                         <div class="filter-options" id="filter-options">
@@ -64,14 +63,6 @@
                     </div>
                 </div>
                 <div id="scholar-map"></div>
-                <div class="projection-selector">
-                    <span>Projection: </span>
-                    <div class="projection-buttons">
-                        <button class="projection-button" data-method="pca">PCA</button>
-                        <button class="projection-button" data-method="tsne">t-SNE</button>
-                        <button class="projection-button active" data-method="umap">UMAP</button>
-                    </div>
-                </div>
             </div>
             <div id="sidebar">
                 <div class="sidebar-header">
@@ -91,6 +82,6 @@
     <!-- Preload placeholder image -->
     <link rel="preload" href="images/placeholder.jpg" as="image">
     
-    <script src="js/script.js?v=1.3"></script>
+    <script src="js/script.js?v=1.5"></script>
 </body>
 </html> 

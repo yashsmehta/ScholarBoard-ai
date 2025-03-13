@@ -26,8 +26,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             throw new Error(`Failed to load scholars.json: ${response.status} ${response.statusText}`);
         }
         
-        const scholars = await response.json();
-        console.log(`Loaded ${scholars.length} scholars`);
+        const scholarsData = await response.json();
+        console.log('Loaded scholars data:', scholarsData);
+        
+        // Convert from object format to array format
+        const scholars = Object.entries(scholarsData).map(([id, scholar]) => {
+            return {
+                id: scholar.id,
+                name: scholar.name,
+                institution: scholar.institution || '',
+                country: scholar.country || '',
+                umap: scholar.umap_projection ? [scholar.umap_projection.x, scholar.umap_projection.y] : null,
+                cluster_id: scholar.cluster || 0
+            };
+        });
+        
+        console.log(`Converted ${scholars.length} scholars`);
         
         if (scholars.length === 0) {
             console.error('No scholar data found');
@@ -43,12 +57,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         // Check if scholars have the required properties
         const validScholars = scholars.filter(scholar => {
-            // Check if scholar has at least one projection method
-            const hasPCA = scholar.pca && Array.isArray(scholar.pca) && scholar.pca.length === 2;
-            const hasTSNE = scholar.tsne && Array.isArray(scholar.tsne) && scholar.tsne.length === 2;
+            // Check if scholar has UMAP coordinates
             const hasUMAP = scholar.umap && Array.isArray(scholar.umap) && scholar.umap.length === 2;
             
-            if (!scholar.id || !scholar.name || (!hasPCA && !hasTSNE && !hasUMAP)) {
+            if (!scholar.id || !scholar.name || !hasUMAP) {
                 console.warn('Invalid scholar data:', scholar);
                 return false;
             }
@@ -62,20 +74,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
         
-        // Store the original scholars data with projections
+        // Store the original scholars data
         window.scholarsData = validScholars;
-        
-        // Set default projection method
-        window.currentProjection = 'umap';
         
         // Create the scholar map
         createScholarMap(validScholars);
         
         // Set up sidebar functionality
         setupSidebar();
-        
-        // Set up projection buttons
-        setupProjectionButtons();
         
         // Set up filter functionality
         setupFilters(validScholars);
@@ -239,273 +245,227 @@ function createScholarMap(scholars) {
     // Clear any existing content
     mapContainer.innerHTML = '';
     
-    // Get the current projection method
-    const projectionMethod = window.currentProjection || 'umap';
-    console.log(`Creating map with ${projectionMethod} projection`);
+    // Create SVG element
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '100%');
+    svg.setAttribute('viewBox', '0 0 1000 1000');
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    mapContainer.appendChild(svg);
     
-    // Create a color map for countries and count scholars per country
-    const countries = [...new Set(scholars.map(s => s.country).filter(Boolean))];
-    const colorMap = {};
-    const countryCount = {};
-    const colors = [
-        '#4285F4', '#EA4335', '#FBBC05', '#34A853', // Google colors
-        '#8AB4F8', '#F28B82', '#FDD663', '#81C995', // Lighter versions
-        '#1967D2', '#D93025', '#F9AB00', '#1E8E3E', // Darker versions
-        '#D2E3FC', '#FADBD8', '#FCE8B2', '#CEEAD6', // Even lighter versions
-        '#174EA6', '#A50E0E', '#E37400', '#0D652D'  // Even darker versions
-    ];
+    // Create a group for all scholars
+    const scholarsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    scholarsGroup.setAttribute('class', 'scholars-group');
+    svg.appendChild(scholarsGroup);
     
-    // Count scholars per country
-    scholars.forEach(scholar => {
-        if (scholar.country) {
-            countryCount[scholar.country] = (countryCount[scholar.country] || 0) + 1;
+    // Create a group for labels
+    const labelsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    labelsGroup.setAttribute('class', 'labels-group');
+    svg.appendChild(labelsGroup);
+    
+    // Create a tooltip element
+    const tooltip = document.createElement('div');
+    tooltip.setAttribute('class', 'map-tooltip');
+    tooltip.style.display = 'none';
+    mapContainer.appendChild(tooltip);
+    
+    // Get all UMAP coordinates
+    const coordinates = scholars.map(scholar => scholar.umap);
+    
+    // Find min and max values for scaling
+    const xValues = coordinates.map(coord => coord[0]);
+    const yValues = coordinates.map(coord => coord[1]);
+    
+    const xMin = Math.min(...xValues);
+    const xMax = Math.max(...xValues);
+    const yMin = Math.min(...yValues);
+    const yMax = Math.max(...yValues);
+    
+    // Calculate padding (10% of range)
+    const xPadding = (xMax - xMin) * 0.1;
+    const yPadding = (yMax - yMin) * 0.1;
+    
+    // Scale coordinates to fit SVG
+    const scaleX = (x) => {
+        return ((x - xMin) / (xMax - xMin)) * 900 + 50;
+    };
+    
+    const scaleY = (y) => {
+        return ((y - yMin) / (yMax - yMin)) * 900 + 50;
+    };
+    
+    // Get all unique cluster IDs
+    const clusterIds = [...new Set(scholars.map(scholar => scholar.cluster_id || 0))];
+    
+    // Use Spectral colormap for cluster colors, similar to the Python code
+    const clusterColors = {};
+    clusterIds.forEach((clusterId, index) => {
+        // Skip noise cluster (-1) which should be black
+        if (clusterId === -1) {
+            clusterColors[clusterId] = '#000000'; // Black for noise points
+        } else {
+            // Use a similar color scheme to matplotlib's Spectral colormap
+            // We'll use the CSS variables defined for clusters 1-12
+            const colorIndex = (index % 12) + 1; // We have 12 colors defined
+            clusterColors[clusterId] = `var(--cluster-color-${colorIndex})`;
         }
     });
     
-    // Sort countries by count (descending)
-    const sortedCountries = countries.sort((a, b) => countryCount[b] - countryCount[a]);
+    // Shuffle scholars to avoid z-index bias
+    const shuffledScholars = shuffleArray([...scholars]);
     
-    // Assign colors to countries
-    sortedCountries.forEach((country, i) => {
-        colorMap[country] = colors[i % colors.length];
-    });
-    
-    // Create a legend for top countries
-    createCountryLegend(colorMap, countryCount, scholars.length);
-    
-    // Calculate the min and max coordinates to normalize
-    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    
-    // First pass: find min/max coordinates
-    scholars.forEach(scholar => {
-        // Get coordinates based on the current projection method
-        const coords = scholar[projectionMethod];
-        if (!coords || !Array.isArray(coords) || coords.length !== 2) {
-            console.warn(`Scholar ${scholar.name} (${scholar.id}) has invalid ${projectionMethod} coordinates:`, coords);
-            return;
-        }
+    // Add scholar nodes to the map
+    shuffledScholars.forEach(scholar => {
+        if (!scholar.umap) return;
         
-        const x = coords[0];
-        const y = coords[1];
+        const [x, y] = scholar.umap;
+        const scaledX = scaleX(x);
+        const scaledY = scaleY(y);
         
-        minX = Math.min(minX, x);
-        maxX = Math.max(maxX, x);
-        minY = Math.min(minY, y);
-        maxY = Math.max(maxY, y);
-    });
-    
-    console.log(`Coordinate ranges for ${projectionMethod}: X(${minX} to ${maxX}), Y(${minY} to ${maxY})`);
-    
-    // Add some padding
-    const padding = 0.1;
-    const rangeX = maxX - minX || 1;
-    const rangeY = maxY - minY || 1;
-    
-    minX -= rangeX * padding;
-    maxX += rangeX * padding;
-    minY -= rangeY * padding;
-    maxY += rangeY * padding;
-    
-    // Create a container for the dots
-    const dotsContainer = document.createElement('div');
-    dotsContainer.className = 'dots-container';
-    dotsContainer.style.position = 'relative';
-    dotsContainer.style.width = '100%';
-    dotsContainer.style.height = '100%';
-    dotsContainer.style.overflow = 'hidden';
-    
-    // Store current scale for label visibility
-    window.currentScale = 1;
-    
-    // Second pass: create nodes
-    let nodesCreated = 0;
-    scholars.forEach(scholar => {
-        // Get coordinates based on the current projection method
-        const coords = scholar[projectionMethod];
-        if (!coords || !Array.isArray(coords) || coords.length !== 2) {
-            return; // Skip scholars with invalid coordinates
-        }
+        // Get color based on cluster
+        const clusterId = scholar.cluster_id || 0;
+        const color = clusterColors[clusterId] || '#4a6fa5';
         
-        const x = coords[0];
-        const y = coords[1];
+        // Create circle for scholar
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', scaledX);
+        circle.setAttribute('cy', scaledY);
+        circle.setAttribute('r', '6'); // Fixed size for all dots
+        circle.setAttribute('fill', color);
+        circle.setAttribute('class', 'scholar-node');
+        circle.setAttribute('data-id', scholar.id);
+        circle.setAttribute('data-name', scholar.name);
+        circle.setAttribute('data-institution', scholar.institution || '');
+        circle.setAttribute('data-country', scholar.country || '');
+        circle.setAttribute('data-cluster', clusterId);
         
-        // Normalize coordinates to fit in the container (0-100%)
-        const normalizedX = ((x - minX) / (maxX - minX)) * 100;
-        const normalizedY = ((y - minY) / (maxY - minY)) * 100;
-        
-        // Create a dot for the scholar
-        const dot = document.createElement('div');
-        dot.className = 'scholar-dot';
-        dot.setAttribute('data-id', scholar.id);
-        dot.setAttribute('data-name', scholar.name);
-        
-        // Position the dot
-        dot.style.position = 'absolute';
-        dot.style.left = `${normalizedX}%`;
-        dot.style.top = `${normalizedY}%`;
-        dot.style.width = '16px';
-        dot.style.height = '16px';
-        dot.style.borderRadius = '50%';
-        dot.style.backgroundColor = colorMap[scholar.country] || '#999';
-        dot.style.border = '2px solid white';
-        dot.style.boxShadow = '0 0 5px rgba(0,0,0,0.2)';
-        dot.style.transform = 'translate(-50%, -50%)';
-        dot.style.cursor = 'pointer';
-        dot.style.transition = 'all 0.2s ease';
-        
-        // Create tooltip that follows mouse
-        const tooltip = document.createElement('div');
-        tooltip.className = 'scholar-tooltip';
-        tooltip.textContent = scholar.name;
-        tooltip.style.display = 'none';
-        document.body.appendChild(tooltip);
-        
-        // Create label for scholar name (visible when zoomed in)
-        const label = document.createElement('div');
-        label.className = 'scholar-label';
-        label.textContent = scholar.name;
-        label.style.position = 'absolute';
-        label.style.left = `${normalizedX}%`;
-        label.style.top = `${normalizedY + 2}%`;
-        label.style.transform = 'translate(-50%, 0)';
-        label.style.fontSize = '10px';
-        label.style.color = '#333';
-        label.style.textAlign = 'center';
-        label.style.whiteSpace = 'nowrap';
-        label.style.pointerEvents = 'none';
-        label.style.opacity = '0';
-        label.style.transition = 'opacity 0.3s ease';
-        
-        // Show tooltip on hover
-        dot.addEventListener('mouseenter', (e) => {
-            tooltip.style.display = 'block';
-            updateTooltipPosition(e);
-            dot.style.transform = 'translate(-50%, -50%) scale(1.2)';
-            dot.style.zIndex = '10';
-        });
-        
-        dot.addEventListener('mouseleave', () => {
-            tooltip.style.display = 'none';
-            dot.style.transform = 'translate(-50%, -50%) scale(1)';
-            dot.style.zIndex = '1';
-        });
-        
-        dot.addEventListener('mousemove', updateTooltipPosition);
-        
-        function updateTooltipPosition(e) {
-            const x = e.clientX;
-            const y = e.clientY;
-            tooltip.style.left = `${x}px`;
-            tooltip.style.top = `${y}px`;
-        }
-        
-        // Add click event to show scholar details
-        dot.addEventListener('click', () => {
-            // Remove highlight from all dots
-            document.querySelectorAll('.scholar-dot').forEach(d => {
-                d.classList.remove('highlighted');
+        // Add event listeners
+        circle.addEventListener('click', () => {
+            // Highlight selected scholar
+            document.querySelectorAll('.scholar-node').forEach(node => {
+                node.classList.remove('selected');
             });
+            circle.classList.add('selected');
             
-            // Add highlight to this dot
-            dot.classList.add('highlighted');
-            
-            // Show scholar details
+            // Show scholar details in the details panel
             showScholarDetails(scholar);
         });
         
-        // Add the dot and label to the container
-        dotsContainer.appendChild(dot);
-        dotsContainer.appendChild(label);
-        nodesCreated++;
+        circle.addEventListener('mouseenter', (e) => {
+            // Show tooltip
+            tooltip.innerHTML = `
+                <strong>${scholar.name}</strong>
+                <span>${scholar.institution || ''}</span>
+                <span>${scholar.country || ''}</span>
+            `;
+            tooltip.style.display = 'block';
+            updateTooltipPosition(e);
+            
+            // Highlight node - keep same size but add stroke
+            circle.setAttribute('stroke', '#fff');
+            circle.setAttribute('stroke-width', '2');
+        });
+        
+        circle.addEventListener('mouseleave', () => {
+            // Hide tooltip
+            tooltip.style.display = 'none';
+            
+            // Reset node appearance
+            if (!circle.classList.contains('selected')) {
+                circle.setAttribute('stroke', 'none');
+                circle.setAttribute('stroke-width', '0');
+            }
+        });
+        
+        circle.addEventListener('mousemove', (e) => {
+            updateTooltipPosition(e);
+        });
+        
+        scholarsGroup.appendChild(circle);
+        
+        // Create label for scholar
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', scaledX);
+        label.setAttribute('y', scaledY - 15);
+        label.setAttribute('text-anchor', 'middle');
+        label.setAttribute('class', 'scholar-label');
+        label.setAttribute('data-id', scholar.id);
+        label.style.display = 'none'; // Hide by default
+        label.textContent = scholar.name;
+        labelsGroup.appendChild(label);
     });
     
-    console.log(`Created ${nodesCreated} scholar nodes`);
-    
-    // Add the dots container to the map
-    mapContainer.appendChild(dotsContainer);
+    // Function to update tooltip position
+    function updateTooltipPosition(e) {
+        const rect = mapContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Position tooltip near cursor but not under it
+        tooltip.style.left = `${x + 15}px`;
+        tooltip.style.top = `${y - 15}px`;
+        
+        // Ensure tooltip stays within container
+        const tooltipRect = tooltip.getBoundingClientRect();
+        if (tooltipRect.right > rect.right) {
+            tooltip.style.left = `${x - tooltipRect.width - 10}px`;
+        }
+        if (tooltipRect.bottom > rect.bottom) {
+            tooltip.style.top = `${y - tooltipRect.height - 10}px`;
+        }
+    }
     
     // Set up zoom and pan functionality
-    let isDragging = false;
-    let startX, startY;
-    let translateX = 0, translateY = 0;
-    let scale = 1;
+    let currentZoom = 1;
+    let currentTranslate = { x: 0, y: 0 };
     
-    // Function to apply transform
+    // Zoom in button
+    document.getElementById('zoom-in').addEventListener('click', () => {
+        currentZoom *= 1.2;
+        applyTransform();
+    });
+    
+    // Zoom out button
+    document.getElementById('zoom-out').addEventListener('click', () => {
+        currentZoom /= 1.2;
+        if (currentZoom < 0.1) currentZoom = 0.1;
+        applyTransform();
+    });
+    
+    // Reset view button
+    document.getElementById('reset-view').addEventListener('click', () => {
+        currentZoom = 1;
+        currentTranslate = { x: 0, y: 0 };
+        applyTransform();
+    });
+    
+    // Apply transform to scholar group
     function applyTransform() {
-        dotsContainer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        const transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${currentZoom})`;
+        scholarsGroup.style.transform = transform;
+        labelsGroup.style.transform = transform;
         
-        // Update current scale for label visibility
-        window.currentScale = scale;
-        
-        // Show/hide labels based on zoom level
+        // Update label visibility based on zoom level
         updateLabelVisibility();
     }
     
-    // Function to update label visibility based on zoom level
+    // Add function to update label visibility based on zoom level
     function updateLabelVisibility() {
         const labels = document.querySelectorAll('.scholar-label');
         
-        if (scale >= 3.5) {
-            // When zoomed in significantly, use a grid-based approach to prevent overcrowding
-            const gridSize = 40; // pixels
-            const visibleLabels = new Set();
-            const occupiedCells = new Map();
-            
-            // First pass: assign each label to a grid cell
-            labels.forEach((label, index) => {
-                // Get label position
-                const rect = label.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-                
-                // Calculate grid cell
-                const cellX = Math.floor(centerX / gridSize);
-                const cellY = Math.floor(centerY / gridSize);
-                const cellKey = `${cellX},${cellY}`;
-                
-                // If cell is already occupied, compare with existing label
-                if (occupiedCells.has(cellKey)) {
-                    const existingIndex = occupiedCells.get(cellKey);
-                    // Randomly choose which label to display in case of conflict
-                    // This ensures different labels get a chance to be displayed
-                    if (Math.random() > 0.5) {
-                        occupiedCells.set(cellKey, index);
-                        visibleLabels.delete(existingIndex);
-                        visibleLabels.add(index);
-                    }
-                } else {
-                    // Cell is free, occupy it
-                    occupiedCells.set(cellKey, index);
-                    visibleLabels.add(index);
-                }
-            });
-            
-            // Apply visibility
-            labels.forEach((label, index) => {
-                label.style.opacity = visibleLabels.has(index) ? '1' : '0';
-            });
-        } else if (scale >= 2.5) {
-            // Show a very limited number of labels when moderately zoomed in
-            const totalLabels = labels.length;
-            const visibleLabels = Math.floor(totalLabels * 0.05); // Show only 5% of labels
-            
-            // Create an array of indices and shuffle it
-            const indices = Array.from({ length: totalLabels }, (_, i) => i);
-            shuffleArray(indices);
-            
-            // Show only a subset of labels
-            labels.forEach((label, i) => {
-                label.style.opacity = indices.indexOf(i) < visibleLabels ? '1' : '0';
+        // Show labels only when zoomed in enough
+        if (currentZoom > 2.5) {
+            labels.forEach(label => {
+                label.style.display = 'block';
             });
         } else {
-            // Hide all labels when zoomed out
             labels.forEach(label => {
-                label.style.opacity = '0';
+                label.style.display = 'none';
             });
         }
     }
     
-    // Function to shuffle array (Fisher-Yates algorithm)
+    // Shuffle array function
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -514,56 +474,38 @@ function createScholarMap(scholars) {
         return array;
     }
     
-    // Mouse events for panning
-    dotsContainer.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        startX = e.clientX - translateX;
-        startY = e.clientY - translateY;
-        dotsContainer.style.cursor = 'grabbing';
+    // Set up drag functionality
+    let isDragging = false;
+    let dragStart = { x: 0, y: 0 };
+    
+    mapContainer.addEventListener('mousedown', (e) => {
+        if (e.target === svg || e.target === scholarsGroup) {
+            isDragging = true;
+            dragStart = { x: e.clientX, y: e.clientY };
+            mapContainer.style.cursor = 'grabbing';
+        }
     });
     
     document.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        
-        translateX = e.clientX - startX;
-        translateY = e.clientY - startY;
-        applyTransform();
+        if (isDragging) {
+            const dx = e.clientX - dragStart.x;
+            const dy = e.clientY - dragStart.y;
+            
+            currentTranslate.x += dx;
+            currentTranslate.y += dy;
+            
+            applyTransform();
+            
+            dragStart = { x: e.clientX, y: e.clientY };
+        }
     });
     
     document.addEventListener('mouseup', () => {
         isDragging = false;
-        dotsContainer.style.cursor = 'grab';
+        mapContainer.style.cursor = 'default';
     });
     
-    // Zoom controls
-    const zoomIn = document.getElementById('zoom-in');
-    const zoomOut = document.getElementById('zoom-out');
-    const resetView = document.getElementById('reset-view');
-    
-    if (zoomIn) {
-        zoomIn.addEventListener('click', () => {
-            scale = Math.min(scale * 1.5, 5); // Max zoom: 5x
-            applyTransform();
-        });
-    }
-    
-    if (zoomOut) {
-        zoomOut.addEventListener('click', () => {
-            scale = Math.max(scale / 1.5, 0.5); // Min zoom: 0.5x
-            applyTransform();
-        });
-    }
-    
-    if (resetView) {
-        resetView.addEventListener('click', () => {
-            translateX = 0;
-            translateY = 0;
-            scale = 1;
-            applyTransform();
-        });
-    }
-    
-    // Mouse wheel zoom
+    // Update wheel zoom to be smoother
     mapContainer.addEventListener('wheel', (e) => {
         e.preventDefault();
         
@@ -572,80 +514,45 @@ function createScholarMap(scholars) {
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
         
-        // Calculate position in the transformed space
-        const x = (mouseX - translateX) / scale;
-        const y = (mouseY - translateY) / scale;
+        // Calculate zoom factor - make it smoother by reducing the zoom step
+        const zoomFactor = e.deltaY < 0 ? 1.05 : 0.95;
         
-        // Adjust scale based on wheel direction
-        const delta = -Math.sign(e.deltaY) * 0.1;
-        const newScale = Math.max(0.5, Math.min(5, scale * (1 + delta)));
+        // Calculate the point under the mouse in the current transformed space
+        const pointBeforeZoom = {
+            x: (mouseX - currentTranslate.x) / currentZoom,
+            y: (mouseY - currentTranslate.y) / currentZoom
+        };
         
-        // Adjust translation to zoom toward mouse position
-        translateX = mouseX - x * newScale;
-        translateY = mouseY - y * newScale;
+        // Apply zoom
+        currentZoom *= zoomFactor;
         
-        scale = newScale;
+        // Limit zoom range for better user experience
+        if (currentZoom < 0.2) currentZoom = 0.2;
+        if (currentZoom > 8) currentZoom = 8;
+        
+        // Calculate the point under the mouse in the new transformed space
+        const pointAfterZoom = {
+            x: (mouseX - currentTranslate.x) / currentZoom,
+            y: (mouseY - currentTranslate.y) / currentZoom
+        };
+        
+        // Adjust translation to keep the point under the mouse fixed
+        currentTranslate.x += (pointAfterZoom.x - pointBeforeZoom.x) * currentZoom;
+        currentTranslate.y += (pointAfterZoom.y - pointBeforeZoom.y) * currentZoom;
+        
+        // Apply transform
         applyTransform();
     });
-    
-    // Initial transform
-    applyTransform();
-}
-
-function createCountryLegend(colorMap, countryCount, totalScholars) {
-    // Remove existing legend if any
-    const existingLegend = document.querySelector('.country-legend');
-    if (existingLegend) {
-        existingLegend.remove();
-    }
-    
-    // Create a legend container
-    const legendContainer = document.createElement('div');
-    legendContainer.className = 'country-legend';
-    legendContainer.innerHTML = '<h3>Top Countries</h3>';
-    
-    // Get top 4 countries by count
-    const countries = Object.keys(countryCount).sort((a, b) => countryCount[b] - countryCount[a]);
-    const topCountries = countries.slice(0, 4);
-    
-    topCountries.forEach(country => {
-        const color = colorMap[country];
-        const count = countryCount[country];
-        const percentage = ((count / totalScholars) * 100).toFixed(1);
-        
-        const legendItem = document.createElement('div');
-        legendItem.className = 'legend-item';
-        
-        const colorSwatch = document.createElement('span');
-        colorSwatch.className = 'color-swatch';
-        colorSwatch.style.backgroundColor = color;
-        
-        const countryName = document.createElement('span');
-        countryName.className = 'country-name';
-        countryName.textContent = country;
-        
-        const countryPercentage = document.createElement('span');
-        countryPercentage.className = 'country-percentage';
-        countryPercentage.textContent = `(${percentage}%)`;
-        
-        legendItem.appendChild(colorSwatch);
-        legendItem.appendChild(countryName);
-        legendItem.appendChild(countryPercentage);
-        legendContainer.appendChild(legendItem);
-    });
-    
-    // Add the legend to the page
-    const mapContainer = document.getElementById('map-container');
-    if (mapContainer) {
-        mapContainer.appendChild(legendContainer);
-    }
 }
 
 function showScholarDetails(scholar) {
     const sidebar = document.getElementById('sidebar');
     const detailsContainer = document.getElementById('scholar-details');
     
-    if (!sidebar || !detailsContainer) return;
+    if (!sidebar || !detailsContainer) {
+        console.error('Sidebar or details container not found');
+        return;
+    }
     
     // Show loading state
     detailsContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading scholar profile...</div>';
@@ -657,16 +564,15 @@ function showScholarDetails(scholar) {
         <div class="scholar-profile">
             <div class="profile-header">
                 <div class="profile-image">
-                    <img src="images/${scholar.profile_pic || 'placeholder.jpg'}" alt="${scholar.name}" onerror="this.src='images/placeholder.jpg'">
+                    <img src="images/placeholder.jpg" alt="${scholar.name}" onerror="this.src='images/placeholder.jpg'">
                 </div>
                 <div class="profile-info">
                     <h3>${scholar.name}</h3>
-                    ${scholar.institution ? `<p class="institution">${scholar.institution}</p>` : ''}
-                    ${scholar.country ? `<p class="country"><i class="fas fa-globe-americas"></i> ${scholar.country}</p>` : ''}
+                    <div class="institution">${scholar.institution || 'Unknown Institution'}</div>
                 </div>
             </div>
             <div class="profile-content">
-                <p class="loading-text">Loading additional information...</p>
+                <div class="loading-indicator">Loading scholar profile...</div>
             </div>
         </div>
     `;
@@ -674,18 +580,29 @@ function showScholarDetails(scholar) {
     // Update with basic profile immediately
     detailsContainer.innerHTML = basicProfileHtml;
     
-    // Fetch additional scholar details if needed
+    // Fetch additional scholar details
     fetch(`/api/scholar/${scholar.id}`)
         .then(response => {
             if (!response.ok) {
-                throw new Error(`Failed to load scholar profile: ${response.status}`);
+                throw new Error('Failed to load scholar profile');
             }
             return response.json();
         })
         .then(data => {
-            console.log('Received scholar profile data:', data);
+            console.log('Loaded scholar profile:', data);
             
-            // Only update the profile content with the additional information
+            // Update profile image if available
+            if (data.profile_pic) {
+                const profileImg = detailsContainer.querySelector('.profile-image img');
+                if (profileImg) {
+                    profileImg.src = data.profile_pic;
+                    profileImg.onerror = () => {
+                        profileImg.src = 'images/placeholder.jpg';
+                    };
+                }
+            }
+            
+            // Format and display markdown content
             const profileContent = detailsContainer.querySelector('.profile-content');
             if (profileContent) {
                 if (data.markdown_content) {
@@ -696,31 +613,28 @@ function showScholarDetails(scholar) {
                             </div>
                         </div>
                     `;
-                } else if (data.raw_text) {
+                    
+                    // Setup interactive elements in the markdown
+                    setupMarkdownInteractions();
+                } else {
                     profileContent.innerHTML = `
                         <div class="research-info">
-                            <h4>Research Information</h4>
                             <div class="research-text">
-                                ${formatResearchText(data.raw_text)}
+                                <p>No detailed information available for this scholar.</p>
                             </div>
                         </div>
                     `;
-                } else {
-                    profileContent.innerHTML = '<p class="no-info">No detailed information available for this scholar.</p>';
                 }
             }
         })
         .catch(error => {
             console.error('Error loading scholar profile:', error);
-            
-            // Only update the profile content with the error
             const profileContent = detailsContainer.querySelector('.profile-content');
             if (profileContent) {
                 profileContent.innerHTML = `
-                    <div class="error">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <p>Error loading additional information</p>
-                        <small>${error.message}</small>
+                    <div class="error-message">
+                        <p>Failed to load scholar profile. Please try again later.</p>
+                        <p class="error-details">${error.message}</p>
                     </div>
                 `;
             }
@@ -730,166 +644,157 @@ function showScholarDetails(scholar) {
 function formatMarkdown(markdown) {
     if (!markdown) return '';
     
-    // Split the markdown into sections by headings
-    const sections = [];
-    let currentSection = { heading: null, content: [] };
+    // Split the markdown into sections based on ## headers
+    const sections = markdown.split(/^## /m);
     
-    // Process the markdown line by line
-    const lines = markdown.split('\n');
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
+    // Process the first part (if any) before any ## headers
+    let formatted = '';
+    if (sections[0] && !sections[0].startsWith('#')) {
+        formatted = processMarkdownSection(sections[0]);
+    }
+    
+    // Process each section with ## headers
+    for (let i = 1; i < sections.length; i++) {
+        const section = sections[i];
+        const sectionLines = section.split('\n');
+        const sectionTitle = sectionLines[0];
+        const sectionContent = sectionLines.slice(1).join('\n');
         
-        // Check if this is a heading
-        if (line.startsWith('## ')) {
-            // If we already have a section, save it
-            if (currentSection.heading) {
-                sections.push(currentSection);
+        formatted += `<h4>${sectionTitle}</h4>`;
+        formatted += `<div class="section-content">${processMarkdownSection(sectionContent)}</div>`;
+    }
+    
+    return formatted;
+}
+
+function processMarkdownSection(content) {
+    if (!content.trim()) return '';
+    
+    let processed = content;
+    
+    // Process ### headers
+    processed = processed.replace(/^### (.*?)$/gm, '<h5>$1</h5>');
+    
+    // Process # headers
+    processed = processed.replace(/^# (.*?)$/gm, '<h3>$1</h3>');
+    
+    // Process bold text (both ** and __ formats)
+    processed = processed
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/__(.*?)__/g, '<strong>$1</strong>');
+    
+    // Process links
+    processed = processed.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+    
+    // Improved bullet point processing
+    // First, identify bullet point sections
+    let lines = processed.split('\n');
+    let inList = false;
+    let listContent = '';
+    let result = [];
+    
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        // Match both * and - at the beginning of a line with proper spacing
+        const isBullet = line.match(/^[\*\-]\s+(.+)$/);
+        
+        // Also match single asterisks that are not part of bold/italic formatting
+        const isSingleAsterisk = !isBullet && line.match(/^\*\s+(.+)$/);
+        
+        if (isBullet || isSingleAsterisk) {
+            if (!inList) {
+                inList = true;
+                listContent = '<ul>';
+            }
+            // Extract the bullet content and add proper formatting
+            const bulletContent = isBullet ? isBullet[1] : isSingleAsterisk[1];
+            
+            // Process any inline formatting within the bullet point
+            let formattedBulletContent = bulletContent
+                // Process bold within bullet
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/__(.*?)__/g, '<strong>$1</strong>')
+                // Process highlight text (single asterisks that are part of inline formatting)
+                .replace(/\*([^\*]+)\*/g, '<span class="highlight-text">$1</span>')
+                .replace(/_([^_]+)_/g, '<span class="highlight-text">$1</span>');
+                
+            listContent += `<li>${formattedBulletContent}</li>`;
+        } else {
+            if (inList) {
+                // Close the list and add it to the result
+                listContent += '</ul>';
+                result.push(listContent);
+                inList = false;
+                listContent = '';
             }
             
-            // Start a new section
-            currentSection = { 
-                heading: line.substring(3), 
-                content: []
-            };
-        } else if (line.trim() !== '') {
-            // Add non-empty lines to the current section content
-            currentSection.content.push(line);
-        }
-    }
-    
-    // Add the last section
-    if (currentSection.heading) {
-        sections.push(currentSection);
-    }
-    
-    // Generate HTML for each section
-    let html = '<div class="markdown-sections">';
-    
-    sections.forEach((section, index) => {
-        const sectionId = `section-${index}`;
-        const headingHtml = formatSectionHeading(section.heading);
-        const contentHtml = formatSectionContent(section.content);
-        
-        // Only expand the first section by default
-        const isExpanded = index === 0;
-        const iconClass = isExpanded ? 'fa-chevron-up' : 'fa-chevron-down';
-        const expandedClass = isExpanded ? 'expanded' : '';
-        
-        html += `
-            <div class="markdown-section">
-                <div class="section-header" data-target="${sectionId}">
-                    ${headingHtml}
-                    <span class="toggle-icon"><i class="fas ${iconClass}"></i></span>
-                </div>
-                <div class="section-content ${expandedClass}" id="${sectionId}">
-                    ${contentHtml}
-                </div>
-            </div>
-        `;
-    });
-    
-    html += '</div>';
-    
-    // Add event listeners for toggling sections after the content is added to the DOM
-    setTimeout(() => {
-        const sectionHeaders = document.querySelectorAll('.section-header');
-        sectionHeaders.forEach(header => {
-            header.addEventListener('click', () => {
-                const targetId = header.getAttribute('data-target');
-                const content = document.getElementById(targetId);
-                const icon = header.querySelector('.toggle-icon i');
+            // Process non-bullet lines
+            if (line && !line.startsWith('<h')) {
+                // Process italic text (both * and _ formats) for non-bullet lines
+                let formattedLine = line
+                    .replace(/\*([^\*]+)\*/g, '<span class="highlight-text">$1</span>')
+                    .replace(/_([^_]+)_/g, '<span class="highlight-text">$1</span>');
                 
-                // Toggle the content visibility
-                if (content.classList.contains('expanded')) {
-                    content.classList.remove('expanded');
-                    icon.classList.remove('fa-chevron-up');
-                    icon.classList.add('fa-chevron-down');
-                } else {
-                    content.classList.add('expanded');
-                    icon.classList.remove('fa-chevron-down');
-                    icon.classList.add('fa-chevron-up');
-                }
-            });
-        });
-    }, 100);
-    
-    return html;
-}
-
-function formatSectionHeading(heading) {
-    // Extract emoji if present
-    const emojiMatch = heading.match(/^([\u{1F300}-\u{1F6FF}\u{2600}-\u{26FF}])\s+(.*?)$/u);
-    if (emojiMatch) {
-        const emoji = emojiMatch[1];
-        const text = emojiMatch[2];
-        return `<h4><span class="section-emoji">${emoji}</span> ${text}</h4>`;
-    }
-    return `<h4>${heading}</h4>`;
-}
-
-function formatSectionContent(contentLines) {
-    // Join the content lines back into a single string
-    let content = contentLines.join('\n');
-    
-    // First, normalize bullet points to ensure consistent format
-    // Replace any instances where there might be extra spaces after the asterisk
-    content = content.replace(/^\*\s+/gm, '* ');
-    
-    // Process bold text first
-    content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    
-    // Handle italic text, but be careful not to affect bullet points
-    content = content.replace(/(?<!\*)\*([^\*\n]+)\*/g, '<em>$1</em>');
-    
-    // Check if content contains bullet points
-    if (content.includes('\n* ') || content.startsWith('* ')) {
-        // Split by bullet points
-        const parts = content.split('\n* ');
-        
-        // The first part might be an introductory paragraph
-        let html = '';
-        let startIndex = 0;
-        
-        if (!content.startsWith('* ')) {
-            // There's an intro paragraph - clean up any standalone asterisks
-            const introPara = parts[0].replace(/(?<!\*)\*(?!\*)/g, '').trim();
-            html += `<p>${introPara}</p>`;
-            startIndex = 1;
-        }
-        
-        // Add the bullet points as a list
-        if (parts.length > startIndex) {
-            html += '<ul>';
-            for (let i = startIndex; i < parts.length; i++) {
-                if (parts[i].trim()) {
-                    // Clean up any remaining asterisks that might be part of the content
-                    let bulletContent = parts[i];
-                    
-                    // Remove any leading asterisk with space that might have been missed
-                    bulletContent = bulletContent.replace(/^\* /g, '');
-                    
-                    // Handle any standalone asterisks that might be in the content
-                    bulletContent = bulletContent.replace(/(?<!\*)\*(?!\*)/g, '');
-                    
-                    html += `<li>${bulletContent}</li>`;
-                }
+                result.push(`<p>${formattedLine}</p>`);
+            } else if (line) {
+                result.push(line);
             }
-            html += '</ul>';
+        }
+    }
+    
+    // Handle case where list is at the end of content
+    if (inList) {
+        listContent += '</ul>';
+        result.push(listContent);
+    }
+    
+    // Join all processed parts
+    processed = result.join('\n');
+    
+    // Fix empty paragraphs
+    processed = processed.replace(/<p>\s*<\/p>/g, '');
+    
+    // Fix consecutive paragraph tags
+    processed = processed.replace(/<\/p>\s*<p>/g, '</p><p>');
+    
+    return processed;
+}
+
+function setupMarkdownInteractions() {
+    const headers = document.querySelectorAll('.markdown-content h4');
+    
+    headers.forEach((header, index) => {
+        // Check if toggle icon exists, if not, add it
+        let toggleIcon = header.querySelector('.toggle-icon');
+        if (!toggleIcon) {
+            toggleIcon = document.createElement('span');
+            toggleIcon.className = 'toggle-icon';
+            toggleIcon.textContent = index === 0 ? '▼' : '▶';
+            header.appendChild(toggleIcon);
         }
         
-        return html;
-    } else {
-        // No bullet points, just format as paragraphs
-        const paragraphs = content.split('\n\n');
-        return paragraphs
-            .map(p => {
-                // Clean up any standalone asterisks
-                return p.trim().replace(/(?<!\*)\*(?!\*)/g, '');
-            })
-            .filter(p => p.length > 0)
-            .map(p => `<p>${p}</p>`)
-            .join('');
-    }
+        // Get the next element after the header
+        const content = header.nextElementSibling;
+        
+        // Skip if there's no content to toggle
+        if (!content || !content.classList.contains('section-content')) return;
+        
+        // Make the first section (Lab/Research Area) open by default
+        // and ensure all others are closed
+        if (index === 0) {
+            content.style.display = 'block';
+            toggleIcon.textContent = '▼';
+        } else {
+            content.style.display = 'none';
+            toggleIcon.textContent = '▶';
+        }
+        
+        header.addEventListener('click', () => {
+            const isVisible = content.style.display === 'block';
+            content.style.display = isVisible ? 'none' : 'block';
+            toggleIcon.textContent = isVisible ? '▶' : '▼';
+        });
+    });
 }
 
 function formatResearchText(text) {
@@ -941,205 +846,88 @@ function formatResearchText(text) {
     }).join('');
 }
 
-function setupProjectionButtons() {
-    const projectionButtons = document.querySelectorAll('.projection-button');
-    
-    projectionButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Get the projection method
-            const method = button.getAttribute('data-method');
-            
-            // Update active button
-            projectionButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            // Update the visualization
-            updateScholarCoordinates(method);
-        });
-    });
-}
-
-function updateScholarCoordinates(method) {
-    // Update current projection method
-    window.currentProjection = method;
-    
-    // Recreate the map with the new projection
-    if (window.scholarsData) {
-        createScholarMap(window.scholarsData);
-    }
-}
-
 function setupFilters(scholars) {
-    // Get filter elements
     const filterToggle = document.getElementById('filter-toggle');
     const filterDropdown = document.querySelector('.filter-dropdown');
-    const filterTabs = document.querySelectorAll('.filter-tab');
     const filterOptions = document.getElementById('filter-options');
     const applyButton = document.getElementById('apply-filters');
     const clearButton = document.getElementById('clear-filters');
     
-    // Store filter state
-    const filterState = {
-        type: 'country', // Default filter type
-        selectedFilters: []
-    };
-    
     // Toggle filter dropdown
-    filterToggle.addEventListener('click', () => {
-        filterDropdown.classList.toggle('active');
-        filterToggle.classList.toggle('active');
-    });
+    if (filterToggle) {
+        filterToggle.addEventListener('click', () => {
+            filterDropdown.classList.toggle('active');
+        });
+    }
     
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
-        if (!filterToggle.contains(e.target) && !filterDropdown.contains(e.target)) {
+        if (!e.target.closest('.filter-container') && filterDropdown) {
             filterDropdown.classList.remove('active');
-            filterToggle.classList.remove('active');
         }
     });
     
-    // Switch between filter tabs
-    filterTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active class from all tabs
-            filterTabs.forEach(t => t.classList.remove('active'));
-            
-            // Add active class to clicked tab
-            tab.classList.add('active');
-            
-            // Update filter type
-            filterState.type = tab.dataset.type;
-            
-            // Reset selected filters
-            filterState.selectedFilters = [];
-            
-            // Update filter options
-            populateFilterOptions(scholars, filterState.type);
+    // Populate initial filter options (institution only)
+    populateFilterOptions(scholars, 'institution');
+    
+    // Apply filters button
+    if (applyButton) {
+        applyButton.addEventListener('click', () => {
+            applyFilters(scholars);
+            filterDropdown.classList.remove('active');
         });
-    });
+    }
     
-    // Apply filters
-    applyButton.addEventListener('click', () => {
-        applyFilters(scholars);
-        filterDropdown.classList.remove('active');
-        filterToggle.classList.remove('active');
-        
-        // Update filter button text to show active filters
-        if (filterState.selectedFilters.length > 0) {
-            filterToggle.innerHTML = `<i class="fas fa-filter"></i> Filtered (${filterState.selectedFilters.length})`;
-            filterToggle.classList.add('active');
-        } else {
-            filterToggle.innerHTML = `<i class="fas fa-filter"></i> Filter`;
-            filterToggle.classList.remove('active');
-        }
-    });
-    
-    // Clear filters
-    clearButton.addEventListener('click', () => {
-        filterState.selectedFilters = [];
-        
-        // Uncheck all checkboxes
-        const checkboxes = filterOptions.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = false;
+    // Clear filters button
+    if (clearButton) {
+        clearButton.addEventListener('click', () => {
+            // Uncheck all checkboxes
+            const checkboxes = filterOptions.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Apply filters (will show all scholars)
+            applyFilters(scholars);
         });
-        
-        // Apply filters (which will show all scholars)
-        applyFilters(scholars);
-        
-        // Reset filter button text
-        filterToggle.innerHTML = `<i class="fas fa-filter"></i> Filter`;
-        filterToggle.classList.remove('active');
-    });
+    }
     
-    // Initial population of filter options
-    populateFilterOptions(scholars, filterState.type);
-    
-    // Function to populate filter options based on type
+    // Function to populate filter options
     function populateFilterOptions(scholars, type) {
         // Clear existing options
         filterOptions.innerHTML = '';
         
-        // Get unique values and counts
-        const valueMap = new Map();
+        // Get unique values for institutions
+        const values = new Map();
         
         scholars.forEach(scholar => {
-            const value = scholar[type];
+            const value = scholar.institution || 'Unknown';
+            
             if (value) {
-                if (valueMap.has(value)) {
-                    valueMap.set(value, valueMap.get(value) + 1);
+                if (values.has(value)) {
+                    values.set(value, values.get(value) + 1);
                 } else {
-                    valueMap.set(value, 1);
+                    values.set(value, 1);
                 }
             }
         });
         
         // Sort values by count (descending)
-        const sortedValues = [...valueMap.entries()]
-            .sort((a, b) => b[1] - a[1]);
+        const sortedValues = [...values.entries()].sort((a, b) => b[1] - a[1]);
         
         // Create filter options
         sortedValues.forEach(([value, count]) => {
             const option = document.createElement('div');
             option.className = 'filter-option';
             
-            const isChecked = filterState.selectedFilters.includes(value);
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `filter-${type}-${value.replace(/\s+/g, '-').toLowerCase()}`;
+            checkbox.value = value;
             
-            option.innerHTML = `
-                <label>
-                    <input type="checkbox" value="${value}" ${isChecked ? 'checked' : ''}>
-                    ${value}
-                </label>
-                <span class="count">${count}</span>
-            `;
-            
-            // Add event listener to checkbox
-            const checkbox = option.querySelector('input[type="checkbox"]');
-            checkbox.addEventListener('change', () => {
-                if (checkbox.checked) {
-                    // Add to selected filters
-                    if (!filterState.selectedFilters.includes(value)) {
-                        filterState.selectedFilters.push(value);
-                    }
-                } else {
-                    // Remove from selected filters
-                    filterState.selectedFilters = filterState.selectedFilters.filter(f => f !== value);
-                }
-            });
-            
+            option.appendChild(checkbox);
+            option.appendChild(document.createTextNode(value));
             filterOptions.appendChild(option);
-        });
-    }
-    
-    // Function to apply filters
-    function applyFilters(scholars) {
-        // Get all scholar dots
-        const dots = document.querySelectorAll('.scholar-dot');
-        
-        // If no filters selected, show all scholars
-        if (filterState.selectedFilters.length === 0) {
-            dots.forEach(dot => {
-                dot.classList.remove('filtered-dot');
-            });
-            return;
-        }
-        
-        // Apply filters
-        dots.forEach(dot => {
-            const scholarId = dot.getAttribute('data-id');
-            const scholar = scholars.find(s => s.id === scholarId);
-            
-            if (scholar) {
-                const value = scholar[filterState.type];
-                
-                if (value && filterState.selectedFilters.includes(value)) {
-                    // Scholar matches filter, show it
-                    dot.classList.remove('filtered-dot');
-                } else {
-                    // Scholar doesn't match filter, hide it
-                    dot.classList.add('filtered-dot');
-                }
-            }
         });
     }
 }
@@ -1149,91 +937,23 @@ function setupSearch(scholars) {
     const searchButton = document.getElementById('search-button');
     const searchResults = document.getElementById('search-results');
     
-    // Function to perform fuzzy search
-    function fuzzySearch(query, scholars) {
-        if (!query) return [];
+    if (!searchInput || !searchButton || !searchResults) {
+        console.error('Search elements not found');
+        return;
+    }
+    
+    // Function to perform search
+    function performSearch(query) {
+        if (!query || query.length < 2) return [];
         
         query = query.toLowerCase();
         
-        // Score each scholar based on how well they match the query
-        const scoredScholars = scholars.map(scholar => {
+        return scholars.filter(scholar => {
             const name = scholar.name.toLowerCase();
-            let score = 0;
+            const institution = (scholar.institution || '').toLowerCase();
             
-            // Exact match gets highest score
-            if (name === query) {
-                score = 100;
-            }
-            // Starts with query gets high score
-            else if (name.startsWith(query)) {
-                score = 80;
-            }
-            // Contains query as a word gets medium score
-            else if (name.includes(` ${query}`) || name.includes(`${query} `)) {
-                score = 60;
-            }
-            // Contains query anywhere gets lower score
-            else if (name.includes(query)) {
-                score = 40;
-            }
-            // Check for partial matches (each word in the name)
-            else {
-                const nameWords = name.split(' ');
-                for (const word of nameWords) {
-                    if (word.startsWith(query)) {
-                        score = Math.max(score, 30);
-                    } else if (word.includes(query)) {
-                        score = Math.max(score, 20);
-                    }
-                }
-            }
-            
-            // Calculate Levenshtein distance for more fuzzy matching
-            const distance = levenshteinDistance(query, name);
-            const maxLength = Math.max(query.length, name.length);
-            const similarityScore = (1 - distance / maxLength) * 20;
-            
-            score += similarityScore;
-            
-            return { scholar, score };
+            return name.includes(query) || institution.includes(query);
         });
-        
-        // Filter out scholars with zero score and sort by score (descending)
-        return scoredScholars
-            .filter(item => item.score > 0)
-            .sort((a, b) => b.score - a.score)
-            .map(item => item.scholar);
-    }
-    
-    // Calculate Levenshtein distance between two strings
-    function levenshteinDistance(a, b) {
-        const matrix = [];
-        
-        // Initialize matrix
-        for (let i = 0; i <= b.length; i++) {
-            matrix[i] = [i];
-        }
-        
-        for (let j = 0; j <= a.length; j++) {
-            matrix[0][j] = j;
-        }
-        
-        // Fill in the rest of the matrix
-        for (let i = 1; i <= b.length; i++) {
-            for (let j = 1; j <= a.length; j++) {
-                if (b.charAt(i - 1) === a.charAt(j - 1)) {
-                    matrix[i][j] = matrix[i - 1][j - 1];
-                } else {
-                    matrix[i][j] = Math.min(
-                        matrix[i - 1][j - 1] + 1, // substitution
-                        matrix[i][j - 1] + 1,     // insertion
-                        matrix[i - 1][j] + 1      // deletion
-                    );
-                }
-            }
-        }
-        
-        return matrix[b.length][a.length];
     }
     
     // Function to highlight matching text
@@ -1261,7 +981,7 @@ function setupSearch(scholars) {
             
             resultItem.innerHTML = `
                 <div class="search-result-image">
-                    <img src="images/${scholar.profile_pic || 'placeholder.jpg'}" alt="${scholar.name}" onerror="this.src='images/placeholder.jpg'">
+                    <img src="data/profile_pics/${scholar.id}.jpg" alt="${scholar.name}" onerror="this.src='images/placeholder.jpg'">
                 </div>
                 <div class="search-result-info">
                     <div class="search-result-name">${highlightedName}</div>
@@ -1288,39 +1008,36 @@ function setupSearch(scholars) {
     // Function to highlight scholar on map
     function highlightScholarOnMap(scholarId) {
         // Remove highlight from all dots
-        document.querySelectorAll('.scholar-dot').forEach(dot => {
-            dot.classList.remove('highlighted');
-            dot.classList.remove('highlighted-scholar');
+        document.querySelectorAll('.scholar-node').forEach(node => {
+            node.classList.remove('selected');
         });
         
         // Add highlight to the matching scholar dot
-        const dot = document.querySelector(`.scholar-dot[data-id="${scholarId}"]`);
-        if (dot) {
-            dot.classList.add('highlighted');
-            dot.classList.add('highlighted-scholar');
+        const node = document.querySelector(`.scholar-node[data-id="${scholarId}"]`);
+        if (node) {
+            node.classList.add('selected');
             
-            // Scroll the dot into view
-            const dotsContainer = document.querySelector('.dots-container');
-            if (dotsContainer) {
-                // Get dot position
-                const dotRect = dot.getBoundingClientRect();
-                const containerRect = dotsContainer.getBoundingClientRect();
+            // Scroll to the scholar node
+            const mapContainer = document.getElementById('scholar-map');
+            if (mapContainer) {
+                // Get the position of the node
+                const x = parseFloat(node.getAttribute('cx'));
+                const y = parseFloat(node.getAttribute('cy'));
                 
-                // Calculate center position
-                const centerX = dotRect.left + dotRect.width / 2 - containerRect.left;
-                const centerY = dotRect.top + dotRect.height / 2 - containerRect.top;
+                // Calculate the center of the map container
+                const rect = mapContainer.getBoundingClientRect();
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
                 
-                // Get current transform
-                const transform = window.getComputedStyle(dotsContainer).transform;
-                const matrix = new DOMMatrix(transform);
-                
-                // Calculate new transform to center the dot
-                const scale = matrix.a; // Current scale
-                const newTranslateX = -centerX * scale + containerRect.width / 2;
-                const newTranslateY = -centerY * scale + containerRect.height / 2;
-                
-                // Apply new transform
-                dotsContainer.style.transform = `translate(${newTranslateX}px, ${newTranslateY}px) scale(${scale})`;
+                // Update the translation to center the node
+                const scholarsGroup = document.querySelector('.scholars-group');
+                if (scholarsGroup) {
+                    currentTranslate.x = centerX - x * currentZoom;
+                    currentTranslate.y = centerY - y * currentZoom;
+                    
+                    // Apply the transform
+                    scholarsGroup.style.transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${currentZoom})`;
+                }
             }
         }
     }
@@ -1330,7 +1047,7 @@ function setupSearch(scholars) {
         const query = searchInput.value.trim();
         
         if (query.length >= 2) {
-            const results = fuzzySearch(query, scholars);
+            const results = performSearch(query);
             displaySearchResults(results, query);
             searchResults.classList.add('active');
         } else {
@@ -1343,7 +1060,7 @@ function setupSearch(scholars) {
         const query = searchInput.value.trim();
         
         if (query.length >= 2) {
-            const results = fuzzySearch(query, scholars);
+            const results = performSearch(query);
             displaySearchResults(results, query);
             searchResults.classList.add('active');
         }
@@ -1355,7 +1072,7 @@ function setupSearch(scholars) {
             const query = searchInput.value.trim();
             
             if (query.length >= 2) {
-                const results = fuzzySearch(query, scholars);
+                const results = performSearch(query);
                 displaySearchResults(results, query);
                 searchResults.classList.add('active');
             }
@@ -1401,4 +1118,4 @@ function checkScholarCountries(scholars) {
             const percentage = ((count / scholars.length) * 100).toFixed(1);
             console.log(`- ${country}: ${count} scholars (${percentage}%)`);
         });
-} 
+}

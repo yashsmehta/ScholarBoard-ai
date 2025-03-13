@@ -6,26 +6,44 @@
 }
 
 :root {
+    --font-heading: 'Futura PT', 'Poppins', sans-serif;
+    --font-body: 'Poppins', sans-serif;
     --primary-color: #4a6fa5;
-    --primary-color-rgb: 74, 111, 165; /* RGB values for primary color */
+    --primary-color-rgb: 74, 111, 165;
     --secondary-color: #2c3e50;
+    --secondary-color-rgb: 44, 62, 80;
     --accent-color: #e74c3c;
-    --light-color: #f8f9fa;
-    --dark-color: #2c3e50;
+    --accent-color-rgb: 231, 76, 60;
+    --background-color: #f8f9fa;
     --text-color: #333;
     --light-text: #666;
-    --border-color: #ddd;
-    --sidebar-width: 40%;
-    --map-width: 60%;
+    --border-color: #e1e4e8;
+    --sidebar-width: 50%;
+    --map-width: 50%;
     --transition-speed: 0.3s;
     --header-bg: linear-gradient(135deg, #2c3e50, #4a6fa5);
     --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     --border-radius: 12px;
-    --font-heading: 'Futura PT', 'Futura', 'Trebuchet MS', sans-serif;
-    --font-body: 'Poppins', sans-serif;
     --grid-color: rgba(200, 200, 200, 0.1);
     --grid-size: 40px;
-    --header-height: 180px;
+    --header-height: 300px;
+    /* Matplotlib Spectral colormap colors */
+    --cluster-color-1: #9e0142;  /* Dark red */
+    --cluster-color-2: #d53e4f;  /* Red */
+    --cluster-color-3: #f46d43;  /* Orange-red */
+    --cluster-color-4: #fdae61;  /* Light orange */
+    --cluster-color-5: #fee08b;  /* Yellow */
+    --cluster-color-6: #ffffbf;  /* Light yellow */
+    --cluster-color-7: #e6f598;  /* Light green-yellow */
+    --cluster-color-8: #abdda4;  /* Light green */
+    --cluster-color-9: #66c2a5;  /* Teal */
+    --cluster-color-10: #3288bd; /* Blue */
+    --cluster-color-11: #5e4fa2; /* Purple */
+    --cluster-color-12: #7b3294; /* Violet */
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --error-color: #e74c3c;
+    --info-color: #3498db;
 }
 
 /* Animations */
@@ -281,14 +299,16 @@ main {
 }
 
 /* Map container styles */
-#map-container {
-    width: var(--map-width);
-    min-height: calc(100vh - 50px);
+#scholar-map {
+    width: 100%;
+    height: 100%;
     position: relative;
-    background-color: white;
-    border-radius: 0;
-    box-shadow: var(--card-shadow);
     overflow: hidden;
+    background-color: var(--light-color);
+    background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
 }
 
 .map-overlay {
@@ -328,18 +348,6 @@ main {
 }
 
 /* Scholar map styles */
-#scholar-map {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    background-color: var(--light-color);
-    background-image: 
-        linear-gradient(var(--grid-color) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: var(--grid-size) var(--grid-size);
-}
-
 .dots-container {
     width: 100%;
     height: 100%;
@@ -483,11 +491,11 @@ main {
     overflow: hidden;
 }
 
-/* Search styles */
+/* Move search container to the map area */
 .search-container {
     position: absolute;
     top: 1rem;
-    right: 1rem;
+    left: 1rem;
     z-index: 100;
     width: 280px;
 }
@@ -586,6 +594,7 @@ main {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
 }
 
 .search-result-info {
@@ -622,12 +631,11 @@ main {
     z-index: 100 !important;
 }
 
-/* Filter styles */
+/* Move filter container to the map area */
 .filter-container {
     position: absolute;
     top: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 1rem;
     z-index: 100;
 }
 
@@ -816,66 +824,59 @@ main {
 /* Research information styling */
 .research-info {
     margin-top: 0;
-    background-color: transparent;
-    border-radius: 0;
-    overflow: hidden;
-}
-
-.research-info h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--primary-color);
-    margin: 0;
-    padding: 1rem;
-    border-bottom: 1px solid #eee;
+    padding: 0;
 }
 
 .research-text {
-    padding: 0;
-    line-height: 1.4;
+    font-size: 0.9rem;
+    line-height: 1.5;
     color: #333;
-    font-size: 0.85rem;
 }
 
 .research-text h4 {
+    margin: 10px 0 5px 0;
+    padding: 8px 10px;
     font-size: 1rem;
-    font-weight: 600;
-    margin-top: 1.2rem;
-    margin-bottom: 0.6rem;
-    color: var(--secondary-color);
-    border-bottom: none;
-    padding-bottom: 0;
-    text-align: left;
+    background-color: #f5f7fa;
+    border-left: 3px solid var(--primary-color);
+    border-radius: 0 4px 4px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.research-text h4:hover {
+    background-color: #e9edf2;
 }
 
 .research-text h5 {
+    margin: 10px 0 5px 0;
     font-size: 0.95rem;
-    font-weight: 600;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    color: var(--secondary-color);
-    text-align: left;
+    color: #444;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 3px;
 }
 
 .research-text p {
-    margin-bottom: 1rem;
-    text-align: left;
+    margin: 0 0 10px 0;
+    line-height: 1.5;
 }
 
 .research-text ul {
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-    text-align: left;
+    margin: 5px 0 10px 20px;
+    padding-left: 0;
 }
 
 .research-text li {
-    margin-bottom: 0.5rem;
-    text-align: left;
+    margin-bottom: 5px;
+    line-height: 1.4;
 }
 
 .research-text strong {
-    color: var(--primary-color);
     font-weight: 600;
+    color: #333;
 }
 
 /* Markdown content styles */
@@ -929,35 +930,89 @@ main {
 }
 
 .toggle-icon {
-    color: var(--primary-color);
-    font-size: 0.7rem;
-    transition: transform 0.2s ease;
-    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    color: #777;
+    transition: transform 0.2s;
 }
 
 .section-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    padding: 0;
+    display: block;
+    padding: 18px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .section-content.expanded {
-    max-height: 2000px;
-    padding: 0.6rem;
+    max-height: none;
+    padding: 10px;
 }
 
-.markdown-content h4 .section-emoji {
+/* Add spacing between paragraphs in section content */
+.section-content p {
+    margin-bottom: 12px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Improve spacing for the first and last elements in section content */
+.section-content > *:first-child {
+    margin-top: 0;
+}
+
+.section-content > *:last-child {
+    margin-bottom: 0;
+}
+
+/* Improve section headers */
+.markdown-content h4 {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin: 20px 0 10px 0;
+    padding: 12px 15px;
+    background-color: rgba(var(--primary-color-rgb), 0.08);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+    position: relative;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.markdown-content h4:first-child {
+    margin-top: 0;
+}
+
+.markdown-content h4:hover {
+    background-color: rgba(var(--primary-color-rgb), 0.12);
+}
+
+.markdown-content h4 + .section-content {
+    margin-top: 5px;
+}
+
+.markdown-content h5 {
     font-size: 0.95rem;
-    margin-right: 0.4rem;
-    display: inline-block;
-    vertical-align: middle;
+    color: var(--secondary-color);
+    margin: 12px 0 8px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(var(--secondary-color-rgb), 0.1);
+    font-family: var(--font-heading);
+    font-weight: 500;
 }
 
 .markdown-content p {
-    margin-bottom: 0.6rem;
+    margin: 0 0 10px 0;
+    line-height: 1.5;
+    color: #444;
     font-size: 0.85rem;
-    line-height: 1.4;
 }
 
 .markdown-content p:last-child {
@@ -965,42 +1020,59 @@ main {
 }
 
 .markdown-content ul {
-    margin: 0.2rem 0 0.6rem 0;
-    padding-left: 1.2rem;
+    margin: 10px 0 15px 0;
+    padding-left: 0;
+    list-style-position: outside;
+    list-style-type: none;
 }
 
 .markdown-content li {
-    margin-bottom: 0.25rem;
-    font-size: 0.85rem;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
     position: relative;
-    line-height: 1.4;
+    line-height: 1.5;
+    padding-left: 24px;
+    color: #333;
 }
 
-.markdown-content li:last-child {
-    margin-bottom: 0;
-}
-
-.markdown-content li::before {
+.markdown-content li:before {
     content: "•";
     color: var(--primary-color);
     position: absolute;
-    left: -0.8rem;
+    left: 8px;
+    font-size: 1.2em;
+    line-height: 1;
 }
 
 .markdown-content em {
-    font-style: italic;
+    font-weight: normal;
     color: #555;
+    font-style: normal; /* Remove italics */
+}
+
+.markdown-content .highlight-text {
+    color: var(--primary-color);
+    font-weight: 500;
+    background-color: rgba(var(--primary-color-rgb), 0.08);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-style: normal;
 }
 
 .markdown-content strong {
     font-weight: 600;
     color: #333;
     background-color: rgba(var(--primary-color-rgb), 0.08);
-    padding: 0 0.2rem;
+    padding: 0 3px;
     border-radius: 2px;
 }
 
-/* End markdown content styles */
+.toggle-icon {
+    font-size: 0.7rem;
+    color: var(--primary-color);
+    transition: transform 0.2s ease;
+    margin-left: 6px;
+}
 
 /* Scholar label styles */
 .scholar-label {
@@ -1041,7 +1113,7 @@ main {
         flex-direction: column;
     }
     
-    #map-container {
+    #scholar-map {
         min-height: 500px;
     }
     
@@ -1056,7 +1128,7 @@ main {
         padding: 0 1rem;
     }
     
-    #map-container, #sidebar {
+    #scholar-map, #sidebar {
         flex: 0 0 100%;
     }
     
@@ -1085,33 +1157,55 @@ main {
 .scholar-profile {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    gap: 10px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    font-family: var(--font-body);
 }
 
 .profile-header {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.7rem;
-    border-bottom: 1px solid #eee;
+    gap: 15px;
+    margin-bottom: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .profile-image {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     overflow: hidden;
-    margin-right: 1rem;
     flex-shrink: 0;
-    border: 3px solid var(--primary-color);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    background-color: #f5f5f5;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.profile-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
 }
 
 .profile-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.2s ease;
+}
+
+.profile-image:hover img {
+    transform: scale(1.05);
 }
 
 .profile-info {
@@ -1119,43 +1213,200 @@ main {
 }
 
 .profile-info h3 {
-    font-family: var(--font-heading);
+    margin: 0 0 5px 0;
     font-size: 1.3rem;
+    color: var(--primary-color);
+    line-height: 1.2;
     font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-    line-height: 1.3;
+    letter-spacing: -0.01em;
+    font-family: var(--font-heading);
 }
 
 .profile-info .institution {
+    margin: 0 0 5px 0;
     font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 0.4rem;
+    color: #444;
+    font-weight: 500;
 }
 
 .profile-info .country {
-    font-size: 0.85rem;
-    color: #666;
-    display: flex;
-    align-items: center;
-}
-
-.profile-info .country i {
-    color: var(--primary-color);
-    margin-right: 0.4rem;
+    display: none; /* Hide country as requested */
 }
 
 .profile-content {
-    padding: 0.6rem;
-    overflow-y: auto;
-    max-height: calc(100vh - 250px);
+    margin-top: 0;
+    padding-top: 0;
 }
 
-.loading-text {
-    color: #888;
-    font-style: italic;
+/* Research info styles */
+.research-info {
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 5px;
+}
+
+.research-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+.markdown-content h4 {
+    font-size: 1rem;
+    color: var(--primary-color);
+    margin: 0 0 8px 0;
+    padding: 8px 12px;
+    background-color: rgba(var(--primary-color-rgb), 0.08);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+    position: relative;
+    font-family: var(--font-heading);
+    font-weight: 500;
+}
+
+.markdown-content h4:hover {
+    background-color: rgba(var(--primary-color-rgb), 0.12);
+}
+
+.markdown-content h5 {
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+    margin: 12px 0 8px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(var(--secondary-color-rgb), 0.1);
+    font-family: var(--font-heading);
+    font-weight: 500;
+}
+
+.markdown-content p {
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+    color: #444;
+    font-size: 0.85rem;
+}
+
+.markdown-content p:last-child {
+    margin-bottom: 0;
+}
+
+.markdown-content ul {
+    margin: 6px 0 10px 15px;
+    padding-left: 5px;
+}
+
+.markdown-content li {
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    position: relative;
+    line-height: 1.4;
+    padding-left: 5px;
+}
+
+.markdown-content li:last-child {
+    margin-bottom: 0;
+}
+
+.markdown-content li::before {
+    content: "•";
+    color: var(--primary-color);
+    position: absolute;
+    left: -10px;
+    font-size: 1.1em;
+}
+
+.markdown-content em {
+    font-weight: normal;
+    color: #555;
+    font-style: normal; /* Remove italics */
+}
+
+.markdown-content strong {
+    font-weight: 600;
+    color: #333;
+    background-color: rgba(var(--primary-color-rgb), 0.08);
+    padding: 0 3px;
+    border-radius: 2px;
+}
+
+.toggle-icon {
+    font-size: 0.7rem;
+    color: var(--primary-color);
+    transition: transform 0.2s ease;
+    margin-left: 6px;
+}
+
+/* Error message styling */
+.error-message {
+    padding: 15px;
+    background-color: #fff5f5;
+    border: 1px solid #ffebeb;
+    border-radius: 6px;
+    margin: 10px 0;
     text-align: center;
-    padding: 1rem 0;
+}
+
+.error-message p {
+    margin: 0 0 8px 0;
+    color: #e53e3e;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.error-message .error-details {
+    font-size: 0.8rem;
+    color: #666;
+    font-family: monospace;
+    background-color: #f8f8f8;
+    padding: 6px;
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+/* Loading indicator */
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    color: #666;
+}
+
+.loading i {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+/* Prevent scrolling in the overall page */
+html, body {
+    overflow: hidden;
+    height: 100%;
+}
+
+main {
+    height: calc(100vh - 70px); /* Adjust based on header height */
+    overflow: hidden;
+}
+
+#scholar-details {
+    max-height: calc(100vh - 120px); /* Adjust based on header and sidebar header heights */
+    overflow-y: auto;
 }
 
 /* Improved projection selector */
@@ -1259,4 +1510,71 @@ main {
     margin-left: 4px;
     color: #666;
     font-size: 0.65rem;
+}
+
+/* Add these styles for SVG elements and cluster legend */
+
+/* SVG Scholar Map */
+.scholar-node {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    stroke-width: 0;
+}
+
+.scholar-node:hover {
+    stroke: #ffffff;
+    stroke-width: 2px;
+}
+
+.scholar-node.selected {
+    stroke: #ffffff;
+    stroke-width: 2.5px;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+}
+
+.scholar-label {
+    font-size: 12px;
+    font-weight: 500;
+    fill: #333;
+    pointer-events: none;
+    text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff;
+}
+
+.map-tooltip {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 4px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 1000;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-tooltip strong {
+    margin-bottom: 4px;
+    color: #333;
+}
+
+.map-tooltip span {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Cluster Legend */
+.cluster-legend {
+    display: none;
+}
+
+/* Update filter styles to include cluster filter */
+.filter-tabs button[data-type="cluster"] {
+    background-color: #f5f5f5;
+}
+
+.filter-tabs button[data-type="cluster"].active {
+    background-color: #4a6fa5;
+    color: white;
 } 

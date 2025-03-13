@@ -10,7 +10,7 @@ import shutil
 
 # Add parent directory to path to import scholar_board module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from scholar_board.search_embeddings import find_similar_scholars, get_query_embedding, cosine_similarity
+from scholar_board.search_embeddings import get_query_embedding, get_query_umap_coords
 
 # Hardcoded path to the data directory
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
@@ -70,6 +70,33 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
             except Exception as e:
                 scholars_json_content = f"Error loading scholars.json: {str(e)}"
         
+        # Create debug HTML
+        debug_html = f"""
+        <html>
+        <head><title>ScholarBoard Debug Info</title></head>
+        <body>
+            <h1>ScholarBoard Debug Information</h1>
+            <h2>Paths</h2>
+            <ul>
+                <li>Website directory: {website_dir}</li>
+                <li>Data directory: {data_dir}</li>
+                <li>Website data directory: {website_data_dir}</li>
+            </ul>
+            <h2>Files</h2>
+            <h3>Data directory files</h3>
+            <ul>{''.join([f'<li>{f}</li>' for f in data_files[:20]])}</ul>
+            <h3>Website data directory files</h3>
+            <ul>{''.join([f'<li>{f}</li>' for f in website_data_files[:20]])}</ul>
+            <h2>scholars.json</h2>
+            <ul>
+                <li>Main data path: {scholars_json_path} (exists: {scholars_json_exists}, size: {scholars_json_size} bytes)</li>
+                <li>Website data path: {website_scholars_json_path} (exists: {website_scholars_json_exists}, size: {website_scholars_json_size} bytes)</li>
+                <li>Used path: {used_path} (exists: {used_path_exists})</li>
+            </ul>
+        </body>
+        </html>
+        """
+        
         self.wfile.write(debug_html.encode('utf-8'))
     
     def serve_scholars_json(self):
@@ -123,45 +150,78 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
             
             print(f"Loading scholars from: {scholars_path}")
             with open(scholars_path, 'r') as f:
-                scholars = json.load(f)
+                scholars_data = json.load(f)
             
-            # Find the scholar by ID
-            scholar_data = None
-            for scholar in scholars:
-                # Convert both to strings for comparison
-                if str(scholar.get('id')).strip() == str(scholar_id).strip():
-                    scholar_data = scholar
-                    break
+            # Find the scholar by ID - scholars are stored as an object with IDs as keys
+            # Make sure to handle the case where scholar_id might need padding with zeros
+            scholar_data = scholars_data.get(scholar_id)
+            
+            # If not found, try with zero-padded ID (e.g., "1" -> "001")
+            if not scholar_data and scholar_id.isdigit():
+                padded_id = scholar_id.zfill(3)
+                scholar_data = scholars_data.get(padded_id)
+                if scholar_data:
+                    scholar_id = padded_id
             
             if not scholar_data:
-                print(f"Scholar with ID '{scholar_id}' not found. Available IDs: {[s.get('id') for s in scholars[:5]]}...")
+                print(f"Scholar with ID '{scholar_id}' not found.")
                 self.send_error(404, f'Scholar with ID {scholar_id} not found')
                 return
             
             print(f"Found scholar: {scholar_data.get('name')}")
             
-            # Check if profile pic exists
-            profile_pic = scholar_data.get('profile_pic', 'placeholder.jpg')
-            profile_pic_path = profile_pic
+            # Get profile pic from data/profile_pics directory using scholar_id
+            profile_pic_path = f"data/profile_pics/{scholar_id}.jpg"  # Default path format
             
-            # Try to load formatted markdown content if available
+            # Check if the profile pic exists in the website directory
+            website_profile_pic = os.path.join(WEBSITE_DIR, profile_pic_path)
+            if not os.path.exists(website_profile_pic):
+                # If not in website directory, check in main data directory
+                data_profile_pic = os.path.join(DATA_DIR, f"profile_pics/{scholar_id}.jpg")
+                if os.path.exists(data_profile_pic):
+                    # Copy to website directory
+                    os.makedirs(os.path.dirname(website_profile_pic), exist_ok=True)
+                    shutil.copy2(data_profile_pic, website_profile_pic)
+                    print(f"Copied profile pic from {data_profile_pic} to {website_profile_pic}")
+                else:
+                    # Use placeholder if no profile pic found
+                    profile_pic_path = "images/placeholder.jpg"
+                    print(f"No profile pic found for scholar {scholar_id}, using placeholder")
+            
+            # Try to load formatted markdown content
             scholar_name = scholar_data.get('name', '')
             markdown_content = ""
             
-            # First try to find the markdown file using name and ID
-            markdown_file = os.path.join(DATA_DIR, 'formatted_scholar_info', f"{scholar_name}_{scholar_id}.md")
+            # Find the markdown file using name and ID format: scholar_name_scholar_id.md
+            # First try with the exact name
+            markdown_file = os.path.join(WEBSITE_DIR, 'data', 'scholar_markdown', f"{scholar_name}_{scholar_id}.md")
+            
+            # If not found in website directory, try in data directory
+            if not os.path.exists(markdown_file):
+                markdown_file = os.path.join(DATA_DIR, 'scholar_markdown', f"{scholar_name}_{scholar_id}.md")
+            
+            # If still not found, try with just the ID
+            if not os.path.exists(markdown_file):
+                markdown_file = os.path.join(WEBSITE_DIR, 'data', 'scholar_markdown', f"{scholar_id}.md")
+                if not os.path.exists(markdown_file):
+                    markdown_file = os.path.join(DATA_DIR, 'scholar_markdown', f"{scholar_id}.md")
+            
+            # If still not found, try listing all markdown files and find a match
+            if not os.path.exists(markdown_file):
+                website_markdown_dir = os.path.join(WEBSITE_DIR, 'data', 'scholar_markdown')
+                if os.path.exists(website_markdown_dir):
+                    for filename in os.listdir(website_markdown_dir):
+                        if filename.endswith('.md') and (scholar_id in filename or scholar_name in filename):
+                            markdown_file = os.path.join(website_markdown_dir, filename)
+                            break
             
             if not os.path.exists(markdown_file):
-                # Try alternative formats that might exist
-                possible_files = [
-                    os.path.join(DATA_DIR, 'formatted_scholar_info', f"{scholar_name}_{scholar_id.zfill(3)}.md"),
-                    os.path.join(DATA_DIR, 'formatted_scholar_info', f"{scholar_name}_{scholar_id.zfill(2)}.md")
-                ]
-                
-                for alt_file in possible_files:
-                    if os.path.exists(alt_file):
-                        markdown_file = alt_file
-                        break
+                data_markdown_dir = os.path.join(DATA_DIR, 'scholar_markdown')
+                if os.path.exists(data_markdown_dir):
+                    for filename in os.listdir(data_markdown_dir):
+                        if filename.endswith('.md') and (scholar_id in filename or scholar_name in filename):
+                            markdown_file = os.path.join(data_markdown_dir, filename)
+                            break
             
             if os.path.exists(markdown_file):
                 try:
@@ -172,32 +232,14 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
                     print(f"Error reading markdown file: {str(e)}")
             else:
                 print(f"No markdown file found for scholar {scholar_id}. Tried path: {markdown_file}")
-                
-                # Fall back to perplexity info if markdown not found
-                perplexity_file = os.path.join(DATA_DIR, 'perplexity_info', f"{scholar_id}.txt")
-                raw_text = ""
-                
-                if os.path.exists(perplexity_file):
-                    try:
-                        with open(perplexity_file, 'r', encoding='utf-8') as f:
-                            raw_text = f.read()
-                        print(f"Loaded perplexity file as fallback: {perplexity_file}")
-                    except Exception as e:
-                        print(f"Error reading perplexity file: {str(e)}")
-                else:
-                    # Try alternative filename formats for perplexity
-                    alt_perplexity_file = os.path.join(DATA_DIR, 'perplexity_info', f"{scholar_data.get('name')}_{scholar_id}_raw.txt")
-                    if os.path.exists(alt_perplexity_file):
-                        try:
-                            with open(alt_perplexity_file, 'r', encoding='utf-8') as f:
-                                raw_text = f.read()
-                            print(f"Loaded alternative perplexity file as fallback: {alt_perplexity_file}")
-                        except Exception as e:
-                            print(f"Error reading alternative perplexity file: {str(e)}")
-                    else:
-                        print(f"No perplexity file found for scholar {scholar_id}. Tried paths:")
-                        print(f"  - {perplexity_file}")
-                        print(f"  - {alt_perplexity_file}")
+            
+            # Get UMAP coordinates from the umap_projection field
+            umap_coords = [0, 0]
+            if scholar_data.get('umap_projection'):
+                umap_coords = [
+                    scholar_data['umap_projection'].get('x', 0),
+                    scholar_data['umap_projection'].get('y', 0)
+                ]
             
             # Prepare response data
             response_data = {
@@ -206,11 +248,9 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
                 'institution': scholar_data.get('institution', 'Unknown'),
                 'country': scholar_data.get('country', 'Unknown'),
                 'profile_pic': profile_pic_path,
-                'pca': scholar_data.get('pca', [0, 0]),
-                'tsne': scholar_data.get('tsne', [0, 0]),
-                'umap': scholar_data.get('umap', [0, 0]),
-                'markdown_content': markdown_content,
-                'raw_text': raw_text if not markdown_content else ""
+                'umap': umap_coords,
+                'cluster_id': scholar_data.get('cluster', 0),  # Include cluster_id for coloring
+                'markdown_content': markdown_content
             }
             
             # Send response
@@ -251,23 +291,14 @@ def serve_website(port=8000):
             print(f"Copying scholars.json to {website_scholars_json_path}")
             shutil.copy2(scholars_json_path, website_scholars_json_path)
     
-    # Create website/data/formatted_scholar_info directory if it doesn't exist
-    website_markdown_dir = os.path.join(website_data_dir, 'formatted_scholar_info')
+    # Create website/data/profile_pics directory if it doesn't exist
+    website_profile_pics_dir = os.path.join(website_data_dir, 'profile_pics')
+    os.makedirs(website_profile_pics_dir, exist_ok=True)
+    
+    # Create website/data/scholar_markdown directory if it doesn't exist
+    website_markdown_dir = os.path.join(website_data_dir, 'scholar_markdown')
     os.makedirs(website_markdown_dir, exist_ok=True)
     
-    # Copy formatted markdown files to website/data/formatted_scholar_info
-    source_markdown_dir = os.path.join(DATA_DIR, 'formatted_scholar_info')
-    if os.path.exists(source_markdown_dir):
-        print(f"Copying markdown files to {website_markdown_dir}")
-        for filename in os.listdir(source_markdown_dir):
-            if filename.endswith('.md'):
-                source_file = os.path.join(source_markdown_dir, filename)
-                dest_file = os.path.join(website_markdown_dir, filename)
-                
-                # Only copy if the source file is newer or the destination doesn't exist
-                if not os.path.exists(dest_file) or \
-                   os.path.getmtime(source_file) > os.path.getmtime(dest_file):
-                    shutil.copy2(source_file, dest_file)
     
     # Change to the website directory
     os.chdir(WEBSITE_DIR)

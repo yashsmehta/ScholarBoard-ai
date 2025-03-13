@@ -164,19 +164,23 @@ def get_embeddings(texts, model="text-embedding-3-small"):
     client = OpenAI(api_key=API_KEY)
     
     embeddings = []
-    for i, text in enumerate(tqdm(texts, desc="Getting embeddings")):
+    # Create a tqdm progress bar with more details
+    progress_bar = tqdm(texts, desc="Getting embeddings", unit="text")
+    for text in progress_bar:
         try:
             response = client.embeddings.create(
                 model=model,
                 input=text
             )
             embeddings.append(response.data[0].embedding)
-            print(f"Processed {i+1}/{len(texts)} embeddings", end="\r")
+            # Update progress bar description instead of printing
+            progress_bar.set_postfix(model=model)
         except Exception as e:
-            print(f"\nError getting embedding for item {i+1}: {e}")
+            # Print error without disrupting progress bar
+            progress_bar.write(f"Error getting embedding: {e}")
             embeddings.append(None)
     
-    print("\nFinished getting embeddings")
+    print("Finished getting embeddings")
     return embeddings
 
 def display_sample_texts(scholars, num_samples=10):

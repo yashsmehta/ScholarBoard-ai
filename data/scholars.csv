@@ -11,7 +11,6 @@ scholar_id,scholar_name,institution
 010,Adrian Nestor,University of Toronto
 011,Aihua Chen,East China Normal University
 012,Aishu Narayanan,UC Santa Cruz
-013,AJ Jansen,Rensselaer Polytechnic Institute
 014,Akshay Parchure,University of Utah
 015,Alan Stocker,University of Pennsylvania
 016,Alasdair Clarke,University of Essex
@@ -31,7 +30,6 @@ scholar_id,scholar_name,institution
 030,Alyssa Costigan,Manhattan University
 031,Amirmahmoud Houshmand Chatroudi,The University of Tokyo
 032,Amit Zehngut,School of Psychological Sciences
-033,Amy Sultana,The City College of New York
 034,Anastasia Kiyonaga,University of California
 035,Andrea Facoetti,University of Padua
 036,Andreas Hierlemann,ETH Zurich
@@ -51,7 +49,6 @@ scholar_id,scholar_name,institution
 050,Anthony M Norcia,Stanford University
 051,Anthony Norcia,Stanford University
 052,Antimo Buonocore,Suor Orsola Benincasa University
-053,Anton Janser,Kiel University
 054,Anya McGoldrick,Fordham University
 055,Arash Afraz,National Institutes of Health
 056,Arathy Kartha,University of California Berkeley
@@ -133,7 +130,6 @@ scholar_id,scholar_name,institution
 132,Daphne Bavelier,Faculty of Psychology and Educational Science
 133,Daryl Fougnie,Division of Science and Mathematics
 134,Daryl Wilson,Queen's University
-135,Dasha Zdvizhkova,Connecticut College
 136,David Aguilar-Lleyda,Vision and Control of Action Group
 137,David Alais,The University of Sydney
 138,David Brainard,"Department of Psychology, New York University"
@@ -173,9 +169,7 @@ scholar_id,scholar_name,institution
 172,Emanuela Bricolo,Department of Psychology
 173,Emily A Cooper,University of California
 174,Emily D Grossman,University of California
-175,Emily Oor,Wake Forest University
 176,Emily R. Martin,Florida International University
-177,Enrico Guarnuto,Trento University
 178,Eren Günseli,Sabanci University
 179,Erez Freud,"Department of Psychology, University of Delaware"
 180,Erich Graf,School of Psychology
@@ -208,7 +202,6 @@ scholar_id,scholar_name,institution
 207,Grace Taylor,Swarthmore College
 208,Gregory J. Zelinsky,Stony Brook University
 209,Gregory Zelinsky,Stony Brook University
-210,Greta Manini,Universita di Verona
 211,Guido Maiello,University of Southampton
 212,Guillaume S Masson,Aix-marseille Université - Institut de Neurosciences de la Timone - CNRS - Marseille
 213,Halely Balaban,The Open University of Israel
@@ -228,18 +221,15 @@ scholar_id,scholar_name,institution
 227,Hsin-Hung Li,The Ohio State University
 228,Hsin-I Liao,NTT communication science laboratories
 229,Hui Chen,Zhejiang University
-230,Hyosun Kim,R&D center
 231,Ian Pennock,University of Sussex
 232,Ignacio Serrano-Pedraza,Department of Experimental Psychology.  Faculty of Psychology. Complutense University of Madrid
 233,Ikuya Murakami,"Department of Psychology, Center for Brain Science"
-234,Ilan Vol,Ben Gurion University
 235,Ilker Yildirim,Yale University
 236,Injae Hong,"Brigham and Women's Hospital, Harvard Medical School"
 237,Ione Fine,University of Washington
 238,Ipek Oruc,The University of British Columbia
 239,Irene Sperandio,University of Trento
 240,Isabel Gauthier,Vanderbilt University
-241,Isabella M Durda,Reno
 242,J. Anthony Movshon,New York University
 243,Jack L. Gallant,UC Berkeley
 244,Jacob Feldman,Rutgers University
@@ -257,7 +247,6 @@ scholar_id,scholar_name,institution
 256,Jelena Ristic,McGill University
 257,Jenny Bosten,University of Sussex
 258,Jenny M Bosten,University of Sussex
-259,Jenny W. S. Chiu,Lingnan University
 260,Jeremy B Wilmer,Wellesley College
 261,Jeremy Wolfe,Brigham and Women’s Hospital/Harvard Medical School
 262,Jessica Cantlon,Carnegie Mellon University
@@ -293,7 +282,6 @@ scholar_id,scholar_name,institution
 292,Joy Geng,University of California
 293,Joy J. Geng,University of California
 294,Joyce Tam,The Pennsylvania State University
-295,Jr.,Northeastern University
 296,Jude Mitchell,University of Rochester
 297,Julie D. Golomb,The Ohio State University
 298,Julie M. Harris,University of St Andrews
@@ -301,7 +289,6 @@ scholar_id,scholar_name,institution
 300,Justin Halberda,Johns Hopkins University
 301,Jutta Billino,Justus Liebig University Giessen
 302,K. Suzanne Scherf,The Pennsylvania State University
-303,Kacie Lee,University of Sydney
 304,Karen B. Schloss,University of Wisconsin-Madison
 305,Karin James,Indiana University
 306,Karl R. Gegenfurtner,Giessen University
@@ -348,12 +335,9 @@ scholar_id,scholar_name,institution
 347,Lu-Chun Yeh,Justus Liebig University Gießen
 348,Luana Serafini,University of Modena and Reggio Emilia
 349,Lucia Melloni,USA
-350,Luiz Henrique Canto-Pereira,Brazilian Ministry of Development
 351,M.D. Rutherford,McMaster University
-352,Mabel Shanahan,Amherst College
 353,Marcel Linka,Experimental Psychology
 354,Margaret Livingstone,Harvard Medical School
-355,Margaret McCray,Roanoke College
 356,Margaret S Livingstone,Harvard Medical School
 357,Maria Robinson,University of Warwick
 358,Marianne Maertens,Technische Universität Berlin
@@ -385,7 +369,6 @@ scholar_id,scholar_name,institution
 384,Maximilian Riesenhuber,Georgetown University
 385,Meenakshi Khosla,UCSD
 386,Megan A. K. Peters,University of California
-387,Megan Broderick,Denison University
 388,Melchi M. Michel,Rutgers University
 389,Melissa Beck,Louisiana State University
 390,Melissa R. Beck,Louisiana State University
@@ -424,7 +407,6 @@ scholar_id,scholar_name,institution
 423,Molly Jameson,University of Northern Colorado
 424,Molly Setchfield,North Dakota State University
 425,Moritz Wurm,CIMeC - Center for Mind/Brain Sciences
-426,Mowei Zhen,"Zhejiang Universisty, Zhejiang International Studies University"
 427,Mrigankshi Kapoor,Computer Science and Engineering
 428,Myeong-Ho Sohn,The George Washington University
 429,Nancy B. Carlisle,Lehigh University
@@ -484,7 +466,6 @@ scholar_id,scholar_name,institution
 483,Ralf M. Haefner,University of Rochester
 484,Randi Starrfelt,University of Copenhagen
 485,Rebecca Carson,Simon Fraser University
-486,Rebecca Roy,George Mason University
 487,Reinoud Bootsma,Aix-Marseille Université
 488,Remy Allard,Universite de Montreal
 489,Renate Rutiku,Consciousness lab
@@ -501,7 +482,6 @@ scholar_id,scholar_name,institution
 500,Rosanne L. Rademaker,Ernst Strüngmann Institute for Neuroscience in Cooperation with Max Planck Society
 501,Ru-Yuan Zhang,Shanghai Jiao Tong University
 502,Ruben Coen-Cagli,Albert Einstein College of Medicine
-503,Ruggero Micheletto,Yokohama City University
 504,Ruth Rosenholtz,NVIDIA Research
 505,Ryan Ash,Stanford University
 506,Sabrina Hansmann-Roth,Icelandic Vision Lab
@@ -559,7 +539,6 @@ scholar_id,scholar_name,institution
 558,Surya Gayet,Utrecht University
 559,Susana T. L. Chung,University of California
 560,Susana T.L. Chung,University of California
-561,Süheyla Aydemir,Utrecht University
 562,T Rowan Candy,Indiana University School of Optometry
 563,T Scott Murdison,Reality Labs
 564,T.C Sprague,University of California

@@ -7,6 +7,7 @@ import sys
 import numpy as np
 from pathlib import Path
 import shutil
+import urllib.parse
 
 # Add parent directory to path to import scholar_board module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -15,6 +16,10 @@ from scholar_board.search_embeddings import get_query_embedding, get_query_umap_
 # Hardcoded path to the data directory
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
 WEBSITE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Ensure the model directory exists
+MODEL_DIR = os.path.join(DATA_DIR, 'model')
+os.makedirs(MODEL_DIR, exist_ok=True)
 
 class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
@@ -42,10 +47,12 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
         website_dir = WEBSITE_DIR
         data_dir = DATA_DIR
         website_data_dir = os.path.join(WEBSITE_DIR, 'data')
+        model_dir = MODEL_DIR
         
         # List files in data directory
         data_files = os.listdir(data_dir) if os.path.exists(data_dir) else []
         website_data_files = os.listdir(website_data_dir) if os.path.exists(website_data_dir) else []
+        model_files = os.listdir(model_dir) if os.path.exists(model_dir) else []
         
         # Check if scholars.json exists in both locations
         scholars_json_path = os.path.join(data_dir, 'scholars.json')
@@ -57,6 +64,10 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
         # Get size of scholars.json
         scholars_json_size = os.path.getsize(scholars_json_path) if scholars_json_exists else 0
         website_scholars_json_size = os.path.getsize(website_scholars_json_path) if website_scholars_json_exists else 0
+        
+        # Check if UMAP model exists
+        umap_model_path = os.path.join(model_dir, 'umap_n30_d0.2_model.joblib')
+        umap_model_exists = os.path.exists(umap_model_path)
         
         # Try to load scholars.json from the location that will be used
         scholars_json_content = None
@@ -81,17 +92,24 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
                 <li>Website directory: {website_dir}</li>
                 <li>Data directory: {data_dir}</li>
                 <li>Website data directory: {website_data_dir}</li>
+                <li>Model directory: {model_dir}</li>
             </ul>
             <h2>Files</h2>
             <h3>Data directory files</h3>
             <ul>{''.join([f'<li>{f}</li>' for f in data_files[:20]])}</ul>
             <h3>Website data directory files</h3>
             <ul>{''.join([f'<li>{f}</li>' for f in website_data_files[:20]])}</ul>
+            <h3>Model directory files</h3>
+            <ul>{''.join([f'<li>{f}</li>' for f in model_files[:20]])}</ul>
             <h2>scholars.json</h2>
             <ul>
                 <li>Main data path: {scholars_json_path} (exists: {scholars_json_exists}, size: {scholars_json_size} bytes)</li>
                 <li>Website data path: {website_scholars_json_path} (exists: {website_scholars_json_exists}, size: {website_scholars_json_size} bytes)</li>
                 <li>Used path: {used_path} (exists: {used_path_exists})</li>
+            </ul>
+            <h2>UMAP Model</h2>
+            <ul>
+                <li>UMAP model path: {umap_model_path} (exists: {umap_model_exists})</li>
             </ul>
         </body>
         </html>
@@ -270,8 +288,116 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(500, str(e))
     
     def do_POST(self):
-        # We're removing the search functionality, so just return 404 for POST requests
-        self.send_error(404, 'Not Found')
+        # Check if this is a search request
+        if self.path == '/api/search':
+            self.handle_search_request()
+        else:
+            self.send_error(404, 'Not Found')
+    
+    def handle_search_request(self):
+        """Handle search requests for both scholar name search and research query embedding"""
+        try:
+            # Get the content length
+            content_length = int(self.headers['Content-Length'])
+            
+            # Read the request body
+            request_body = self.rfile.read(content_length).decode('utf-8')
+            
+            # Parse the JSON request
+            request_data = json.loads(request_body)
+            
+            # Check if this is a scholar name search or a research query
+            search_type = request_data.get('type', 'name')
+            query = request_data.get('query', '')
+            
+            if not query:
+                self.send_error(400, 'Missing query parameter')
+                return
+            
+            print(f"Handling search request of type '{search_type}' with query: {query}")
+            
+            # Load scholars data
+            scholars_path = os.path.join(WEBSITE_DIR, 'data', 'scholars.json')
+            if not os.path.exists(scholars_path):
+                scholars_path = os.path.join(DATA_DIR, 'scholars.json')
+            
+            if not os.path.exists(scholars_path):
+                self.send_error(404, 'Scholars data not found')
+                return
+            
+            with open(scholars_path, 'r') as f:
+                scholars_data = json.load(f)
+            
+            response_data = {}
+            
+            if search_type == 'name':
+                # Search for scholars by name
+                matching_scholars = []
+                
+                # Convert query to lowercase for case-insensitive search
+                query_lower = query.lower()
+                
+                # Search through scholars
+                for scholar_id, scholar in scholars_data.items():
+                    if query_lower in scholar.get('name', '').lower():
+                        # Add scholar to results
+                        matching_scholars.append({
+                            'id': scholar_id,
+                            'name': scholar.get('name', ''),
+                            'institution': scholar.get('institution', ''),
+                            'country': scholar.get('country', ''),
+                            'umap': [
+                                scholar.get('umap_projection', {}).get('x', 0),
+                                scholar.get('umap_projection', {}).get('y', 0)
+                            ]
+                        })
+                
+                # Sort results by relevance (exact matches first, then partial matches)
+                matching_scholars.sort(key=lambda s: 0 if s['name'].lower() == query_lower else 1)
+                
+                # Limit to top 10 results
+                matching_scholars = matching_scholars[:10]
+                
+                response_data = {
+                    'type': 'name',
+                    'results': matching_scholars
+                }
+                
+            elif search_type == 'research':
+                # Project the research query to UMAP space
+                try:
+                    result = get_query_umap_coords(query)
+                    
+                    if result['error']:
+                        self.send_error(500, f"Error projecting query: {result['error']}")
+                        return
+                    
+                    # Get the coordinates
+                    x, y = result['coords']
+                    
+                    response_data = {
+                        'type': 'research',
+                        'coords': [float(x), float(y)]
+                    }
+                    
+                except Exception as e:
+                    self.send_error(500, f"Error projecting query: {str(e)}")
+                    return
+            
+            # Send response
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')  # Allow CORS
+            self.end_headers()
+            
+            response = json.dumps(response_data)
+            self.wfile.write(response.encode('utf-8'))
+            
+        except Exception as e:
+            print(f"Error handling search request: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            self.send_error(500, str(e))
 
 def serve_website(port=8000):
     """
@@ -280,6 +406,18 @@ def serve_website(port=8000):
     # Create website/data directory if it doesn't exist
     website_data_dir = os.path.join(WEBSITE_DIR, 'data')
     os.makedirs(website_data_dir, exist_ok=True)
+    
+    # Create model directory if it doesn't exist
+    model_dir = os.path.join(DATA_DIR, 'model')
+    os.makedirs(model_dir, exist_ok=True)
+    
+    # Check if the UMAP model exists
+    umap_model_path = os.path.join(model_dir, 'umap_n30_d0.2_model.joblib')
+    if not os.path.exists(umap_model_path):
+        print(f"Warning: UMAP model not found at {umap_model_path}")
+        print("Research query projection may not work correctly.")
+    else:
+        print(f"Found UMAP model at {umap_model_path}")
     
     # Copy scholars.json to website/data if it doesn't exist or is older than the source
     scholars_json_path = os.path.join(DATA_DIR, 'scholars.json')
@@ -315,6 +453,7 @@ def serve_website(port=8000):
         print(f"Debug info available at http://localhost:{port}/debug")
         print(f"Using data directory: {DATA_DIR}")
         print(f"Using website directory: {WEBSITE_DIR}")
+        print(f"Using model directory: {model_dir}")
         print("Press Ctrl+C to stop the server")
         
         # Open the website in a browser

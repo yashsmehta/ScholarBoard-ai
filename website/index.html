@@ -6,7 +6,7 @@
     <meta name="description" content="An interactive visualization of scholars positioned by their research similarity">
     <meta name="theme-color" content="#4a6fa5">
     <title>ScholarBoard.ai</title>
-    <link rel="stylesheet" href="css/styles.css?v=1.5">
+    <link rel="stylesheet" href="css/styles.css?v=1.8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,15 +28,29 @@
     <main>
         <div class="container">
             <div id="map-container">
+                <!-- Add search container to the map -->
                 <div class="search-container">
                     <div class="search-box">
-                        <input type="text" id="scholar-search" placeholder="Search scholars by name...">
-                        <button id="search-button"><i class="fas fa-search"></i></button>
+                        <input type="text" id="search-input" placeholder="Search scholars or research topics...">
+                        <div class="search-type-selector">
+                            <label class="search-type-option">
+                                <input type="radio" name="search-type" value="name" checked>
+                                <span>Scholar Name</span>
+                            </label>
+                            <label class="search-type-option">
+                                <input type="radio" name="search-type" value="research">
+                                <span>Research Topic</span>
+                            </label>
+                        </div>
+                        <button id="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </div>
-                    <div id="search-results" class="search-results">
+                    <div class="search-results">
                         <!-- Search results will be populated by JavaScript -->
                     </div>
                 </div>
+                
                 <div class="filter-container">
                     <button id="filter-toggle" class="filter-toggle">
                         <i class="fas fa-filter"></i>
@@ -64,7 +78,7 @@
                         <button id="reset-view" title="Reset View"><i class="fas fa-sync-alt"></i></button>
                     </div>
                     <div class="map-hint">
-                        Hold <kbd>Shift</kbd> + drag to select an area to zoom
+                        Click and drag to select scholars
                     </div>
                 </div>
                 <div id="scholar-map"></div>
@@ -72,6 +86,9 @@
             <div id="sidebar">
                 <div class="sidebar-header">
                     <h2>Scholar Profile</h2>
+                    <button id="close-sidebar" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
                 <div id="scholar-details">
                     <div class="placeholder-message">
@@ -87,6 +104,6 @@
     <!-- Preload placeholder image -->
     <link rel="preload" href="images/placeholder.jpg" as="image">
     
-    <script src="js/script.js?v=1.5"></script>
+    <script src="js/script.js?v=1.8"></script>
 </body>
 </html> 

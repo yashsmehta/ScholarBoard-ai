@@ -87,12 +87,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         setupFilters(validScholars);
         
         // Set up search functionality
-        setupSearch(validScholars);
+        setupSearch();
         
     } catch (error) {
         console.error('Error loading scholar data:', error);
         document.getElementById('scholar-map').innerHTML = '<div style="color: red; padding: 20px; text-align: center;">Error loading scholar data. Please check the console for details.</div>';
     }
+    
+    // Add event listener for the close sidebar button
+    document.getElementById('close-sidebar').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('active');
+        resetView();
+    });
 });
 
 function createHeaderAnimation() {
@@ -709,9 +715,12 @@ function createScholarMap(scholars) {
     
     // Handle mousedown for both dragging and selection
     mapContainer.addEventListener('mousedown', (e) => {
-        // If shift key is pressed, start selection
-        if (e.shiftKey) {
+        console.log('mousedown event', e.target);
+        // Start selection if clicking on the SVG or scholars group
+        if (e.target === svg || e.target.classList.contains('scholar-node') || e.target === scholarsGroup) {
+            console.log('Starting selection');
             isSelecting = true;
+            isDragging = false; // Ensure dragging is disabled when selecting
             
             // Get the exact cursor position relative to the SVG element
             const svgRect = svg.getBoundingClientRect();
@@ -719,6 +728,7 @@ function createScholarMap(scholars) {
                 x: e.clientX - svgRect.left, 
                 y: e.clientY - svgRect.top 
             };
+            console.log('Selection start', selectionStart);
             
             // Create selection rectangle
             selectionRect = createSelectionRect();
@@ -729,10 +739,10 @@ function createScholarMap(scholars) {
             svg.appendChild(selectionRect);
             
             e.preventDefault();
-        } 
-        // Otherwise, start dragging
-        else if (e.target === svg || e.target === scholarsGroup) {
+        } else if (e.target === svg || e.target === scholarsGroup) {
+            console.log('Starting dragging');
             isDragging = true;
+            isSelecting = false; // Ensure selecting is disabled when dragging
             dragStart = { x: e.clientX, y: e.clientY };
             mapContainer.style.cursor = 'grabbing';
         }
@@ -779,6 +789,7 @@ function createScholarMap(scholars) {
     
     // Handle mouseup for both dragging and selection
     document.addEventListener('mouseup', (e) => {
+        console.log('mouseup event', isSelecting, selectionRect);
         if (isSelecting && selectionRect) {
             // Get the selection rectangle dimensions
             const x = parseFloat(selectionRect.getAttribute('x'));
@@ -786,43 +797,119 @@ function createScholarMap(scholars) {
             const width = parseFloat(selectionRect.getAttribute('width'));
             const height = parseFloat(selectionRect.getAttribute('height'));
             
-            // Only zoom if the selection has a meaningful size
+            console.log('Selection dimensions', x, y, width, height);
+            
+            // Only process if the selection has a meaningful size
             if (width > 10 && height > 10) {
-                // Calculate the center of the selection
-                const centerX = x + width / 2;
-                const centerY = y + height / 2;
-                
-                // Calculate the zoom factor based on the selection size
-                const containerWidth = mapContainer.clientWidth;
-                const containerHeight = mapContainer.clientHeight;
-                const zoomFactorX = containerWidth / width;
-                const zoomFactorY = containerHeight / height;
-                const newZoom = Math.min(zoomFactorX, zoomFactorY) * currentZoom * 0.9;
-                
-                // Calculate the new translation to center the selection
-                const newTranslateX = containerWidth / 2 - centerX * newZoom / currentZoom;
-                const newTranslateY = containerHeight / 2 - centerY * newZoom / currentZoom;
-                
-                // Apply the new zoom and translation
-                currentZoom = newZoom;
-                currentTranslate.x = newTranslateX;
-                currentTranslate.y = newTranslateY;
-                
-                // Apply transform but don't show all labels
-                const transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${currentZoom})`;
-                scholarsGroup.style.transform = transform;
-                labelsGroup.style.transform = transform;
+                console.log('Processing selection');
+                // Find scholars in the selected area
+                showScholarsInSelectedArea(x, y, width, height);
             }
             
             // Remove the selection rectangle
             svg.removeChild(selectionRect);
             selectionRect = null;
-            isSelecting = false;
         }
         
+        isSelecting = false;
         isDragging = false;
         mapContainer.style.cursor = 'default';
     });
+
+    // Function to show scholars in the selected area
+    function showScholarsInSelectedArea(x, y, width, height) {
+        console.log('Showing scholars in selected area', x, y, width, height);
+        // Get all scholar nodes
+        const scholarNodes = document.querySelectorAll('.scholar-node');
+        const selectedScholars = [];
+        
+        // Calculate the selection bounds in SVG coordinates
+        const x1 = x;
+        const y1 = y;
+        const x2 = x + width;
+        const y2 = y + height;
+        
+        console.log('Selection bounds', x1, y1, x2, y2);
+        
+        // Find scholars within the selection rectangle
+        scholarNodes.forEach(node => {
+            const cx = parseFloat(node.getAttribute('cx'));
+            const cy = parseFloat(node.getAttribute('cy'));
+            const scholarId = node.getAttribute('data-id');
+            
+            // Check if the scholar is within the selection bounds
+            if (cx >= x1 && cx <= x2 && cy >= y1 && cy <= y2) {
+                // Find the scholar data
+                const scholar = window.scholarsData.find(s => String(s.id) === String(scholarId));
+                if (scholar) {
+                    selectedScholars.push(scholar);
+                }
+            }
+        });
+        
+        console.log('Found scholars in selected area', selectedScholars.length);
+        
+        // Display the selected scholars in the sidebar
+        displaySelectedScholars(selectedScholars);
+    }
+    
+    // Function to display selected scholars in the sidebar
+    function displaySelectedScholars(scholars) {
+        const detailsContainer = document.getElementById('scholar-details');
+        
+        if (!detailsContainer) {
+            console.error('Scholar details container not found');
+            return;
+        }
+        
+        if (scholars.length === 0) {
+            detailsContainer.innerHTML = `
+                <div class="selected-scholars-list">
+                    <h3>Selected Area</h3>
+                    <p class="no-scholars">No scholars found in the selected area</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Sort scholars by name
+        scholars.sort((a, b) => a.name.localeCompare(b.name));
+        
+        // Create HTML for the scholars list
+        let scholarsListHtml = `
+            <div class="selected-scholars-list">
+                <h3>Selected Area (${scholars.length} scholars)</h3>
+                <ul class="scholars-list">
+        `;
+        
+        scholars.forEach(scholar => {
+            scholarsListHtml += `
+                <li class="scholar-list-item" data-id="${scholar.id}">
+                    <div class="scholar-list-name">${scholar.name}</div>
+                    <div class="scholar-list-institution">${scholar.institution || 'Unknown Institution'}</div>
+                </li>
+            `;
+        });
+        
+        scholarsListHtml += `
+                </ul>
+            </div>
+        `;
+        
+        // Update the sidebar content
+        detailsContainer.innerHTML = scholarsListHtml;
+        
+        // Add click event listeners to the scholar list items
+        document.querySelectorAll('.scholar-list-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const scholarId = item.getAttribute('data-id');
+                const scholar = window.scholarsData.find(s => String(s.id) === String(scholarId));
+                if (scholar) {
+                    showScholarDetails(scholar);
+                }
+            });
+        });
+    }
     
     // Update wheel zoom to be smoother
     mapContainer.addEventListener('wheel', (e) => {
@@ -864,112 +951,183 @@ function createScholarMap(scholars) {
     });
 }
 
+// Add a global variable to track the current view state
+let currentViewState = 'profile'; // Can be 'profile' or 'vicinity'
+
+/**
+ * Show scholar details in the sidebar
+ */
 function showScholarDetails(scholar) {
+    console.log(`Showing details for scholar: ${scholar.name}`);
+    
+    // Store the selected scholar globally
+    selectedScholar = scholar;
+    
+    // Set the current view state to profile
+    currentViewState = 'profile';
+    
+    // Get the sidebar and details container
     const sidebar = document.getElementById('sidebar');
     const detailsContainer = document.getElementById('scholar-details');
     
-    if (!sidebar || !detailsContainer) {
-        console.error('Sidebar or details container not found');
-        return;
-    }
+    // Show the sidebar
+    sidebar.classList.add('active');
     
-    // Show loading state
-    detailsContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading scholar profile...</div>';
-    
-    console.log(`Loading profile for scholar ${scholar.id}: ${scholar.name}`);
-    
-    // Create a basic profile with the data we already have
-    const basicProfileHtml = `
-        <div class="scholar-profile">
-            <div class="profile-header">
-                <div class="profile-image">
-                    <img src="images/placeholder.jpg" alt="${scholar.name}" onerror="this.src='images/placeholder.jpg'">
-                </div>
-                <div class="profile-info">
-                    <h3>${scholar.name}</h3>
-                    <div class="institution">${scholar.institution || 'Unknown Institution'}</div>
-                    <button id="show-vicinity" class="show-vicinity-button" data-scholar="${scholar.id}">
-                        <i class="fas fa-users"></i> Show Vicinity
-                    </button>
-                </div>
-            </div>
-            <div class="profile-content">
-                <div class="loading-indicator">Loading scholar profile...</div>
-            </div>
+    // Show loading indicator
+    detailsContainer.innerHTML = `
+        <div class="loading-indicator">
+            <div class="spinner"></div>
+            <p>Loading scholar profile...</p>
         </div>
     `;
     
-    // Update with basic profile immediately
-    detailsContainer.innerHTML = basicProfileHtml;
-    
-    // Add event listener for the show vicinity button
-    const showVicinityButton = detailsContainer.querySelector('#show-vicinity');
-    if (showVicinityButton) {
-        showVicinityButton.addEventListener('click', () => {
-            const scholarId = showVicinityButton.getAttribute('data-scholar');
-            showVicinityScholars(scholarId);
-        });
-    }
-    
-    // Fetch additional scholar details
+    // Fetch scholar profile data
     fetch(`/api/scholar/${scholar.id}`)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to load scholar profile');
+                throw new Error(`Failed to fetch scholar profile: ${response.status} ${response.statusText}`);
             }
             return response.json();
         })
         .then(data => {
-            console.log('Loaded scholar profile:', data);
+            console.log('Fetched scholar profile:', data);
             
-            // Update profile image if available
-            if (data.profile_pic) {
-                const profileImg = detailsContainer.querySelector('.profile-image img');
-                if (profileImg) {
-                    profileImg.src = data.profile_pic;
-                    profileImg.onerror = () => {
-                        profileImg.src = 'images/placeholder.jpg';
-                    };
-                }
+            // Create HTML for the scholar profile
+            const profileHtml = `
+                <div class="scholar-profile">
+                    <div class="profile-header">
+                        <div class="profile-image">
+                            <img src="${data.profile_pic}" alt="${data.name}" onerror="this.src='images/placeholder.jpg'">
+                        </div>
+                        <div class="profile-info">
+                            <h3>${data.name}</h3>
+                            <div class="institution">${data.institution || 'Unknown Institution'}</div>
+                            <button id="show-vicinity-button" class="show-vicinity-button">
+                                <i class="fas fa-users"></i> Show Vicinity
+                            </button>
+                        </div>
+                    </div>
+                    <div class="profile-content">
+                        <div class="markdown-content">
+                            ${formatMarkdown(data.markdown_content)}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Update the sidebar content
+            detailsContainer.innerHTML = profileHtml;
+            
+            // Set up markdown interactions
+            setupMarkdownInteractions();
+            
+            // Add click event listener to the Show Vicinity button
+            const vicinityButton = document.getElementById('show-vicinity-button');
+            if (vicinityButton) {
+                vicinityButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Show vicinity button clicked');
+                    showVicinityScholars(scholar.id);
+                });
             }
             
-            // Format and display markdown content
-            const profileContent = detailsContainer.querySelector('.profile-content');
-            if (profileContent) {
-                if (data.markdown_content) {
-                    profileContent.innerHTML = `
-                        <div class="research-info">
-                            <div class="research-text markdown-content">
-                                ${formatMarkdown(data.markdown_content)}
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Setup interactive elements in the markdown
-                    setupMarkdownInteractions();
-                } else {
-                    profileContent.innerHTML = `
-                        <div class="research-info">
-                            <div class="research-text">
-                                <p>No detailed information available for this scholar.</p>
-                            </div>
-                        </div>
-                    `;
-                }
-            }
+            // Highlight the scholar node on the map
+            highlightScholarNode(scholar.id);
         })
         .catch(error => {
-            console.error('Error loading scholar profile:', error);
-            const profileContent = detailsContainer.querySelector('.profile-content');
-            if (profileContent) {
-                profileContent.innerHTML = `
-                    <div class="error-message">
-                        <p>Failed to load scholar profile. Please try again later.</p>
-                        <p class="error-details">${error.message}</p>
-                    </div>
-                `;
-            }
+            console.error('Error fetching scholar profile:', error);
+            
+            // Show error message
+            detailsContainer.innerHTML = `
+                <div class="error-message">
+                    <p>Failed to load scholar profile</p>
+                    <div class="error-details">${error.message}</div>
+                </div>
+            `;
         });
+}
+
+/**
+ * Center the map on a scholar
+ */
+function centerMapOnScholar(scholar) {
+    // Get the map container and SVG
+    const mapContainer = document.getElementById('scholar-map');
+    const svg = mapContainer.querySelector('svg');
+    
+    if (!svg) {
+        console.error('SVG not found in map container');
+        return;
+    }
+    
+    // Find the scholar node
+    const scholarNode = svg.querySelector(`.scholar-node[data-id="${scholar.id}"]`);
+    
+    if (!scholarNode) {
+        console.error(`Scholar node not found for ID: ${scholar.id}`);
+        return;
+    }
+    
+    // Get the scholar's position
+    const scholarX = parseFloat(scholarNode.getAttribute('cx'));
+    const scholarY = parseFloat(scholarNode.getAttribute('cy'));
+    
+    // Get the current transform values
+    const transform = svg.__zoom || { k: 1, x: 0, y: 0 };
+    
+    // Calculate the center position
+    const width = mapContainer.clientWidth;
+    const height = mapContainer.clientHeight;
+    
+    // Calculate the new transform to center on the scholar
+    const scale = Math.max(1.5, transform.k); // Zoom in a bit more than current level
+    const x = width / 2 - scholarX * scale;
+    const y = height / 2 - scholarY * scale;
+    
+    // Apply the transform with a smooth transition
+    d3.select(svg)
+        .transition()
+        .duration(750)
+        .call(
+            d3.zoom().transform,
+            d3.zoomIdentity.translate(x, y).scale(scale)
+        );
+}
+
+/**
+ * Highlight a scholar node on the map
+ */
+function highlightScholarNode(scholarId) {
+    // Get the map container and SVG
+    const mapContainer = document.getElementById('scholar-map');
+    const svg = mapContainer.querySelector('svg');
+    
+    if (!svg) {
+        console.error('SVG not found in map container');
+        return;
+    }
+    
+    // Remove highlight from all nodes
+    svg.querySelectorAll('.scholar-node').forEach(node => {
+        node.classList.remove('selected');
+        node.classList.remove('highlight-pulse');
+    });
+    
+    // Find the scholar node
+    const scholarNode = svg.querySelector(`.scholar-node[data-id="${scholarId}"]`);
+    
+    if (!scholarNode) {
+        console.error(`Scholar node not found for ID: ${scholarId}`);
+        return;
+    }
+    
+    // Add highlight to the scholar node
+    scholarNode.classList.add('selected');
+    scholarNode.classList.add('highlight-pulse');
+    
+    // Bring the node to the front
+    scholarNode.parentNode.appendChild(scholarNode);
 }
 
 function formatMarkdown(markdown) {
@@ -1266,222 +1424,6 @@ function setupFilters(scholars) {
     }
 }
 
-function setupSearch(scholars) {
-    const searchInput = document.getElementById('scholar-search');
-    const searchButton = document.getElementById('search-button');
-    const searchResults = document.getElementById('search-results');
-    const searchContainer = document.querySelector('.search-container');
-    
-    if (!searchInput || !searchButton || !searchResults || !searchContainer) {
-        console.error('Search elements not found');
-        return;
-    }
-    
-    // Function to perform search
-    function performSearch(query) {
-        if (!query || query.length < 2) return [];
-        
-        query = query.toLowerCase();
-        
-        return scholars.filter(scholar => {
-            const name = scholar.name.toLowerCase();
-            const institution = (scholar.institution || '').toLowerCase();
-            
-            return name.includes(query) || institution.includes(query);
-        });
-    }
-    
-    // Function to highlight matching text
-    function highlightMatch(text, query) {
-        if (!query) return text;
-        
-        const regex = new RegExp(`(${query})`, 'gi');
-        return text.replace(regex, '<span class="search-result-highlight">$1</span>');
-    }
-    
-    // Function to display search results
-    function displaySearchResults(results, query) {
-        searchResults.innerHTML = '';
-        
-        if (results.length === 0) {
-            searchResults.innerHTML = '<div class="search-no-results">No scholars found matching your search</div>';
-            return;
-        }
-        
-        results.forEach(scholar => {
-            const resultItem = document.createElement('div');
-            resultItem.className = 'search-result-item';
-            
-            const highlightedName = highlightMatch(scholar.name, query);
-            
-            resultItem.innerHTML = `
-                <div class="search-result-image">
-                    <img src="data/profile_pics/${scholar.id}.jpg" alt="${scholar.name}" onerror="this.src='images/placeholder.jpg'">
-                </div>
-                <div class="search-result-info">
-                    <div class="search-result-name">${highlightedName}</div>
-                    ${scholar.institution ? `<div class="search-result-institution">${scholar.institution}</div>` : ''}
-                </div>
-            `;
-            
-            // Add click event to show scholar details and highlight on map
-            resultItem.addEventListener('click', () => {
-                // Show scholar details
-                showScholarDetails(scholar);
-                
-                // Highlight scholar on map
-                highlightScholarOnMap(scholar.id);
-                
-                // Hide search results
-                searchResults.classList.remove('active');
-                
-                // Collapse search box
-                searchContainer.classList.remove('expanded');
-            });
-            
-            searchResults.appendChild(resultItem);
-        });
-    }
-    
-    // Function to highlight scholar on map with enhanced animation
-    function highlightScholarOnMap(scholarId) {
-        // Remove highlight from all dots
-        document.querySelectorAll('.scholar-node').forEach(node => {
-            node.classList.remove('selected');
-            node.classList.remove('pulse-animation');
-        });
-        
-        document.querySelectorAll('.scholar-name-label').forEach(label => {
-            if (!label.classList.contains('clicked')) {
-                label.classList.remove('visible');
-            }
-        });
-        
-        // Add highlight to the matching scholar dot
-        const node = document.querySelector(`.scholar-node[data-id="${scholarId}"]`);
-        if (node) {
-            node.classList.add('selected');
-            node.classList.add('pulse-animation');
-            
-            // Make the node larger temporarily
-            const originalRadius = node.getAttribute('r');
-            node.setAttribute('r', '15');
-            
-            // Reset radius after animation
-            setTimeout(() => {
-                node.setAttribute('r', originalRadius);
-                node.classList.remove('pulse-animation');
-            }, 2000);
-            
-            // Show the scholar name label
-            const scholarGroup = node.closest('.scholar-group');
-            if (scholarGroup) {
-                const nameLabel = scholarGroup.querySelector('.scholar-name-label');
-                if (nameLabel) {
-                    nameLabel.classList.add('visible');
-                    nameLabel.classList.add('highlight-pulse');
-                    
-                    // Remove highlight pulse after animation
-                    setTimeout(() => {
-                        nameLabel.classList.remove('highlight-pulse');
-                    }, 2000);
-                }
-            }
-            
-            // Scroll to the scholar node
-            const mapContainer = document.getElementById('scholar-map');
-            if (mapContainer) {
-                // Get the position of the node
-                const x = parseFloat(node.getAttribute('cx'));
-                const y = parseFloat(node.getAttribute('cy'));
-                
-                // Calculate the center of the map container
-                const rect = mapContainer.getBoundingClientRect();
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                // Update the translation to center the node
-                const scholarsGroup = document.querySelector('.scholars-group');
-                if (scholarsGroup) {
-                    currentTranslate.x = centerX - x * currentZoom;
-                    currentTranslate.y = centerY - y * currentZoom;
-                    
-                    // Apply the transform with smooth animation
-                    scholarsGroup.style.transition = 'transform 0.8s ease-out';
-                    scholarsGroup.style.transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${currentZoom})`;
-                    
-                    // Remove transition after animation completes
-                    setTimeout(() => {
-                        scholarsGroup.style.transition = '';
-                    }, 800);
-                }
-            }
-        }
-    }
-    
-    // Toggle search container expansion when search button is clicked
-    searchButton.addEventListener('click', () => {
-        searchContainer.classList.toggle('expanded');
-        
-        if (searchContainer.classList.contains('expanded')) {
-            // Focus the input when expanded
-            setTimeout(() => {
-                searchInput.focus();
-            }, 300);
-            
-            const query = searchInput.value.trim();
-            if (query.length >= 2) {
-                const results = performSearch(query);
-                displaySearchResults(results, query);
-                searchResults.classList.add('active');
-            }
-        } else {
-            // Hide results when collapsed
-            searchResults.classList.remove('active');
-        }
-    });
-    
-    // Handle search input
-    searchInput.addEventListener('input', () => {
-        const query = searchInput.value.trim();
-        
-        if (query.length >= 2) {
-            const results = performSearch(query);
-            displaySearchResults(results, query);
-            searchResults.classList.add('active');
-        } else {
-            searchResults.classList.remove('active');
-        }
-    });
-    
-    // Handle Enter key in search input
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            const query = searchInput.value.trim();
-            
-            if (query.length >= 2) {
-                const results = performSearch(query);
-                displaySearchResults(results, query);
-                searchResults.classList.add('active');
-            }
-        }
-    });
-    
-    // Close search results when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!searchInput.contains(e.target) && 
-            !searchButton.contains(e.target) && 
-            !searchResults.contains(e.target)) {
-            searchResults.classList.remove('active');
-            
-            // Don't collapse if clicking inside the search container
-            if (!searchContainer.contains(e.target)) {
-                searchContainer.classList.remove('expanded');
-            }
-        }
-    });
-}
-
 // Function to check if all scholars have a country
 function checkScholarCountries(scholars) {
     const scholarsWithoutCountry = scholars.filter(scholar => !scholar.country);
@@ -1517,6 +1459,9 @@ function checkScholarCountries(scholars) {
 function showVicinityScholars(scholarId) {
     console.log(`Showing scholars in vicinity of scholar ${scholarId}`);
     
+    // Set the current view state to vicinity
+    currentViewState = 'vicinity';
+    
     // Get all scholars
     const scholars = window.scholarsData;
     if (!scholars) {
@@ -1549,213 +1494,672 @@ function showVicinityScholars(scholarId) {
         })
         .sort((a, b) => a.distance - b.distance); // Sort by distance (ascending)
     
-    // Get the top 10 closest scholars
-    const vicinityScholars = scholarsWithDistance.slice(0, 10).map(item => item.scholar);
+    // Get the top 5 closest scholars
+    const vicinityScholars = scholarsWithDistance.slice(0, 5).map(item => item.scholar);
     console.log(`Found ${vicinityScholars.length} scholars in vicinity of ${selectedScholar.name}`);
     
-    // Add the selected scholar to the vicinity scholars
-    const allVicinityScholars = [selectedScholar, ...vicinityScholars];
+    // Display the vicinity scholars in the sidebar
+    const sidebar = document.getElementById('sidebar');
+    const detailsContainer = document.getElementById('scholar-details');
+    const mapContainer = document.getElementById('map-container');
     
-    // Find the nodes for all vicinity scholars
-    const vicinityNodes = [];
-    
-    allVicinityScholars.forEach(scholar => {
-        const node = document.querySelector(`.scholar-node[data-id="${scholar.id}"]`);
-        if (node) {
-            const x = parseFloat(node.getAttribute('cx'));
-            const y = parseFloat(node.getAttribute('cy'));
-            vicinityNodes.push({ 
-                id: scholar.id, 
-                x, 
-                y, 
-                node,
-                scholar: scholar,
-                isSelected: scholar.id === selectedScholar.id
-            });
-        }
-    });
-    
-    if (vicinityNodes.length === 0) {
-        console.error('No visible nodes found for vicinity scholars');
+    if (!detailsContainer) {
+        console.error('Scholar details container not found');
         return;
     }
     
-    // Calculate the bounding box of the vicinity
-    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    vicinityNodes.forEach(node => {
-        minX = Math.min(minX, node.x);
-        maxX = Math.max(maxX, node.x);
-        minY = Math.min(minY, node.y);
-        maxY = Math.max(maxY, node.y);
-    });
-    
-    // Add padding to the bounding box
-    const padding = 100;
-    minX -= padding;
-    maxX += padding;
-    minY -= padding;
-    maxY += padding;
-    
-    // Calculate the width and height of the bounding box
-    const width = maxX - minX;
-    const height = maxY - minY;
-    
-    // Get the map container dimensions
-    const mapContainer = document.getElementById('scholar-map');
-    const containerWidth = mapContainer.clientWidth;
-    const containerHeight = mapContainer.clientHeight;
-    
-    // Calculate the zoom factor to fit the vicinity in the container
-    const zoomFactorX = containerWidth / width;
-    const zoomFactorY = containerHeight / height;
-    const newZoom = Math.min(zoomFactorX, zoomFactorY, 2) * 0.8; // 80% to add some margin, max zoom of 2
-    
-    // Calculate the new translation to center the vicinity
-    const newTranslateX = containerWidth / 2 - (minX + width / 2) * newZoom;
-    const newTranslateY = containerHeight / 2 - (minY + height / 2) * newZoom;
-    
-    // Store original zoom and translation for reset
-    const originalZoom = currentZoom;
-    const originalTranslate = { x: currentTranslate.x, y: currentTranslate.y };
-    
-    // Apply the new zoom and translation with animation
-    const scholarsGroup = document.querySelector('.scholars-group');
-    if (scholarsGroup) {
-        scholarsGroup.style.transition = 'transform 0.8s ease-out';
-        
-        // Update current zoom and translate
-        currentZoom = newZoom;
-        currentTranslate.x = newTranslateX;
-        currentTranslate.y = newTranslateY;
-        
-        // Apply transform
-        scholarsGroup.style.transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${currentZoom})`;
-        
-        // Remove transition after animation completes
-        setTimeout(() => {
-            scholarsGroup.style.transition = '';
-        }, 800);
+    // Force the sidebar to be visible and maintain the same layout
+    if (sidebar) {
+        sidebar.style.display = 'flex';
+        sidebar.style.width = '50%';
+        sidebar.classList.add('active');
     }
     
-    // Reset all scholars to default state first
-    document.querySelectorAll('.scholar-node').forEach(node => {
-        node.classList.remove('selected');
-        node.classList.remove('pulse-animation');
-        node.style.opacity = '0.15'; // Fade out non-vicinity nodes significantly
+    console.log('Updating sidebar with vicinity scholars');
+    
+    // Create HTML for the vicinity scholars list with more prominent styling
+    let vicinityListHtml = `
+        <div class="selected-scholars-list" style="width: 100%; box-sizing: border-box; margin-top: 0;">
+            <h3 style="color: #4a6fa5; font-size: 20px; margin-bottom: 15px;">Scholars Near ${selectedScholar.name} (${vicinityScholars.length})</h3>
+            <ul class="scholars-list" style="max-height: 400px; overflow-y: auto; margin-bottom: 15px; padding: 0;">
+    `;
+    
+    vicinityScholars.forEach(scholar => {
+        vicinityListHtml += `
+            <li class="scholar-list-item" data-id="${scholar.id}" style="padding: 12px; margin-bottom: 10px; background-color: #f5f8ff; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; border: 1px solid #e0e0e0;">
+                <div class="scholar-list-name" style="font-weight: 600; color: #333; margin-bottom: 5px;">${scholar.name}</div>
+                <div class="scholar-list-institution" style="font-size: 13px; color: #666;">${scholar.institution || 'Unknown Institution'}</div>
+            </li>
+        `;
     });
     
-    document.querySelectorAll('.scholar-node-image').forEach(img => {
-        img.classList.remove('visible');
-    });
+    vicinityListHtml += `
+            </ul>
+            <button id="back-to-scholar" class="show-vicinity-button" style="width: 100%; margin-top: 15px; background-color: #4a6fa5; color: white; border: none; border-radius: 4px; padding: 10px; font-size: 14px; cursor: pointer;">
+                <i class="fas fa-arrow-left"></i> Back to Scholar
+            </button>
+        </div>
+    `;
     
-    document.querySelectorAll('.scholar-name-label').forEach(label => {
-        if (!label.classList.contains('clicked')) {
-            label.classList.remove('visible');
-        }
-    });
+    // Update the sidebar content with the vicinity scholars list
+    detailsContainer.innerHTML = vicinityListHtml;
+    console.log('Sidebar updated with vicinity scholars');
     
-    // Highlight scholars in the vicinity
-    vicinityNodes.forEach(nodeInfo => {
-        const node = nodeInfo.node;
-        node.style.opacity = '1'; // Make vicinity nodes fully visible
-        
-        // Add special highlighting for the selected scholar
-        if (nodeInfo.isSelected) {
-            node.classList.add('selected');
-            node.classList.add('pulse-animation');
-            node.setAttribute('r', '12'); // Make the selected scholar larger
-        }
-        
-        // Show the scholar name label for all vicinity scholars
-        const scholarGroup = node.closest('.scholar-group');
-        if (scholarGroup) {
-            const nameLabel = scholarGroup.querySelector('.scholar-name-label');
-            if (nameLabel) {
-                nameLabel.classList.add('visible');
-                
-                // Make the selected scholar's name bold
-                if (nodeInfo.isSelected) {
-                    nameLabel.style.fontWeight = 'bold';
-                    nameLabel.style.fontSize = '14px';
-                }
+    // Add click event listeners to the scholar list items
+    document.querySelectorAll('.scholar-list-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const scholarId = item.getAttribute('data-id');
+            const scholar = window.scholarsData.find(s => String(s.id) === String(scholarId));
+            if (scholar) {
+                showScholarDetails(scholar);
             }
-            
-            // Bring to front
-            if (scholarsGroup) {
-                scholarsGroup.appendChild(scholarGroup);
-            }
-        }
+        });
     });
     
-    // Add a notification
-    let notification = document.querySelector('.vicinity-notification');
-    if (notification) {
-        document.body.removeChild(notification);
+    // Add click event listener to the back button
+    const backButton = detailsContainer.querySelector('#back-to-scholar');
+    if (backButton) {
+        backButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Back to scholar button clicked');
+            // Set the current view state back to profile before showing scholar details
+            currentViewState = 'profile';
+            showScholarDetails(selectedScholar);
+        });
     }
     
-    notification = document.createElement('div');
+    // Add a notification to indicate the vicinity view is active
+    const notification = document.createElement('div');
     notification.className = 'vicinity-notification';
+    notification.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #4a6fa5; color: white; border-radius: 8px; padding: 10px 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000;';
     notification.innerHTML = `
         <div class="notification-content">
-            <i class="fas fa-users"></i>
-            <span>Showing ${vicinityScholars.length} scholars near ${selectedScholar.name}</span>
-            <button id="reset-vicinity" class="reset-vicinity-button">
-                <i class="fas fa-times"></i>
-            </button>
+            <i class="fas fa-info-circle"></i>
+            <span>Showing scholars near ${selectedScholar.name}</span>
         </div>
     `;
     document.body.appendChild(notification);
     
-    // Add event listener to reset button
-    const resetButton = notification.querySelector('#reset-vicinity');
-    if (resetButton) {
-        resetButton.addEventListener('click', () => {
-            // Reset all scholars to default state
-            document.querySelectorAll('.scholar-node').forEach(node => {
-                node.classList.remove('selected');
-                node.classList.remove('pulse-animation');
-                node.style.opacity = '1'; // Restore opacity
-                node.setAttribute('r', '6'); // Reset size
-            });
-            
-            document.querySelectorAll('.scholar-node-image').forEach(img => {
-                img.classList.remove('visible');
-            });
-            
-            document.querySelectorAll('.scholar-name-label').forEach(label => {
-                if (!label.classList.contains('clicked')) {
-                    label.classList.remove('visible');
-                }
-                label.style.fontWeight = '';
-                label.style.fontSize = '';
-            });
-            
-            // Reset zoom and translation with animation
-            if (scholarsGroup) {
-                scholarsGroup.style.transition = 'transform 0.8s ease-out';
-                
-                // Reset zoom and translation
-                currentZoom = originalZoom;
-                currentTranslate = { x: originalTranslate.x, y: originalTranslate.y };
-                
-                // Apply transform
-                scholarsGroup.style.transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${currentZoom})`;
-                
-                // Remove transition after animation completes
-                setTimeout(() => {
-                    scholarsGroup.style.transition = '';
-                }, 800);
-            }
-            
-            // Remove the notification
-            document.body.removeChild(notification);
-        });
+    // Remove the notification after 3 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    }, 3000);
+}
+
+/**
+ * Set up search functionality
+ */
+function setupSearch() {
+    const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
+    const searchResults = document.querySelector('.search-results');
+    const searchTypeOptions = document.querySelectorAll('input[name="search-type"]');
+    
+    if (!searchInput || !searchButton || !searchResults) {
+        console.error('Search elements not found in the DOM');
+        return;
     }
     
-    // Auto-remove notification after 30 seconds
-    setTimeout(() => {
-        if (document.body.contains(notification)) {
-            document.body.removeChild(notification);
+    console.log('Setting up search functionality');
+    
+    // Track current search type
+    let currentSearchType = 'name'; // Default to name search
+    
+    // Listen for search type changes
+    searchTypeOptions.forEach(option => {
+        option.addEventListener('change', (e) => {
+            currentSearchType = e.target.value;
+            console.log(`Search type changed to: ${currentSearchType}`);
+            
+            // Update placeholder text based on search type
+            if (currentSearchType === 'name') {
+                searchInput.placeholder = 'Search for scholars by name...';
+                
+                // Trigger instant search if there's already text in the input
+                const query = searchInput.value.trim();
+                if (query.length >= 3) {
+                    performInstantSearch(query);
+                }
+            } else {
+                searchInput.placeholder = 'Describe a research topic...';
+                // Hide search results when switching to research search
+                searchResults.classList.remove('active');
+            }
+        });
+    });
+    
+    // Function to perform instant search for scholar names
+    const performInstantSearch = async (query) => {
+        if (currentSearchType !== 'name' || query.length < 3) return;
+        
+        console.log(`Performing instant name search for: ${query}`);
+        
+        try {
+            // Show loading state
+            searchResults.innerHTML = '<div class="search-no-results">Searching...</div>';
+            searchResults.classList.add('active');
+            
+            // Get all scholars
+            const scholars = window.scholarsData;
+            if (!scholars || scholars.length === 0) {
+                console.error('Scholar data not available for instant search');
+                searchResults.innerHTML = '<div class="search-no-results">Scholar data not available</div>';
+                return;
+            }
+            
+            // Filter scholars by name (case-insensitive)
+            const queryLower = query.toLowerCase();
+            const matchingScholars = scholars
+                .filter(scholar => scholar.name.toLowerCase().includes(queryLower))
+                .slice(0, 10); // Limit to 10 results
+            
+            // Display results
+            displayScholarSearchResults(matchingScholars, query);
+            
+        } catch (error) {
+            console.error('Error performing instant search:', error);
+            searchResults.innerHTML = `<div class="search-no-results">Error: ${error.message}</div>`;
         }
-    }, 30000);
+    };
+    
+    // Function to perform search
+    const performSearch = async () => {
+        const query = searchInput.value.trim();
+        if (!query) return;
+        
+        console.log(`Performing ${currentSearchType} search for: ${query}`);
+        
+        // For name search with 3+ characters, we already have results from instant search
+        if (currentSearchType === 'name' && query.length >= 3) {
+            // Results are already displayed by instant search
+            return;
+        }
+        
+        try {
+            // Show loading state
+            searchResults.innerHTML = '<div class="search-no-results">Searching...</div>';
+            searchResults.classList.add('active');
+            
+            // Prepare request data
+            const requestData = {
+                type: currentSearchType,
+                query: query
+            };
+            
+            console.log('Sending search request:', requestData);
+            
+            // Send search request to server
+            const response = await fetch('/api/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`Search request failed: ${response.status} ${response.statusText}`, errorText);
+                throw new Error(`Search request failed: ${response.status} ${response.statusText}`);
+            }
+            
+            const data = await response.json();
+            console.log('Search results:', data);
+            
+            // Handle different types of search results
+            if (currentSearchType === 'name') {
+                displayScholarSearchResults(data.results, query);
+            } else if (currentSearchType === 'research') {
+                // Hide search results
+                searchResults.classList.remove('active');
+                
+                // Display research pin on map
+                displayResearchPin(data.coords, query);
+            }
+        } catch (error) {
+            console.error('Error performing search:', error);
+            searchResults.innerHTML = `<div class="search-no-results">Error: ${error.message}</div>`;
+        }
+    };
+    
+    // Add event listeners
+    searchButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        performSearch();
+    });
+    
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            performSearch();
+        }
+    });
+    
+    // Add input event listener for instant search
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        
+        // Only perform instant search for name search with 3+ characters
+        if (currentSearchType === 'name' && query.length >= 3) {
+            performInstantSearch(query);
+        } else if (query.length < 3) {
+            // Hide search results if query is too short
+            searchResults.classList.remove('active');
+        }
+    });
+    
+    // Close search results when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-container')) {
+            searchResults.classList.remove('active');
+        }
+    });
+    
+    console.log('Search functionality set up successfully');
+}
+
+/**
+ * Display scholar search results
+ */
+function displayScholarSearchResults(scholars, query) {
+    const searchResults = document.querySelector('.search-results');
+    
+    if (!scholars || scholars.length === 0) {
+        searchResults.innerHTML = '<div class="search-no-results">No scholars found</div>';
+        return;
+    }
+    
+    // Create HTML for search results
+    let resultsHtml = '';
+    
+    scholars.forEach(scholar => {
+        // Highlight the matching part of the name
+        const name = scholar.name;
+        const lowerName = name.toLowerCase();
+        const lowerQuery = query.toLowerCase();
+        const index = lowerName.indexOf(lowerQuery);
+        
+        let highlightedName = name;
+        
+        if (index !== -1) {
+            const before = name.substring(0, index);
+            const match = name.substring(index, index + query.length);
+            const after = name.substring(index + query.length);
+            highlightedName = `${before}<span class="search-result-highlight">${match}</span>${after}`;
+        }
+        
+        resultsHtml += `
+            <div class="search-result-item" data-id="${scholar.id}">
+                <div class="search-result-image">
+                    <img src="data/profile_pics/${scholar.id}.jpg" onerror="this.src='images/placeholder.jpg'" alt="${name}">
+                </div>
+                <div class="search-result-info">
+                    <div class="search-result-name">${highlightedName}</div>
+                    <div class="search-result-institution">${scholar.institution || 'Unknown Institution'}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    // Update search results
+    searchResults.innerHTML = resultsHtml;
+    searchResults.classList.add('active');
+    
+    // Add click event listeners to search results
+    document.querySelectorAll('.search-result-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const scholarId = item.getAttribute('data-id');
+            const scholar = window.scholarsData.find(s => String(s.id) === String(scholarId));
+            
+            if (scholar) {
+                // Hide search results
+                searchResults.classList.remove('active');
+                
+                // Highlight the scholar on the map
+                highlightScholar(scholar);
+                
+                // Show scholar details
+                showScholarDetails(scholar);
+            }
+        });
+    });
+}
+
+/**
+ * Highlight a scholar on the map
+ */
+function highlightScholar(scholar) {
+    // Get the map container and SVG
+    const mapContainer = document.getElementById('scholar-map');
+    const svg = mapContainer.querySelector('svg');
+    
+    if (!svg) {
+        console.error('SVG not found in map container');
+        return;
+    }
+    
+    // Get the scholar node
+    const scholarNode = svg.querySelector(`.scholar-node[data-id="${scholar.id}"]`);
+    
+    if (!scholarNode) {
+        console.error(`Scholar node not found for ID: ${scholar.id}`);
+        return;
+    }
+    
+    // Calculate the position to center the map on the scholar
+    const scholarX = parseFloat(scholarNode.getAttribute('cx'));
+    const scholarY = parseFloat(scholarNode.getAttribute('cy'));
+    
+    // Get the current transform values
+    const transform = svg.__zoom || { k: 1, x: 0, y: 0 };
+    
+    // Calculate the center position
+    const width = mapContainer.clientWidth;
+    const height = mapContainer.clientHeight;
+    
+    // Calculate the new transform to center on the scholar
+    const scale = Math.max(1, transform.k); // Keep at least the current zoom level
+    const x = width / 2 - scholarX * scale;
+    const y = height / 2 - scholarY * scale;
+    
+    // Apply the transform with a smooth transition
+    d3.select(svg)
+        .transition()
+        .duration(750)
+        .call(
+            d3.zoom().transform,
+            d3.zoomIdentity.translate(x, y).scale(scale)
+        );
+    
+    // Add a pulse animation to the scholar node
+    scholarNode.classList.add('highlight-pulse');
+    
+    // Remove the pulse animation after it completes
+    setTimeout(() => {
+        scholarNode.classList.remove('highlight-pulse');
+    }, 2000);
+}
+
+/**
+ * Display a research pin on the map
+ */
+function displayResearchPin(coords, query) {
+    console.log(`Displaying research pin at coordinates: [${coords[0]}, ${coords[1]}]`);
+    
+    // Get the map container and SVG
+    const mapContainer = document.getElementById('scholar-map');
+    const svg = mapContainer.querySelector('svg');
+    
+    if (!svg) {
+        console.error('SVG not found in map container');
+        return;
+    }
+    
+    // Remove any existing research pins
+    const existingPins = svg.querySelectorAll('.research-pin-group');
+    existingPins.forEach(pin => pin.remove());
+    
+    // Create a group for the pin and label
+    const pinGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    pinGroup.classList.add('research-pin-group');
+    
+    // Create the pin with a pulsing animation
+    const pin = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    pin.classList.add('research-pin');
+    pin.setAttribute('cx', coords[0]);
+    pin.setAttribute('cy', coords[1]);
+    pin.setAttribute('r', 10);
+    pin.setAttribute('fill', 'var(--accent-color)');
+    pin.setAttribute('stroke', 'white');
+    pin.setAttribute('stroke-width', '2');
+    
+    // Add a pulsing animation to the pin
+    const animateRadius = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+    animateRadius.setAttribute('attributeName', 'r');
+    animateRadius.setAttribute('values', '10;15;10');
+    animateRadius.setAttribute('dur', '2s');
+    animateRadius.setAttribute('repeatCount', 'indefinite');
+    pin.appendChild(animateRadius);
+    
+    // Add a pulsing animation to the stroke width
+    const animateStroke = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+    animateStroke.setAttribute('attributeName', 'stroke-width');
+    animateStroke.setAttribute('values', '2;4;2');
+    animateStroke.setAttribute('dur', '2s');
+    animateStroke.setAttribute('repeatCount', 'indefinite');
+    pin.appendChild(animateStroke);
+    
+    // Add a pulsing animation to the opacity
+    const animateOpacity = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+    animateOpacity.setAttribute('attributeName', 'opacity');
+    animateOpacity.setAttribute('values', '1;0.7;1');
+    animateOpacity.setAttribute('dur', '2s');
+    animateOpacity.setAttribute('repeatCount', 'indefinite');
+    pin.appendChild(animateOpacity);
+    
+    // Create the label
+    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    label.classList.add('research-pin-label');
+    label.setAttribute('x', coords[0]);
+    label.setAttribute('y', coords[1] - 20);
+    label.setAttribute('text-anchor', 'middle');
+    label.setAttribute('fill', 'var(--text-color)');
+    label.setAttribute('font-size', '14px');
+    label.setAttribute('font-weight', 'bold');
+    label.setAttribute('pointer-events', 'none');
+    label.textContent = query.length > 30 ? query.substring(0, 27) + '...' : query;
+    
+    // Add a white background to the label
+    const labelBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    labelBg.setAttribute('fill', 'white');
+    labelBg.setAttribute('rx', '6');
+    labelBg.setAttribute('ry', '6');
+    labelBg.setAttribute('opacity', '0.9');
+    
+    // Calculate the background size based on the text
+    const labelWidth = Math.min(query.length * 8, 250);
+    labelBg.setAttribute('width', labelWidth);
+    labelBg.setAttribute('height', '24');
+    labelBg.setAttribute('x', coords[0] - labelWidth / 2);
+    labelBg.setAttribute('y', coords[1] - 38);
+    
+    // Add elements to the SVG
+    pinGroup.appendChild(labelBg);
+    pinGroup.appendChild(label);
+    pinGroup.appendChild(pin);
+    svg.appendChild(pinGroup);
+    
+    // Calculate the position to center the map on the pin
+    const pinX = coords[0];
+    const pinY = coords[1];
+    
+    // Get the current transform values
+    const transform = svg.__zoom || { k: 1, x: 0, y: 0 };
+    
+    // Calculate the center position
+    const width = mapContainer.clientWidth;
+    const height = mapContainer.clientHeight;
+    
+    // Calculate the new transform to center on the pin
+    const scale = Math.max(1.5, transform.k); // Zoom in a bit more than current level
+    const x = width / 2 - pinX * scale;
+    const y = height / 2 - pinY * scale;
+    
+    // Apply the transform with a smooth transition
+    d3.select(svg)
+        .transition()
+        .duration(750)
+        .call(
+            d3.zoom().transform,
+            d3.zoomIdentity.translate(x, y).scale(scale)
+        );
+    
+    // Add a notification
+    const notification = document.createElement('div');
+    notification.className = 'vicinity-notification';
+    notification.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--accent-color); color: white; border-radius: 8px; padding: 10px 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000;';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-search"></i>
+            <span>Research topic projected: "${query}"</span>
+        </div>
+    `;
+    document.body.appendChild(notification);
+    
+    // Remove the notification after 3 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    }, 3000);
+    
+    // Do not find closest scholars to the research pin
+}
+
+/**
+ * Find the closest scholars to a research pin
+ */
+function findClosestScholarsToPin(coords) {
+    console.log(`Finding closest scholars to coordinates: [${coords[0]}, ${coords[1]}]`);
+    
+    // Get all scholars
+    const scholars = window.scholarsData;
+    if (!scholars) {
+        console.error('Scholar data not available');
+        return;
+    }
+    
+    // Calculate Euclidean distance to all scholars
+    const scholarsWithDistance = scholars.map(scholar => {
+        // Calculate Euclidean distance between UMAP coordinates
+        const dx = scholar.umap[0] - coords[0];
+        const dy = scholar.umap[1] - coords[1];
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        return {
+            scholar,
+            distance
+        };
+    }).sort((a, b) => a.distance - b.distance); // Sort by distance (ascending)
+    
+    // Get the top 5 closest scholars
+    const closestScholars = scholarsWithDistance.slice(0, 5).map(item => item.scholar);
+    console.log(`Found ${closestScholars.length} scholars closest to the research pin`);
+    
+    // Display the closest scholars in the sidebar
+    const sidebar = document.getElementById('sidebar');
+    const detailsContainer = document.getElementById('scholar-details');
+    
+    if (!detailsContainer) {
+        console.error('Scholar details container not found');
+        return;
+    }
+    
+    // Force the sidebar to be visible
+    if (sidebar) {
+        sidebar.style.display = 'block';
+        sidebar.style.width = '350px';
+    }
+    
+    console.log('Updating sidebar with closest scholars');
+    
+    // Create HTML for the closest scholars list with prominent styling
+    let scholarsListHtml = `
+        <div class="selected-scholars-list" style="width: 100%; box-sizing: border-box; margin-top: 0;">
+            <h3 style="color: var(--accent-color); font-size: 20px; margin-bottom: 15px;">Scholars Related to Research</h3>
+            <p style="margin-bottom: 15px; font-size: 14px; color: #666;">These scholars work on topics related to your research query:</p>
+            <ul class="scholars-list" style="max-height: 400px; overflow-y: auto; margin-bottom: 15px; padding: 0;">
+    `;
+    
+    closestScholars.forEach(scholar => {
+        scholarsListHtml += `
+            <li class="scholar-list-item" data-id="${scholar.id}" style="padding: 12px; margin-bottom: 10px; background-color: #fff5f5; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; border: 1px solid #ffe0e0;">
+                <div class="scholar-list-name" style="font-weight: 600; color: #333; margin-bottom: 5px;">${scholar.name}</div>
+                <div class="scholar-list-institution" style="font-size: 13px; color: #666;">${scholar.institution || 'Unknown Institution'}</div>
+            </li>
+        `;
+    });
+    
+    scholarsListHtml += `
+            </ul>
+            <button id="reset-view-button" class="show-vicinity-button" style="width: 100%; margin-top: 15px; background-color: var(--accent-color); color: white; border: none; border-radius: 4px; padding: 10px; font-size: 14px; cursor: pointer;">
+                <i class="fas fa-sync-alt"></i> Reset View
+            </button>
+        </div>
+    `;
+    
+    // Update the sidebar content with the closest scholars list
+    detailsContainer.innerHTML = scholarsListHtml;
+    console.log('Sidebar updated with closest scholars');
+    
+    // Add click event listeners to the scholar list items
+    document.querySelectorAll('.scholar-list-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const scholarId = item.getAttribute('data-id');
+            const scholar = window.scholarsData.find(s => String(s.id) === String(scholarId));
+            if (scholar) {
+                showScholarDetails(scholar);
+            }
+        });
+    });
+    
+    // Add click event listener to the reset button
+    const resetButton = detailsContainer.querySelector('#reset-view-button');
+    if (resetButton) {
+        resetButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Reset view button clicked');
+            
+            // Reset the view
+            resetView();
+            
+            // Reset the sidebar
+            detailsContainer.innerHTML = `
+                <div class="placeholder-message">
+                    <i class="fas fa-user-circle"></i>
+                    <p>Select a scholar to view their profile</p>
+                    <small>Explore the map by clicking on scholar nodes</small>
+                </div>
+            `;
+        });
+    }
+}
+
+/**
+ * Reset the map view to the default state
+ */
+function resetView() {
+    console.log('Resetting view');
+    
+    // Get the map container and SVG
+    const mapContainer = document.getElementById('scholar-map');
+    const svg = mapContainer.querySelector('svg');
+    
+    if (!svg) {
+        console.error('SVG not found in map container');
+        return;
+    }
+    
+    // Remove any existing research pins
+    const existingPins = svg.querySelectorAll('.research-pin-group');
+    existingPins.forEach(pin => pin.remove());
+    
+    // Reset the transform with a smooth transition
+    d3.select(svg)
+        .transition()
+        .duration(750)
+        .call(
+            d3.zoom().transform,
+            d3.zoomIdentity
+        );
+    
+    // Reset any highlighted scholars
+    const highlightedScholars = svg.querySelectorAll('.scholar-node.highlight-pulse');
+    highlightedScholars.forEach(node => {
+        node.classList.remove('highlight-pulse');
+    });
 }

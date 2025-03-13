@@ -89,8 +89,10 @@ def get_query_umap_coords(query_text: str) -> dict:
     - error: Error message if an error occurred
     """
     try:
-        # Project the query to UMAP space
+        # Project the query to UMAP space using the model at data/model/umap_n30_d0.2_model.joblib
         x, y = project_query_to_umap(query_text)
+        
+        # Return only the coordinates, no closest research features
         return {
             'coords': (x, y),
             'error': None

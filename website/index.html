@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/futura-pt" rel="stylesheet">
+    <!-- Add D3.js for force simulation -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <header>
@@ -35,16 +37,9 @@
                         <!-- Search results will be populated by JavaScript -->
                     </div>
                 </div>
-                <div class="map-overlay">
-                    <div class="map-controls">
-                        <button id="zoom-in" title="Zoom In"><i class="fas fa-plus"></i></button>
-                        <button id="zoom-out" title="Zoom Out"><i class="fas fa-minus"></i></button>
-                        <button id="reset-view" title="Reset View"><i class="fas fa-sync-alt"></i></button>
-                    </div>
-                </div>
                 <div class="filter-container">
                     <button id="filter-toggle" class="filter-toggle">
-                        <i class="fas fa-filter"></i> Filter
+                        <i class="fas fa-filter"></i>
                     </button>
                     <div class="filter-dropdown">
                         <div class="filter-section">
@@ -60,6 +55,16 @@
                             <button id="apply-filters" class="apply-button">Apply</button>
                             <button id="clear-filters" class="clear-button">Clear All</button>
                         </div>
+                    </div>
+                </div>
+                <div class="map-overlay">
+                    <div class="map-controls">
+                        <button id="zoom-in" title="Zoom In"><i class="fas fa-plus"></i></button>
+                        <button id="zoom-out" title="Zoom Out"><i class="fas fa-minus"></i></button>
+                        <button id="reset-view" title="Reset View"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                    <div class="map-hint">
+                        Hold <kbd>Shift</kbd> + drag to select an area to zoom
                     </div>
                 </div>
                 <div id="scholar-map"></div>

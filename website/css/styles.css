@@ -73,6 +73,21 @@
     }
 }
 
+@keyframes node-pulse {
+    0% {
+        stroke-width: 2;
+        stroke-opacity: 0.8;
+    }
+    50% {
+        stroke-width: 6;
+        stroke-opacity: 1;
+    }
+    100% {
+        stroke-width: 2;
+        stroke-opacity: 0.8;
+    }
+}
+
 @keyframes float {
     0% {
         transform: translateY(0px);
@@ -109,6 +124,17 @@
     }
 }
 
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .fade-in {
     animation: fadeIn 0.5s ease-out forwards;
 }
@@ -116,6 +142,12 @@
 .highlight-pulse {
     animation: pulse 1s ease-out 2;
     z-index: 10;
+}
+
+.pulse-animation {
+    animation: node-pulse 0.8s ease-out 3;
+    stroke: var(--accent-color);
+    stroke-width: 2;
 }
 
 .float {
@@ -313,24 +345,26 @@ main {
 
 .map-overlay {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
-    z-index: 10;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
 }
 
+/* Map controls */
 .map-controls {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    background-color: white;
-    padding: 0.5rem;
+    gap: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 28px; /* Reduced width */
 }
 
 .map-controls button {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     border: none;
     background-color: var(--light-color);
     color: var(--secondary-color);
@@ -340,11 +374,37 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+    font-size: 0.8rem;
 }
 
 .map-controls button:hover {
     background-color: var(--primary-color);
     color: white;
+}
+
+.map-hint {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--secondary-color);
+    max-width: 200px;
+    text-align: center;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    margin-top: 0;
+}
+
+.map-hint kbd {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-family: monospace;
+    font-size: 0.8em;
 }
 
 /* Scholar map styles */
@@ -491,22 +551,29 @@ main {
     overflow: hidden;
 }
 
-/* Move search container to the map area */
+/* Move search container to the visualization area */
 .search-container {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
+    top: 20px;
+    left: 20px; /* Position from the left edge of the map */
+    transform: none; /* Remove the transform that was causing positioning issues */
+    width: 50px; /* Start with just the icon visible */
     z-index: 100;
-    width: 280px;
+    transition: width 0.3s ease;
+}
+
+.search-container.expanded {
+    width: 300px; /* Expand when clicked */
 }
 
 .search-box {
     display: flex;
     background-color: white;
-    border-radius: 8px;
+    border-radius: 30px; /* More rounded for icon-only view */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: all 0.2s ease;
+    height: 40px;
 }
 
 .search-box:focus-within {
@@ -521,15 +588,29 @@ main {
     color: var(--text-color);
     outline: none;
     font-family: var(--font-body);
+    width: 0; /* Start with 0 width */
+    transition: width 0.3s ease;
+    opacity: 0;
+}
+
+.search-container.expanded .search-box input {
+    width: 100%; /* Full width when expanded */
+    opacity: 1;
 }
 
 .search-box button {
     background-color: var(--primary-color);
     border: none;
     color: white;
-    padding: 0 1rem;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
 .search-box button:hover {
@@ -540,7 +621,7 @@ main {
     position: absolute;
     top: calc(100% + 0.5rem);
     left: 0;
-    width: 100%;
+    width: 300px; /* Fixed width for results */
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -556,7 +637,7 @@ main {
 .search-results.active {
     max-height: 300px;
     opacity: 1;
-    pointer-events: all;
+    pointer-events: auto;
     overflow-y: auto;
 }
 
@@ -631,57 +712,52 @@ main {
     z-index: 100 !important;
 }
 
-/* Move filter container to the map area */
+/* Move filter container to the bottom right of visualization */
 .filter-container {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 20px;
+    right: 20px; /* Position from the right edge of the map */
+    left: auto; /* Reset left positioning */
+    transform: none; /* Remove the transform that was causing positioning issues */
     z-index: 100;
 }
 
 .filter-toggle {
-    background-color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
     border: none;
-    border-radius: 8px;
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--secondary-color);
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    transition: all 0.2s ease;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    padding: 0;
 }
 
 .filter-toggle i {
-    font-size: 0.8rem;
-    color: var(--primary-color);
+    font-size: 1rem;
 }
 
 .filter-toggle:hover {
-    background-color: #f8f9fa;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: #3a5a84;
 }
 
 .filter-toggle.active {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.filter-toggle.active i {
-    color: white;
+    background-color: var(--secondary-color);
 }
 
 .filter-dropdown {
     position: absolute;
-    top: calc(100% + 0.5rem);
-    left: 0;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 300px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    width: 280px;
+    padding: 1rem;
     max-height: 0;
     overflow: hidden;
     opacity: 0;
@@ -690,9 +766,10 @@ main {
 }
 
 .filter-dropdown.active {
-    max-height: 500px;
+    max-height: 400px;
     opacity: 1;
-    pointer-events: all;
+    pointer-events: auto;
+    overflow-y: auto;
 }
 
 .filter-section {
@@ -1210,23 +1287,22 @@ main {
 
 .profile-info {
     flex: 1;
+    padding-left: 20px;
 }
 
 .profile-info h3 {
-    margin: 0 0 5px 0;
-    font-size: 1.3rem;
-    color: var(--primary-color);
-    line-height: 1.2;
-    font-weight: 600;
-    letter-spacing: -0.01em;
     font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+    line-height: 1.2;
 }
 
 .profile-info .institution {
-    margin: 0 0 5px 0;
     font-size: 0.9rem;
-    color: #444;
-    font-weight: 500;
+    color: var(--light-text);
+    margin-bottom: 10px;
 }
 
 .profile-info .country {
@@ -1516,52 +1592,65 @@ main {
 
 /* SVG Scholar Map */
 .scholar-node {
+    fill-opacity: 1;
+    stroke: white;
+    stroke-width: 1.5;
     cursor: pointer;
-    transition: all 0.2s ease;
-    stroke-width: 0;
+    transition: r 0.3s ease, fill-opacity 0.3s ease, opacity 0.3s ease;
 }
 
 .scholar-node:hover {
-    stroke: #ffffff;
-    stroke-width: 2px;
+    stroke-width: 2;
+    stroke: white;
 }
 
 .scholar-node.selected {
-    stroke: #ffffff;
-    stroke-width: 2.5px;
+    stroke-width: 2;
+    stroke: white;
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
 }
 
-.scholar-label {
-    font-size: 12px;
-    font-weight: 500;
-    fill: #333;
+.scholar-node-image {
+    opacity: 0;
+    transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
     pointer-events: none;
-    text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff;
 }
 
+.scholar-node-image.visible {
+    opacity: 1;
+}
+
+.scholar-name-label {
+    fill: var(--primary-color);
+    font-size: 11px;
+    font-weight: 600;
+    text-anchor: middle;
+    opacity: 0;
+    transition: opacity 0.3s ease, font-size 0.3s ease, font-weight 0.3s ease;
+    pointer-events: none;
+    text-shadow: 0 0 3px white, 0 0 3px white, 0 0 3px white, 0 0 3px white;
+}
+
+.scholar-name-label.visible {
+    opacity: 1;
+}
+
+.scholar-name-label.clicked {
+    opacity: 1;
+    fill: var(--accent-color);
+    font-weight: 700;
+    text-shadow: 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white;
+}
+
+/* Selection rectangle */
+.selection-rect {
+    pointer-events: none;
+    cursor: crosshair;
+}
+
+/* Hide the old tooltip */
 .map-tooltip {
-    position: absolute;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 4px;
-    padding: 8px 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    font-size: 14px;
-    pointer-events: none;
-    z-index: 1000;
-    max-width: 200px;
-    display: flex;
-    flex-direction: column;
-}
-
-.map-tooltip strong {
-    margin-bottom: 4px;
-    color: #333;
-}
-
-.map-tooltip span {
-    font-size: 12px;
-    color: #666;
+    display: none !important;
 }
 
 /* Cluster Legend */
@@ -1577,4 +1666,137 @@ main {
 .filter-tabs button[data-type="cluster"].active {
     background-color: #4a6fa5;
     color: white;
+}
+
+/* Show Cluster Button */
+.show-cluster-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+.show-cluster-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.show-cluster-button i {
+    font-size: 0.9rem;
+}
+
+/* Cluster Notification */
+.cluster-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 8px;
+    padding: 12px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-content i {
+    font-size: 1.2rem;
+}
+
+.reset-cluster-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 4px;
+    margin-left: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.reset-cluster-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.vicinity-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 10px;
+}
+
+.notification-content i {
+    color: var(--primary-color);
+}
+
+.reset-vicinity-button {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    margin-left: 10px;
+    transition: color 0.2s ease;
+}
+
+.reset-vicinity-button:hover {
+    color: var(--accent-color);
+}
+
+/* Show Vicinity Button */
+.show-vicinity-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+.show-vicinity-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.show-vicinity-button i {
+    font-size: 0.9rem;
 } 

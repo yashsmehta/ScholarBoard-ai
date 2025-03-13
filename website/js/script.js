@@ -263,12 +263,6 @@ function createScholarMap(scholars) {
     labelsGroup.setAttribute('class', 'labels-group');
     svg.appendChild(labelsGroup);
     
-    // Create a tooltip element
-    const tooltip = document.createElement('div');
-    tooltip.setAttribute('class', 'map-tooltip');
-    tooltip.style.display = 'none';
-    mapContainer.appendChild(tooltip);
-    
     // Get all UMAP coordinates
     const coordinates = scholars.map(scholar => scholar.umap);
     
@@ -314,6 +308,16 @@ function createScholarMap(scholars) {
     // Shuffle scholars to avoid z-index bias
     const shuffledScholars = shuffleArray([...scholars]);
     
+    // Add global variables for animations
+    let animationFrameId = null;
+    let lastSpotlightTime = 0;
+    let spotlightInterval = 2000; // 2 seconds
+    let currentSpotlight = null;
+    let isMouseOverMap = false;
+    
+    // Store all scholar groups for animation
+    const scholarGroups = [];
+    
     // Add scholar nodes to the map
     shuffledScholars.forEach(scholar => {
         if (!scholar.umap) return;
@@ -326,11 +330,26 @@ function createScholarMap(scholars) {
         const clusterId = scholar.cluster_id || 0;
         const color = clusterColors[clusterId] || '#4a6fa5';
         
+        // Create a group for this scholar
+        const scholarGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        scholarGroup.setAttribute('class', 'scholar-group');
+        scholarGroup.setAttribute('data-id', scholar.id);
+        
+        // Add original position data for animation
+        scholarGroup.dataset.originalX = scaledX;
+        scholarGroup.dataset.originalY = scaledY;
+        scholarGroup.dataset.currentX = scaledX;
+        scholarGroup.dataset.currentY = scaledY;
+        
+        // Random movement speed and direction
+        scholarGroup.dataset.speedX = (Math.random() - 0.5) * 0.05;
+        scholarGroup.dataset.speedY = (Math.random() - 0.5) * 0.05;
+        
         // Create circle for scholar
         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         circle.setAttribute('cx', scaledX);
         circle.setAttribute('cy', scaledY);
-        circle.setAttribute('r', '6'); // Fixed size for all dots
+        circle.setAttribute('r', '6'); // Default size
         circle.setAttribute('fill', color);
         circle.setAttribute('class', 'scholar-node');
         circle.setAttribute('data-id', scholar.id);
@@ -339,8 +358,55 @@ function createScholarMap(scholars) {
         circle.setAttribute('data-country', scholar.country || '');
         circle.setAttribute('data-cluster', clusterId);
         
+        // Create a clipPath for the profile image
+        const clipPathId = `clip-${scholar.id}`;
+        const clipPath = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
+        clipPath.setAttribute('id', clipPathId);
+        
+        const clipCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        clipCircle.setAttribute('cx', scaledX);
+        clipCircle.setAttribute('cy', scaledY);
+        clipCircle.setAttribute('r', '22.5'); // Size for spotlight (1.5x larger than hover)
+        clipPath.appendChild(clipCircle);
+        
+        // Add clipPath to defs
+        let defs = svg.querySelector('defs');
+        if (!defs) {
+            defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            svg.appendChild(defs);
+        }
+        defs.appendChild(clipPath);
+        
+        // Create image element for profile picture
+        const profilePicPath = `data/profile_pics/${scholar.id}.jpg`;
+        const image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+        image.setAttribute('x', scaledX - 15);
+        image.setAttribute('y', scaledY - 15);
+        image.setAttribute('width', '30');
+        image.setAttribute('height', '30');
+        image.setAttribute('clip-path', `url(#${clipPathId})`);
+        image.setAttribute('class', 'scholar-node-image');
+        image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', profilePicPath);
+        
+        // Add error handling for image
+        image.addEventListener('error', () => {
+            image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', 'images/placeholder.jpg');
+        });
+        
+        // Create text for scholar name
+        const nameLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        nameLabel.setAttribute('x', scaledX);
+        nameLabel.setAttribute('y', scaledY - 20); // Position above the node
+        nameLabel.setAttribute('class', 'scholar-name-label');
+        nameLabel.textContent = scholar.name;
+        
+        // Add elements to the group
+        scholarGroup.appendChild(circle);
+        scholarGroup.appendChild(image);
+        scholarGroup.appendChild(nameLabel);
+        
         // Add event listeners
-        circle.addEventListener('click', () => {
+        scholarGroup.addEventListener('click', () => {
             // Highlight selected scholar
             document.querySelectorAll('.scholar-node').forEach(node => {
                 node.classList.remove('selected');
@@ -349,71 +415,218 @@ function createScholarMap(scholars) {
             
             // Show scholar details in the details panel
             showScholarDetails(scholar);
+            
+            // Add clicked class to this name label but don't remove clicked class from other labels
+            nameLabel.classList.add('clicked');
+            nameLabel.classList.add('visible');
         });
         
-        circle.addEventListener('mouseenter', (e) => {
-            // Show tooltip
-            tooltip.innerHTML = `
-                <strong>${scholar.name}</strong>
-                <span>${scholar.institution || ''}</span>
-                <span>${scholar.country || ''}</span>
-            `;
-            tooltip.style.display = 'block';
-            updateTooltipPosition(e);
+        scholarGroup.addEventListener('mouseenter', () => {
+            // Enlarge the circle
+            circle.setAttribute('r', '15');
             
-            // Highlight node - keep same size but add stroke
-            circle.setAttribute('stroke', '#fff');
-            circle.setAttribute('stroke-width', '2');
+            // Only show the name label, not the profile image
+            nameLabel.classList.add('visible');
+            
+            // Bring this scholar to front
+            scholarsGroup.appendChild(scholarGroup);
         });
         
-        circle.addEventListener('mouseleave', () => {
-            // Hide tooltip
-            tooltip.style.display = 'none';
+        scholarGroup.addEventListener('mouseleave', () => {
+            // Reset circle size
+            circle.setAttribute('r', '6');
             
-            // Reset node appearance
-            if (!circle.classList.contains('selected')) {
-                circle.setAttribute('stroke', 'none');
-                circle.setAttribute('stroke-width', '0');
+            // Hide the name label if it's not clicked
+            if (!nameLabel.classList.contains('clicked')) {
+                nameLabel.classList.remove('visible');
             }
         });
         
-        circle.addEventListener('mousemove', (e) => {
-            updateTooltipPosition(e);
-        });
-        
-        scholarsGroup.appendChild(circle);
-        
-        // Create label for scholar
-        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        label.setAttribute('x', scaledX);
-        label.setAttribute('y', scaledY - 15);
-        label.setAttribute('text-anchor', 'middle');
-        label.setAttribute('class', 'scholar-label');
-        label.setAttribute('data-id', scholar.id);
-        label.style.display = 'none'; // Hide by default
-        label.textContent = scholar.name;
-        labelsGroup.appendChild(label);
+        scholarsGroup.appendChild(scholarGroup);
+        scholarGroups.push(scholarGroup);
     });
     
-    // Function to update tooltip position
-    function updateTooltipPosition(e) {
-        const rect = mapContainer.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+    // Add mouse enter/leave detection for the map container
+    mapContainer.addEventListener('mouseenter', () => {
+        isMouseOverMap = true;
         
-        // Position tooltip near cursor but not under it
-        tooltip.style.left = `${x + 15}px`;
-        tooltip.style.top = `${y - 15}px`;
+        // Reset current spotlight when mouse enters the map
+        if (currentSpotlight) {
+            const spotlightCircle = currentSpotlight.querySelector('circle');
+            const spotlightImage = currentSpotlight.querySelector('image');
+            const spotlightLabel = currentSpotlight.querySelector('text');
+            
+            if (spotlightCircle) spotlightCircle.setAttribute('r', '6');
+            if (spotlightImage) spotlightImage.classList.remove('visible');
+            if (spotlightLabel && !spotlightLabel.classList.contains('clicked')) {
+                spotlightLabel.classList.remove('visible');
+            }
+            
+            currentSpotlight = null;
+        }
+    });
+    
+    mapContainer.addEventListener('mouseleave', () => {
+        isMouseOverMap = false;
+        // Reset the spotlight timer to show a new spotlight immediately
+        lastSpotlightTime = 0;
+    });
+    
+    // Function to animate scholar nodes
+    function animateScholars(timestamp) {
+        // Animate slow movement
+        scholarGroups.forEach(group => {
+            // Skip animation for the current spotlight
+            if (currentSpotlight === group) return;
+            
+            // Get current position
+            let x = parseFloat(group.dataset.currentX);
+            let y = parseFloat(group.dataset.currentY);
+            
+            // Get original position
+            const originalX = parseFloat(group.dataset.originalX);
+            const originalY = parseFloat(group.dataset.originalY);
+            
+            // Get speed
+            const speedX = parseFloat(group.dataset.speedX);
+            const speedY = parseFloat(group.dataset.speedY);
+            
+            // Update position with small random movement
+            x += speedX;
+            y += speedY;
+            
+            // Limit movement to a small area around original position
+            const maxDistance = 5;
+            const dx = x - originalX;
+            const dy = y - originalY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance > maxDistance) {
+                // Reverse direction with a small random change
+                group.dataset.speedX = -speedX * (0.9 + Math.random() * 0.2);
+                group.dataset.speedY = -speedY * (0.9 + Math.random() * 0.2);
+                
+                // Move back toward original position
+                x = x - (dx / distance) * 0.5;
+                y = y - (dy / distance) * 0.5;
+            }
+            
+            // Occasionally change direction slightly
+            if (Math.random() < 0.01) {
+                group.dataset.speedX = parseFloat(group.dataset.speedX) + (Math.random() - 0.5) * 0.02;
+                group.dataset.speedY = parseFloat(group.dataset.speedY) + (Math.random() - 0.5) * 0.02;
+            }
+            
+            // Update position
+            group.dataset.currentX = x;
+            group.dataset.currentY = y;
+            
+            // Update elements
+            const circle = group.querySelector('circle');
+            const image = group.querySelector('image');
+            const nameLabel = group.querySelector('text');
+            
+            if (circle) {
+                circle.setAttribute('cx', x);
+                circle.setAttribute('cy', y);
+            }
+            
+            if (image) {
+                image.setAttribute('x', x - 15); // Half of the image width (30)
+                image.setAttribute('y', y - 15); // Half of the image height (30)
+            }
+            
+            if (nameLabel) {
+                nameLabel.setAttribute('x', x);
+                nameLabel.setAttribute('y', y - 20);
+            }
+            
+            // Update clipPath if it exists
+            const clipPathId = group.querySelector('image')?.getAttribute('clip-path')?.match(/url\(#(.*)\)/)?.[1];
+            if (clipPathId) {
+                const clipCircle = document.querySelector(`#${clipPathId} circle`);
+                if (clipCircle) {
+                    clipCircle.setAttribute('cx', x);
+                    clipCircle.setAttribute('cy', y);
+                }
+            }
+        });
         
-        // Ensure tooltip stays within container
-        const tooltipRect = tooltip.getBoundingClientRect();
-        if (tooltipRect.right > rect.right) {
-            tooltip.style.left = `${x - tooltipRect.width - 10}px`;
+        // Handle spotlight feature when mouse is not over the map
+        if (!isMouseOverMap) {
+            if (timestamp - lastSpotlightTime > spotlightInterval) {
+                // Reset previous spotlight
+                if (currentSpotlight) {
+                    const prevCircle = currentSpotlight.querySelector('circle');
+                    const prevImage = currentSpotlight.querySelector('image');
+                    const prevLabel = currentSpotlight.querySelector('text');
+                    
+                    if (prevCircle) prevCircle.setAttribute('r', '6');
+                    if (prevImage) prevImage.classList.remove('visible');
+                    if (prevLabel && !prevLabel.classList.contains('clicked')) {
+                        prevLabel.classList.remove('visible');
+                    }
+                }
+                
+                // Pick a random scholar for spotlight
+                const randomIndex = Math.floor(Math.random() * scholarGroups.length);
+                currentSpotlight = scholarGroups[randomIndex];
+                
+                // Highlight the spotlight scholar with larger size (1.5x)
+                const spotlightCircle = currentSpotlight.querySelector('circle');
+                const spotlightImage = currentSpotlight.querySelector('image');
+                const spotlightLabel = currentSpotlight.querySelector('text');
+                
+                // Make the spotlight 1.5 times larger (22.5 instead of 15)
+                if (spotlightCircle) spotlightCircle.setAttribute('r', '22.5');
+                
+                // Update image size and position for the larger spotlight
+                if (spotlightImage) {
+                    spotlightImage.setAttribute('width', '45'); // 1.5x larger
+                    spotlightImage.setAttribute('height', '45'); // 1.5x larger
+                    spotlightImage.setAttribute('x', parseFloat(currentSpotlight.dataset.currentX) - 22.5);
+                    spotlightImage.setAttribute('y', parseFloat(currentSpotlight.dataset.currentY) - 22.5);
+                    spotlightImage.classList.add('visible');
+                }
+                
+                // Update clipPath for the larger image
+                const clipPathId = spotlightImage?.getAttribute('clip-path')?.match(/url\(#(.*)\)/)?.[1];
+                if (clipPathId) {
+                    const clipCircle = document.querySelector(`#${clipPathId} circle`);
+                    if (clipCircle) {
+                        clipCircle.setAttribute('r', '22.5');
+                    }
+                }
+                
+                // Make the label larger and position it higher
+                if (spotlightLabel) {
+                    spotlightLabel.style.fontSize = '16px';
+                    spotlightLabel.style.fontWeight = '700';
+                    spotlightLabel.setAttribute('y', parseFloat(currentSpotlight.dataset.currentY) - 30);
+                    spotlightLabel.classList.add('visible');
+                }
+                
+                // Bring to front
+                scholarsGroup.appendChild(currentSpotlight);
+                
+                // Update timestamp
+                lastSpotlightTime = timestamp;
+            }
         }
-        if (tooltipRect.bottom > rect.bottom) {
-            tooltip.style.top = `${y - tooltipRect.height - 10}px`;
-        }
+        
+        // Continue animation
+        animationFrameId = requestAnimationFrame(animateScholars);
     }
+    
+    // Start animation
+    animationFrameId = requestAnimationFrame(animateScholars);
+    
+    // Clean up animation when needed
+    mapContainer.addEventListener('remove', () => {
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
+    });
     
     // Set up zoom and pan functionality
     let currentZoom = 1;
@@ -451,18 +664,18 @@ function createScholarMap(scholars) {
     
     // Add function to update label visibility based on zoom level
     function updateLabelVisibility() {
-        const labels = document.querySelectorAll('.scholar-label');
+        // Don't automatically show labels based on zoom level
+        // Only show labels for clicked scholars
         
-        // Show labels only when zoomed in enough
-        if (currentZoom > 2.5) {
-            labels.forEach(label => {
-                label.style.display = 'block';
-            });
-        } else {
-            labels.forEach(label => {
-                label.style.display = 'none';
+        // If we're at a very high zoom level, we might want to show labels
+        // but we'll leave this commented out as per the user's request
+        /*
+        if (currentZoom > 3) {
+            document.querySelectorAll('.scholar-name-label').forEach(label => {
+                label.classList.add('visible');
             });
         }
+        */
     }
     
     // Shuffle array function
@@ -478,16 +691,80 @@ function createScholarMap(scholars) {
     let isDragging = false;
     let dragStart = { x: 0, y: 0 };
     
+    // Add rectangle selection for zooming
+    let isSelecting = false;
+    let selectionStart = { x: 0, y: 0 };
+    let selectionRect = null;
+    
+    // Create selection rectangle element
+    const createSelectionRect = () => {
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('class', 'selection-rect');
+        rect.setAttribute('fill', 'rgba(74, 111, 165, 0.2)');
+        rect.setAttribute('stroke', 'rgba(74, 111, 165, 0.8)');
+        rect.setAttribute('stroke-width', '2');
+        rect.setAttribute('pointer-events', 'none');
+        return rect;
+    };
+    
+    // Handle mousedown for both dragging and selection
     mapContainer.addEventListener('mousedown', (e) => {
-        if (e.target === svg || e.target === scholarsGroup) {
+        // If shift key is pressed, start selection
+        if (e.shiftKey) {
+            isSelecting = true;
+            
+            // Get the exact cursor position relative to the SVG element
+            const svgRect = svg.getBoundingClientRect();
+            selectionStart = { 
+                x: e.clientX - svgRect.left, 
+                y: e.clientY - svgRect.top 
+            };
+            
+            // Create selection rectangle
+            selectionRect = createSelectionRect();
+            selectionRect.setAttribute('x', selectionStart.x);
+            selectionRect.setAttribute('y', selectionStart.y);
+            selectionRect.setAttribute('width', 0);
+            selectionRect.setAttribute('height', 0);
+            svg.appendChild(selectionRect);
+            
+            e.preventDefault();
+        } 
+        // Otherwise, start dragging
+        else if (e.target === svg || e.target === scholarsGroup) {
             isDragging = true;
             dragStart = { x: e.clientX, y: e.clientY };
             mapContainer.style.cursor = 'grabbing';
         }
     });
     
+    // Handle mousemove for both dragging and selection
     document.addEventListener('mousemove', (e) => {
-        if (isDragging) {
+        if (isSelecting && selectionRect) {
+            // Get the exact cursor position relative to the SVG element
+            const svgRect = svg.getBoundingClientRect();
+            const currentX = e.clientX - svgRect.left;
+            const currentY = e.clientY - svgRect.top;
+            
+            const width = currentX - selectionStart.x;
+            const height = currentY - selectionStart.y;
+            
+            // Update rectangle dimensions
+            if (width < 0) {
+                selectionRect.setAttribute('x', currentX);
+                selectionRect.setAttribute('width', -width);
+            } else {
+                selectionRect.setAttribute('width', width);
+            }
+            
+            if (height < 0) {
+                selectionRect.setAttribute('y', currentY);
+                selectionRect.setAttribute('height', -height);
+            } else {
+                selectionRect.setAttribute('height', height);
+            }
+        }
+        else if (isDragging) {
             const dx = e.clientX - dragStart.x;
             const dy = e.clientY - dragStart.y;
             
@@ -500,7 +777,49 @@ function createScholarMap(scholars) {
         }
     });
     
-    document.addEventListener('mouseup', () => {
+    // Handle mouseup for both dragging and selection
+    document.addEventListener('mouseup', (e) => {
+        if (isSelecting && selectionRect) {
+            // Get the selection rectangle dimensions
+            const x = parseFloat(selectionRect.getAttribute('x'));
+            const y = parseFloat(selectionRect.getAttribute('y'));
+            const width = parseFloat(selectionRect.getAttribute('width'));
+            const height = parseFloat(selectionRect.getAttribute('height'));
+            
+            // Only zoom if the selection has a meaningful size
+            if (width > 10 && height > 10) {
+                // Calculate the center of the selection
+                const centerX = x + width / 2;
+                const centerY = y + height / 2;
+                
+                // Calculate the zoom factor based on the selection size
+                const containerWidth = mapContainer.clientWidth;
+                const containerHeight = mapContainer.clientHeight;
+                const zoomFactorX = containerWidth / width;
+                const zoomFactorY = containerHeight / height;
+                const newZoom = Math.min(zoomFactorX, zoomFactorY) * currentZoom * 0.9;
+                
+                // Calculate the new translation to center the selection
+                const newTranslateX = containerWidth / 2 - centerX * newZoom / currentZoom;
+                const newTranslateY = containerHeight / 2 - centerY * newZoom / currentZoom;
+                
+                // Apply the new zoom and translation
+                currentZoom = newZoom;
+                currentTranslate.x = newTranslateX;
+                currentTranslate.y = newTranslateY;
+                
+                // Apply transform but don't show all labels
+                const transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${currentZoom})`;
+                scholarsGroup.style.transform = transform;
+                labelsGroup.style.transform = transform;
+            }
+            
+            // Remove the selection rectangle
+            svg.removeChild(selectionRect);
+            selectionRect = null;
+            isSelecting = false;
+        }
+        
         isDragging = false;
         mapContainer.style.cursor = 'default';
     });
@@ -569,6 +888,9 @@ function showScholarDetails(scholar) {
                 <div class="profile-info">
                     <h3>${scholar.name}</h3>
                     <div class="institution">${scholar.institution || 'Unknown Institution'}</div>
+                    <button id="show-vicinity" class="show-vicinity-button" data-scholar="${scholar.id}">
+                        <i class="fas fa-users"></i> Show Vicinity
+                    </button>
                 </div>
             </div>
             <div class="profile-content">
@@ -579,6 +901,15 @@ function showScholarDetails(scholar) {
     
     // Update with basic profile immediately
     detailsContainer.innerHTML = basicProfileHtml;
+    
+    // Add event listener for the show vicinity button
+    const showVicinityButton = detailsContainer.querySelector('#show-vicinity');
+    if (showVicinityButton) {
+        showVicinityButton.addEventListener('click', () => {
+            const scholarId = showVicinityButton.getAttribute('data-scholar');
+            showVicinityScholars(scholarId);
+        });
+    }
     
     // Fetch additional scholar details
     fetch(`/api/scholar/${scholar.id}`)
@@ -857,6 +1188,7 @@ function setupFilters(scholars) {
     if (filterToggle) {
         filterToggle.addEventListener('click', () => {
             filterDropdown.classList.toggle('active');
+            filterToggle.classList.toggle('active');
         });
     }
     
@@ -864,6 +1196,7 @@ function setupFilters(scholars) {
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.filter-container') && filterDropdown) {
             filterDropdown.classList.remove('active');
+            if (filterToggle) filterToggle.classList.remove('active');
         }
     });
     
@@ -875,6 +1208,7 @@ function setupFilters(scholars) {
         applyButton.addEventListener('click', () => {
             applyFilters(scholars);
             filterDropdown.classList.remove('active');
+            if (filterToggle) filterToggle.classList.remove('active');
         });
     }
     
@@ -936,8 +1270,9 @@ function setupSearch(scholars) {
     const searchInput = document.getElementById('scholar-search');
     const searchButton = document.getElementById('search-button');
     const searchResults = document.getElementById('search-results');
+    const searchContainer = document.querySelector('.search-container');
     
-    if (!searchInput || !searchButton || !searchResults) {
+    if (!searchInput || !searchButton || !searchResults || !searchContainer) {
         console.error('Search elements not found');
         return;
     }
@@ -999,23 +1334,59 @@ function setupSearch(scholars) {
                 
                 // Hide search results
                 searchResults.classList.remove('active');
+                
+                // Collapse search box
+                searchContainer.classList.remove('expanded');
             });
             
             searchResults.appendChild(resultItem);
         });
     }
     
-    // Function to highlight scholar on map
+    // Function to highlight scholar on map with enhanced animation
     function highlightScholarOnMap(scholarId) {
         // Remove highlight from all dots
         document.querySelectorAll('.scholar-node').forEach(node => {
             node.classList.remove('selected');
+            node.classList.remove('pulse-animation');
+        });
+        
+        document.querySelectorAll('.scholar-name-label').forEach(label => {
+            if (!label.classList.contains('clicked')) {
+                label.classList.remove('visible');
+            }
         });
         
         // Add highlight to the matching scholar dot
         const node = document.querySelector(`.scholar-node[data-id="${scholarId}"]`);
         if (node) {
             node.classList.add('selected');
+            node.classList.add('pulse-animation');
+            
+            // Make the node larger temporarily
+            const originalRadius = node.getAttribute('r');
+            node.setAttribute('r', '15');
+            
+            // Reset radius after animation
+            setTimeout(() => {
+                node.setAttribute('r', originalRadius);
+                node.classList.remove('pulse-animation');
+            }, 2000);
+            
+            // Show the scholar name label
+            const scholarGroup = node.closest('.scholar-group');
+            if (scholarGroup) {
+                const nameLabel = scholarGroup.querySelector('.scholar-name-label');
+                if (nameLabel) {
+                    nameLabel.classList.add('visible');
+                    nameLabel.classList.add('highlight-pulse');
+                    
+                    // Remove highlight pulse after animation
+                    setTimeout(() => {
+                        nameLabel.classList.remove('highlight-pulse');
+                    }, 2000);
+                }
+            }
             
             // Scroll to the scholar node
             const mapContainer = document.getElementById('scholar-map');
@@ -1035,12 +1406,40 @@ function setupSearch(scholars) {
                     currentTranslate.x = centerX - x * currentZoom;
                     currentTranslate.y = centerY - y * currentZoom;
                     
-                    // Apply the transform
+                    // Apply the transform with smooth animation
+                    scholarsGroup.style.transition = 'transform 0.8s ease-out';
                     scholarsGroup.style.transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${currentZoom})`;
+                    
+                    // Remove transition after animation completes
+                    setTimeout(() => {
+                        scholarsGroup.style.transition = '';
+                    }, 800);
                 }
             }
         }
     }
+    
+    // Toggle search container expansion when search button is clicked
+    searchButton.addEventListener('click', () => {
+        searchContainer.classList.toggle('expanded');
+        
+        if (searchContainer.classList.contains('expanded')) {
+            // Focus the input when expanded
+            setTimeout(() => {
+                searchInput.focus();
+            }, 300);
+            
+            const query = searchInput.value.trim();
+            if (query.length >= 2) {
+                const results = performSearch(query);
+                displaySearchResults(results, query);
+                searchResults.classList.add('active');
+            }
+        } else {
+            // Hide results when collapsed
+            searchResults.classList.remove('active');
+        }
+    });
     
     // Handle search input
     searchInput.addEventListener('input', () => {
@@ -1052,17 +1451,6 @@ function setupSearch(scholars) {
             searchResults.classList.add('active');
         } else {
             searchResults.classList.remove('active');
-        }
-    });
-    
-    // Handle search button click
-    searchButton.addEventListener('click', () => {
-        const query = searchInput.value.trim();
-        
-        if (query.length >= 2) {
-            const results = performSearch(query);
-            displaySearchResults(results, query);
-            searchResults.classList.add('active');
         }
     });
     
@@ -1085,6 +1473,11 @@ function setupSearch(scholars) {
             !searchButton.contains(e.target) && 
             !searchResults.contains(e.target)) {
             searchResults.classList.remove('active');
+            
+            // Don't collapse if clicking inside the search container
+            if (!searchContainer.contains(e.target)) {
+                searchContainer.classList.remove('expanded');
+            }
         }
     });
 }
@@ -1118,4 +1511,251 @@ function checkScholarCountries(scholars) {
             const percentage = ((count / scholars.length) * 100).toFixed(1);
             console.log(`- ${country}: ${count} scholars (${percentage}%)`);
         });
+}
+
+// Function to show scholars in the vicinity of a selected scholar
+function showVicinityScholars(scholarId) {
+    console.log(`Showing scholars in vicinity of scholar ${scholarId}`);
+    
+    // Get all scholars
+    const scholars = window.scholarsData;
+    if (!scholars) {
+        console.error('Scholar data not available');
+        return;
+    }
+    
+    // Find the selected scholar
+    const selectedScholar = scholars.find(s => String(s.id) === String(scholarId));
+    if (!selectedScholar) {
+        console.error('Selected scholar not found');
+        return;
+    }
+    
+    console.log(`Found selected scholar: ${selectedScholar.name}`);
+    
+    // Calculate Euclidean distance to all other scholars
+    const scholarsWithDistance = scholars
+        .filter(s => s.id !== selectedScholar.id) // Exclude the selected scholar
+        .map(scholar => {
+            // Calculate Euclidean distance between UMAP coordinates
+            const dx = scholar.umap[0] - selectedScholar.umap[0];
+            const dy = scholar.umap[1] - selectedScholar.umap[1];
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            return {
+                scholar,
+                distance
+            };
+        })
+        .sort((a, b) => a.distance - b.distance); // Sort by distance (ascending)
+    
+    // Get the top 10 closest scholars
+    const vicinityScholars = scholarsWithDistance.slice(0, 10).map(item => item.scholar);
+    console.log(`Found ${vicinityScholars.length} scholars in vicinity of ${selectedScholar.name}`);
+    
+    // Add the selected scholar to the vicinity scholars
+    const allVicinityScholars = [selectedScholar, ...vicinityScholars];
+    
+    // Find the nodes for all vicinity scholars
+    const vicinityNodes = [];
+    
+    allVicinityScholars.forEach(scholar => {
+        const node = document.querySelector(`.scholar-node[data-id="${scholar.id}"]`);
+        if (node) {
+            const x = parseFloat(node.getAttribute('cx'));
+            const y = parseFloat(node.getAttribute('cy'));
+            vicinityNodes.push({ 
+                id: scholar.id, 
+                x, 
+                y, 
+                node,
+                scholar: scholar,
+                isSelected: scholar.id === selectedScholar.id
+            });
+        }
+    });
+    
+    if (vicinityNodes.length === 0) {
+        console.error('No visible nodes found for vicinity scholars');
+        return;
+    }
+    
+    // Calculate the bounding box of the vicinity
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    vicinityNodes.forEach(node => {
+        minX = Math.min(minX, node.x);
+        maxX = Math.max(maxX, node.x);
+        minY = Math.min(minY, node.y);
+        maxY = Math.max(maxY, node.y);
+    });
+    
+    // Add padding to the bounding box
+    const padding = 100;
+    minX -= padding;
+    maxX += padding;
+    minY -= padding;
+    maxY += padding;
+    
+    // Calculate the width and height of the bounding box
+    const width = maxX - minX;
+    const height = maxY - minY;
+    
+    // Get the map container dimensions
+    const mapContainer = document.getElementById('scholar-map');
+    const containerWidth = mapContainer.clientWidth;
+    const containerHeight = mapContainer.clientHeight;
+    
+    // Calculate the zoom factor to fit the vicinity in the container
+    const zoomFactorX = containerWidth / width;
+    const zoomFactorY = containerHeight / height;
+    const newZoom = Math.min(zoomFactorX, zoomFactorY, 2) * 0.8; // 80% to add some margin, max zoom of 2
+    
+    // Calculate the new translation to center the vicinity
+    const newTranslateX = containerWidth / 2 - (minX + width / 2) * newZoom;
+    const newTranslateY = containerHeight / 2 - (minY + height / 2) * newZoom;
+    
+    // Store original zoom and translation for reset
+    const originalZoom = currentZoom;
+    const originalTranslate = { x: currentTranslate.x, y: currentTranslate.y };
+    
+    // Apply the new zoom and translation with animation
+    const scholarsGroup = document.querySelector('.scholars-group');
+    if (scholarsGroup) {
+        scholarsGroup.style.transition = 'transform 0.8s ease-out';
+        
+        // Update current zoom and translate
+        currentZoom = newZoom;
+        currentTranslate.x = newTranslateX;
+        currentTranslate.y = newTranslateY;
+        
+        // Apply transform
+        scholarsGroup.style.transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${currentZoom})`;
+        
+        // Remove transition after animation completes
+        setTimeout(() => {
+            scholarsGroup.style.transition = '';
+        }, 800);
+    }
+    
+    // Reset all scholars to default state first
+    document.querySelectorAll('.scholar-node').forEach(node => {
+        node.classList.remove('selected');
+        node.classList.remove('pulse-animation');
+        node.style.opacity = '0.15'; // Fade out non-vicinity nodes significantly
+    });
+    
+    document.querySelectorAll('.scholar-node-image').forEach(img => {
+        img.classList.remove('visible');
+    });
+    
+    document.querySelectorAll('.scholar-name-label').forEach(label => {
+        if (!label.classList.contains('clicked')) {
+            label.classList.remove('visible');
+        }
+    });
+    
+    // Highlight scholars in the vicinity
+    vicinityNodes.forEach(nodeInfo => {
+        const node = nodeInfo.node;
+        node.style.opacity = '1'; // Make vicinity nodes fully visible
+        
+        // Add special highlighting for the selected scholar
+        if (nodeInfo.isSelected) {
+            node.classList.add('selected');
+            node.classList.add('pulse-animation');
+            node.setAttribute('r', '12'); // Make the selected scholar larger
+        }
+        
+        // Show the scholar name label for all vicinity scholars
+        const scholarGroup = node.closest('.scholar-group');
+        if (scholarGroup) {
+            const nameLabel = scholarGroup.querySelector('.scholar-name-label');
+            if (nameLabel) {
+                nameLabel.classList.add('visible');
+                
+                // Make the selected scholar's name bold
+                if (nodeInfo.isSelected) {
+                    nameLabel.style.fontWeight = 'bold';
+                    nameLabel.style.fontSize = '14px';
+                }
+            }
+            
+            // Bring to front
+            if (scholarsGroup) {
+                scholarsGroup.appendChild(scholarGroup);
+            }
+        }
+    });
+    
+    // Add a notification
+    let notification = document.querySelector('.vicinity-notification');
+    if (notification) {
+        document.body.removeChild(notification);
+    }
+    
+    notification = document.createElement('div');
+    notification.className = 'vicinity-notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-users"></i>
+            <span>Showing ${vicinityScholars.length} scholars near ${selectedScholar.name}</span>
+            <button id="reset-vicinity" class="reset-vicinity-button">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    document.body.appendChild(notification);
+    
+    // Add event listener to reset button
+    const resetButton = notification.querySelector('#reset-vicinity');
+    if (resetButton) {
+        resetButton.addEventListener('click', () => {
+            // Reset all scholars to default state
+            document.querySelectorAll('.scholar-node').forEach(node => {
+                node.classList.remove('selected');
+                node.classList.remove('pulse-animation');
+                node.style.opacity = '1'; // Restore opacity
+                node.setAttribute('r', '6'); // Reset size
+            });
+            
+            document.querySelectorAll('.scholar-node-image').forEach(img => {
+                img.classList.remove('visible');
+            });
+            
+            document.querySelectorAll('.scholar-name-label').forEach(label => {
+                if (!label.classList.contains('clicked')) {
+                    label.classList.remove('visible');
+                }
+                label.style.fontWeight = '';
+                label.style.fontSize = '';
+            });
+            
+            // Reset zoom and translation with animation
+            if (scholarsGroup) {
+                scholarsGroup.style.transition = 'transform 0.8s ease-out';
+                
+                // Reset zoom and translation
+                currentZoom = originalZoom;
+                currentTranslate = { x: originalTranslate.x, y: originalTranslate.y };
+                
+                // Apply transform
+                scholarsGroup.style.transform = `translate(${currentTranslate.x}px, ${currentTranslate.y}px) scale(${currentZoom})`;
+                
+                // Remove transition after animation completes
+                setTimeout(() => {
+                    scholarsGroup.style.transition = '';
+                }, 800);
+            }
+            
+            // Remove the notification
+            document.body.removeChild(notification);
+        });
+    }
+    
+    // Auto-remove notification after 30 seconds
+    setTimeout(() => {
+        if (document.body.contains(notification)) {
+            document.body.removeChild(notification);
+        }
+    }, 30000);
 }

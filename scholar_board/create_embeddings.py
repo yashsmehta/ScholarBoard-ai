@@ -6,17 +6,25 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 import random
 from google import genai
+import openai
+from sentence_transformers import SentenceTransformer
 
 # Load environment variables
 load_dotenv()
 
-# Get API key from environment variable
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-if not GEMINI_API_KEY:
-    raise ValueError("GEMINI_API_KEY not found in environment variables")
+# Get API keys from environment variables
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-# Initialize Google Gemini client
-client = genai.Client(api_key=GEMINI_API_KEY)
+# Initialize Google Gemini client if API key is available
+gemini_client = None
+if GOOGLE_API_KEY:
+    gemini_client = genai.Client(api_key=GOOGLE_API_KEY)
+
+# Initialize OpenAI client if API key is available
+openai_client = None
+if OPENAI_API_KEY:
+    openai_client = openai.Client(api_key=OPENAI_API_KEY)
 
 def load_scholar_summaries():
     """Load scholar data from summary files"""
@@ -54,26 +62,89 @@ def load_scholar_summaries():
 
 def get_gemini_embeddings(texts, model="gemini-embedding-exp-03-07"):
     """Get embeddings for a list of texts using Google's Gemini API"""
+    if not gemini_client:
+        raise ValueError("Gemini API key not found or client not initialized")
+    
     embeddings = []
-    # Create a tqdm progress bar with more details
-    progress_bar = tqdm(texts, desc="Getting embeddings", unit="text")
+    progress_bar = tqdm(texts, desc="Getting Gemini embeddings", unit="text")
     for text in progress_bar:
         try:
-            # Use the entire text for embedding
-            result = client.models.embed_content(
+            result = gemini_client.models.embed_content(
                 model=model,
                 contents=text
             )
             embeddings.append(result.embeddings)
-            # Update progress bar description instead of printing
             progress_bar.set_postfix(model=model)
         except Exception as e:
-            # Print error without disrupting progress bar
-            progress_bar.write(f"Error getting embedding: {e}")
+            progress_bar.write(f"Error getting Gemini embedding: {e}")
             embeddings.append(None)
     
-    print("Finished getting embeddings")
+    print("Finished getting Gemini embeddings")
     return embeddings
+
+def get_openai_embeddings(texts, model="text-embedding-3-small"):
+    """Get embeddings for a list of texts using OpenAI API"""
+    if not openai_client:
+        raise ValueError("OpenAI API key not found or client not initialized")
+    
+    embeddings = []
+    progress_bar = tqdm(texts, desc="Getting OpenAI embeddings", unit="text")
+    for text in progress_bar:
+        try:
+            result = openai_client.embeddings.create(
+                model=model,
+                input=text
+            )
+            embeddings.append(result.data[0].embedding)
+            progress_bar.set_postfix(model=model)
+        except Exception as e:
+            progress_bar.write(f"Error getting OpenAI embedding: {e}")
+            embeddings.append(None)
+    
+    print("Finished getting OpenAI embeddings")
+    return embeddings
+
+def get_sentence_bert_embeddings(texts, model_name="all-mpnet-base-v2"):
+    """Get embeddings for a list of texts using Sentence-BERT"""
+    try:
+        model = SentenceTransformer(model_name)
+    except Exception as e:
+        raise ValueError(f"Failed to load Sentence-BERT model: {e}")
+    
+    embeddings = []
+    progress_bar = tqdm(texts, desc="Getting Sentence-BERT embeddings", unit="text")
+    
+    # Process in batches to improve performance
+    batch_size = 32
+    for i in range(0, len(texts), batch_size):
+        batch = texts[i:i+batch_size]
+        try:
+            batch_embeddings = model.encode(batch, show_progress_bar=False)
+            embeddings.extend(batch_embeddings.tolist())
+            for _ in range(len(batch)):
+                progress_bar.update(1)
+                progress_bar.set_postfix(model=model_name)
+        except Exception as e:
+            progress_bar.write(f"Error getting Sentence-BERT embeddings for batch: {e}")
+            embeddings.extend([None] * len(batch))
+            progress_bar.update(len(batch))
+    
+    print("Finished getting Sentence-BERT embeddings")
+    return embeddings
+
+def get_embeddings(texts, provider="gemini", model=None):
+    """Get embeddings using the specified provider and model"""
+    if provider == "gemini":
+        model = model or "gemini-embedding-exp-03-07"
+        return get_gemini_embeddings(texts, model=model)
+    elif provider == "openai":
+        model = model or "text-embedding-3-small"
+        return get_openai_embeddings(texts, model=model)
+    elif provider == "sentence-bert":
+        model = model or "all-mpnet-base-v2"
+        return get_sentence_bert_embeddings(texts, model_name=model)
+    else:
+        raise ValueError(f"Unsupported embedding provider: {provider}")
 
 def display_sample_texts(scholars, num_samples=10):
     """Display sample texts from the scholar summaries"""
@@ -117,38 +188,20 @@ def main():
     output_file = Path('data/scholar_database.npz')
     
     if output_file.exists():
-        print(f"\nLoading existing scholar database from {output_file}")
-        data = np.load(output_file, allow_pickle=True)
-        scholar_data = data['scholars'].tolist()
-        print(f"Loaded {len(scholar_data)} scholar records")
+        print(f"\nExisting scholar database found at {output_file}")
+        
+        # Prompt user to decide whether to use existing database or re-extract embeddings
+        if not get_user_confirmation("Do you want to re-extract embeddings? (y/n) [n]: "):
+            print("Using existing embeddings database.")
+            data = np.load(output_file, allow_pickle=True)
+            scholar_data = data['scholars'].tolist()
+            print(f"Loaded {len(scholar_data)} scholar records")
+        else:
+            print("Re-extracting embeddings...")
+            scholar_data = process_embeddings(scholars, output_file)
     else:
-        print(f"\nProcessing embeddings for {len(scholars)} scholars...")
-        
-        # Ask for user confirmation before creating embeddings
-        if not get_user_confirmation("Proceed with creating embeddings? This will call the Google Gemini API (y/n): "):
-            print("Embedding creation cancelled by user")
-            return
-        
-        # Extract summary texts
-        summary_texts = [s['summary_text'] for s in scholars]
-        
-        # Get embeddings using Google Gemini
-        embedding_model = "gemini-embedding-exp-03-07"
-        embeddings = get_gemini_embeddings(summary_texts, model=embedding_model)
-        
-        # Create scholar database with embeddings
-        # Note: Some embeddings might be None if API calls failed
-        scholar_data = []
-        for scholar, embedding in zip(scholars, embeddings):
-            scholar_data.append({
-                'scholar_id': scholar['scholar_id'],
-                'name': scholar['scholar_name'],
-                'embedding': embedding
-            })
-        
-        # Save as NPZ file
-        np.savez(output_file, scholars=scholar_data)
-        print(f"Saved {len(scholar_data)} scholar records to {output_file}")
+        print(f"\nNo existing database found. Creating new embeddings...")
+        scholar_data = process_embeddings(scholars, output_file)
     
     # Save as netCDF for queryable format
     # We filter out any records where embedding is None (API failures)
@@ -181,6 +234,68 @@ def main():
         netcdf_file = Path('data/scholar_embeddings.nc')
         ds.to_netcdf(netcdf_file)
         print(f"Saved {len(valid_embeddings)} valid embeddings in netCDF format to {netcdf_file}")
+
+def process_embeddings(scholars, output_file):
+    """Process and create embeddings for scholars"""
+    print(f"\nProcessing embeddings for {len(scholars)} scholars...")
+    
+    # Ask for embedding provider
+    provider_options = {
+        "1": "gemini",
+        "2": "openai",
+        "3": "sentence-bert"
+    }
+    
+    print("\nSelect embedding provider:")
+    for key, value in provider_options.items():
+        print(f"{key}. {value}")
+    
+    provider_choice = ""
+    while provider_choice not in provider_options:
+        provider_choice = input("Enter your choice (1-3): ").strip()
+        if provider_choice not in provider_options:
+            print("Invalid choice. Please try again.")
+    
+    provider = provider_options[provider_choice]
+    
+    # Set model based on provider (no user selection)
+    if provider == "gemini":
+        model = "gemini-embedding-exp-03-07"
+    elif provider == "openai":
+        model = "text-embedding-3-small"
+    else:  # sentence-bert
+        model = "all-mpnet-base-v2"
+    
+    print(f"\nUsing {provider} with model: {model}")
+    
+    # Ask for user confirmation before creating embeddings
+    if not get_user_confirmation(f"Proceed with creating embeddings using {provider} ({model})? This will call the API (y/n): "):
+        print("Embedding creation cancelled by user")
+        return []
+    
+    # Extract summary texts
+    summary_texts = [s['summary_text'] for s in scholars]
+    
+    # Get embeddings using selected provider and model
+    embeddings = get_embeddings(summary_texts, provider=provider, model=model)
+    
+    # Create scholar database with embeddings
+    # Note: Some embeddings might be None if API calls failed
+    scholar_data = []
+    for scholar, embedding in zip(scholars, embeddings):
+        scholar_data.append({
+            'scholar_id': scholar['scholar_id'],
+            'name': scholar['scholar_name'],
+            'embedding': embedding,
+            'provider': provider,
+            'model': model
+        })
+    
+    # Save as NPZ file
+    np.savez(output_file, scholars=scholar_data)
+    print(f"Saved {len(scholar_data)} scholar records to {output_file}")
+    
+    return scholar_data
 
 if __name__ == "__main__":
     main() 

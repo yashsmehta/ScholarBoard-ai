@@ -20,13 +20,43 @@
                     throw new Error(`Failed to load scholars.json: ${response.status}`);
                 }
                 
-                const scholars = await response.json();
-                console.log(`Loaded ${scholars.length} scholars`);
+                const scholarsData = await response.json();
+                console.log('Loaded scholars data:', scholarsData);
+                
+                // Convert from object format to array format
+                const scholars = Object.entries(scholarsData).map(([id, scholar]) => {
+                    return {
+                        id: scholar.id,
+                        name: scholar.name,
+                        institution: scholar.institution || '',
+                        country: scholar.country || '',
+                        umap: scholar.umap_projection ? [scholar.umap_projection.x, scholar.umap_projection.y] : null,
+                        cluster_id: scholar.cluster || 0
+                    };
+                });
+                
+                console.log(`Converted ${scholars.length} scholars`);
+                
+                // Check if scholars have the required properties
+                const validScholars = scholars.filter(scholar => {
+                    // Check if scholar has UMAP coordinates
+                    const hasUMAP = scholar.umap && Array.isArray(scholar.umap) && scholar.umap.length === 2;
+                    
+                    if (!scholar.id || !scholar.name || !hasUMAP) {
+                        console.warn('Invalid scholar data:', scholar);
+                        return false;
+                    }
+                    return true;
+                });
+                
+                console.log(`Found ${validScholars.length} valid scholars out of ${scholars.length}`);
                 
                 resultDiv.innerHTML = `
-                    <p>Successfully loaded ${scholars.length} scholars!</p>
-                    <p>First scholar: ${scholars[0].name}</p>
-                    <pre>${JSON.stringify(scholars[0], null, 2)}</pre>
+                    <p>Successfully loaded ${Object.keys(scholarsData).length} scholars!</p>
+                    <p>Converted ${scholars.length} scholars to array format</p>
+                    <p>Found ${validScholars.length} valid scholars</p>
+                    <p>First scholar: ${validScholars[0].name}</p>
+                    <pre>${JSON.stringify(validScholars[0], null, 2)}</pre>
                 `;
             } catch (error) {
                 console.error('Error:', error);
@@ -38,4 +68,4 @@
         });
     </script>
 </body>
-</html> 
+</html>

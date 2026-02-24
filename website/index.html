@@ -6,83 +6,56 @@
     <meta name="description" content="An interactive visualization of scholars positioned by their research similarity">
     <meta name="theme-color" content="#4a6fa5">
     <title>ScholarBoard.ai</title>
-    <link rel="stylesheet" href="css/styles.css?v=1.8">
+    <link rel="stylesheet" href="css/styles.css?v=2.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/futura-pt" rel="stylesheet">
-    <!-- Add D3.js for force simulation -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <header>
-        <div class="header-animation" id="header-animation"></div>
-        <div class="header-wave"></div>
         <div class="header-content">
             <h1>ScholarBoard.ai</h1>
             <p>Find and explore scholars visually</p>
         </div>
     </header>
-    
+
     <main>
         <div class="container">
             <div id="map-container">
-                <!-- Add search container to the map -->
                 <div class="search-container">
                     <div class="search-box">
-                        <input type="text" id="search-input" placeholder="Search scholars or research topics...">
-                        <div class="search-type-selector">
-                            <label class="search-type-option">
-                                <input type="radio" name="search-type" value="name" checked>
-                                <span>Scholar Name</span>
-                            </label>
-                            <label class="search-type-option">
-                                <input type="radio" name="search-type" value="research">
-                                <span>Research Topic</span>
-                            </label>
-                        </div>
-                        <button id="search-button">
-                            <i class="fas fa-search"></i>
-                        </button>
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="search-input" placeholder="Search scholars by name...">
                     </div>
-                    <div class="search-results">
-                        <!-- Search results will be populated by JavaScript -->
-                    </div>
+                    <div class="search-results" id="search-results"></div>
                 </div>
-                
+
                 <div class="filter-container">
-                    <button id="filter-toggle" class="filter-toggle">
+                    <button id="filter-toggle" class="filter-toggle" title="Filter by institution">
                         <i class="fas fa-filter"></i>
                     </button>
-                    <div class="filter-dropdown">
+                    <div class="filter-dropdown" id="filter-dropdown">
                         <div class="filter-section">
-                            <h3>Filter By</h3>
-                            <div class="filter-tabs">
-                                <button class="filter-tab active" data-type="institution">Institution</button>
-                            </div>
+                            <h3>Filter by Institution</h3>
                         </div>
-                        <div class="filter-options" id="filter-options">
-                            <!-- Filter options will be populated by JavaScript -->
-                        </div>
+                        <div class="filter-options" id="filter-options"></div>
                         <div class="filter-actions">
                             <button id="apply-filters" class="apply-button">Apply</button>
                             <button id="clear-filters" class="clear-button">Clear All</button>
                         </div>
                     </div>
                 </div>
-                <div class="map-overlay">
-                    <div class="map-controls">
-                        <button id="zoom-in" title="Zoom In"><i class="fas fa-plus"></i></button>
-                        <button id="zoom-out" title="Zoom Out"><i class="fas fa-minus"></i></button>
-                        <button id="reset-view" title="Reset View"><i class="fas fa-sync-alt"></i></button>
-                    </div>
-                    <div class="map-hint">
-                        Click and drag to select scholars
-                    </div>
-                </div>
+
                 <div id="scholar-map"></div>
+
+                <div class="map-hint">
+                    Scroll to zoom &middot; Drag to pan &middot; Click a dot for details
+                </div>
             </div>
+
             <div id="sidebar">
                 <div class="sidebar-header">
                     <h2>Scholar Profile</h2>
@@ -94,16 +67,13 @@
                     <div class="placeholder-message">
                         <i class="fas fa-user-circle"></i>
                         <p>Select a scholar to view their profile</p>
-                        <small>Explore the map by clicking on scholar nodes</small>
+                        <small>Click on any dot in the map</small>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    
-    <!-- Preload placeholder image -->
-    <link rel="preload" href="images/placeholder.jpg" as="image">
-    
-    <script src="js/script.js?v=1.8"></script>
+
+    <script src="js/script.js?v=2.0"></script>
 </body>
-</html> 
+</html>

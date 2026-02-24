@@ -126,9 +126,12 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
             # If not found, try the main data directory
             scholars_path = os.path.join(DATA_DIR, 'scholars.json')
             
-            # Use website data if it exists, otherwise use main data
+            # Always prioritize website data as it has the updated format
             if os.path.exists(website_scholars_path):
                 scholars_path = website_scholars_path
+                print(f"Using updated scholars.json from website directory: {scholars_path}")
+            else:
+                print(f"Using scholars.json from data directory: {scholars_path}")
             
             if not os.path.exists(scholars_path):
                 print(f"Scholars data not found at: {scholars_path}")
@@ -156,10 +159,13 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
         try:
             print(f"Serving profile for scholar ID: {scholar_id}")
             
-            # Load scholars.json
+            # Load scholars.json - prioritize website directory
             scholars_path = os.path.join(WEBSITE_DIR, 'data', 'scholars.json')
             if not os.path.exists(scholars_path):
                 scholars_path = os.path.join(DATA_DIR, 'scholars.json')
+                print(f"Using scholars.json from data directory: {scholars_path}")
+            else:
+                print(f"Using updated scholars.json from website directory: {scholars_path}")
             
             if not os.path.exists(scholars_path):
                 print(f"Scholars data not found at: {scholars_path}")
@@ -174,9 +180,9 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
             # Make sure to handle the case where scholar_id might need padding with zeros
             scholar_data = scholars_data.get(scholar_id)
             
-            # If not found, try with zero-padded ID (e.g., "1" -> "001")
+            # If not found, try with zero-padded ID (e.g., "1" -> "0001")
             if not scholar_data and scholar_id.isdigit():
-                padded_id = scholar_id.zfill(3)
+                padded_id = scholar_id.zfill(4)  # Update to use 4-digit IDs
                 scholar_data = scholars_data.get(padded_id)
                 if scholar_data:
                     scholar_id = padded_id
@@ -188,23 +194,9 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
             
             print(f"Found scholar: {scholar_data.get('name')}")
             
-            # Get profile pic from data/profile_pics directory using scholar_id
-            profile_pic_path = f"data/profile_pics/{scholar_id}.jpg"  # Default path format
-            
-            # Check if the profile pic exists in the website directory
-            website_profile_pic = os.path.join(WEBSITE_DIR, profile_pic_path)
-            if not os.path.exists(website_profile_pic):
-                # If not in website directory, check in main data directory
-                data_profile_pic = os.path.join(DATA_DIR, f"profile_pics/{scholar_id}.jpg")
-                if os.path.exists(data_profile_pic):
-                    # Copy to website directory
-                    os.makedirs(os.path.dirname(website_profile_pic), exist_ok=True)
-                    shutil.copy2(data_profile_pic, website_profile_pic)
-                    print(f"Copied profile pic from {data_profile_pic} to {website_profile_pic}")
-                else:
-                    # Use placeholder if no profile pic found
-                    profile_pic_path = "images/placeholder.jpg"
-                    print(f"No profile pic found for scholar {scholar_id}, using placeholder")
+            # Use default avatar for all scholars
+            profile_pic_path = "data/profile_pics/default_avatar.png"
+            print(f"Using default avatar for scholar {scholar_id}")
             
             # Try to load formatted markdown content
             scholar_name = scholar_data.get('name', '')
@@ -264,11 +256,13 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
                 'scholar_id': scholar_id,
                 'name': scholar_data.get('name', 'Unknown'),
                 'institution': scholar_data.get('institution', 'Unknown'),
+                'department': scholar_data.get('department', ''),  # Added department field
                 'country': scholar_data.get('country', 'Unknown'),
                 'profile_pic': profile_pic_path,
                 'umap': umap_coords,
                 'cluster_id': scholar_data.get('cluster', 0),  # Include cluster_id for coloring
-                'markdown_content': markdown_content
+                'markdown_content': markdown_content,
+                'db_id': scholar_data.get('db_id', '')  # Added db_id field
             }
             
             # Send response
@@ -316,10 +310,12 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
             
             print(f"Handling search request of type '{search_type}' with query: {query}")
             
-            # Load scholars data
+            # Load scholars data - prioritize website directory
             scholars_path = os.path.join(WEBSITE_DIR, 'data', 'scholars.json')
             if not os.path.exists(scholars_path):
                 scholars_path = os.path.join(DATA_DIR, 'scholars.json')
+            else:
+                print(f"Using updated scholars.json from website directory for search")
             
             if not os.path.exists(scholars_path):
                 self.send_error(404, 'Scholars data not found')
@@ -345,7 +341,9 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
                             'id': scholar_id,
                             'name': scholar.get('name', ''),
                             'institution': scholar.get('institution', ''),
+                            'department': scholar.get('department', ''),  # Added department field
                             'country': scholar.get('country', ''),
+                            'db_id': scholar.get('db_id', ''),  # Added db_id field
                             'umap': [
                                 scholar.get('umap_projection', {}).get('x', 0),
                                 scholar.get('umap_projection', {}).get('y', 0)
@@ -419,19 +417,27 @@ def serve_website(port=8000):
     else:
         print(f"Found UMAP model at {umap_model_path}")
     
-    # Copy scholars.json to website/data if it doesn't exist or is older than the source
+    # For scholars.json, prioritize the website/data version as it has the updated format
     scholars_json_path = os.path.join(DATA_DIR, 'scholars.json')
     website_scholars_json_path = os.path.join(website_data_dir, 'scholars.json')
     
-    if os.path.exists(scholars_json_path):
-        if not os.path.exists(website_scholars_json_path) or \
-           os.path.getmtime(scholars_json_path) > os.path.getmtime(website_scholars_json_path):
-            print(f"Copying scholars.json to {website_scholars_json_path}")
-            shutil.copy2(scholars_json_path, website_scholars_json_path)
+    # Only copy from data to website if website version doesn't exist
+    if not os.path.exists(website_scholars_json_path) and os.path.exists(scholars_json_path):
+        print(f"Copying scholars.json to {website_scholars_json_path}")
+        shutil.copy2(scholars_json_path, website_scholars_json_path)
+    elif os.path.exists(website_scholars_json_path):
+        print(f"Using existing scholars.json in website/data directory")
     
     # Create website/data/profile_pics directory if it doesn't exist
     website_profile_pics_dir = os.path.join(website_data_dir, 'profile_pics')
     os.makedirs(website_profile_pics_dir, exist_ok=True)
+    
+    # Ensure default avatar exists
+    default_avatar_path = os.path.join(website_profile_pics_dir, 'default_avatar.png')
+    if not os.path.exists(default_avatar_path):
+        print(f"Warning: Default avatar not found at {default_avatar_path}")
+    else:
+        print(f"Found default avatar at {default_avatar_path}")
     
     # Create website/data/scholar_markdown directory if it doesn't exist
     website_markdown_dir = os.path.join(website_data_dir, 'scholar_markdown')

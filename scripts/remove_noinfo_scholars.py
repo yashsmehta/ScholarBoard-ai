@@ -12,7 +12,7 @@ NO_INFO_SCHOLARS = [
     "Dasha Zdvizhkova", "Hyosun Kim", "AJ Jansen", "Margaret McCray", 
     "Amy Sultana", "Süheyla Aydemir", "Luiz Henrique Canto-Pereira", 
     "Rebecca Roy", "Jenny W. S. Chiu", "Mabel Shanahan", 
-    "Ruggero Micheletto", "Enrico Guarnuto", "Jr."
+    "Ruggero Micheletto", "Enrico Guarnuto", "Jr.", "Columbia University"
 ]
 
 def get_project_root():

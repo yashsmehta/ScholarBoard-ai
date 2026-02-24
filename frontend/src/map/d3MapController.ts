@@ -212,6 +212,10 @@ export function createD3MapController(
               } catch {
                 // Pointer capture can fail on some browsers/input types; selection still falls back.
               }
+              raiseDot(event.currentTarget as SVGCircleElement)
+              callbacks.onHoverScholarId(d.id)
+              callbacks.onSelectScholarId(d.id)
+              event.preventDefault()
               // Prevent zoom from stealing click selection on dot presses.
               event.stopPropagation()
             })

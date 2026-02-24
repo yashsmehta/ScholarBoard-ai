@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-ScholarBoard.ai creates interactive 2D dashboards of researchers arranged by research similarity. It uses Perplexity for researcher info/paper extraction, Gemini for parsing into structured JSON, OpenAI for embeddings, and UMAP/DBSCAN for dimensionality reduction + clustering. The current dataset is ~730 vision neuroscience researchers (VSS).
+ScholarBoard.ai creates interactive 2D dashboards of researchers arranged by research similarity. It uses Perplexity for researcher info/paper extraction (structured JSON), OpenAI for embeddings, and UMAP/DBSCAN for dimensionality reduction + clustering. The current dataset is ~730 vision neuroscience researchers (VSS).
 
 ## Commands
 
@@ -29,7 +29,7 @@ cd website && python3 -m http.server 8000
 
 # Dry-run examples (no API calls)
 python3 scripts/scholar_scraper/fetch_papers_perplexity.py --dry-run --limit 5
-python3 scripts/parse_raw_to_json.py --dry-run --limit 5
+python3 scholar_board/plex_info_extractor.py --dry-run --limit 5
 python3 scripts/create_paper_embeddings.py --dry-run
 ```
 
@@ -40,31 +40,29 @@ python3 scripts/create_paper_embeddings.py --dry-run
 All API prompts are externalized as markdown templates with `{variable}` substitution:
 
 - **`prompts/fetch_papers.md`** — Perplexity: fetch top papers (`{scholar_name}`, `{institution}`, `{num_papers}`)
-- **`prompts/fetch_researcher_info.md`** — Perplexity: full researcher profile (`{scholar_name}`, `{institution}`)
-- **`prompts/parse_to_json.md`** — Gemini: parse raw data → structured JSON (`{raw_profile}`, `{raw_papers}`, `{json_schema}`)
+- **`prompts/fetch_researcher_info.md`** — Perplexity: structured researcher profile (`{scholar_name}`, `{institution}`)
+- **`prompts/normalize_bio.md`** — Gemini: normalize bio tone and pronouns (`{scholar_name}`, `{bio}`)
 - **`scholar_board/prompt_loader.py`** — `load_prompt(name)` and `render_prompt(name, **kwargs)`
 
 ### Data Schema (`scholar_board/schemas.py`)
 
 Pydantic models defining the canonical data structure:
 
-- **`Scholar`** — id, name, institution, department, lab_name, research_areas[], bio, education[], papers[], profile_pic, umap_projection{x,y}, cluster
-- **`Paper`** — title, abstract, year, venue, citations, authors, last_author, url
-- **`Education`** — degree, institution, year, field, advisor
+- **`Scholar`** — id, name, institution, department, lab_url, main_research_area, bio, papers[], profile_pic, umap_projection{x,y}, cluster
+- **`Paper`** — title, abstract, year, venue, citations, authors, url
 
-### Data Pipeline (7 steps)
+### Data Pipeline (6 steps)
 
 ```
-Papers Fetch → Profile Fetch → Parse to JSON → Embed → UMAP+DBSCAN → Build JSON → Website Copy
+Papers Fetch → Profile Fetch → Embed → UMAP+DBSCAN → Build JSON → Website Copy
 ```
 
 1. **`scripts/scholar_scraper/fetch_papers_perplexity.py`** — Perplexity `sonar-pro` fetches recent papers per scholar → `data/scholar_papers/*.json`
-2. **`scholar_board/plex_info_extractor.py`** — Perplexity fetches researcher profiles → `data/perplexity_info/*_raw.txt`
-3. **`scripts/parse_raw_to_json.py`** — Gemini Flash parses raw data into structured Scholar JSON → `data/scholars/*.json`
-4. **`scripts/create_paper_embeddings.py`** — OpenAI `text-embedding-3-small` embeds paper text (fallback: VSS abstracts) → `data/scholar_embeddings.nc`
-5. **`scripts/run_umap_dbscan.py`** — StandardScaler → UMAP(cosine) → DBSCAN → `data/models/*.joblib`
-6. **`scripts/build_scholars_json.py`** — Merges all sources (CSV + UMAP + papers + bios + pics) → `data/scholars.json`
-7. **`scripts/run_pipeline.py`** — Orchestrator: `--step <name>`, `--execute`, or status display
+2. **`scholar_board/plex_info_extractor.py`** — Perplexity fetches structured researcher profiles, then Gemini Flash normalizes bios (neutral tone, gender-neutral language) → `data/perplexity_info/{id}_{name}.json`. Use `--skip-normalize` to bypass Gemini step.
+3. **`scripts/create_paper_embeddings.py`** — OpenAI `text-embedding-3-large` embeds paper text (fallback: VSS abstracts) → `data/scholar_embeddings.nc`
+4. **`scripts/run_umap_dbscan.py`** — UMAP(cosine) → DBSCAN → `data/models/*.joblib`
+5. **`scripts/build_scholars_json.py`** — Merges all sources (CSV + UMAP + papers + profiles + pics) → `data/scholars.json`
+6. **`scripts/run_pipeline.py`** — Orchestrator: `--step <name>`, `--execute`, or status display
 
 All pipeline scripts support `--dry-run` for safe previewing.
 
@@ -83,18 +81,18 @@ Static site served with `python3 -m http.server 8000` (no custom server needed).
 - **`js/script.js`** — D3.js v7 scatter plot (~400 lines):
   - `d3.zoom()` scroll-wheel zoom + drag pan
   - Scholar dots colored by cluster (Spectral colormap)
-  - `showScholarDetails()` — sidebar with name, institution, bio, papers, education, nearby scholars
+  - `showScholarDetails()` — sidebar with name, institution, lab link, bio, research area, papers, nearby scholars
   - Instant name search (2+ chars)
   - Hover tooltips (name + institution)
   - Institution filter with counts
-- **`css/styles.css`** — Responsive layout, scholar profile card, paper list, education styles
+- **`css/styles.css`** — Responsive layout, scholar profile card, paper list
 
 ### Key Data Files
 
-- **`data/scholars.json`** — Master dataset: keyed by scholar ID, includes id, name, institution, department, bio, papers[], profile_pic, umap_projection{x,y}, cluster
+- **`data/scholars.json`** — Master dataset: keyed by scholar ID, includes id, name, institution, department, lab_url, main_research_area, bio, papers[], profile_pic, umap_projection{x,y}, cluster
 - **`data/vss_data.csv`** — Source CSV: 730 unique scholars with abstracts
 - **`data/scholar_papers/*.json`** — Per-scholar paper data from Perplexity
-- **`data/scholar_summaries/*_summary.txt`** — 2-3 sentence bios
+- **`data/perplexity_info/*.json`** — Structured researcher profiles from Perplexity (bio, main_research_area, lab_url, department)
 - **`data/profile_pics/*.jpg`** — Profile pictures (naming: `name_XXXX.jpg`)
 - **`data/scholar_embeddings.nc`** — High-dimensional embeddings (NetCDF/xarray)
 - **`data/models/*.joblib`** — Trained UMAP, DBSCAN, and scaler models

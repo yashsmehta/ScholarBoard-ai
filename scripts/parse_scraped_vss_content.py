@@ -10,23 +10,19 @@ import asyncio
 import glob
 from typing import Dict, List, Any
 from tqdm import tqdm
-from langchain_google_genai import ChatGoogleGenerativeAI
+from google import genai
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
 
-def create_gemini_client(temperature=0.2):
-    """Create a Google Gemini Flash client."""
+def create_gemini_client():
+    """Create a Google Gemini client."""
     api_key = os.environ.get("GOOGLE_API_KEY")
     if not api_key:
         raise ValueError("GOOGLE_API_KEY not found in environment variables")
-    
-    return ChatGoogleGenerativeAI(
-        model="gemini-2.0-flash",
-        api_key=api_key,
-        temperature=temperature,
-    )
+
+    return genai.Client(api_key=api_key)
 
 async def extract_author_info_with_gemini(abstract_data: Dict[str, Any], client) -> Dict[str, Any]:
     """
@@ -111,9 +107,12 @@ async def extract_author_info_with_gemini(abstract_data: Dict[str, Any], client)
     """
     
     try:
-        # Generate the response using the LangChain client
-        response = client.invoke(prompt)
-        result_text = response.content
+        # Generate the response using Gemini
+        response = client.models.generate_content(
+            model="gemini-3-flash-preview",
+            contents=prompt,
+        )
+        result_text = response.text
         
         # Find JSON content in the response
         json_start = result_text.find('{')

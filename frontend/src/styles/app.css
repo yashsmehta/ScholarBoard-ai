@@ -73,7 +73,7 @@ input {
 .app-main {
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 380px;
+  grid-template-columns: minmax(0, 3fr) minmax(360px, 2fr);
   gap: 12px;
   padding: 12px;
 }

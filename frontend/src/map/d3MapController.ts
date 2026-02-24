@@ -58,6 +58,7 @@ export function createD3MapController(
     x: number
     y: number
     targetWasDot: boolean
+    targetScholarId: string | null
     transformX: number
     transformY: number
     transformK: number
@@ -92,10 +93,14 @@ export function createD3MapController(
     if ((event.button ?? 0) !== 0) return
     const [x, y] = d3.pointer(event, svg.node())
     const target = event.target as Element | null
+    const targetDot = target?.closest?.('.scholar-map__dot') as (SVGCircleElement & {
+      __data__?: Scholar
+    }) | null
     pointerDownSnapshot = {
       x,
       y,
-      targetWasDot: Boolean(target?.closest?.('.scholar-map__dot')),
+      targetWasDot: Boolean(targetDot),
+      targetScholarId: targetDot?.__data__?.id ?? null,
       transformX: currentTransform.x,
       transformY: currentTransform.y,
       transformK: currentTransform.k,
@@ -115,10 +120,16 @@ export function createD3MapController(
       Math.abs(currentTransform.k - snapshot.transformK)
 
     // Ignore actual pans/zooms, but allow small click jitter on trackpads.
-    if (pointerMove > 8 || transformMove > 0.0001) return
+    if (pointerMove > 14 || transformMove > 0.0001) return
+
+    if (snapshot.targetScholarId) {
+      callbacks.onSelectScholarId(snapshot.targetScholarId)
+      callbacks.onHoverScholarId(snapshot.targetScholarId)
+      return
+    }
 
     // If native dot click fires, this is harmless duplication; selection is idempotent.
-    const candidate = findNearestVisibleScholarAtViewportPoint(x, y, 10)
+    const candidate = findNearestVisibleScholarAtViewportPoint(x, y, 16)
     if (!candidate) return
     callbacks.onSelectScholarId(candidate.id)
     callbacks.onHoverScholarId(candidate.id)
@@ -191,6 +202,7 @@ export function createD3MapController(
             .append('circle')
             .attr('class', 'scholar-map__dot')
             .attr('r', DOT_RADIUS)
+            .style('cursor', 'pointer')
             .attr('fill-opacity', (d) => (d.cluster < 0 ? 0.64 : 0.96))
             .attr('stroke', BASE_STROKE)
             .attr('stroke-width', 1)
@@ -210,7 +222,8 @@ export function createD3MapController(
               callbacks.onHoverScholarId(null)
               hideTooltip()
             })
-            .on('click', (event, d) => {
+            .on('pointerup', (event, d) => {
+              if ((event.button ?? 0) !== 0) return
               event.stopPropagation()
               raiseDot(event.currentTarget as SVGCircleElement)
               callbacks.onSelectScholarId(d.id)

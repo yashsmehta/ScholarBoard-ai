@@ -202,11 +202,16 @@ export function createD3MapController(
             .append('circle')
             .attr('class', 'scholar-map__dot')
             .attr('r', DOT_RADIUS)
-            .style('cursor', 'pointer')
             .attr('fill-opacity', (d) => (d.cluster < 0 ? 0.64 : 0.96))
             .attr('stroke', BASE_STROKE)
             .attr('stroke-width', 1)
-            .on('pointerdown', (event) => {
+            .on('pointerdown', (event, d) => {
+              recordPointerDownSnapshot(event, d)
+              try {
+                ;(event.currentTarget as SVGCircleElement).setPointerCapture?.(event.pointerId)
+              } catch {
+                // Pointer capture can fail on some browsers/input types; selection still falls back.
+              }
               // Prevent zoom from stealing click selection on dot presses.
               event.stopPropagation()
             })
@@ -446,6 +451,19 @@ export function createD3MapController(
 
   function raiseDot(node: SVGCircleElement) {
     node.parentNode?.appendChild(node)
+  }
+
+  function recordPointerDownSnapshot(event: PointerEvent, scholar: Scholar) {
+    const [x, y] = d3.pointer(event, svg.node())
+    pointerDownSnapshot = {
+      x,
+      y,
+      targetWasDot: true,
+      targetScholarId: scholar.id,
+      transformX: currentTransform.x,
+      transformY: currentTransform.y,
+      transformK: currentTransform.k,
+    }
   }
 
   function findNearestVisibleScholarAtViewportPoint(

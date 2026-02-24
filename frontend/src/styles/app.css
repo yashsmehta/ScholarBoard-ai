@@ -131,6 +131,10 @@ input {
   pointer-events: none;
 }
 
+.scholar-map__dot {
+  cursor: pointer;
+}
+
 .scholar-map__brush-layer .selection {
   fill: rgba(68, 161, 160, 0.16);
   stroke: rgba(13, 92, 99, 0.72);

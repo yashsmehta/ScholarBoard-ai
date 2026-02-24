@@ -29,6 +29,8 @@ export function ScholarMap({
 }: ScholarMapProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const controllerRef = useRef<D3MapController | null>(null)
+  const hoverHandlerRef = useRef(onHoverScholarId)
+  const selectHandlerRef = useRef(onSelectScholarId)
 
   const interactionState: MapInteractionState = useMemo(
     () => ({
@@ -40,12 +42,20 @@ export function ScholarMap({
   )
 
   useEffect(() => {
+    hoverHandlerRef.current = onHoverScholarId
+  }, [onHoverScholarId])
+
+  useEffect(() => {
+    selectHandlerRef.current = onSelectScholarId
+  }, [onSelectScholarId])
+
+  useEffect(() => {
     const container = containerRef.current
     if (!container) return
 
     const controller = createD3MapController(container, {
-      onHoverScholarId,
-      onSelectScholarId,
+      onHoverScholarId: (scholarId) => hoverHandlerRef.current(scholarId),
+      onSelectScholarId: (scholarId) => selectHandlerRef.current(scholarId),
     })
     controllerRef.current = controller
     controller.setData(scholars)
@@ -61,7 +71,7 @@ export function ScholarMap({
       controller.destroy()
       controllerRef.current = null
     }
-  }, [onHoverScholarId, onSelectScholarId])
+  }, [])
 
   useEffect(() => {
     controllerRef.current?.setData(scholars)

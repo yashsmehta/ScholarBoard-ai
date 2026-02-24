@@ -8,21 +8,30 @@
 
     // ── Constants ──────────────────────────────────────────────
     const SPECTRAL = [
-        '#9e0142', '#d53e4f', '#f46d43', '#fdae61', '#fee08b',
-        '#e6f598', '#abdda4', '#66c2a5', '#3288bd', '#5e4fa2',
-        '#7b3294', '#ffffbf'
+        '#d1495b', '#ef8354', '#f4b860', '#c9c46b',
+        '#7ac7a1', '#4fb3bf', '#4c8ed9', '#5f6ad4',
+        '#7f5cc9', '#a855a1', '#c0567e', '#c17f59'
     ];
-    const DOT_RADIUS = 5;
-    const DOT_RADIUS_HOVER = 12;
-    const PIC_RADIUS = 16;
-    const NOISE_COLOR = '#888';
+    const DOT_RADIUS = 4.4;
+    const DOT_RADIUS_HOVER = 6.4;
+    const DOT_RADIUS_SELECTED = 8.6;
+    const NOISE_COLOR = '#8f99ab';
+    const BASE_STROKE = 'rgba(255,255,255,0.78)';
+    const SELECTED_STROKE = '#172235';
+    const MAP_PAD = 72;
 
     // ── State ──────────────────────────────────────────────────
     let scholars = [];
     let scholarsById = {};
     let svg, g, xScale, yScale, zoom;
+    let dots, selectionRing, brush, brushLayer;
     let activeFilters = new Set();
     let selectedScholar = null;
+    let hoveredScholarId = null;
+    let xDomain, yDomain;
+    let resizeRaf = null;
+    let currentTransform = d3.zoomIdentity;
+    let boxZoomModifierActive = false;
 
     // ── Init ───────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', init);
@@ -36,6 +45,8 @@
             }
             scholarsById = Object.fromEntries(scholars.map(s => [s.id, s]));
             createMap(scholars);
+            setupBoxZoomModifier();
+            setupMapControls();
             setupSearch(scholars);
             setupFilters(scholars);
             setupSidebar();
@@ -77,17 +88,15 @@
         const height = container.clientHeight;
 
         // Scales
-        const xExtent = d3.extent(data, d => d.x);
-        const yExtent = d3.extent(data, d => d.y);
-        const pad = 60;
+        xDomain = d3.extent(data, d => d.x);
+        yDomain = d3.extent(data, d => d.y);
 
         xScale = d3.scaleLinear()
-            .domain(xExtent)
-            .range([pad, width - pad]);
+            .domain(xDomain);
 
         yScale = d3.scaleLinear()
-            .domain(yExtent)
-            .range([pad, height - pad]);
+            .domain(yDomain);
+        updateScaleRanges(width, height);
 
         // SVG
         svg = d3.select(container)
@@ -95,26 +104,58 @@
             .attr('width', width)
             .attr('height', height);
 
-        // Main group (zoom target)
-        g = svg.append('g');
-
-        // Zoom behavior
-        zoom = d3.zoom()
-            .scaleExtent([0.3, 20])
-            .on('zoom', (event) => {
-                g.attr('transform', event.transform);
-            });
-
-        svg.call(zoom);
-
         // Cluster color function
         const clusterColor = (cluster) => {
             if (cluster < 0) return NOISE_COLOR;
             return SPECTRAL[cluster % SPECTRAL.length];
         };
 
+        // Main group (zoom target)
+        g = svg.append('g');
+        const ringLayer = g.append('g').attr('class', 'selection-ring-layer');
+        const dotLayer = g.append('g').attr('class', 'dots-layer');
+        selectionRing = ringLayer.append('circle')
+            .attr('class', 'selection-ring')
+            .style('display', 'none');
+
+        // Zoom behavior
+        zoom = d3.zoom()
+            .filter((event) => {
+                if (event.type === 'wheel') return true;
+                if (event.type === 'mousedown' || event.type === 'pointerdown') {
+                    return (event.button ?? 0) === 0 && !boxZoomModifierActive;
+                }
+                return !boxZoomModifierActive;
+            })
+            .scaleExtent([0.3, 20])
+            .on('zoom', (event) => {
+                currentTransform = event.transform;
+                g.attr('transform', event.transform);
+            });
+
+        svg.call(zoom);
+        svg.on('dblclick.zoom', null);
+        svg.on('dblclick', onMapDoubleClick);
+
+        // Box zoom (Shift + drag)
+        brushLayer = svg.append('g')
+            .attr('class', 'brush-layer')
+            .style('pointer-events', 'all');
+
+        brush = d3.brush()
+            .extent([[0, 0], [width, height]])
+            .filter((event) =>
+                (event.type === 'mousedown' || event.type === 'pointerdown') &&
+                (event.button ?? 0) === 0 &&
+                boxZoomModifierActive
+            )
+            .on('start', () => hideTooltip())
+            .on('end', onBrushEnd);
+
+        brushLayer.call(brush);
+
         // Draw dots
-        const dots = g.selectAll('.scholar-dot')
+        dots = dotLayer.selectAll('.scholar-dot')
             .data(data)
             .join('circle')
             .attr('class', 'scholar-dot')
@@ -122,58 +163,73 @@
             .attr('cy', d => yScale(d.y))
             .attr('r', DOT_RADIUS)
             .attr('fill', d => clusterColor(d.cluster))
-            .attr('stroke', '#fff')
-            .attr('stroke-width', 1.2)
+            .attr('fill-opacity', d => d.cluster < 0 ? 0.6 : 0.97)
+            .attr('stroke', BASE_STROKE)
+            .attr('stroke-width', 1.1)
             .on('mouseenter', onDotEnter)
+            .on('mousemove', onDotMove)
             .on('mouseleave', onDotLeave)
             .on('click', onDotClick);
+        refreshDotStyles();
 
         // Handle resize
         window.addEventListener('resize', () => {
-            const w = container.clientWidth;
-            const h = container.clientHeight;
-            svg.attr('width', w).attr('height', h);
+            if (resizeRaf) cancelAnimationFrame(resizeRaf);
+            resizeRaf = requestAnimationFrame(() => {
+                resizeRaf = null;
+                const w = container.clientWidth;
+                const h = container.clientHeight;
+                svg.attr('width', w).attr('height', h);
+                updateScaleRanges(w, h);
+                if (brush && brushLayer) {
+                    brush.extent([[0, 0], [w, h]]);
+                    brushLayer.call(brush);
+                    brushLayer.call(brush.move, null);
+                }
+                if (dots) {
+                    dots
+                        .attr('cx', d => xScale(d.x))
+                        .attr('cy', d => yScale(d.y));
+                }
+                updateSelectionRing();
+            });
         });
     }
 
     // ── Dot Interactions ───────────────────────────────────────
     function onDotEnter(event, d) {
-        d3.select(this)
-            .transition().duration(150)
-            .attr('r', DOT_RADIUS_HOVER)
-            .attr('stroke-width', 2);
-
+        hoveredScholarId = d.id;
+        refreshDotStyles();
         showTooltip(event, d);
+        raiseDot(this);
+    }
 
-        // Bring to front
-        this.parentNode.appendChild(this);
+    function onDotMove(event) {
+        positionTooltip(event);
     }
 
     function onDotLeave(event, d) {
-        const isSelected = selectedScholar && selectedScholar.id === d.id;
-        d3.select(this)
-            .transition().duration(150)
-            .attr('r', isSelected ? DOT_RADIUS_HOVER : DOT_RADIUS)
-            .attr('stroke-width', 1.2);
-
+        if (hoveredScholarId === d.id) hoveredScholarId = null;
+        refreshDotStyles();
         hideTooltip();
     }
 
     function onDotClick(event, d) {
         event.stopPropagation();
         selectedScholar = d;
+        hoveredScholarId = d.id;
         showScholarDetails(d);
+        refreshDotStyles();
+        raiseDot(this);
+    }
 
-        // Highlight selected, reset others
-        g.selectAll('.scholar-dot')
-            .attr('stroke', '#fff')
-            .attr('stroke-width', 1.2)
-            .attr('r', DOT_RADIUS);
+    function onMapDoubleClick(event) {
+        if (!svg || !zoom) return;
+        hideTooltip();
 
-        d3.select(this)
-            .attr('stroke', '#fff')
-            .attr('stroke-width', 2.5)
-            .attr('r', DOT_RADIUS_HOVER);
+        const [px, py] = d3.pointer(event, svg.node());
+        const factor = event.shiftKey ? (1 / 1.8) : 1.8;
+        zoomAtViewportPoint(px, py, factor, 190);
     }
 
     // ── Tooltip ────────────────────────────────────────────────
@@ -187,19 +243,32 @@
     }
 
     function showTooltip(event, d) {
-        const mapRect = document.getElementById('map-container').getBoundingClientRect();
         tooltipEl.querySelector('.tooltip-name').textContent = d.name;
         tooltipEl.querySelector('.tooltip-institution').textContent = d.institution;
         tooltipEl.classList.add('visible');
-
-        const x = event.clientX - mapRect.left + 12;
-        const y = event.clientY - mapRect.top - 10;
-        tooltipEl.style.left = x + 'px';
-        tooltipEl.style.top = y + 'px';
+        positionTooltip(event);
     }
 
     function hideTooltip() {
         tooltipEl.classList.remove('visible');
+    }
+
+    function positionTooltip(event) {
+        if (!tooltipEl || !tooltipEl.classList.contains('visible')) return;
+
+        const mapRect = document.getElementById('map-container').getBoundingClientRect();
+        const tooltipRect = tooltipEl.getBoundingClientRect();
+        let x = event.clientX - mapRect.left + 14;
+        let y = event.clientY - mapRect.top - tooltipRect.height - 10;
+
+        if (x + tooltipRect.width > mapRect.width - 8) {
+            x = mapRect.width - tooltipRect.width - 8;
+        }
+        if (x < 8) x = 8;
+        if (y < 8) y = event.clientY - mapRect.top + 14;
+
+        tooltipEl.style.left = `${x}px`;
+        tooltipEl.style.top = `${y}px`;
     }
 
     // ── Scholar Details Sidebar ────────────────────────────────
@@ -334,7 +403,7 @@
         const sy = yScale(scholar.y);
         const scale = 3;
 
-        svg.transition().duration(600).call(
+        svg.transition().duration(260).call(
             zoom.transform,
             d3.zoomIdentity
                 .translate(w / 2, h / 2)
@@ -342,36 +411,65 @@
                 .translate(-sx, -sy)
         );
 
-        // Highlight the dot
         selectedScholar = scholar;
-        g.selectAll('.scholar-dot')
-            .attr('stroke', '#fff')
-            .attr('stroke-width', 1.2)
-            .attr('r', DOT_RADIUS);
-
+        hoveredScholarId = scholar.id;
+        refreshDotStyles();
         g.selectAll('.scholar-dot')
             .filter(d => d.id === scholar.id)
-            .attr('stroke', '#fff')
-            .attr('stroke-width', 2.5)
-            .attr('r', DOT_RADIUS_HOVER)
-            .each(function () { this.parentNode.appendChild(this); });
+            .each(function () { raiseDot(this); });
+    }
+
+    function setupMapControls() {
+        const resetBtn = document.getElementById('reset-view');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => resetView());
+        }
+    }
+
+    function resetView(duration = 220) {
+        if (!svg || !zoom) return;
+        hideTooltip();
+        clearBrushSelection();
+        svg.transition().duration(duration).call(zoom.transform, d3.zoomIdentity);
+    }
+
+    function zoomAtViewportPoint(px, py, factor, duration = 180) {
+        if (!svg || !zoom) return;
+        const current = currentTransform || d3.zoomIdentity;
+        const targetK = Math.max(0.3, Math.min(20, current.k * factor));
+        const localX = current.invertX(px);
+        const localY = current.invertY(py);
+        const target = d3.zoomIdentity
+            .translate(px, py)
+            .scale(targetK)
+            .translate(-localX, -localY);
+
+        svg.transition().duration(duration).call(zoom.transform, target);
     }
 
     // ── Search ─────────────────────────────────────────────────
     function setupSearch(data) {
         const input = document.getElementById('search-input');
         const resultsEl = document.getElementById('search-results');
+        let currentMatches = [];
+        let activeIndex = -1;
 
-        input.addEventListener('input', () => {
-            const query = input.value.trim().toLowerCase();
-            if (query.length < 2) {
-                resultsEl.classList.remove('active');
-                return;
-            }
+        function closeResults() {
+            resultsEl.classList.remove('active');
+            activeIndex = -1;
+        }
 
-            const matches = data
-                .filter(s => s.name.toLowerCase().includes(query))
-                .slice(0, 10);
+        function selectScholarFromSearch(s) {
+            if (!s) return;
+            closeResults();
+            input.value = s.name;
+            showScholarDetails(s);
+            panToScholar(s);
+        }
+
+        function renderResults(matches, query) {
+            currentMatches = matches;
+            activeIndex = matches.length ? 0 : -1;
 
             if (!matches.length) {
                 resultsEl.innerHTML = '<div class="search-no-results">No scholars found</div>';
@@ -379,13 +477,13 @@
                 return;
             }
 
-            resultsEl.innerHTML = matches.map(s => {
+            resultsEl.innerHTML = matches.map((s, idx) => {
                 const name = highlightMatch(s.name, query);
                 const picSrc = s.profile_pic
                     ? `data/profile_pics/${s.profile_pic}`
                     : 'data/profile_pics/default_avatar.jpg';
                 return `
-                    <div class="search-result-item" data-id="${s.id}">
+                    <div class="search-result-item${idx === activeIndex ? ' active' : ''}" data-id="${s.id}">
                         <div class="search-result-image">
                             <img src="${picSrc}" alt="${s.name}"
                                  onerror="this.src='data/profile_pics/default_avatar.jpg'">
@@ -398,25 +496,79 @@
             }).join('');
 
             resultsEl.classList.add('active');
+            attachSearchResultHandlers();
+        }
 
-            // Attach click handlers
-            resultsEl.querySelectorAll('.search-result-item').forEach(el => {
+        function attachSearchResultHandlers() {
+            resultsEl.querySelectorAll('.search-result-item').forEach((el, idx) => {
+                el.addEventListener('mouseenter', () => {
+                    activeIndex = idx;
+                    updateActiveSearchResult();
+                });
                 el.addEventListener('click', () => {
-                    const s = scholarsById[el.dataset.id];
-                    if (s) {
-                        resultsEl.classList.remove('active');
-                        input.value = s.name;
-                        showScholarDetails(s);
-                        panToScholar(s);
-                    }
+                    selectScholarFromSearch(scholarsById[el.dataset.id]);
                 });
             });
+        }
+
+        function updateActiveSearchResult() {
+            const items = resultsEl.querySelectorAll('.search-result-item');
+            items.forEach((el, idx) => el.classList.toggle('active', idx === activeIndex));
+            const activeEl = items[activeIndex];
+            if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
+        }
+
+        input.addEventListener('input', () => {
+            const query = input.value.trim().toLowerCase();
+            if (query.length < 2) {
+                currentMatches = [];
+                closeResults();
+                return;
+            }
+
+            const matches = data
+                .filter(s => s.name.toLowerCase().includes(query))
+                .slice(0, 10);
+            renderResults(matches, query);
+        });
+
+        input.addEventListener('keydown', (event) => {
+            if (!resultsEl.classList.contains('active')) return;
+
+            if (event.key === 'ArrowDown') {
+                if (!currentMatches.length) return;
+                event.preventDefault();
+                activeIndex = (activeIndex + 1) % currentMatches.length;
+                updateActiveSearchResult();
+                return;
+            }
+
+            if (event.key === 'ArrowUp') {
+                if (!currentMatches.length) return;
+                event.preventDefault();
+                activeIndex = activeIndex <= 0 ? currentMatches.length - 1 : activeIndex - 1;
+                updateActiveSearchResult();
+                return;
+            }
+
+            if (event.key === 'Enter') {
+                if (!currentMatches.length) return;
+                event.preventDefault();
+                const idx = activeIndex >= 0 ? activeIndex : 0;
+                selectScholarFromSearch(currentMatches[idx]);
+                return;
+            }
+
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                closeResults();
+            }
         });
 
         // Close results on outside click
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.search-container')) {
-                resultsEl.classList.remove('active');
+                closeResults();
             }
         });
     }
@@ -487,12 +639,14 @@
     function applyFilterVisuals() {
         if (!activeFilters.size) {
             g.selectAll('.scholar-dot')
+                .classed('is-dimmed', false)
                 .attr('opacity', 1)
                 .style('pointer-events', 'auto');
             return;
         }
 
         g.selectAll('.scholar-dot')
+            .classed('is-dimmed', d => !activeFilters.has(d.institution))
             .attr('opacity', d => activeFilters.has(d.institution) ? 1 : 0.08)
             .style('pointer-events', d => activeFilters.has(d.institution) ? 'auto' : 'none');
     }
@@ -502,13 +656,127 @@
         document.getElementById('close-sidebar').addEventListener('click', () => {
             document.getElementById('sidebar').classList.remove('active');
             selectedScholar = null;
-
-            // Reset dot highlights
-            g.selectAll('.scholar-dot')
-                .attr('stroke', '#fff')
-                .attr('stroke-width', 1.2)
-                .attr('r', DOT_RADIUS);
+            hoveredScholarId = null;
+            refreshDotStyles();
         });
+    }
+
+    function updateScaleRanges(width, height) {
+        const pad = Math.max(42, Math.min(MAP_PAD, Math.min(width, height) * 0.12));
+        xScale.range([pad, width - pad]);
+        yScale.range([pad, height - pad]);
+    }
+
+    function setupBoxZoomModifier() {
+        window.addEventListener('keydown', (event) => {
+            if (event.key !== 'Shift') return;
+            if (!boxZoomModifierActive) {
+                boxZoomModifierActive = true;
+                updateBoxZoomModifierUI();
+            }
+        });
+
+        window.addEventListener('keyup', (event) => {
+            if (event.key !== 'Shift') return;
+            if (boxZoomModifierActive) {
+                boxZoomModifierActive = false;
+                clearBrushSelection();
+                updateBoxZoomModifierUI();
+            }
+        });
+
+        window.addEventListener('blur', () => {
+            if (!boxZoomModifierActive) return;
+            boxZoomModifierActive = false;
+            clearBrushSelection();
+            updateBoxZoomModifierUI();
+        });
+
+        updateBoxZoomModifierUI();
+    }
+
+    function updateBoxZoomModifierUI() {
+        const map = document.getElementById('scholar-map');
+        if (map) map.classList.toggle('box-zoom-mode', boxZoomModifierActive);
+    }
+
+    function clearBrushSelection() {
+        if (brushLayer && brush) {
+            brushLayer.call(brush.move, null);
+        }
+    }
+
+    function onBrushEnd(event) {
+        if (!event.selection || !svg || !zoom) return;
+
+        const [[x0, y0], [x1, y1]] = event.selection;
+        const width = Math.abs(x1 - x0);
+        const height = Math.abs(y1 - y0);
+        clearBrushSelection();
+
+        if (width < 12 || height < 12) return;
+
+        const minX = Math.min(x0, x1);
+        const maxX = Math.max(x0, x1);
+        const minY = Math.min(y0, y1);
+        const maxY = Math.max(y0, y1);
+
+        const lx0 = currentTransform.invertX(minX);
+        const lx1 = currentTransform.invertX(maxX);
+        const ly0 = currentTransform.invertY(minY);
+        const ly1 = currentTransform.invertY(maxY);
+
+        const localWidth = Math.max(1, Math.abs(lx1 - lx0));
+        const localHeight = Math.max(1, Math.abs(ly1 - ly0));
+        const cx = (lx0 + lx1) / 2;
+        const cy = (ly0 + ly1) / 2;
+
+        const container = document.getElementById('scholar-map');
+        const viewW = container.clientWidth;
+        const viewH = container.clientHeight;
+        const targetScale = Math.max(0.3, Math.min(20, Math.min(viewW / localWidth, viewH / localHeight) * 0.94));
+
+        const target = d3.zoomIdentity
+            .translate(viewW / 2, viewH / 2)
+            .scale(targetScale)
+            .translate(-cx, -cy);
+
+        svg.transition().duration(220).call(zoom.transform, target);
+    }
+
+    function refreshDotStyles() {
+        if (!g) return;
+        g.selectAll('.scholar-dot').each(function (d) {
+            const isSelected = selectedScholar && selectedScholar.id === d.id;
+            const isHovered = hoveredScholarId === d.id && !isSelected;
+            const sel = d3.select(this);
+
+            sel.classed('is-selected', isSelected)
+                .classed('is-hovered', isHovered)
+                .attr('r', isSelected ? DOT_RADIUS_SELECTED : (isHovered ? DOT_RADIUS_HOVER : DOT_RADIUS))
+                .attr('stroke', isSelected ? SELECTED_STROKE : BASE_STROKE)
+                .attr('stroke-width', isSelected ? 3.1 : (isHovered ? 1.9 : 0.95));
+        });
+        updateSelectionRing();
+    }
+
+    function updateSelectionRing() {
+        if (!selectionRing) return;
+        if (!selectedScholar) {
+            selectionRing.style('display', 'none').classed('is-visible', false);
+            return;
+        }
+
+        selectionRing
+            .style('display', null)
+            .classed('is-visible', true)
+            .attr('cx', xScale(selectedScholar.x))
+            .attr('cy', yScale(selectedScholar.y))
+            .attr('r', DOT_RADIUS_SELECTED + 6.8);
+    }
+
+    function raiseDot(node) {
+        if (node && node.parentNode) node.parentNode.appendChild(node);
     }
 
     // ── Utilities ──────────────────────────────────────────────

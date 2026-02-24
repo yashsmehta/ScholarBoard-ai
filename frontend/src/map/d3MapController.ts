@@ -63,6 +63,7 @@ export function createD3MapController(
     transformY: number
     transformK: number
   } | null = null
+  let lastCommittedSelection: { scholarId: string; at: number } | null = null
   let interactionState: MapInteractionState = {
     hoveredScholarId: null,
     selectedScholarId: null,
@@ -90,49 +91,16 @@ export function createD3MapController(
   svg.call(zoom)
   svg.on('dblclick.zoom', null)
   svg.on('pointerdown.selection', (event) => {
-    if ((event.button ?? 0) !== 0) return
-    const [x, y] = d3.pointer(event, svg.node())
-    const target = event.target as Element | null
-    const targetDot = target?.closest?.('.scholar-map__dot') as (SVGCircleElement & {
-      __data__?: Scholar
-    }) | null
-    pointerDownSnapshot = {
-      x,
-      y,
-      targetWasDot: Boolean(targetDot),
-      targetScholarId: targetDot?.__data__?.id ?? null,
-      transformX: currentTransform.x,
-      transformY: currentTransform.y,
-      transformK: currentTransform.k,
-    }
+    recordSvgPressSnapshot(event)
+  })
+  svg.on('mousedown.selection', (event) => {
+    recordSvgPressSnapshot(event)
   })
   svg.on('pointerup.selection', (event) => {
-    if (!pointerDownSnapshot) return
-    const snapshot = pointerDownSnapshot
-    pointerDownSnapshot = null
-    if ((event.button ?? 0) !== 0 || boxZoomModifierActive) return
-
-    const [x, y] = d3.pointer(event, svg.node())
-    const pointerMove = Math.hypot(x - snapshot.x, y - snapshot.y)
-    const transformMove =
-      Math.abs(currentTransform.x - snapshot.transformX) +
-      Math.abs(currentTransform.y - snapshot.transformY) +
-      Math.abs(currentTransform.k - snapshot.transformK)
-
-    // Ignore actual pans/zooms, but allow small click jitter on trackpads.
-    if (pointerMove > 14 || transformMove > 0.0001) return
-
-    if (snapshot.targetScholarId) {
-      callbacks.onSelectScholarId(snapshot.targetScholarId)
-      callbacks.onHoverScholarId(snapshot.targetScholarId)
-      return
-    }
-
-    // If native dot click fires, this is harmless duplication; selection is idempotent.
-    const candidate = findNearestVisibleScholarAtViewportPoint(x, y, 16)
-    if (!candidate) return
-    callbacks.onSelectScholarId(candidate.id)
-    callbacks.onHoverScholarId(candidate.id)
+    resolveSvgPressSelection(event)
+  })
+  svg.on('mouseup.selection', (event) => {
+    resolveSvgPressSelection(event)
   })
   svg.on('dblclick', (event) => {
     const [px, py] = d3.pointer(event, svg.node())
@@ -214,12 +182,18 @@ export function createD3MapController(
               }
               raiseDot(event.currentTarget as SVGCircleElement)
               callbacks.onHoverScholarId(d.id)
-              callbacks.onSelectScholarId(d.id)
+              commitSelection(d.id)
               event.preventDefault()
               // Prevent zoom from stealing click selection on dot presses.
               event.stopPropagation()
             })
-            .on('mousedown', (event) => {
+            .on('mousedown', (event, d) => {
+              if ((event.button ?? 0) !== 0) return
+              recordPointerDownSnapshot(event, d)
+              raiseDot(event.currentTarget as SVGCircleElement)
+              callbacks.onHoverScholarId(d.id)
+              commitSelection(d.id)
+              event.preventDefault()
               event.stopPropagation()
             })
             .on('mouseenter', function (_event, d) {
@@ -235,7 +209,13 @@ export function createD3MapController(
               if ((event.button ?? 0) !== 0) return
               event.stopPropagation()
               raiseDot(event.currentTarget as SVGCircleElement)
-              callbacks.onSelectScholarId(d.id)
+              commitSelection(d.id)
+            })
+            .on('mouseup', (event, d) => {
+              if ((event.button ?? 0) !== 0) return
+              event.stopPropagation()
+              raiseDot(event.currentTarget as SVGCircleElement)
+              commitSelection(d.id)
             }),
         (update) => update,
         (exit) => exit.remove(),
@@ -248,6 +228,35 @@ export function createD3MapController(
       callbacks.onHoverScholarId(null)
       hideTooltip()
     })
+  }
+
+  function resolveSvgPressSelection(event: MouseEvent | PointerEvent) {
+    if (!pointerDownSnapshot) return
+    const snapshot = pointerDownSnapshot
+    pointerDownSnapshot = null
+    if ((event.button ?? 0) !== 0 || boxZoomModifierActive) return
+
+    const [x, y] = d3.pointer(event, svg.node())
+    const pointerMove = Math.hypot(x - snapshot.x, y - snapshot.y)
+    const transformMove =
+      Math.abs(currentTransform.x - snapshot.transformX) +
+      Math.abs(currentTransform.y - snapshot.transformY) +
+      Math.abs(currentTransform.k - snapshot.transformK)
+
+    // Ignore actual pans/zooms, but allow small click jitter on trackpads.
+    if (pointerMove > 14 || transformMove > 0.0001) return
+
+    if (snapshot.targetScholarId) {
+      callbacks.onHoverScholarId(snapshot.targetScholarId)
+      commitSelection(snapshot.targetScholarId)
+      return
+    }
+
+    // If native dot click fires, this is harmless duplication; selection is idempotent.
+    const candidate = findNearestVisibleScholarAtViewportPoint(x, y, 16)
+    if (!candidate) return
+    callbacks.onHoverScholarId(candidate.id)
+    commitSelection(candidate.id)
   }
 
   function refreshDotStyles() {
@@ -457,7 +466,25 @@ export function createD3MapController(
     node.parentNode?.appendChild(node)
   }
 
-  function recordPointerDownSnapshot(event: PointerEvent, scholar: Scholar) {
+  function recordSvgPressSnapshot(event: MouseEvent | PointerEvent) {
+    if ((event.button ?? 0) !== 0) return
+    const [x, y] = d3.pointer(event, svg.node())
+    const target = event.target as Element | null
+    const targetDot = target?.closest?.('.scholar-map__dot') as (SVGCircleElement & {
+      __data__?: Scholar
+    }) | null
+    pointerDownSnapshot = {
+      x,
+      y,
+      targetWasDot: Boolean(targetDot),
+      targetScholarId: targetDot?.__data__?.id ?? null,
+      transformX: currentTransform.x,
+      transformY: currentTransform.y,
+      transformK: currentTransform.k,
+    }
+  }
+
+  function recordPointerDownSnapshot(event: MouseEvent | PointerEvent, scholar: Scholar) {
     const [x, y] = d3.pointer(event, svg.node())
     pointerDownSnapshot = {
       x,
@@ -468,6 +495,19 @@ export function createD3MapController(
       transformY: currentTransform.y,
       transformK: currentTransform.k,
     }
+  }
+
+  function commitSelection(scholarId: string) {
+    const now = Date.now()
+    if (
+      lastCommittedSelection &&
+      lastCommittedSelection.scholarId === scholarId &&
+      now - lastCommittedSelection.at < 80
+    ) {
+      return
+    }
+    lastCommittedSelection = { scholarId, at: now }
+    callbacks.onSelectScholarId(scholarId)
   }
 
   function findNearestVisibleScholarAtViewportPoint(

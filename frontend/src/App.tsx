@@ -66,7 +66,7 @@ function App() {
       <Header modeLabel={mode === 'embedded' ? 'Embedded Mode' : undefined} />
       <main className="app-main">
         <section className="map-panel" aria-label="Scholar map panel">
-          <div className="overlay overlay-left">
+          <div className="map-overlay map-overlay-left">
             <SearchPanel
               scholars={visibleScholars}
               query={state.searchQuery}
@@ -76,7 +76,7 @@ function App() {
             />
           </div>
 
-          <div className="overlay overlay-right">
+          <div className="map-overlay map-overlay-right">
             <FilterPanel
               institutions={institutions}
               activeInstitutions={state.activeInstitutions}

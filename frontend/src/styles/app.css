@@ -178,29 +178,34 @@ input {
   color: rgba(255, 255, 255, 0.82);
 }
 
-.overlay {
+.map-overlay {
   position: absolute;
   z-index: 4;
+  pointer-events: none;
 }
 
-.overlay-left {
+.map-overlay > * {
+  pointer-events: auto;
+}
+
+.map-overlay-left {
   top: 14px;
   left: 14px;
   width: min(380px, calc(100% - 28px));
 }
 
-.overlay-right {
+.map-overlay-right {
   top: 14px;
   right: 14px;
 }
 
-.overlay-bottom-left {
+.map-overlay-bottom-left {
   left: 14px;
   bottom: 44px;
   width: min(560px, calc(100% - 28px));
 }
 
-.overlay-bottom-right {
+.map-overlay-bottom-right {
   right: 14px;
   bottom: 44px;
 }
@@ -221,6 +226,7 @@ input {
   color: rgba(255, 255, 255, 0.92);
   font-size: 0.78rem;
   backdrop-filter: blur(6px);
+  pointer-events: none;
 }
 
 .status-strip span {
@@ -424,6 +430,7 @@ input {
   box-shadow: var(--shadow-1);
   color: var(--ink-1);
   font-size: 0.78rem;
+  pointer-events: none;
 }
 
 .icon-button {
@@ -722,17 +729,17 @@ input {
 }
 
 @media (max-width: 700px) {
-  .overlay-left {
+  .map-overlay-left {
     width: calc(100% - 28px);
   }
 
-  .overlay-right {
+  .map-overlay-right {
     top: auto;
     bottom: 94px;
     right: 14px;
   }
 
-  .overlay-bottom-left {
+  .map-overlay-bottom-left {
     bottom: 78px;
   }
 

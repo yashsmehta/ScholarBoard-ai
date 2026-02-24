@@ -54,6 +54,14 @@ export function createD3MapController(
   let yScale = d3.scaleLinear()
   let currentTransform = d3.zoomIdentity
   let boxZoomModifierActive = false
+  let pointerDownSnapshot: {
+    x: number
+    y: number
+    targetWasDot: boolean
+    transformX: number
+    transformY: number
+    transformK: number
+  } | null = null
   let interactionState: MapInteractionState = {
     hoveredScholarId: null,
     selectedScholarId: null,
@@ -69,6 +77,8 @@ export function createD3MapController(
       }
       return !boxZoomModifierActive
     })
+    .clickDistance(6)
+    .tapDistance(12)
     .scaleExtent([0.3, 20])
     .on('zoom', (event) => {
       currentTransform = event.transform
@@ -78,6 +88,41 @@ export function createD3MapController(
 
   svg.call(zoom)
   svg.on('dblclick.zoom', null)
+  svg.on('pointerdown.selection', (event) => {
+    if ((event.button ?? 0) !== 0) return
+    const [x, y] = d3.pointer(event, svg.node())
+    const target = event.target as Element | null
+    pointerDownSnapshot = {
+      x,
+      y,
+      targetWasDot: Boolean(target?.closest?.('.scholar-map__dot')),
+      transformX: currentTransform.x,
+      transformY: currentTransform.y,
+      transformK: currentTransform.k,
+    }
+  })
+  svg.on('pointerup.selection', (event) => {
+    if (!pointerDownSnapshot) return
+    const snapshot = pointerDownSnapshot
+    pointerDownSnapshot = null
+    if ((event.button ?? 0) !== 0 || boxZoomModifierActive) return
+
+    const [x, y] = d3.pointer(event, svg.node())
+    const pointerMove = Math.hypot(x - snapshot.x, y - snapshot.y)
+    const transformMove =
+      Math.abs(currentTransform.x - snapshot.transformX) +
+      Math.abs(currentTransform.y - snapshot.transformY) +
+      Math.abs(currentTransform.k - snapshot.transformK)
+
+    // Ignore actual pans/zooms, but allow small click jitter on trackpads.
+    if (pointerMove > 8 || transformMove > 0.0001) return
+
+    // If native dot click fires, this is harmless duplication; selection is idempotent.
+    const candidate = findNearestVisibleScholarAtViewportPoint(x, y, 10)
+    if (!candidate) return
+    callbacks.onSelectScholarId(candidate.id)
+    callbacks.onHoverScholarId(candidate.id)
+  })
   svg.on('dblclick', (event) => {
     const [px, py] = d3.pointer(event, svg.node())
     const factor = event.shiftKey ? 1 / 1.8 : 1.8
@@ -86,6 +131,7 @@ export function createD3MapController(
 
   const brush = d3
     .brush()
+    .keyModifiers(false)
     .filter((event) => {
       return (
         (event.type === 'mousedown' || event.type === 'pointerdown') &&
@@ -148,6 +194,13 @@ export function createD3MapController(
             .attr('fill-opacity', (d) => (d.cluster < 0 ? 0.64 : 0.96))
             .attr('stroke', BASE_STROKE)
             .attr('stroke-width', 1)
+            .on('pointerdown', (event) => {
+              // Prevent zoom from stealing click selection on dot presses.
+              event.stopPropagation()
+            })
+            .on('mousedown', (event) => {
+              event.stopPropagation()
+            })
             .on('mouseenter', function (_event, d) {
               callbacks.onHoverScholarId(d.id)
               raiseDot(this as SVGCircleElement)
@@ -287,7 +340,15 @@ export function createD3MapController(
   }
 
   function updateBrushLayerInteractivity() {
-    brushLayer.style('pointer-events', boxZoomModifierActive ? 'all' : 'none')
+    if (boxZoomModifierActive) {
+      brushLayer.style('display', null)
+      brushLayer.style('pointer-events', 'all')
+      brushLayer.selectAll('*').style('pointer-events', null)
+    } else {
+      brushLayer.style('display', 'none')
+      brushLayer.style('pointer-events', 'none')
+      brushLayer.selectAll('*').style('pointer-events', 'none')
+    }
     brushLayer.classed('is-active', boxZoomModifierActive)
   }
 
@@ -372,6 +433,37 @@ export function createD3MapController(
 
   function raiseDot(node: SVGCircleElement) {
     node.parentNode?.appendChild(node)
+  }
+
+  function findNearestVisibleScholarAtViewportPoint(
+    viewportX: number,
+    viewportY: number,
+    maxDistancePx: number,
+  ): Scholar | null {
+    let best: { scholar: Scholar; dist: number } | null = null
+
+    for (const scholar of scholars) {
+      const institution = scholar.institution ?? 'Unknown'
+      if (
+        interactionState.activeInstitutions.size > 0 &&
+        !interactionState.activeInstitutions.has(institution)
+      ) {
+        continue
+      }
+
+      const localX = xScale(scholar.x)
+      const localY = yScale(scholar.y)
+      const screenX = currentTransform.applyX(localX)
+      const screenY = currentTransform.applyY(localY)
+      const dist = Math.hypot(screenX - viewportX, screenY - viewportY)
+
+      if (dist > maxDistancePx) continue
+      if (!best || dist < best.dist) {
+        best = { scholar, dist }
+      }
+    }
+
+    return best?.scholar ?? null
   }
 }
 

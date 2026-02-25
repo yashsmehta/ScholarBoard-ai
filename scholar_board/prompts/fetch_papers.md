@@ -5,7 +5,8 @@ STRICT REQUIREMENTS:
 - Papers must be published in **2023 or later** (post-2023 only). Prioritize most recent first.
 - Only include **full peer-reviewed journal articles or preprints** (e.g. Nature, Science, PNAS, PLOS, eLife, Journal of Neuroscience, bioRxiv/arXiv preprints, etc.)
 - **EXCLUDE conference abstracts**: VSS abstracts, Journal of Vision (JOV) conference supplement abstracts, CCN extended abstracts, COSYNE abstracts, SfN abstracts, OHBM abstracts
-- Do NOT make up or hallucinate any papers. Only include papers you can verify.
+- Do NOT make up or hallucinate any papers. Only include papers you can verify online.
+- **If you cannot find any verifiable papers, return an empty papers array — do NOT invent titles or fabricate results.**
 
 For each paper, provide:
 - title: exact paper title
@@ -15,4 +16,4 @@ For each paper, provide:
 - authors: full author list as a comma-separated string
 - url: DOI or paper URL if available
 
-If you cannot find {num_papers} papers where they are last author, include papers where they are first author or a key contributor. Return ONLY the JSON, no other text.
+If you cannot find {num_papers} papers where they are last author, include papers where they are first author or a key contributor. If no papers are found at all, return: {{"scholar_name": "{scholar_name}", "papers": []}}. Return ONLY the JSON, no other text.

@@ -19,6 +19,7 @@ BUILD_DIR = DATA_DIR / "build"
 
 # Source inputs
 CSV_PATH = SOURCE_DIR / "vss_data.csv"
+EXTRA_RESEARCHERS_PATH = SOURCE_DIR / "extra_researchers.csv"
 SUBFIELDS_DEF_PATH = SOURCE_DIR / "subfields.json"
 
 # Pipeline intermediates
@@ -60,10 +61,11 @@ def get_openai_api_key() -> str:
 
 
 def load_scholars_csv() -> list[dict]:
-    """Load unique scholars from vss_data.csv via pandas.
+    """Load unique scholars from vss_data.csv (+ extra_researchers.csv if present).
 
     Returns a list of dicts with keys: scholar_id, scholar_name,
-    scholar_institution.
+    scholar_institution. Extra researchers (E-prefixed IDs) are appended
+    after VSS scholars, deduplicated by name.
     """
     import pandas as pd
 
@@ -72,6 +74,16 @@ def load_scholars_csv() -> list[dict]:
         ["scholar_id", "scholar_name", "scholar_institution"]
     ].copy()
     unique["scholar_id"] = unique["scholar_id"].astype(str).str.zfill(4)
+
+    if EXTRA_RESEARCHERS_PATH.exists():
+        extra = pd.read_csv(EXTRA_RESEARCHERS_PATH)
+        vss_names = set(unique["scholar_name"].str.lower().str.strip())
+        extra = extra[~extra["scholar_name"].str.lower().str.strip().isin(vss_names)]
+        unique = pd.concat(
+            [unique, extra[["scholar_id", "scholar_name", "scholar_institution"]]],
+            ignore_index=True,
+        )
+
     return unique.to_dict("records")
 
 

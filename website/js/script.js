@@ -70,9 +70,9 @@
                 institution: s.institution || '',
                 department: s.department || '',
                 bio: s.bio || null,
-                research_areas: s.research_areas || [],
+                main_research_area: s.main_research_area || null,
+                lab_url: s.lab_url || null,
                 papers: s.papers || [],
-                education: s.education || [],
                 profile_pic: s.profile_pic || null,
                 cluster: s.cluster != null ? s.cluster : -1,
                 x: s.umap_projection ? s.umap_projection.x : null,
@@ -296,6 +296,7 @@
                     ${scholar.institution ? `<div class="institution">${scholar.institution}</div>` : ''}
                     ${scholar.department && scholar.department !== 'null' && scholar.department !== 'nan'
                         ? `<div class="department">${scholar.department}</div>` : ''}
+                    ${scholar.lab_url ? `<a class="lab-link" href="${scholar.lab_url}" target="_blank" rel="noopener">Lab Website</a>` : ''}
                 </div>
             </div>`;
 
@@ -304,13 +305,9 @@
             html += `<div class="profile-bio">${scholar.bio}</div>`;
         }
 
-        // Research areas
-        if (scholar.research_areas && scholar.research_areas.length) {
-            html += '<div class="research-areas">';
-            scholar.research_areas.forEach(area => {
-                html += `<span class="research-tag">${area}</span>`;
-            });
-            html += '</div>';
+        // Research area
+        if (scholar.main_research_area) {
+            html += `<div class="research-areas"><span class="research-tag">${scholar.main_research_area}</span></div>`;
         }
 
         // Papers
@@ -327,22 +324,6 @@
                             ${p.year ? `<span>${p.year}</span>` : ''}
                             ${p.venue ? `<span>${p.venue}</span>` : ''}
                             ${p.citations ? `<span>${p.citations} cit.</span>` : ''}
-                        </div>
-                    </div>`;
-            });
-            html += '</div>';
-        }
-
-        // Education
-        if (scholar.education && scholar.education.length) {
-            html += '<div class="education-section"><h4>Education</h4>';
-            scholar.education.forEach(e => {
-                html += `
-                    <div class="education-item">
-                        <div class="education-degree">${e.degree || 'Degree'}${e.field ? ' in ' + e.field : ''}</div>
-                        <div class="education-details">
-                            ${e.institution || ''}${e.year ? ' (' + e.year + ')' : ''}
-                            ${e.advisor ? ' — Advisor: ' + e.advisor : ''}
                         </div>
                     </div>`;
             });

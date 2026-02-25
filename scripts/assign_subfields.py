@@ -129,11 +129,17 @@ def cosine_similarity(a, b):
     return a_norm @ b_norm.T
 
 
-def assign_subfields(scholar_ids, scholar_embeddings, subfield_embeddings, subfields, top_k=3):
-    """Assign top-k subfield labels to each scholar based on cosine similarity."""
+def assign_subfields(scholar_ids, scholar_embeddings, subfield_embeddings, subfields,
+                     top_k=5, threshold=0.0):
+    """Assign subfield labels to each scholar based on cosine similarity.
+
+    Ranks all 20 subfields by score, then keeps up to top_k that are above threshold.
+    Every scholar gets at least 1 (the primary subfield, even if below threshold).
+    """
     sim_matrix = cosine_similarity(scholar_embeddings, subfield_embeddings)
     subfield_names = [sf["name"] for sf in subfields]
     assignments = {}
+    tag_counts = []
 
     for i, sid in enumerate(scholar_ids):
         sid_padded = str(sid).zfill(4) if str(sid).isdigit() else str(sid)
@@ -143,15 +149,24 @@ def assign_subfields(scholar_ids, scholar_embeddings, subfield_embeddings, subfi
 
         tags = []
         for idx in top_indices:
-            tags.append({
-                "subfield": subfield_names[idx],
-                "score": round(float(scores[idx]), 4),
-            })
+            score = float(scores[idx])
+            # Always keep the primary (first), then apply threshold
+            if len(tags) == 0 or score >= threshold:
+                tags.append({
+                    "subfield": subfield_names[idx],
+                    "score": round(score, 4),
+                })
 
+        tag_counts.append(len(tags))
         assignments[sid_padded] = {
             "primary_subfield": tags[0]["subfield"],
             "subfields": tags,
         }
+
+    # Print tag count distribution
+    counts = np.array(tag_counts)
+    print(f"  Tags per scholar: min={counts.min()}, max={counts.max()}, "
+          f"mean={counts.mean():.1f}, median={np.median(counts):.0f}")
 
     return assignments
 
@@ -175,8 +190,11 @@ def main():
     )
     parser.add_argument("--dry-run", action="store_true",
                         help="Preview without making API calls")
-    parser.add_argument("--top", type=int, default=3,
-                        help="Number of top subfield tags per scholar (default: 3)")
+    parser.add_argument("--top", type=int, default=5,
+                        help="Max subfield tags per scholar (default: 5)")
+    parser.add_argument("--threshold", type=float, default=0.0,
+                        help="Min cosine similarity to assign a subfield (default: 0.0 = no threshold). "
+                             "Primary subfield is always assigned regardless.")
     args = parser.parse_args()
 
     # Load subfield definitions
@@ -201,7 +219,8 @@ def main():
         print(f"\n[DRY RUN] Would embed with Gemini (SEMANTIC_SIMILARITY):")
         print(f"  - {len(subfield_texts)} subfield descriptions")
         print(f"  - {len(scholar_texts)} scholar paper texts")
-        print(f"  Then assign top-{args.top} subfields per scholar")
+        thresh_str = f", threshold={args.threshold}" if args.threshold > 0 else ""
+        print(f"  Then assign up to {args.top} subfields per scholar{thresh_str}")
         return
 
     print(f"\nEmbedding {len(subfield_texts)} subfield descriptions (SEMANTIC_SIMILARITY)...")
@@ -213,10 +232,11 @@ def main():
     print(f"  Shape: {scholar_embeddings.shape}")
 
     # Assign subfields
-    print("\nAssigning subfield labels...")
+    thresh_str = f", threshold={args.threshold}" if args.threshold > 0 else ""
+    print(f"\nAssigning subfield labels (top {args.top}{thresh_str})...")
     assignments = assign_subfields(
         scholar_ids, scholar_embeddings, subfield_embeddings,
-        subfields, top_k=args.top
+        subfields, top_k=args.top, threshold=args.threshold
     )
 
     # Save

@@ -85,7 +85,8 @@ def run_hdbscan(coords, min_cluster_size=10, min_samples=3):
     from collections import Counter
     counts = Counter(labels)
     sizes = sorted([v for k, v in counts.items() if k != -1], reverse=True)
-    print(f"  Cluster sizes: min={min(sizes)}, max={max(sizes)}, median={np.median(sizes):.0f}")
+    if sizes:
+        print(f"  Cluster sizes: min={min(sizes)}, max={max(sizes)}, median={np.median(sizes):.0f}")
 
     return labels, clusterer
 

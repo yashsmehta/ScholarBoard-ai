@@ -194,9 +194,10 @@ class ScholarSearchHandler(http.server.SimpleHTTPRequestHandler):
             
             print(f"Found scholar: {scholar_data.get('name')}")
             
-            # Use default avatar for all scholars
-            profile_pic_path = "data/profile_pics/default_avatar.png"
-            print(f"Using default avatar for scholar {scholar_id}")
+            # Use scholar's profile pic or fall back to default avatar
+            pic = scholar_data.get('profile_pic', 'default_avatar.jpg')
+            profile_pic_path = f"data/profile_pics/{pic}"
+            print(f"Using profile pic for scholar {scholar_id}: {pic}")
             
             # Try to load formatted markdown content
             scholar_name = scholar_data.get('name', '')
@@ -432,12 +433,10 @@ def serve_website(port=8000):
     website_profile_pics_dir = os.path.join(website_data_dir, 'profile_pics')
     os.makedirs(website_profile_pics_dir, exist_ok=True)
     
-    # Ensure default avatar exists
-    default_avatar_path = os.path.join(website_profile_pics_dir, 'default_avatar.png')
+    # Check default avatar exists
+    default_avatar_path = os.path.join(website_profile_pics_dir, 'default_avatar.jpg')
     if not os.path.exists(default_avatar_path):
         print(f"Warning: Default avatar not found at {default_avatar_path}")
-    else:
-        print(f"Found default avatar at {default_avatar_path}")
     
     # Create website/data/scholar_markdown directory if it doesn't exist
     website_markdown_dir = os.path.join(website_data_dir, 'scholar_markdown')

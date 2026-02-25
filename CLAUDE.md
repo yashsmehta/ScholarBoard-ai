@@ -79,15 +79,16 @@ All API prompts are externalized as markdown templates with `{variable}` substit
 - **`fetch_papers.md`** — reference documentation for paper-fetching prompt
 - **`fetch_researcher_info.md`** — reference documentation for profile-fetching prompt
 
-### Data Pipeline (8 steps)
+### Data Pipeline (9 steps)
 
 ```
-Papers → Profiles → Embed → UMAP+HDBSCAN → Subfields → Ideas → Build → Pics
+Discover → Papers → Profiles → Embed → UMAP+HDBSCAN → Subfields → Ideas → Build → Pics
 ```
 
-All pipeline steps live in `scholar_board/pipeline/` and are invoked by `scripts/run_pipeline.py` as `python -m scholar_board.pipeline.<step>`.
+All pipeline steps live in `scholar_board/pipeline/` and are invoked by `scripts/run_pipeline.py` as `python -m scholar_board.pipeline.<step>`. Each step writes JSON files (for human inspection) **and** upserts into `data/scholarboard.db` (the queryable SQLite source of truth).
 
-1. **`fetch_papers`** — Gemini 3 Flash Preview + Google Search grounding fetches recent papers per scholar → `data/pipeline/scholar_papers/*.json`. Supports `--workers 25` for parallel execution.
+0. **`discover`** — Gemini 3 Flash Preview queries each of the 23 subfields for active researchers, writes new entries to `data/source/extra_researchers.csv` (E-prefixed IDs, deduped against VSS scholars).
+1. **`fetch_papers`** — Gemini 3 Flash Preview + Google Search grounding fetches recent papers per scholar → `data/pipeline/scholar_papers/*.json`. Supports `--workers 25`.
 2. **`fetch_profiles`** — Gemini 3 Flash Preview + grounded search fetches structured profiles, then normalizes bios → `data/pipeline/scholar_profiles/{id}_{name}.json`. Use `--skip-normalize` to bypass bio normalization. Supports `--workers 25`.
 3. **`embed`** — Gemini `gemini-embedding-001` (task_type=CLUSTERING, 3072 dims) embeds paper text → `data/pipeline/scholar_embeddings.nc`
 4. **`cluster`** — UMAP(cosine, n_neighbors=15) → HDBSCAN(min_cluster_size=10, min_samples=3) → `data/pipeline/models/*.joblib`
@@ -97,6 +98,8 @@ All pipeline steps live in `scholar_board/pipeline/` and are invoked by `scripts
 8. **`pics`** — Serper.dev Google Image Search with face/headshot queries → `data/build/profile_pics/*.jpg`. Supports `--skip-existing`, `--limit`, `--test`.
 
 **Orchestrator:** `scripts/run_pipeline.py` — `--step <name>`, `--from <name>` (run from step onward), `--execute` (all), or status dashboard.
+
+**Dev utility:** `scripts/classify_scholars.py` — classifies each scholar as PI-level (vs grad student / postdoc / wrong field) using Gemini Flash. Writes `data/scholar_classifications.csv`. Supports `--dry-run`, `--limit`, `--workers`.
 
 All pipeline modules support `--dry-run` for safe previewing. Steps 1, 2, and 6 support `--workers N` for parallel API calls (default: 25).
 
@@ -121,22 +124,26 @@ Python HTTP server at project root serving data and API endpoints:
 
 ### Key Data Files
 
+See `data/CLAUDE.md` for full data directory documentation including the SQLite schema.
+
 ```
 data/
 ├── source/                    # Inputs (never overwritten by pipeline)
-│   ├── vss_data.csv           # 730 unique scholars with abstracts
+│   ├── vss_data.csv           # ~730 VSS scholars with abstracts
+│   ├── extra_researchers.csv  # Additional researchers found by discover step
 │   └── subfields.json         # 23 subfield definitions
 ├── pipeline/                  # Intermediates (safe to delete and regenerate)
 │   ├── scholar_papers/        # Per-scholar paper JSONs (step 1)
 │   ├── scholar_profiles/      # Per-scholar profile JSONs (step 2)
-│   ├── scholar_embeddings.nc  # 730×3072 embedding matrix (step 3)
+│   ├── scholar_embeddings.nc  # N×3072 embedding matrix (step 3)
 │   ├── models/                # Trained UMAP + HDBSCAN models (step 4)
 │   ├── scholar_subfields.json # Subfield tag assignments (step 5)
 │   └── scholar_ideas/         # AI-generated research directions (step 6)
-└── build/                     # Final assembled outputs (served by serve.py)
-    ├── scholars.json          # Master dataset loaded by the frontend
-    ├── profile_pics/          # Headshot images — name_XXXX.jpg
-    └── scholars/              # Per-scholar JSON files
+├── build/                     # Final assembled outputs (served by serve.py)
+│   ├── scholars.json          # Master dataset loaded by the frontend
+│   ├── profile_pics/          # Headshot images — name_XXXX.jpg
+│   └── scholars/              # Per-scholar JSON files
+└── scholarboard.db            # SQLite database — queryable source of truth
 ```
 
 ## Environment

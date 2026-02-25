@@ -13,5 +13,6 @@ data/pipeline/
 data/build/
 data/archive/
 data/*
+!data/CLAUDE.md
 logs/
 frontend/.tmp/

@@ -63,7 +63,10 @@ function App() {
 
   return (
     <div className="app-shell">
-      <Header modeLabel={mode === 'embedded' ? 'Embedded Mode' : undefined} />
+      <Header
+        modeLabel={mode === 'embedded' ? 'Embedded' : undefined}
+        scholarCount={state.status === 'ready' ? state.scholars.length : undefined}
+      />
       <main className="app-main">
         <section className="map-panel" aria-label="Scholar map panel">
           <div className="map-overlay map-overlay-left">
@@ -103,17 +106,7 @@ function App() {
 
           <MapControls
             onReset={() => dispatch({ type: 'map_reset_requested' })}
-            hint="Scroll to zoom, drag to pan, double-click to zoom, and Shift+drag for box zoom."
           />
-
-          <footer className="status-strip" aria-live="polite">
-            <span>{statusLabel(state.status, state.scholars.length)}</span>
-            <span>{state.sourceLabel ?? 'Source: pending'}</span>
-            <span>{mode === 'embedded' ? 'Mode: embedded' : 'Mode: full'}</span>
-            {state.activeInstitutions.length > 0 && (
-              <span>{state.activeInstitutions.length} institution filter(s) active</span>
-            )}
-          </footer>
 
           {state.status === 'error' && (
             <div className="overlay-error" role="alert">
@@ -148,13 +141,6 @@ function buildInstitutionCounts(scholars: Scholar[]): Array<{ name: string; coun
   return [...counts.entries()]
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
-}
-
-function statusLabel(status: string, count: number): string {
-  if (status === 'loading') return 'Loading scholars...'
-  if (status === 'error') return 'Load error'
-  if (status === 'ready') return `${count} scholars loaded`
-  return 'Initializing...'
 }
 
 export default App

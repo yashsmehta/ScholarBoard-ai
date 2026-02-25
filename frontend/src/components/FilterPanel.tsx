@@ -53,6 +53,11 @@ export function FilterPanel({
         aria-expanded={open}
         aria-controls="institution-filter-menu"
       >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <line x1="2" y1="4" x2="14" y2="4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="6" y1="12" x2="10" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
         Filters
         {activeInstitutions.length > 0 && <span className="chip">{activeInstitutions.length}</span>}
       </button>
@@ -98,12 +103,6 @@ export function FilterPanel({
               Clear All
             </button>
           </div>
-          {institutions.length > 80 && (
-            <p className="filter-panel__note">
-              Showing the top 80 institutions in the scaffold. Full list/search parity is tracked in
-              M3.
-            </p>
-          )}
         </div>
       )}
     </div>

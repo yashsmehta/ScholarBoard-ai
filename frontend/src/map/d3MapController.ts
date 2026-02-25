@@ -5,6 +5,7 @@ import { clusterColor } from './colorScale'
 const DOT_RADIUS = 4.2
 const DOT_RADIUS_HOVER = 6.2
 const DOT_RADIUS_SELECTED = 8.4
+const DOT_HIT_RADIUS = 10
 const BASE_STROKE = 'rgba(255,255,255,0.84)'
 const SELECTED_STROKE = '#112136'
 const MAP_PADDING = 72
@@ -37,6 +38,7 @@ export function createD3MapController(
   const root = svg.append('g').attr('class', 'scholar-map__zoom-root')
   const ringLayer = root.append('g').attr('class', 'scholar-map__ring-layer')
   const dotLayer = root.append('g').attr('class', 'scholar-map__dot-layer')
+  const hitLayer = root.append('g').attr('class', 'scholar-map__hit-layer')
   const brushLayer = svg.append('g').attr('class', 'scholar-map__brush-layer')
   const selectionRing = ringLayer
     .append('circle')
@@ -49,11 +51,13 @@ export function createD3MapController(
   container.appendChild(tooltipEl)
 
   let dots = dotLayer.selectAll<SVGCircleElement, Scholar>('circle.scholar-map__dot')
+  let hitDots = hitLayer.selectAll<SVGCircleElement, Scholar>('circle.scholar-map__dot-hit')
   let scholars: Scholar[] = []
   let xScale = d3.scaleLinear()
   let yScale = d3.scaleLinear()
   let currentTransform = d3.zoomIdentity
   let boxZoomModifierActive = false
+  let dotCursorActive = false
   let pointerDownSnapshot: {
     x: number
     y: number
@@ -85,11 +89,21 @@ export function createD3MapController(
     .on('zoom', (event) => {
       currentTransform = event.transform
       root.attr('transform', event.transform.toString())
+      if (boxZoomModifierActive && dotCursorActive) {
+        setDotCursor(false)
+      }
       hideTooltip()
     })
 
   svg.call(zoom)
   svg.on('dblclick.zoom', null)
+  svg.on('mousemove.cursor', (event) => {
+    const [x, y] = d3.pointer(event, svg.node())
+    updateDotCursorAtPoint(x, y)
+  })
+  svg.on('mouseleave.cursor', () => {
+    setDotCursor(false)
+  })
   svg.on('pointerdown.selection', (event) => {
     recordSvgPressSnapshot(event)
   })
@@ -173,6 +187,24 @@ export function createD3MapController(
             .attr('fill-opacity', (d) => (d.cluster < 0 ? 0.64 : 0.96))
             .attr('stroke', BASE_STROKE)
             .attr('stroke-width', 1)
+            .style('pointer-events', 'none'),
+        (update) => update,
+        (exit) => exit.remove(),
+      )
+      .attr('cx', (d) => xScale(d.x))
+      .attr('cy', (d) => yScale(d.y))
+      .attr('fill', (d) => clusterColor(d.cluster))
+
+    hitDots = hitLayer
+      .selectAll<SVGCircleElement, Scholar>('circle.scholar-map__dot-hit')
+      .data(scholars, (datum) => datum.id)
+      .join(
+        (enter) =>
+          enter
+            .append('circle')
+            .attr('class', 'scholar-map__dot-hit')
+            .attr('r', DOT_HIT_RADIUS)
+            .attr('fill', 'transparent')
             .on('pointerdown', (event, d) => {
               recordPointerDownSnapshot(event, d)
               try {
@@ -180,25 +212,24 @@ export function createD3MapController(
               } catch {
                 // Pointer capture can fail on some browsers/input types; selection still falls back.
               }
-              raiseDot(event.currentTarget as SVGCircleElement)
+              raiseScholarDotById(d.id)
               callbacks.onHoverScholarId(d.id)
               commitSelection(d.id)
               event.preventDefault()
-              // Prevent zoom from stealing click selection on dot presses.
               event.stopPropagation()
             })
             .on('mousedown', (event, d) => {
               if ((event.button ?? 0) !== 0) return
               recordPointerDownSnapshot(event, d)
-              raiseDot(event.currentTarget as SVGCircleElement)
+              raiseScholarDotById(d.id)
               callbacks.onHoverScholarId(d.id)
               commitSelection(d.id)
               event.preventDefault()
               event.stopPropagation()
             })
-            .on('mouseenter', function (_event, d) {
+            .on('mouseenter', (_event, d) => {
               callbacks.onHoverScholarId(d.id)
-              raiseDot(this as SVGCircleElement)
+              raiseScholarDotById(d.id)
             })
             .on('mousemove', (event, d) => showTooltip(event, d))
             .on('mouseleave', () => {
@@ -208,13 +239,13 @@ export function createD3MapController(
             .on('pointerup', (event, d) => {
               if ((event.button ?? 0) !== 0) return
               event.stopPropagation()
-              raiseDot(event.currentTarget as SVGCircleElement)
+              raiseScholarDotById(d.id)
               commitSelection(d.id)
             })
             .on('mouseup', (event, d) => {
               if ((event.button ?? 0) !== 0) return
               event.stopPropagation()
-              raiseDot(event.currentTarget as SVGCircleElement)
+              raiseScholarDotById(d.id)
               commitSelection(d.id)
             }),
         (update) => update,
@@ -222,7 +253,6 @@ export function createD3MapController(
       )
       .attr('cx', (d) => xScale(d.x))
       .attr('cy', (d) => yScale(d.y))
-      .attr('fill', (d) => clusterColor(d.cluster))
 
     svg.on('click', () => {
       callbacks.onHoverScholarId(null)
@@ -272,6 +302,15 @@ export function createD3MapController(
         .attr('stroke', isSelected ? SELECTED_STROKE : BASE_STROKE)
         .attr('stroke-width', isSelected ? 3 : isHovered ? 1.9 : 0.95)
         .attr('opacity', isVisible ? 1 : 0.08)
+    })
+
+    hitDots.each(function applyHitTarget(datum) {
+      const institution = datum.institution ?? 'Unknown'
+      const filterActive = interactionState.activeInstitutions.size > 0
+      const isVisible = !filterActive || interactionState.activeInstitutions.has(institution)
+
+      d3.select(this)
+        .attr('r', DOT_HIT_RADIUS)
         .style('pointer-events', isVisible ? 'auto' : 'none')
     })
   }
@@ -317,6 +356,7 @@ export function createD3MapController(
     }
 
     dots.attr('cx', (d) => xScale(d.x)).attr('cy', (d) => yScale(d.y))
+    hitDots.attr('cx', (d) => xScale(d.x)).attr('cy', (d) => yScale(d.y))
     updateSelectionRing()
   }
 
@@ -360,6 +400,7 @@ export function createD3MapController(
     window.removeEventListener('keydown', onKeyDown)
     window.removeEventListener('keyup', onKeyUp)
     window.removeEventListener('blur', onWindowBlur)
+    setDotCursor(false)
     tooltipEl.remove()
     svg.remove()
   }
@@ -368,6 +409,9 @@ export function createD3MapController(
 
   function updateBoxZoomModifierUI() {
     container.classList.toggle('is-box-zoom-mode', boxZoomModifierActive)
+    if (boxZoomModifierActive) {
+      setDotCursor(false)
+    }
   }
 
   function updateBrushLayerInteractivity() {
@@ -466,6 +510,19 @@ export function createD3MapController(
     node.parentNode?.appendChild(node)
   }
 
+  function raiseScholarDotById(scholarId: string) {
+    dots
+      .filter((datum) => datum.id === scholarId)
+      .each(function () {
+        raiseDot(this as SVGCircleElement)
+      })
+    hitDots
+      .filter((datum) => datum.id === scholarId)
+      .each(function () {
+        raiseDot(this as SVGCircleElement)
+      })
+  }
+
   function recordSvgPressSnapshot(event: MouseEvent | PointerEvent) {
     if ((event.button ?? 0) !== 0) return
     const [x, y] = d3.pointer(event, svg.node())
@@ -508,6 +565,26 @@ export function createD3MapController(
     }
     lastCommittedSelection = { scholarId, at: now }
     callbacks.onSelectScholarId(scholarId)
+  }
+
+  function setDotCursor(active: boolean) {
+    if (dotCursorActive === active) return
+    dotCursorActive = active
+    container.classList.toggle('is-hovering-dot', active)
+  }
+
+  function updateDotCursorAtPoint(viewportX: number, viewportY: number) {
+    if (boxZoomModifierActive) {
+      setDotCursor(false)
+      return
+    }
+
+    // Cursor should indicate only the visible dot, not the larger invisible hit target.
+    const enterThreshold = Math.max(4.8, DOT_RADIUS * currentTransform.k + 1.1)
+    const exitThreshold = Math.max(6.4, DOT_RADIUS_HOVER * currentTransform.k + 1.2)
+    const threshold = dotCursorActive ? exitThreshold : enterThreshold
+    const candidate = findNearestVisibleScholarAtViewportPoint(viewportX, viewportY, threshold)
+    setDotCursor(Boolean(candidate))
   }
 
   function findNearestVisibleScholarAtViewportPoint(

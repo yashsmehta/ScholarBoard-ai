@@ -7,6 +7,8 @@ This folder is a parallel frontend scaffold for migrating the current D3-based s
 - TypeScript
 - D3 (retained for map rendering and interactions)
 
+For a technical structure/architecture walkthrough, see `ARCHITECTURE.md`.
+
 ## Current Status
 
 - Existing implementation remains in `../website/` (untouched).

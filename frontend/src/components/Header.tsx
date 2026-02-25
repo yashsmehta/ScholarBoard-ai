@@ -1,17 +1,25 @@
+import { HeaderScene } from './HeaderScene'
+
 interface HeaderProps {
   modeLabel?: string
+  scholarCount?: number
 }
 
-export function Header({ modeLabel }: HeaderProps) {
+export function Header({ modeLabel, scholarCount }: HeaderProps) {
   return (
     <header className="topbar">
+      <HeaderScene />
       <div className="topbar__content">
-        <div className="topbar__badge">
-          React + D3 Migration
-          {modeLabel ? ` · ${modeLabel}` : ''}
+        <h1 className="topbar__title">
+          Scholar<span className="topbar__title-accent">Board</span>
+          <span className="topbar__title-dot">.ai</span>
+        </h1>
+        <div className="topbar__right">
+          {scholarCount != null && scholarCount > 0 && (
+            <span className="topbar__stat">{scholarCount} scholars</span>
+          )}
+          {modeLabel && <span className="topbar__mode">{modeLabel}</span>}
         </div>
-        <h1 className="topbar__title">ScholarBoard.ai</h1>
-        <p className="topbar__subtitle">Explore scholars visually with a typed, modular frontend shell.</p>
       </div>
     </header>
   )

@@ -87,26 +87,24 @@ export function SearchPanel({
 
   return (
     <div className="search-panel" ref={containerRef}>
-      <label className="search-panel__label" htmlFor="scholar-search">
-        Search Scholars
-      </label>
-      <input
-        id="scholar-search"
-        className="search-panel__input"
-        type="text"
-        value={query}
-        placeholder="Search by scholar name..."
-        onChange={(event) => {
-          onQueryChange(event.target.value)
-          setIsOpen(true)
-        }}
-        onFocus={() => setIsOpen(true)}
-        onKeyDown={handleKeyDown}
-      />
-      <div className="search-panel__meta">
-        {normalizedQuery.length < MIN_QUERY_LENGTH
-          ? 'Type at least 2 letters'
-          : `${results.length} result(s)`}
+      <div className="search-panel__input-wrap">
+        <svg className="search-panel__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />
+          <line x1="10.5" y1="10.5" x2="14" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+        <input
+          className="search-panel__input"
+          type="text"
+          value={query}
+          placeholder="Search scholars..."
+          aria-label="Search scholars"
+          onChange={(event) => {
+            onQueryChange(event.target.value)
+            setIsOpen(true)
+          }}
+          onFocus={() => setIsOpen(true)}
+          onKeyDown={handleKeyDown}
+        />
       </div>
 
       {isOpen && normalizedQuery.length >= MIN_QUERY_LENGTH && (

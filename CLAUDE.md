@@ -74,8 +74,8 @@ Papers Fetch → Profile Fetch → Embed → UMAP+HDBSCAN → Subfields → Buil
 4. **`scripts/run_umap_dbscan.py`** — UMAP(cosine) → HDBSCAN → `data/models/*.joblib`
 5. **`scripts/assign_subfields.py`** — Gemini `gemini-embedding-001` (task_type=SEMANTIC_SIMILARITY, 3072 dims) embeds subfield descriptions + scholar papers, assigns top-3 subfield tags via cosine similarity → `data/scholar_subfields.json`
 6. **`scripts/build_scholars_json.py`** — Merges all sources (CSV + UMAP + papers + profiles + subfields + pics) → `data/scholars.json`
-6. **`scripts/download_profile_pics.py`** — Serper.dev Google Image Search with face/headshot queries → `data/profile_pics/*.jpg`. Supports `--skip-existing`, `--limit`, `--test`.
-7. **`scripts/run_pipeline.py`** — Orchestrator: `--step <name>`, `--execute`, or status display
+7. **`scripts/download_profile_pics.py`** — Serper.dev Google Image Search with face/headshot queries → `data/profile_pics/*.jpg`. Supports `--skip-existing`, `--limit`, `--test`.
+8. **`scripts/run_pipeline.py`** — Orchestrator: `--step <name>`, `--execute`, or status display
 
 All pipeline scripts support `--dry-run` for safe previewing.
 
@@ -124,6 +124,10 @@ Requires a `.env` file with API keys: `GOOGLE_API_KEY` (or `GEMINI_API_KEY`), `S
 - Embedding data uses xarray/NetCDF; trained models use joblib
 - Profile pic naming: `scholar_name_XXXX.jpg` (lowercase, underscores)
 - All pipeline scripts support `--dry-run` flag
+
+## Git & Commits
+- When the user asks to "commit", "commit this", or "commit and push", invoke the `/commit` skill
+- Never add `Co-Authored-By: Claude` or any AI attribution to commit messages
 
 ## Skills & MCP
 - When asked to create a Claude Code 'skill', create a SKILL.md reference documentation file under `.claude/skills/<name>/SKILL.md` — NOT an executable tool or script

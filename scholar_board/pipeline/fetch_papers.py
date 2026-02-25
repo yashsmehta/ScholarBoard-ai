@@ -24,17 +24,15 @@ import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
-from google import genai
 from google.genai import types
 
 from scholar_board.config import (
     CSV_PATH,
     PAPERS_DIR,
-    get_gemini_api_key,
     get_serper_api_key,
     load_scholars_csv,
 )
-from scholar_board.gemini import extract_grounding_sources
+from scholar_board.gemini import get_client, extract_grounding_sources, parse_json_response
 from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_papers
 
 SERPER_SCHOLAR_URL = "https://google.serper.dev/scholar"
@@ -76,16 +74,8 @@ def build_prompt(scholar_name, institution, num_papers):
     )
 
 
-def _parse_papers_response(text, scholar_name):
-    """Parse and normalize JSON from Gemini response for the papers endpoint."""
-    text = text.strip()
-    if text.startswith("```"):
-        lines = text.split("\n")
-        lines = [l for l in lines if not l.strip().startswith("```")]
-        text = "\n".join(lines)
-
-    parsed = json.loads(text)
-
+def _normalize_papers_result(parsed, scholar_name):
+    """Normalize the structure of a parsed Gemini papers response."""
     if isinstance(parsed, list):
         return {"scholar_name": scholar_name, "papers": parsed}
     elif isinstance(parsed, dict) and "papers" not in parsed:
@@ -122,22 +112,13 @@ def fetch_papers(client, scholar_name, institution, num_papers=5):
 
             return None, []
 
-        result = _parse_papers_response(response.text, scholar_name)
+        parsed = parse_json_response(response.text)
+        result = _normalize_papers_result(parsed, scholar_name)
         sources = extract_grounding_sources(response)
         return result, sources
 
     except json.JSONDecodeError as e:
         print(f"    JSON parse error for {scholar_name}: {e}")
-        text = response.text or ""
-        match = re.search(r"\{.*\}", text, re.DOTALL)
-        if match:
-            try:
-                result = json.loads(match.group())
-                if isinstance(result, dict) and "papers" not in result:
-                    result = {"scholar_name": scholar_name, "papers": [result]}
-                return result, []
-            except json.JSONDecodeError:
-                pass
         return None, []
     except Exception as e:
         print(f"    API error for {scholar_name}: {e}")
@@ -174,7 +155,8 @@ def _retry_without_abstract(client, scholar_name, institution, num_papers):
         if response.text is None:
             return None, []
 
-        result = _parse_papers_response(response.text, scholar_name)
+        parsed = parse_json_response(response.text)
+        result = _normalize_papers_result(parsed, scholar_name)
         sources = extract_grounding_sources(response)
         return result, sources
     except Exception as e:
@@ -241,11 +223,11 @@ def save_papers(data, sources, scholar_id, scholar_name, output_dir):
     return filepath
 
 
-def _process_scholar(researcher, index, total, num_papers, api_key, serper_key,
+def _process_scholar(researcher, index, total, num_papers, serper_key,
                      output_dir, counters_lock, counters):
     """Process a single scholar: fetch papers and save results.
 
-    Each worker creates its own genai client to avoid thread-safety issues.
+    Each worker creates its own Gemini client to avoid thread-safety issues.
     """
     name = researcher["scholar_name"]
     sid = researcher["scholar_id"]
@@ -254,7 +236,7 @@ def _process_scholar(researcher, index, total, num_papers, api_key, serper_key,
     with counters_lock:
         print(f"[{index + 1}/{total}] {name} ({sid}) — {inst}")
 
-    client = genai.Client(api_key=api_key)
+    client = get_client()
     data, sources = fetch_papers(client, name, inst, num_papers)
 
     if data and data.get("papers"):
@@ -343,7 +325,6 @@ def main():
         print(f"\nNo API calls made.")
         return
 
-    api_key = get_gemini_api_key()
     serper_key = get_serper_api_key()
     counters_lock = threading.Lock()
     counters = {"success": 0, "fail": 0, "total_papers": 0}
@@ -351,14 +332,14 @@ def main():
 
     if args.workers <= 1:
         for i, r in enumerate(researchers):
-            _process_scholar(r, i, total, args.papers, api_key, serper_key,
+            _process_scholar(r, i, total, args.papers, serper_key,
                              PAPERS_DIR, counters_lock, counters)
     else:
         print(f"Using {args.workers} parallel workers\n")
         with ThreadPoolExecutor(max_workers=args.workers) as executor:
             futures = {
                 executor.submit(
-                    _process_scholar, r, i, total, args.papers, api_key,
+                    _process_scholar, r, i, total, args.papers,
                     serper_key, PAPERS_DIR, counters_lock, counters
                 ): r
                 for i, r in enumerate(researchers)

@@ -20,15 +20,13 @@ import argparse
 import sys
 import unicodedata
 
-from google import genai
 from google.genai import types
 
 from scholar_board.config import (
-    CSV_PATH,
     EXTRA_RESEARCHERS_PATH,
     SUBFIELDS_DEF_PATH,
-    get_gemini_api_key,
 )
+from scholar_board.gemini import get_client, parse_json_response
 
 RESEARCHERS_PER_SUBFIELD = 20
 
@@ -72,17 +70,6 @@ def normalize_name(name: str) -> str:
     return " ".join(name.split())
 
 
-def load_vss_names() -> set[str]:
-    """Load normalized names from vss_data.csv."""
-    names = set()
-    with open(CSV_PATH, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            raw = row.get("scholar_name", "").strip().strip("\"'")
-            if raw:
-                names.add(normalize_name(raw))
-    return names
-
 
 def fetch_subfield_researchers(client, subfield_name, subfield_description):
     """Query Gemini for researchers in a subfield. Returns list of {name, institution}."""
@@ -102,13 +89,7 @@ def fetch_subfield_researchers(client, subfield_name, subfield_description):
             print(f"    Empty response for {subfield_name}")
             return []
 
-        text = response.text.strip()
-        if text.startswith("```"):
-            lines = text.split("\n")
-            lines = [l for l in lines if not l.strip().startswith("```")]
-            text = "\n".join(lines)
-
-        parsed = json.loads(text)
+        parsed = parse_json_response(response.text)
         if isinstance(parsed, list):
             return parsed
         # Sometimes wrapped in an object
@@ -140,10 +121,6 @@ def main():
         print(f"Error: {SUBFIELDS_DEF_PATH} not found")
         sys.exit(1)
 
-    if not CSV_PATH.exists():
-        print(f"Error: {CSV_PATH} not found")
-        sys.exit(1)
-
     if EXTRA_RESEARCHERS_PATH.exists() and not args.no_skip:
         print(f"extra_researchers.csv already exists ({EXTRA_RESEARCHERS_PATH})")
         print("Use --no-skip to regenerate.")
@@ -162,15 +139,11 @@ def main():
         print(f"\nNo API calls made.")
         return
 
-    vss_names = load_vss_names()
-    print(f"Loaded {len(vss_names)} unique VSS researchers for deduplication\n")
+    client = get_client()
 
-    api_key = get_gemini_api_key()
-    client = genai.Client(api_key=api_key)
-
-    # Collect all researchers across subfields, deduplicating as we go
+    # Collect all researchers across subfields, deduplicating within this run only
     seen_names: set[str] = set()   # normalized names seen so far (across subfields)
-    all_researchers: list[dict] = []  # {name, institution}
+    all_researchers: list[dict] = []  # {name, institution, subfield}
 
     for sf in subfields:
         print(f"[{sf['id']:2d}/{len(subfields)}] {sf['name']}")
@@ -186,21 +159,17 @@ def main():
 
             norm = normalize_name(name)
 
-            # Skip if already in VSS dataset
-            if norm in vss_names:
-                continue
-
-            # Skip if already collected from another subfield
+            # Skip if already collected from another subfield this run
             if norm in seen_names:
                 continue
 
             seen_names.add(norm)
-            all_researchers.append({"name": name, "institution": institution})
+            all_researchers.append({"name": name, "institution": institution, "subfield": sf["name"]})
             added += 1
 
-        print(f"    {added} new researchers added (running total: {len(all_researchers)})")
+        print(f"    {added} added (running total: {len(all_researchers)})")
 
-    print(f"\nTotal unique new researchers: {len(all_researchers)}")
+    print(f"\nTotal unique researchers: {len(all_researchers)}")
 
     # Assign E-prefixed IDs
     rows = []
@@ -209,12 +178,13 @@ def main():
             "scholar_id": f"E{i:03d}",
             "scholar_name": r["name"],
             "scholar_institution": r["institution"],
+            "subfield": r["subfield"],
         })
 
     # Save to CSV
     EXTRA_RESEARCHERS_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(EXTRA_RESEARCHERS_PATH, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=["scholar_id", "scholar_name", "scholar_institution"])
+        writer = csv.DictWriter(f, fieldnames=["scholar_id", "scholar_name", "scholar_institution", "subfield"])
         writer.writeheader()
         writer.writerows(rows)
 

@@ -11,14 +11,11 @@ Usage:
     uv run -m scholar_board.pipeline.build --no-individual  # skip per-scholar JSON files
 """
 
-import csv
 import json
 import re
 import argparse
-from pathlib import Path
 
 from scholar_board.config import (
-    CSV_PATH,
     PAPERS_DIR,
     PROFILES_DIR,
     PICS_DIR,
@@ -27,6 +24,7 @@ from scholar_board.config import (
     SCHOLARS_JSON,
     SCHOLARS_DIR,
     BUILD_DIR,
+    load_scholars_csv,
 )
 from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection, ResearchIdea
 from scholar_board.db import (
@@ -43,29 +41,6 @@ from scholar_board.db import (
 
 
 # ── helpers re-used from the old build (needed for backfill) ──────────────
-
-def _load_vss_csv() -> dict[str, dict]:
-    scholars = {}
-    with open(CSV_PATH, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            sid = row.get("scholar_id", "").strip().strip("\"'")
-            if not sid:
-                continue
-            if sid.isdigit():
-                sid = sid.zfill(4)
-            if sid in scholars:
-                continue
-            name = row.get("scholar_name", "").strip().strip("\"'")
-            institution = row.get("scholar_institution", "").strip().strip("\"'") or None
-            department = row.get("scholar_department", "").strip().strip("\"'") or None
-            if department in ("N/A", "nan"):
-                department = None
-            if institution in ("N/A", "nan"):
-                institution = None
-            if name:
-                scholars[sid] = {"id": sid, "name": name, "institution": institution, "department": department}
-    return scholars
 
 
 def _load_scholar_papers() -> dict[str, list[dict]]:
@@ -167,10 +142,13 @@ def backfill_db(conn) -> None:
     """
     print("Backfilling database from pipeline JSON files...")
 
-    vss_data = _load_vss_csv()
-    for sid, s in vss_data.items():
-        ensure_scholar(conn, sid, s["name"], s.get("institution"), s.get("department"))
-    print(f"  Seeded {len(vss_data)} scholars from CSV")
+    all_scholars = load_scholars_csv()
+    for s in all_scholars:
+        dept = s.get("scholar_department")
+        if isinstance(dept, str) and dept in ("N/A", "nan", ""):
+            dept = None
+        ensure_scholar(conn, s["scholar_id"], s["scholar_name"], s.get("scholar_institution"), dept)
+    print(f"  Seeded {len(all_scholars)} scholars from CSV (VSS + extra)")
 
     papers_data = _load_scholar_papers()
     for sid, papers in papers_data.items():
@@ -198,6 +176,19 @@ def backfill_db(conn) -> None:
     for sid, filename in pics_data.items():
         upsert_profile_pic(conn, sid, filename)
     print(f"  Profile pics: {len(pics_data)} scholars")
+
+    # UMAP + cluster — read from existing scholars.json if present
+    if SCHOLARS_JSON.exists():
+        with open(SCHOLARS_JSON, "r", encoding="utf-8") as f:
+            existing = json.load(f)
+        updated = 0
+        for sid, data in existing.items():
+            umap = data.get("umap_projection")
+            if umap and "x" in umap and "y" in umap:
+                upsert_cluster(conn, sid, umap["x"], umap["y"], data.get("cluster", -1))
+                updated += 1
+        if updated:
+            print(f"  UMAP/cluster: {updated} scholars (from existing scholars.json)")
 
     print("Backfill complete.\n")
 

@@ -20,18 +20,16 @@ import sys
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from google import genai
-from google.genai import types
+from google.genai import errors, types
 
 from scholar_board.config import (
     CSV_PATH,
     PAPERS_DIR,
     IDEAS_DIR,
     SUBFIELDS_PATH,
-    get_gemini_api_key,
     load_scholars_csv,
 )
-from scholar_board.gemini import parse_json_response
+from scholar_board.gemini import get_client, parse_json_response
 from scholar_board.prompt_loader import render_prompt
 from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_idea
 
@@ -158,7 +156,7 @@ def generate_idea(client, scholar_name, institution, primary_subfield, papers):
         print(f"    JSON parse error: {e}")
         print(f"    Raw response: {raw[:200]}...")
         return None
-    except genai.errors.ClientError as e:
+    except errors.ClientError as e:
         print(f"    Gemini client error: {e}")
         return None
     except Exception as e:
@@ -264,7 +262,6 @@ def main():
         print(f"\nNo API calls made.")
         return
 
-    api_key = get_gemini_api_key()
     counter_lock = threading.Lock()
     success = 0
     fail = 0
@@ -285,7 +282,7 @@ def main():
             print(f"[{index+1}/{total}] {name} ({sid}) — {inst} — {primary_subfield}")
             print(f"    {len(papers)} papers loaded")
 
-        worker_client = genai.Client(api_key=api_key)
+        worker_client = get_client()
         idea = generate_idea(worker_client, name, inst, primary_subfield, papers)
 
         if idea:

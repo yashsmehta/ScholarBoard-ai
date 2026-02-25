@@ -1,159 +1,95 @@
-# ScholarBoard.ai
+# 🧠 ScholarBoard.ai
 
-> Interactive 2D map of researchers arranged by research similarity — explore who studies what, and who's nearby.
+**An interactive map of a scientific community — where every researcher is a dot, and nearby dots think alike.**
 
-**730 vision neuroscience researchers** from VSS, embedded by their publications, clustered by topic, and visualized on an interactive scatter plot. Click any dot to see a researcher's profile, papers, subfield tags, and an AI-generated research idea.
+ScholarBoard.ai takes a roster of researchers, reads their publications with AI, and arranges them in 2D space by research similarity. The result is a living, explorable map of an entire field: clusters of related work, bridges between subfields, and a profile card for every scientist — complete with papers, subfield tags, and an AI-generated hypothesis for what they should work on next.
+
+The current dataset: **~730 vision neuroscience researchers** from the [Vision Sciences Society (VSS)](https://www.visionsciences.org/).
 
 ---
 
-## Quickstart
+## ✨ What you can do with it
 
-### Prerequisites
+- **Explore the landscape** — pan and zoom across the research map; clusters reveal the hidden structure of a field
+- **Find neighbors** — see which researchers are working on the most similar problems
+- **Discover someone new** — click any dot to read their bio, recent papers, and subfield tags
+- **Get inspired** — each researcher has an AI-generated research direction: a novel hypothesis grounded in their actual work
+- **Search by name or topic** — type a concept and get projected onto the map
 
-- [uv](https://docs.astral.sh/uv/) (Python package manager)
-- [Node.js](https://nodejs.org/) 18+ (for the frontend)
-- API keys: `GOOGLE_API_KEY`, `SERPER_API_KEY`
+---
 
-### Install
+## 🚀 Quickstart
+
+**Prerequisites:** [uv](https://docs.astral.sh/uv/), Node.js 18+, a `GOOGLE_API_KEY` and `SERPER_API_KEY`
 
 ```bash
-# Clone and enter the project
+# 1. Install
 git clone https://github.com/scienta-ai/ScholarBoard-ai.git
 cd ScholarBoard-ai
-
-# Install Python dependencies
 uv sync
-
-# Install frontend dependencies
 cd frontend && npm install && cd ..
-```
 
-### Configure
+# 2. Configure
+echo "GOOGLE_API_KEY=..." >> .env
+echo "SERPER_API_KEY=..." >> .env
 
-Create a `.env` file in the project root:
-
-```
-GOOGLE_API_KEY=your_google_api_key
-SERPER_API_KEY=your_serper_api_key
-```
-
-### Run
-
-```bash
-# Run the data pipeline (fetches papers, builds embeddings, clusters, etc.)
+# 3. Run the pipeline (builds everything from scratch)
 uv run scripts/run_pipeline.py --execute
 
-# Start the data server (port 8000)
-uv run serve.py
-
-# Start the frontend dev server (port 5173, proxies to data server)
-cd frontend && npm run dev
+# 4. Launch
+uv run serve.py &           # data server  → localhost:8000
+cd frontend && npm run dev  # frontend      → localhost:5173
 ```
 
-Open **http://localhost:5173** to explore the map.
+Open **http://localhost:5173** and start exploring.
 
 ---
 
-## Pipeline
+## ⚙️ How it works
 
-The entire pipeline runs on **Google Gemini** models. Run `uv run scripts/run_pipeline.py` to see the status dashboard.
+A fully automated, 8-step AI pipeline builds the map from a CSV of researcher names:
 
 ```
- Step   What it does                              Model
- ─────  ────────────────────────────────────────  ──────────────────────────────────
-  1     Fetch papers via grounded search           Gemini 3 Flash + Google Search
-  2     Fetch researcher profiles + bios           Gemini 3 Flash + Google Search
-  3     Embed paper text for clustering            gemini-embedding-001 (CLUSTERING)
-  4     UMAP projection + HDBSCAN clustering       local (scikit-learn)
-  5     Assign subfield tags                       gemini-embedding-001 (SEMANTIC_SIMILARITY)
-  6     Generate AI research directions            Gemini 3.1 Pro (HIGH thinking)
-  7     Build consolidated scholars.json           local (merge all sources)
-  8     Download profile pictures                  Serper.dev image search
+①  Papers      →  Gemini 3 Flash searches the web for each researcher's recent publications
+②  Profiles    →  Gemini 3 Flash fetches their bio, institution, and lab URL
+③  Embeddings  →  Gemini embeds each researcher's paper text into a 3072-dim vector
+④  Map         →  UMAP reduces to 2D; HDBSCAN finds the clusters
+⑤  Subfields   →  Cosine similarity maps each researcher to their closest research subfields
+⑥  Ideas       →  Gemini 3.1 Pro (with extended thinking) proposes a novel research direction
+⑦  Build       →  Everything is merged into a SQLite database, then exported to JSON
+⑧  Pics        →  Serper.dev finds a headshot for each researcher
 ```
+
+Check pipeline status at any time:
 
 ```bash
-# Show status dashboard
-uv run scripts/run_pipeline.py
-
-# Run everything
-uv run scripts/run_pipeline.py --execute
-
-# Run a single step
-uv run scripts/run_pipeline.py --step papers
-
-# Run from a specific step onward
-uv run scripts/run_pipeline.py --from embed
+uv run scripts/run_pipeline.py          # show progress dashboard
+uv run scripts/run_pipeline.py --step papers    # run one step
+uv run scripts/run_pipeline.py --from embed     # resume from a step
 ```
-
-Steps 1, 2, and 6 parallelize across researchers with `--workers 25` by default. All steps support `--dry-run`.
 
 ---
 
-## Tech Stack
+## 🔬 Vision science subfields
 
-| Layer | Technology |
+Each researcher is automatically tagged across 23 subfields, from neural coding to perceptual learning:
+
+> *Neural Coding · Representational Geometry · Brain-AI Alignment · Predictive Dynamics · Object Recognition · Face Perception · Scene Perception · Active Vision · Visuomotor Action · Attention · Visual Working Memory · Ensemble Statistics · Perceptual Learning · Multisensory Integration · Perceptual Decision-Making · Visual Development · Neural Decoding · Comparative Vision · Motion Perception · Color Vision · Visual Search · Reading & Word Recognition · Mid-Level Features*
+
+---
+
+## 🛠️ Stack
+
+| What | How |
 |---|---|
-| Paper & profile extraction | Gemini 3 Flash Preview + Google Search grounding |
-| Research idea generation | Gemini 3.1 Pro Preview with HIGH thinking |
-| Embeddings | Gemini `gemini-embedding-001` (3072 dims, task-specific) |
-| Dimensionality reduction | UMAP (cosine metric, n_neighbors=15) |
-| Clustering | HDBSCAN (min_cluster_size=10) |
-| Subfield matching | Cosine similarity on embedding space |
-| Frontend | React + TypeScript + Vite + D3.js |
-| Data server | Python HTTP server (`serve.py`) |
-| Package management | uv (Python), npm (frontend) |
+| AI pipeline | Google Gemini 3 Flash + 3.1 Pro + gemini-embedding-001 |
+| Map layout | UMAP + HDBSCAN |
+| Frontend | React 19 + TypeScript + D3.js |
+| Data layer | SQLite + JSON + NetCDF (embeddings) |
+| Package manager | `uv` (Python) · `npm` (frontend) |
 
 ---
 
-## Vision Science Subfields
-
-Each researcher is tagged with up to 5 subfields based on semantic similarity between their papers and these definitions:
-
-| | Subfield | | Subfield |
-|---|---|---|---|
-| 1 | Neural Coding & Transduction | 13 | Ensemble & Summary Statistics |
-| 2 | Representational Geometry | 14 | Perceptual Learning & Plasticity |
-| 3 | Brain-AI Alignment | 15 | Multisensory Integration |
-| 4 | Predictive & Feedback Dynamics | 16 | Perceptual Decision-Making |
-| 5 | Mid-Level Feature Synthesis | 17 | Visual Development |
-| 6 | Object Recognition | 18 | Neural Decoding & Neuroimaging Methods |
-| 7 | Face Perception & Social Vision | 19 | Comparative & Animal Vision |
-| 8 | Scene Perception & Navigation | 20 | Motion Perception |
-| 9 | Active Vision & Eye Movements | 21 | Color Vision & Appearance |
-| 10 | Visuomotor Action & Grasping | 22 | Visual Search & Foraging |
-| 11 | Attention & Selection | 23 | Reading & Word Recognition |
-| 12 | Visual Working Memory | | |
-
----
-
-## Project Structure
-
-```
-ScholarBoard-ai/
-├── scholar_board/           # Python library (schemas, prompt loader, profile extractor)
-├── scripts/
-│   ├── run_pipeline.py      # Pipeline orchestrator with status dashboard
-│   ├── scholar_scraper/     # Paper fetching (Gemini grounded search)
-│   ├── create_paper_embeddings.py
-│   ├── run_umap_dbscan.py
-│   ├── assign_subfields.py
-│   ├── generate_ideas.py
-│   ├── build_scholars_json.py
-│   └── download_profile_pics.py
-├── prompts/                 # Externalized prompt templates (*.md)
-├── frontend/                # React + TypeScript + Vite + D3.js
-├── data/                    # Pipeline artifacts (git-ignored)
-│   ├── source/              # Inputs: vss_data.csv, subfields.json
-│   ├── pipeline/            # Intermediates: papers, profiles, embeddings, models, ideas
-│   ├── build/               # Final outputs: scholars.json, profile_pics/
-│   └── archive/             # Legacy data (not used by pipeline)
-├── serve.py                 # Data server (localhost:8000)
-├── pyproject.toml           # Python project config (uv)
-└── .env                     # API keys (not committed)
-```
-
----
-
-## License
+## 📄 License
 
 MIT

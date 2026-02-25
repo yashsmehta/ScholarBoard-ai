@@ -1,5 +1,7 @@
-import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
+import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import type { Scholar } from '../types/scholar'
+import { useClickOutside } from '../hooks/useClickOutside'
+import { cx } from '../lib/cx'
 
 interface SearchPanelProps {
   scholars: Scholar[]
@@ -22,7 +24,7 @@ export function SearchPanel({
   const deferredQuery = useDeferredValue(query)
   const [isOpen, setIsOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
-  const containerRef = useRef<HTMLDivElement | null>(null)
+  const containerRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false))
 
   const normalizedQuery = deferredQuery.trim().toLowerCase()
   const results = useMemo(() => {
@@ -40,16 +42,6 @@ export function SearchPanel({
     setActiveIndex(0)
     setIsOpen(true)
   }, [results])
-
-  useEffect(() => {
-    function handleDocumentClick(event: MouseEvent) {
-      const target = event.target as Node | null
-      if (!containerRef.current?.contains(target)) setIsOpen(false)
-    }
-
-    document.addEventListener('mousedown', handleDocumentClick)
-    return () => document.removeEventListener('mousedown', handleDocumentClick)
-  }, [])
 
   function selectScholar(scholar: Scholar) {
     onQueryChange(scholar.name)
@@ -117,13 +109,11 @@ export function SearchPanel({
               type="button"
               role="option"
               aria-selected={selectedScholarId === scholar.id}
-              className={[
+              className={cx(
                 'search-results__item',
-                index === activeIndex ? 'is-active' : '',
-                selectedScholarId === scholar.id ? 'is-selected' : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
+                index === activeIndex && 'is-active',
+                selectedScholarId === scholar.id && 'is-selected',
+              )}
               onMouseEnter={() => setActiveIndex(index)}
               onClick={() => selectScholar(scholar)}
             >

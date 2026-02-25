@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useClickOutside } from '../hooks/useClickOutside'
+import { cx } from '../lib/cx'
 
 interface InstitutionCount {
   name: string
@@ -20,21 +22,11 @@ export function FilterPanel({
 }: FilterPanelProps) {
   const [open, setOpen] = useState(false)
   const [draft, setDraft] = useState<string[]>(activeInstitutions)
-  const containerRef = useRef<HTMLDivElement | null>(null)
+  const containerRef = useClickOutside<HTMLDivElement>(() => setOpen(false))
 
   useEffect(() => {
     if (!open) setDraft(activeInstitutions)
   }, [activeInstitutions, open])
-
-  useEffect(() => {
-    function onDocumentMouseDown(event: MouseEvent) {
-      const target = event.target as Node | null
-      if (!containerRef.current?.contains(target)) setOpen(false)
-    }
-
-    document.addEventListener('mousedown', onDocumentMouseDown)
-    return () => document.removeEventListener('mousedown', onDocumentMouseDown)
-  }, [])
 
   function toggleInstitution(name: string) {
     setDraft((current) =>
@@ -46,9 +38,7 @@ export function FilterPanel({
     <div className="filter-panel" ref={containerRef}>
       <button
         type="button"
-        className={['icon-button', activeInstitutions.length > 0 ? 'is-emphasis' : '']
-          .filter(Boolean)
-          .join(' ')}
+        className={cx('icon-button', activeInstitutions.length > 0 && 'is-emphasis')}
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-controls="institution-filter-menu"

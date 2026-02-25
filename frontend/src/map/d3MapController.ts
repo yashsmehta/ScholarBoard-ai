@@ -105,15 +105,18 @@ export function createD3MapController(
     setDotCursor(false)
   })
   svg.on('pointerdown.selection', (event) => {
-    recordSvgPressSnapshot(event)
-  })
-  svg.on('mousedown.selection', (event) => {
-    recordSvgPressSnapshot(event)
+    if ((event.button ?? 0) !== 0) return
+    const [x, y] = d3.pointer(event, svg.node())
+    pointerDownSnapshot = {
+      x, y,
+      targetWasDot: false,
+      targetScholarId: null,
+      transformX: currentTransform.x,
+      transformY: currentTransform.y,
+      transformK: currentTransform.k,
+    }
   })
   svg.on('pointerup.selection', (event) => {
-    resolveSvgPressSelection(event)
-  })
-  svg.on('mouseup.selection', (event) => {
     resolveSvgPressSelection(event)
   })
   svg.on('dblclick', (event) => {
@@ -218,15 +221,6 @@ export function createD3MapController(
               event.preventDefault()
               event.stopPropagation()
             })
-            .on('mousedown', (event, d) => {
-              if ((event.button ?? 0) !== 0) return
-              recordPointerDownSnapshot(event, d)
-              raiseScholarDotById(d.id)
-              callbacks.onHoverScholarId(d.id)
-              commitSelection(d.id)
-              event.preventDefault()
-              event.stopPropagation()
-            })
             .on('mouseenter', (_event, d) => {
               callbacks.onHoverScholarId(d.id)
               raiseScholarDotById(d.id)
@@ -237,12 +231,6 @@ export function createD3MapController(
               hideTooltip()
             })
             .on('pointerup', (event, d) => {
-              if ((event.button ?? 0) !== 0) return
-              event.stopPropagation()
-              raiseScholarDotById(d.id)
-              commitSelection(d.id)
-            })
-            .on('mouseup', (event, d) => {
               if ((event.button ?? 0) !== 0) return
               event.stopPropagation()
               raiseScholarDotById(d.id)
@@ -506,38 +494,11 @@ export function createD3MapController(
     tooltipEl.style.top = `${y}px`
   }
 
-  function raiseDot(node: SVGCircleElement) {
-    node.parentNode?.appendChild(node)
-  }
-
   function raiseScholarDotById(scholarId: string) {
-    dots
-      .filter((datum) => datum.id === scholarId)
-      .each(function () {
-        raiseDot(this as SVGCircleElement)
+    for (const layer of [dots, hitDots]) {
+      layer.filter((d) => d.id === scholarId).each(function () {
+        (this as SVGCircleElement).parentNode?.appendChild(this)
       })
-    hitDots
-      .filter((datum) => datum.id === scholarId)
-      .each(function () {
-        raiseDot(this as SVGCircleElement)
-      })
-  }
-
-  function recordSvgPressSnapshot(event: MouseEvent | PointerEvent) {
-    if ((event.button ?? 0) !== 0) return
-    const [x, y] = d3.pointer(event, svg.node())
-    const target = event.target as Element | null
-    const targetDot = target?.closest?.('.scholar-map__dot') as (SVGCircleElement & {
-      __data__?: Scholar
-    }) | null
-    pointerDownSnapshot = {
-      x,
-      y,
-      targetWasDot: Boolean(targetDot),
-      targetScholarId: targetDot?.__data__?.id ?? null,
-      transformX: currentTransform.x,
-      transformY: currentTransform.y,
-      transformK: currentTransform.k,
     }
   }
 
@@ -556,13 +517,7 @@ export function createD3MapController(
 
   function commitSelection(scholarId: string) {
     const now = Date.now()
-    if (
-      lastCommittedSelection &&
-      lastCommittedSelection.scholarId === scholarId &&
-      now - lastCommittedSelection.at < 80
-    ) {
-      return
-    }
+    if (lastCommittedSelection?.scholarId === scholarId && now - lastCommittedSelection.at < 80) return
     lastCommittedSelection = { scholarId, at: now }
     callbacks.onSelectScholarId(scholarId)
   }
@@ -574,17 +529,9 @@ export function createD3MapController(
   }
 
   function updateDotCursorAtPoint(viewportX: number, viewportY: number) {
-    if (boxZoomModifierActive) {
-      setDotCursor(false)
-      return
-    }
-
-    // Cursor should indicate only the visible dot, not the larger invisible hit target.
-    const enterThreshold = Math.max(4.8, DOT_RADIUS * currentTransform.k + 1.1)
-    const exitThreshold = Math.max(6.4, DOT_RADIUS_HOVER * currentTransform.k + 1.2)
-    const threshold = dotCursorActive ? exitThreshold : enterThreshold
-    const candidate = findNearestVisibleScholarAtViewportPoint(viewportX, viewportY, threshold)
-    setDotCursor(Boolean(candidate))
+    if (boxZoomModifierActive) { setDotCursor(false); return }
+    const threshold = Math.max(6, DOT_RADIUS * currentTransform.k + 1.5)
+    setDotCursor(Boolean(findNearestVisibleScholarAtViewportPoint(viewportX, viewportY, threshold)))
   }
 
   function findNearestVisibleScholarAtViewportPoint(

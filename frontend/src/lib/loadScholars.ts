@@ -94,16 +94,14 @@ function normalizeScholar(fallbackId: string, raw: RawScholar): Scholar | null {
       ? raw.research_areas.filter(isNonEmptyString)
       : [],
     papers: Array.isArray(raw.papers) ? raw.papers.filter(isPaperLike) : [],
-    education: Array.isArray(raw.education) ? raw.education.filter(isEducationLike) : [],
+    education: Array.isArray(raw.education) ? raw.education.filter(isObjectLike) : [],
   }
 }
 
 function normalizeString(value: unknown): string | undefined {
   if (typeof value !== 'string') return undefined
   const trimmed = value.trim()
-  if (!trimmed) return undefined
-  if (trimmed.toLowerCase() === 'nan') return undefined
-  if (trimmed.toLowerCase() === 'null') return undefined
+  if (!trimmed || /^(nan|null)$/i.test(trimmed)) return undefined
   return trimmed
 }
 
@@ -117,6 +115,6 @@ function isPaperLike(value: unknown): value is Scholar['papers'][number] {
   return typeof candidate.title === 'string' && candidate.title.trim().length > 0
 }
 
-function isEducationLike(value: unknown): value is Scholar['education'][number] {
+function isObjectLike(value: unknown): value is Record<string, unknown> {
   return value != null && typeof value === 'object'
 }

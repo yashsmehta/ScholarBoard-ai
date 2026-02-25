@@ -1,5 +1,3 @@
-import { HeaderScene } from './HeaderScene'
-
 interface HeaderProps {
   modeLabel?: string
   scholarCount?: number
@@ -8,7 +6,6 @@ interface HeaderProps {
 export function Header({ modeLabel, scholarCount }: HeaderProps) {
   return (
     <header className="topbar">
-      <HeaderScene />
       <div className="topbar__content">
         <h1 className="topbar__title">
           Scholar<span className="topbar__title-accent">Board</span>

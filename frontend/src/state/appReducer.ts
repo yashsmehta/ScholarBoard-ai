@@ -11,7 +11,6 @@ export interface AppState {
   hoveredScholarId: string | null
   searchQuery: string
   activeInstitutions: string[]
-  sidebarOpen: boolean
   resetNonce: number
   panRequest: { scholarId: string; nonce: number } | null
 }
@@ -38,7 +37,6 @@ export const initialAppState: AppState = {
   hoveredScholarId: null,
   searchQuery: '',
   activeInstitutions: [],
-  sidebarOpen: false,
   resetNonce: 0,
   panRequest: null,
 }
@@ -66,12 +64,10 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         ...state,
         selectedScholarId: action.scholarId,
         hoveredScholarId: action.scholarId,
-        sidebarOpen: true,
       }
     case 'sidebar_closed':
       return {
         ...state,
-        sidebarOpen: false,
         selectedScholarId: null,
         hoveredScholarId: null,
       }

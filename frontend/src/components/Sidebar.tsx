@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Scholar } from '../types/scholar'
 import { clusterColor } from '../map/colorScale'
 import { DEFAULT_AVATAR_URL, scholarAvatarUrl } from '../lib/scholarMedia'
@@ -16,7 +16,10 @@ interface NearbyScholar {
 }
 
 export function Sidebar({ scholar, allScholars, onClose, onSelectNearby }: SidebarProps) {
-  const nearby = scholar ? findNearbyScholars(scholar, allScholars, 5) : []
+  const nearby = useMemo(
+    () => (scholar ? findNearbyScholars(scholar, allScholars, 5) : []),
+    [scholar?.id, allScholars],
+  )
 
   return (
     <aside className="sidebar">

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { cx } from '../lib/cx'
 
 interface MapControlsProps {
   onReset: () => void
@@ -15,7 +16,7 @@ export function MapControls({ onReset }: MapControlsProps) {
   return (
     <>
       <div className="map-overlay map-overlay-bottom-left">
-        <p className={`map-hint${hintHidden ? ' map-hint--hidden' : ''}`}>
+        <p className={cx('map-hint', hintHidden && 'map-hint--hidden')}>
           Scroll to zoom &middot; Drag to pan &middot; Shift+drag to box select
         </p>
       </div>

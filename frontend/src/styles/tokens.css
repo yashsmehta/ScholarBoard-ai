@@ -21,4 +21,12 @@
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 22px;
+
+  --border-subtle: rgba(21, 24, 34, 0.06);
+  --border-light: rgba(21, 24, 34, 0.08);
+  --border-medium: rgba(21, 24, 34, 0.09);
+  --brand-tint: rgba(68, 161, 160, 0.12);
+  --brand-border: rgba(13, 92, 99, 0.15);
+  --card-bg: rgba(255, 255, 255, 0.82);
+  --card-bg-strong: rgba(255, 255, 255, 0.9);
 }

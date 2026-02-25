@@ -1,6 +1,6 @@
 # Frontend — CLAUDE.md
 
-React + TypeScript + Vite rewrite of the static `website/` dashboard. Same functionality and aesthetics, component-based architecture.
+React + TypeScript + Vite frontend for ScholarBoard.ai. D3.js map visualization with component-based architecture.
 
 ## Quick Start
 
@@ -18,7 +18,7 @@ npm run build        # → dist/
 npm run lint
 ```
 
-Vite proxies `/api`, `/data`, `/images` to `http://localhost:8000` (the Python server in `website/`).
+Vite proxies `/api`, `/data`, `/images` to `http://localhost:8000` (the data server at project root `serve.py`).
 
 ## Architecture
 

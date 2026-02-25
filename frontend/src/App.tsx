@@ -113,7 +113,7 @@ function App() {
               <h2>Unable to load scholars</h2>
               <p>{state.errorMessage}</p>
               <p className="overlay-error__hint">
-                Start the existing Python server (`website/serve.py`) and use the Vite proxy, or set
+                Start the data server (`python serve.py`) and use the Vite proxy, or set
                 `VITE_SCHOLARS_URL`.
               </p>
             </div>

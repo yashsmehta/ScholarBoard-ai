@@ -17,9 +17,10 @@ Usage:
 import json
 import os
 import re
-import time
 import csv
 import argparse
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from dotenv import load_dotenv
 from google import genai
@@ -223,9 +224,44 @@ def normalize_bio(client, scholar_name, bio):
         return bio
 
 
+def _process_single_scholar(scholar_id, scholar, index, total, client,
+                            output_dir, skip_normalize, print_lock):
+    """
+    Process a single scholar: query Gemini, optionally normalize bio, and save.
+
+    Returns True on success, False on failure.
+    Each worker should provide its own `client` instance.
+    """
+    name = scholar['scholar_name']
+    inst = scholar['institution']
+
+    with print_lock:
+        print(f"[{index}/{total}] {name} ({scholar_id}) — {inst}")
+
+    data, sources = query_gemini(client, name, inst, scholar_id)
+
+    if data:
+        if not skip_normalize and data.get("bio"):
+            data["bio"] = normalize_bio(client, name, data["bio"])
+            with print_lock:
+                print(f"    Bio normalized")
+        filepath = save_profile(data, sources, scholar_id, name, output_dir)
+        with print_lock:
+            print(f"    Saved to {filepath}")
+            area = data.get("main_research_area")
+            if area:
+                print(f"    Research area: {area}")
+        return True
+    else:
+        with print_lock:
+            print(f"    Failed to extract profile")
+        return False
+
+
 def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=None,
                          scholar_id_filter=None, scholar_name_filter=None,
-                         no_skip=False, delay=1.0, skip_normalize=False):
+                         no_skip=False, skip_normalize=False,
+                         workers=1):
     """
     Extract structured profile information for scholars via Gemini grounded search.
     """
@@ -318,34 +354,55 @@ def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=No
         print(f"\nNo API calls made.")
         return
 
-    client = genai.Client(api_key=API_KEY)
+    print_lock = threading.Lock()
+    total = len(scholar_items)
 
-    success = 0
-    fail = 0
+    if workers <= 1:
+        # Sequential execution — identical to original behavior
+        client = genai.Client(api_key=API_KEY)
+        success = 0
+        fail = 0
 
-    for i, (scholar_id, scholar) in enumerate(scholar_items):
-        name = scholar['scholar_name']
-        inst = scholar['institution']
-        print(f"[{i+1}/{len(scholar_items)}] {name} ({scholar_id}) — {inst}")
+        for i, (scholar_id, scholar) in enumerate(scholar_items):
+            ok = _process_single_scholar(
+                scholar_id, scholar, i + 1, total, client,
+                output_dir, skip_normalize, print_lock,
+            )
+            if ok:
+                success += 1
+            else:
+                fail += 1
+    else:
+        # Parallel execution with ThreadPoolExecutor
+        print(f"Using {workers} parallel workers\n")
+        success_count = threading.Lock()
+        counters = {"success": 0, "fail": 0}
 
-        data, sources = query_gemini(client, name, inst, scholar_id)
+        def worker_task(index, scholar_id, scholar):
+            # Each worker creates its own client instance
+            worker_client = genai.Client(api_key=API_KEY)
+            ok = _process_single_scholar(
+                scholar_id, scholar, index, total, worker_client,
+                output_dir, skip_normalize, print_lock,
+            )
+            with success_count:
+                if ok:
+                    counters["success"] += 1
+                else:
+                    counters["fail"] += 1
 
-        if data:
-            if not skip_normalize and data.get("bio"):
-                data["bio"] = normalize_bio(client, name, data["bio"])
-                print(f"    Bio normalized")
-            filepath = save_profile(data, sources, scholar_id, name, output_dir)
-            success += 1
-            print(f"    Saved to {filepath}")
-            area = data.get("main_research_area")
-            if area:
-                print(f"    Research area: {area}")
-        else:
-            fail += 1
-            print(f"    Failed to extract profile")
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = []
+            for i, (scholar_id, scholar) in enumerate(scholar_items):
+                future = executor.submit(worker_task, i + 1, scholar_id, scholar)
+                futures.append(future)
 
-        if i < len(scholar_items) - 1:
-            time.sleep(delay)
+            # Wait for all futures and propagate any unexpected exceptions
+            for future in as_completed(futures):
+                future.result()
+
+        success = counters["success"]
+        fail = counters["fail"]
 
     print(f"\n--- Summary ---")
     print(f"Successful: {success}/{success + fail}")
@@ -367,10 +424,10 @@ def main():
                         help="Process only a specific scholar by name")
     parser.add_argument("--no-skip", action="store_true",
                         help="Re-fetch even if data already exists")
-    parser.add_argument("--delay", type=float, default=1.0,
-                        help="Delay between API calls in seconds (default: 1.0)")
     parser.add_argument("--skip-normalize", action="store_true",
                         help="Skip Gemini bio normalization step")
+    parser.add_argument("--workers", type=int, default=25,
+                        help="Number of parallel workers (default: 25)")
     args = parser.parse_args()
 
     extract_scholar_info(
@@ -379,8 +436,8 @@ def main():
         scholar_id_filter=args.scholar_id,
         scholar_name_filter=args.scholar_name,
         no_skip=args.no_skip,
-        delay=args.delay,
         skip_normalize=args.skip_normalize,
+        workers=args.workers,
     )
 
 

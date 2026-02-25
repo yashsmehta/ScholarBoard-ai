@@ -6,8 +6,6 @@ the most recent papers for each researcher. Citation counts are
 fetched separately from Google Scholar via Serper.dev.
 
 Supports parallel execution via --workers to speed up bulk fetches.
-A thread-safe rate limiter ensures Gemini API limits are respected
-regardless of worker count.
 
 Usage:
     python3 scripts/scholar_scraper/fetch_papers_gemini.py
@@ -50,23 +48,6 @@ SYSTEM_INSTRUCTION = (
     "You are a research paper database. Return accurate, verified paper information. "
     "Only include papers you are confident exist. Return results as structured JSON."
 )
-
-
-class RateLimiter:
-    """Simple thread-safe rate limiter with minimum delay between calls."""
-
-    def __init__(self, delay: float):
-        self._delay = delay
-        self._lock = threading.Lock()
-        self._last_call = 0.0
-
-    def wait(self):
-        with self._lock:
-            now = time.time()
-            elapsed = now - self._last_call
-            if elapsed < self._delay:
-                time.sleep(self._delay - elapsed)
-            self._last_call = time.time()
 
 
 def build_prompt(scholar_name, institution, num_papers):
@@ -296,12 +277,11 @@ def save_papers(data, sources, scholar_id, scholar_name, output_dir):
 
 
 def _process_scholar(researcher, index, total, num_papers, api_key, serper_key,
-                     rate_limiter, output_dir, counters_lock, counters):
+                     output_dir, counters_lock, counters):
     """
     Process a single scholar: fetch papers and save results.
 
     Each worker creates its own genai client to avoid thread-safety issues.
-    The rate_limiter is called before each API request to respect API limits.
 
     Args:
         researcher: dict with scholar_id, scholar_name, scholar_institution
@@ -310,7 +290,6 @@ def _process_scholar(researcher, index, total, num_papers, api_key, serper_key,
         num_papers: number of papers to fetch per scholar
         api_key: Gemini API key
         serper_key: Serper.dev API key (or None to skip citation lookup)
-        rate_limiter: RateLimiter instance for throttling
         output_dir: Path to output directory
         counters_lock: threading.Lock for thread-safe counter updates
         counters: dict with 'success', 'fail', 'total_papers' keys
@@ -324,9 +303,6 @@ def _process_scholar(researcher, index, total, num_papers, api_key, serper_key,
 
     # Each worker gets its own client to avoid thread-safety issues
     client = genai.Client(api_key=api_key)
-
-    # Respect rate limits before making the API call
-    rate_limiter.wait()
 
     data, sources = fetch_papers(client, name, inst, num_papers)
 
@@ -366,10 +342,8 @@ def main():
                         help='Re-fetch even if data already exists')
     parser.add_argument('--dry-run', action='store_true',
                         help='Show what would be fetched without making API calls')
-    parser.add_argument('--delay', type=float, default=1.0,
-                        help='Delay between API calls in seconds (default: 1.0)')
-    parser.add_argument('--workers', type=int, default=1,
-                        help='Number of parallel workers (default: 1)')
+    parser.add_argument('--workers', type=int, default=25,
+                        help='Number of parallel workers (default: 25)')
     args = parser.parse_args()
 
     csv_path = PROJECT_ROOT / "data" / "vss_data.csv"
@@ -419,7 +393,6 @@ def main():
         print(f"\nNo API calls made.")
         return
 
-    rate_limiter = RateLimiter(delay=args.delay)
     counters_lock = threading.Lock()
     counters = {'success': 0, 'fail': 0, 'total_papers': 0}
     total = len(researchers)
@@ -428,7 +401,7 @@ def main():
         # Sequential execution — identical behavior to the original
         for i, r in enumerate(researchers):
             _process_scholar(r, i, total, args.papers, API_KEY, SERPER_API_KEY,
-                             rate_limiter, OUTPUT_DIR, counters_lock, counters)
+                             OUTPUT_DIR, counters_lock, counters)
     else:
         # Parallel execution with ThreadPoolExecutor
         print(f"Using {args.workers} parallel workers\n")
@@ -436,7 +409,7 @@ def main():
             futures = {
                 executor.submit(
                     _process_scholar, r, i, total, args.papers, API_KEY,
-                    SERPER_API_KEY, rate_limiter, OUTPUT_DIR, counters_lock, counters
+                    SERPER_API_KEY, OUTPUT_DIR, counters_lock, counters
                 ): r
                 for i, r in enumerate(researchers)
             }

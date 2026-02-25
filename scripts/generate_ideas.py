@@ -17,9 +17,10 @@ Usage:
 import json
 import os
 import re
-import time
 import argparse
 import sys
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from dotenv import load_dotenv
 from google import genai
@@ -239,8 +240,8 @@ def main():
                         help='Regenerate even if output file already exists')
     parser.add_argument('--dry-run', action='store_true',
                         help='Preview without making API calls')
-    parser.add_argument('--delay', type=float, default=1.0,
-                        help='Delay between API calls in seconds (default: 1.0)')
+    parser.add_argument('--workers', type=int, default=25,
+                        help='Number of parallel workers (default: 25)')
     args = parser.parse_args()
 
     csv_path = DATA_DIR / "vss_data.csv"
@@ -312,12 +313,16 @@ def main():
         print(f"\nNo API calls made.")
         return
 
-    client = genai.Client(api_key=API_KEY)
-
+    # Thread-safe counters and print lock
+    counter_lock = threading.Lock()
     success = 0
     fail = 0
+    total = len(researchers)
 
-    for i, r in enumerate(researchers):
+    def process_scholar(index, r):
+        """Worker function: creates its own client, processes one scholar."""
+        nonlocal success, fail
+
         name = r['scholar_name']
         sid = r['scholar_id']
         inst = r['scholar_institution']
@@ -326,23 +331,36 @@ def main():
         subfield_info = subfields.get(sid, {})
         primary_subfield = subfield_info.get("primary_subfield", "Vision Science")
 
-        print(f"[{i+1}/{len(researchers)}] {name} ({sid}) — {inst} — {primary_subfield}")
-        print(f"    {len(papers)} papers loaded")
+        with counter_lock:
+            print(f"[{index+1}/{total}] {name} ({sid}) — {inst} — {primary_subfield}")
+            print(f"    {len(papers)} papers loaded")
 
-        idea = generate_idea(client, name, inst, primary_subfield, papers)
+        # Each worker creates its own client instance
+        worker_client = genai.Client(api_key=API_KEY)
+
+        idea = generate_idea(worker_client, name, inst, primary_subfield, papers)
 
         if idea:
             filepath = save_idea(idea, sid, name, OUTPUT_DIR)
-            success += 1
-            print(f"    Saved: {filepath.name}")
-            print(f"    Title: {idea.get('title', '?')}")
+            with counter_lock:
+                success += 1
+                print(f"    [{index+1}/{total}] Saved: {filepath.name}")
+                print(f"    [{index+1}/{total}] Title: {idea.get('title', '?')}")
         else:
-            fail += 1
-            print(f"    Failed to generate idea")
+            with counter_lock:
+                fail += 1
+                print(f"    [{index+1}/{total}] Failed to generate idea")
 
-        # Rate limiting
-        if i < len(researchers) - 1:
-            time.sleep(args.delay)
+        return idea is not None
+
+    with ThreadPoolExecutor(max_workers=args.workers) as executor:
+        futures = {
+            executor.submit(process_scholar, i, r): r
+            for i, r in enumerate(researchers)
+        }
+        for future in as_completed(futures):
+            # Propagate any unexpected exceptions
+            future.result()
 
     print(f"\n--- Summary ---")
     print(f"Successful: {success}/{success + fail}")

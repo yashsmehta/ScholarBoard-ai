@@ -1,22 +1,14 @@
 """
-Build consolidated scholars.json from all available data sources.
+Build consolidated scholars.json from the SQLite database.
 
-Merges:
-1. data/source/vss_data.csv → id, name, institution, department
-2. data/build/scholars.json (current) → umap coordinates, cluster
-3. data/pipeline/scholar_papers/*.json → papers
-4. data/pipeline/scholar_profiles/*.json → bio, main_research_area, lab_url, department
-5. data/build/profile_pics/*.jpg → profile_pic filename
-6. data/pipeline/scholar_subfields.json → subfield tags
-7. data/pipeline/scholar_ideas/*.json → suggested research ideas
-
-Outputs:
-- data/build/scholars/{id}.json (individual files)
-- data/build/scholars.json (consolidated)
+On first run (or with --backfill), reads existing pipeline JSON files into the
+database, then exports.  On subsequent runs the DB is already current because
+each pipeline step upserts into it directly, so this is a fast SELECT + write.
 
 Usage:
-    uv run -m scholar_board.pipeline.build
-    uv run -m scholar_board.pipeline.build --no-individual  # skip individual files
+    uv run -m scholar_board.pipeline.build              # export DB → scholars.json
+    uv run -m scholar_board.pipeline.build --backfill   # seed DB from JSON files, then export
+    uv run -m scholar_board.pipeline.build --no-individual  # skip per-scholar JSON files
 """
 
 import csv
@@ -37,10 +29,22 @@ from scholar_board.config import (
     BUILD_DIR,
 )
 from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection, ResearchIdea
+from scholar_board.db import (
+    get_connection,
+    init_db,
+    ensure_scholar,
+    upsert_papers,
+    upsert_profile,
+    upsert_cluster,
+    upsert_subfields,
+    upsert_idea,
+    upsert_profile_pic,
+)
 
 
-def load_vss_csv() -> dict[str, dict]:
-    """Load unique scholars from vss_data.csv."""
+# ── helpers re-used from the old build (needed for backfill) ──────────────
+
+def _load_vss_csv() -> dict[str, dict]:
     scholars = {}
     with open(CSV_PATH, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -53,32 +57,18 @@ def load_vss_csv() -> dict[str, dict]:
             if sid in scholars:
                 continue
             name = row.get("scholar_name", "").strip().strip("\"'")
-            institution = row.get("scholar_institution", "").strip().strip("\"'")
-            department = row.get("scholar_department", "").strip().strip("\"'")
-            if department in ("N/A", "nan", ""):
+            institution = row.get("scholar_institution", "").strip().strip("\"'") or None
+            department = row.get("scholar_department", "").strip().strip("\"'") or None
+            if department in ("N/A", "nan"):
                 department = None
-            if institution in ("N/A", "nan", ""):
+            if institution in ("N/A", "nan"):
                 institution = None
             if name:
-                scholars[sid] = {
-                    "id": sid,
-                    "name": name,
-                    "institution": institution,
-                    "department": department,
-                }
+                scholars[sid] = {"id": sid, "name": name, "institution": institution, "department": department}
     return scholars
 
 
-def load_current_scholars_json() -> dict[str, dict]:
-    """Load existing scholars.json for umap/cluster data."""
-    if not SCHOLARS_JSON.exists():
-        return {}
-    with open(SCHOLARS_JSON, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def load_scholar_papers() -> dict[str, list[dict]]:
-    """Load paper data from PAPERS_DIR/*.json."""
+def _load_scholar_papers() -> dict[str, list[dict]]:
     papers_by_id = {}
     if not PAPERS_DIR.exists():
         return papers_by_id
@@ -93,8 +83,7 @@ def load_scholar_papers() -> dict[str, list[dict]]:
     return papers_by_id
 
 
-def load_scholar_profiles() -> dict[str, dict]:
-    """Load structured profiles from PROFILES_DIR/*.json."""
+def _load_scholar_profiles() -> dict[str, dict]:
     profiles = {}
     if not PROFILES_DIR.exists():
         return profiles
@@ -116,19 +105,15 @@ def load_scholar_profiles() -> dict[str, dict]:
                 continue
             sid = sid.zfill(4) if sid.isdigit() else sid
             profiles[sid] = {
-                "bio": data.get("bio"),
-                "main_research_area": data.get("main_research_area"),
-                "lab_name": data.get("lab_name"),
-                "lab_url": data.get("lab_url"),
-                "department": data.get("department"),
+                k: data.get(k)
+                for k in ("bio", "main_research_area", "lab_name", "lab_url", "department")
             }
         except (json.JSONDecodeError, KeyError):
             continue
     return profiles
 
 
-def find_profile_pics() -> dict[str, str]:
-    """Find profile pic filenames for each scholar ID."""
+def _find_profile_pics() -> dict[str, str]:
     pics = {}
     if not PICS_DIR.exists():
         return pics
@@ -137,21 +122,18 @@ def find_profile_pics() -> dict[str, str]:
             continue
         match = re.search(r"_(\d{4})\.jpg$", fpath.name)
         if match:
-            sid = match.group(1)
-            pics[sid] = fpath.name
+            pics[match.group(1)] = fpath.name
     return pics
 
 
-def load_subfield_assignments() -> dict[str, dict]:
-    """Load subfield assignments from SUBFIELDS_PATH."""
+def _load_subfield_assignments() -> dict[str, dict]:
     if not SUBFIELDS_PATH.exists():
         return {}
     with open(SUBFIELDS_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-def load_scholar_ideas() -> dict[str, dict]:
-    """Load AI-generated research ideas from IDEAS_DIR/*.json."""
+def _load_scholar_ideas() -> dict[str, dict]:
     ideas = {}
     if not IDEAS_DIR.exists():
         return ideas
@@ -167,101 +149,157 @@ def load_scholar_ideas() -> dict[str, dict]:
             if not sid:
                 continue
             sid = sid.zfill(4) if sid.isdigit() else sid
-            idea = data.get("idea", {})
-            if idea:
-                ideas[sid] = idea
+            if data.get("idea"):
+                ideas[sid] = data["idea"]
         except (json.JSONDecodeError, KeyError):
             continue
     return ideas
 
 
-def build_scholars(write_individual: bool = True) -> list[Scholar]:
-    """Build consolidated scholar data from all sources."""
-    print("Loading data sources...")
-    vss_data = load_vss_csv()
-    print(f"  vss_data.csv: {len(vss_data)} unique scholars")
+# ── backfill: seed DB from existing JSON pipeline artifacts ──────────────
 
-    current_data = load_current_scholars_json()
-    print(f"  scholars.json: {len(current_data)} entries")
+def backfill_db(conn) -> None:
+    """Populate the DB from all existing pipeline JSON files (idempotent).
 
-    papers_data = load_scholar_papers()
-    print(f"  scholar_papers: {len(papers_data)} scholars with papers")
+    Safe to run multiple times — all operations are upserts.
+    Use this once to migrate from the old JSON-only pipeline, or whenever
+    you want to repair/re-seed the database.
+    """
+    print("Backfilling database from pipeline JSON files...")
 
-    profiles_data = load_scholar_profiles()
-    print(f"  scholar_profiles: {len(profiles_data)} profiles")
+    vss_data = _load_vss_csv()
+    for sid, s in vss_data.items():
+        ensure_scholar(conn, sid, s["name"], s.get("institution"), s.get("department"))
+    print(f"  Seeded {len(vss_data)} scholars from CSV")
 
-    pics_data = find_profile_pics()
-    print(f"  profile_pics: {len(pics_data)} profile pictures")
+    papers_data = _load_scholar_papers()
+    for sid, papers in papers_data.items():
+        upsert_papers(conn, sid, papers)
+    print(f"  Papers: {len(papers_data)} scholars")
 
-    subfields_data = load_subfield_assignments()
-    print(f"  subfields: {len(subfields_data)} assignments")
+    profiles_data = _load_scholar_profiles()
+    for sid, profile in profiles_data.items():
+        fields = {k: v for k, v in profile.items() if v}
+        if fields:
+            upsert_profile(conn, sid, **fields)
+    print(f"  Profiles: {len(profiles_data)} scholars")
 
-    ideas_data = load_scholar_ideas()
-    print(f"  scholar_ideas: {len(ideas_data)} ideas")
+    subfields_data = _load_subfield_assignments()
+    for sid, assignment in subfields_data.items():
+        upsert_subfields(conn, sid, assignment["primary_subfield"], assignment.get("subfields", []))
+    print(f"  Subfields: {len(subfields_data)} scholars")
+
+    ideas_data = _load_scholar_ideas()
+    for sid, idea in ideas_data.items():
+        upsert_idea(conn, sid, idea)
+    print(f"  Ideas: {len(ideas_data)} scholars")
+
+    pics_data = _find_profile_pics()
+    for sid, filename in pics_data.items():
+        upsert_profile_pic(conn, sid, filename)
+    print(f"  Profile pics: {len(pics_data)} scholars")
+
+    print("Backfill complete.\n")
+
+
+# ── export: SELECT from DB → Scholar objects → JSON ──────────────────────
+
+def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
+    """Read all data from the DB and write scholars.json (+ individual files)."""
+    print("Querying database...")
+
+    scholar_rows = conn.execute("SELECT * FROM scholars ORDER BY id").fetchall()
+    print(f"  scholars: {len(scholar_rows)}")
+
+    papers_rows = conn.execute("SELECT * FROM papers ORDER BY scholar_id, id").fetchall()
+    papers_by_sid: dict[str, list] = {}
+    for row in papers_rows:
+        papers_by_sid.setdefault(row["scholar_id"], []).append(dict(row))
+    print(f"  papers: {len(papers_rows)} across {len(papers_by_sid)} scholars")
+
+    sf_rows = conn.execute(
+        "SELECT * FROM subfields ORDER BY scholar_id, is_primary DESC, score DESC"
+    ).fetchall()
+    subfields_by_sid: dict[str, list] = {}
+    for row in sf_rows:
+        subfields_by_sid.setdefault(row["scholar_id"], []).append(dict(row))
+
+    idea_rows = conn.execute("SELECT * FROM ideas").fetchall()
+    ideas_by_sid = {row["scholar_id"]: dict(row) for row in idea_rows}
+    print(f"  subfields: {len(subfields_by_sid)} scholars  |  ideas: {len(ideas_by_sid)} scholars")
 
     print("\nBuilding scholar objects...")
-    scholars = []
-    for sid, vss in vss_data.items():
-        scholar_dict = {
-            "id": sid,
-            "name": vss["name"],
-            "institution": vss.get("institution"),
-            "department": vss.get("department"),
-        }
+    scholars: list[Scholar] = []
+    stats = {k: 0 for k in ("umap", "papers", "bio", "area", "subfield", "idea", "pic")}
 
-        if sid in current_data:
-            cur = current_data[sid]
-            umap = cur.get("umap_projection")
-            if umap and isinstance(umap, dict) and "x" in umap and "y" in umap:
-                scholar_dict["umap_projection"] = UMAPProjection(x=umap["x"], y=umap["y"])
-            scholar_dict["cluster"] = cur.get("cluster")
+    for row in scholar_rows:
+        sid = row["id"]
+        d: dict = {k: row[k] for k in row.keys() if row[k] is not None}
 
-        if sid in papers_data:
-            scholar_dict["papers"] = [Paper(**p) for p in papers_data[sid]]
+        # UMAP coords live in flat columns; convert to nested object
+        if d.pop("umap_x", None) is not None:
+            d["umap_projection"] = UMAPProjection(x=row["umap_x"], y=row["umap_y"])
+            stats["umap"] += 1
+        d.pop("umap_y", None)
 
-        if sid in profiles_data:
-            profile = profiles_data[sid]
-            if profile.get("bio"):
-                scholar_dict["bio"] = profile["bio"]
-            if profile.get("main_research_area"):
-                scholar_dict["main_research_area"] = profile["main_research_area"]
-            if profile.get("lab_name"):
-                scholar_dict["lab_name"] = profile["lab_name"]
-            if profile.get("lab_url"):
-                scholar_dict["lab_url"] = profile["lab_url"]
-            if profile.get("department"):
-                scholar_dict["department"] = profile["department"]
+        if sid in papers_by_sid:
+            d["papers"] = [
+                Paper(
+                    title=p["title"],
+                    abstract=p.get("abstract"),
+                    year=p.get("year"),
+                    venue=p.get("venue"),
+                    citations=p.get("citations") or "0",
+                    authors=p.get("authors"),
+                    url=p.get("url"),
+                )
+                for p in papers_by_sid[sid]
+            ]
+            stats["papers"] += 1
 
-        if sid in subfields_data:
-            sf = subfields_data[sid]
-            scholar_dict["primary_subfield"] = sf.get("primary_subfield")
-            scholar_dict["subfields"] = [SubfieldTag(**t) for t in sf.get("subfields", [])]
+        if sid in subfields_by_sid:
+            d["subfields"] = [
+                SubfieldTag(subfield=sf["subfield"], score=sf["score"] or 0.0)
+                for sf in subfields_by_sid[sid]
+            ]
+            stats["subfield"] += 1
 
-        if sid in ideas_data:
-            scholar_dict["suggested_idea"] = ResearchIdea(**ideas_data[sid])
+        if sid in ideas_by_sid:
+            idea = ideas_by_sid[sid]
+            try:
+                d["suggested_idea"] = ResearchIdea(
+                    research_thread=idea["research_thread"] or "",
+                    open_question=idea["open_question"] or "",
+                    title=idea["title"] or "",
+                    hypothesis=idea["hypothesis"] or "",
+                    approach=idea["approach"] or "",
+                    scientific_impact=idea["scientific_impact"] or "",
+                    why_now=idea["why_now"] or "",
+                )
+                stats["idea"] += 1
+            except Exception:
+                pass
 
-        if sid in pics_data:
-            scholar_dict["profile_pic"] = pics_data[sid]
+        if row["bio"]:
+            stats["bio"] += 1
+        if row["main_research_area"]:
+            stats["area"] += 1
+        if row["profile_pic"]:
+            stats["pic"] += 1
 
-        scholar = Scholar(**scholar_dict)
-        scholars.append(scholar)
+        try:
+            scholars.append(Scholar(**d))
+        except Exception as e:
+            print(f"  Warning: skipping {sid} — {e}")
 
     print(f"\nBuilt {len(scholars)} scholars")
-
-    with_umap = sum(1 for s in scholars if s.umap_projection is not None)
-    with_papers = sum(1 for s in scholars if len(s.papers) > 0)
-    with_bio = sum(1 for s in scholars if s.bio is not None)
-    with_area = sum(1 for s in scholars if s.main_research_area is not None)
-    with_pic = sum(1 for s in scholars if s.profile_pic is not None)
-    with_subfield = sum(1 for s in scholars if s.primary_subfield is not None)
-    with_idea = sum(1 for s in scholars if s.suggested_idea is not None)
-    print(f"  With UMAP coords: {with_umap}")
-    print(f"  With papers: {with_papers}")
-    print(f"  With bio: {with_bio}")
-    print(f"  With research area: {with_area}")
-    print(f"  With subfield tags: {with_subfield}")
-    print(f"  With research idea: {with_idea}")
-    print(f"  With profile pic: {with_pic}")
+    print(f"  With UMAP coords:    {stats['umap']}")
+    print(f"  With papers:         {stats['papers']}")
+    print(f"  With bio:            {stats['bio']}")
+    print(f"  With research area:  {stats['area']}")
+    print(f"  With subfield tags:  {stats['subfield']}")
+    print(f"  With research idea:  {stats['idea']}")
+    print(f"  With profile pic:    {stats['pic']}")
 
     if write_individual:
         SCHOLARS_DIR.mkdir(parents=True, exist_ok=True)
@@ -271,8 +309,6 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
                 f.write(scholar.model_dump_json(indent=2))
         print(f"\nWrote {len(scholars)} individual files to {SCHOLARS_DIR}")
 
-    output_path = SCHOLARS_JSON
-    output_path.parent.mkdir(parents=True, exist_ok=True)
     consolidated = {}
     for scholar in scholars:
         data = scholar.model_dump(mode="json")
@@ -281,16 +317,24 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
             data.pop("papers", None)
         consolidated[scholar.id] = data
 
-    with open(output_path, "w", encoding="utf-8") as f:
+    BUILD_DIR.mkdir(parents=True, exist_ok=True)
+    with open(SCHOLARS_JSON, "w", encoding="utf-8") as f:
         json.dump(consolidated, f, indent=2, ensure_ascii=False)
-    print(f"Wrote consolidated scholars.json ({len(consolidated)} scholars)")
+    print(f"Wrote {SCHOLARS_JSON} ({len(consolidated)} scholars)")
 
     return scholars
 
 
+# ── entry point ───────────────────────────────────────────────────────────
+
 def main():
     parser = argparse.ArgumentParser(
-        description="Build consolidated scholars.json from all data sources"
+        description="Export scholarboard.db → scholars.json"
+    )
+    parser.add_argument(
+        "--backfill",
+        action="store_true",
+        help="Seed DB from existing pipeline JSON files before exporting",
     )
     parser.add_argument(
         "--no-individual",
@@ -299,7 +343,14 @@ def main():
     )
     args = parser.parse_args()
 
-    build_scholars(write_individual=not args.no_individual)
+    conn = get_connection()
+    init_db(conn)
+
+    if args.backfill:
+        backfill_db(conn)
+
+    export_scholars(conn, write_individual=not args.no_individual)
+    conn.close()
 
 
 if __name__ == "__main__":

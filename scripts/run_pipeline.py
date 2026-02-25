@@ -25,6 +25,7 @@ _sys.path.insert(0, str(PROJECT_ROOT))
 from scholar_board.config import (
     PIPELINE_DIR,
     BUILD_DIR,
+    EXTRA_RESEARCHERS_PATH,
 )
 
 # ── ANSI colors ───────────────────────────────────────────────────────────
@@ -45,6 +46,15 @@ BG_YELLOW = "\033[43m"
 # ── Pipeline steps ────────────────────────────────────────────────────────
 
 STEPS = [
+    {
+        "name": "discover",
+        "icon": "0",
+        "description": "Discover extra researchers via Gemini subfield search",
+        "model": "gemini-3-flash-preview",
+        "command": [PYTHON, "-m", "scholar_board.pipeline.fetch_extra_researchers"],
+        "check": lambda: 1 if EXTRA_RESEARCHERS_PATH.exists() else 0,
+        "total": 1,
+    },
     {
         "name": "papers",
         "icon": "1",
@@ -333,6 +343,7 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=f"""
 steps:
+  discover   Discover extra researchers via Gemini subfield search
   papers     Fetch papers via Gemini grounded search
   profiles   Fetch researcher profiles + normalize bios
   embed      Embed paper text (Gemini CLUSTERING)

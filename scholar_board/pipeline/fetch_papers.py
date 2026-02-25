@@ -35,6 +35,7 @@ from scholar_board.config import (
     load_scholars_csv,
 )
 from scholar_board.gemini import extract_grounding_sources
+from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_papers
 
 SERPER_SCHOLAR_URL = "https://google.serper.dev/scholar"
 
@@ -262,6 +263,11 @@ def _process_scholar(researcher, index, total, num_papers, api_key, serper_key,
             papers = lookup_citations(papers, serper_key)
             data["papers"] = papers
         save_papers(data, sources, sid, name, output_dir)
+        conn = get_connection()
+        init_db(conn)
+        ensure_scholar(conn, sid, name, inst)
+        upsert_papers(conn, sid, papers)
+        conn.close()
         with counters_lock:
             counters["success"] += 1
             counters["total_papers"] += len(papers)

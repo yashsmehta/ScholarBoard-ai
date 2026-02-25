@@ -32,6 +32,7 @@ from scholar_board.config import (
 )
 from scholar_board.gemini import extract_grounding_sources
 from scholar_board.prompt_loader import render_prompt
+from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_profile
 
 SYSTEM_INSTRUCTION = (
     "You are a research analyst specializing in academic profiling. "
@@ -216,6 +217,17 @@ def _process_single_scholar(scholar_id, scholar, index, total, client,
             with print_lock:
                 print(f"    Bio normalized")
         filepath = save_profile(data, sources, scholar_id, name, output_dir)
+        conn = get_connection()
+        init_db(conn)
+        ensure_scholar(conn, scholar_id, name, inst)
+        profile_fields = {
+            k: data.get(k)
+            for k in ("bio", "lab_name", "lab_url", "main_research_area", "department")
+            if data.get(k)
+        }
+        if profile_fields:
+            upsert_profile(conn, scholar_id, **profile_fields)
+        conn.close()
         with print_lock:
             print(f"    Saved to {filepath}")
             area = data.get("main_research_area")

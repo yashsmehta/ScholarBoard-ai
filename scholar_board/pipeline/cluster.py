@@ -2,14 +2,13 @@
 Run UMAP dimensionality reduction + HDBSCAN clustering on scholar embeddings.
 
 Loads embeddings from the pipeline directory, reduces to 2D with UMAP,
-clusters with HDBSCAN, saves models and updates scholars.json.
+clusters with HDBSCAN, saves models and writes results to the database.
 
 Usage:
     uv run -m scholar_board.pipeline.cluster --dry-run    # Preview, no changes
     uv run -m scholar_board.pipeline.cluster               # Run full pipeline
 """
 
-import json
 import argparse
 import sys
 
@@ -21,8 +20,9 @@ from scholar_board.config import (
     MODELS_DIR,
     UMAP_MODEL_PATH,
     HDBSCAN_MODEL_PATH,
-    SCHOLARS_JSON,
+    load_scholars_csv,
 )
+from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_cluster
 
 
 def load_embeddings():
@@ -85,26 +85,21 @@ def save_models(reducer, clusterer):
     print(f"  Saved models to {MODELS_DIR}")
 
 
-def update_scholars_json(scholar_ids, coords, labels):
-    """Update scholars.json with new coordinates and cluster labels."""
-    with open(SCHOLARS_JSON, "r", encoding="utf-8") as f:
-        data = json.load(f)
+def write_cluster_to_db(scholar_ids, coords, labels):
+    """Write UMAP coordinates and cluster labels directly to the database."""
+    csv_lookup = {s["scholar_id"]: s for s in load_scholars_csv()}
+    conn = get_connection()
+    init_db(conn)
 
-    updated = 0
     for i, sid in enumerate(scholar_ids):
         sid = str(sid).zfill(4) if str(sid).isdigit() else str(sid)
-        if sid in data:
-            data[sid]["umap_projection"] = {
-                "x": float(coords[i, 0]),
-                "y": float(coords[i, 1]),
-            }
-            data[sid]["cluster"] = int(labels[i])
-            updated += 1
+        if sid in csv_lookup:
+            s = csv_lookup[sid]
+            ensure_scholar(conn, sid, s["scholar_name"], s.get("scholar_institution"))
+        upsert_cluster(conn, sid, float(coords[i, 0]), float(coords[i, 1]), int(labels[i]))
 
-    with open(SCHOLARS_JSON, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
-    print(f"  Updated {updated}/{len(scholar_ids)} scholars in {SCHOLARS_JSON}")
+    conn.close()
+    print(f"  Wrote UMAP coords + cluster for {len(scholar_ids)} scholars to DB")
 
 
 def main():
@@ -156,8 +151,8 @@ def main():
     print("\nSaving models...")
     save_models(reducer, clusterer)
 
-    print("\nUpdating scholars.json...")
-    update_scholars_json(scholar_ids, coords, labels)
+    print("\nWriting to database...")
+    write_cluster_to_db(scholar_ids, coords, labels)
 
     print("\nDone!")
 

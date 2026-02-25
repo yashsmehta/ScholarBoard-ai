@@ -26,6 +26,7 @@ from scholar_board.config import (
     load_scholars_csv,
 )
 from scholar_board.gemini import embed_texts
+from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_subfields
 
 
 def load_subfields():
@@ -163,6 +164,18 @@ def main():
     with open(SUBFIELDS_PATH, "w", encoding="utf-8") as f:
         json.dump(assignments, f, indent=2, ensure_ascii=False)
     print(f"\nSaved subfield assignments to {SUBFIELDS_PATH}")
+
+    print("Writing subfield assignments to database...")
+    csv_lookup = {s["scholar_id"]: s for s in load_scholars_csv()}
+    conn = get_connection()
+    init_db(conn)
+    for sid, assignment in assignments.items():
+        if sid in csv_lookup:
+            s = csv_lookup[sid]
+            ensure_scholar(conn, sid, s["scholar_name"], s.get("scholar_institution"))
+        upsert_subfields(conn, sid, assignment["primary_subfield"], assignment.get("subfields", []))
+    conn.close()
+    print(f"  Wrote {len(assignments)} scholars to DB")
 
     print_summary(assignments, subfields)
 

@@ -44,14 +44,24 @@ uv add <package-name>
 
 ### Gemini Models Used
 
+**ALWAYS use Gemini 3 generation models** (`gemini-3-flash-preview` or `gemini-3.1-pro-preview`). Never use deprecated `gemini-2.0-flash`, `gemini-2.5-flash`, or `gemini-2.5-pro` — these are older generations.
+
 | Task | Model | Details |
 |---|---|---|
 | Paper fetching | `gemini-3-flash-preview` | Google Search grounding |
 | Profile extraction | `gemini-3-flash-preview` | Google Search grounding |
-| Bio normalization | `gemini-3-flash-preview` | Plain text generation |
-| Research idea generation | `gemini-3.1-pro-preview` | HIGH thinking level |
+| Bio normalization | `gemini-3-flash-preview` | Plain generation |
+| Scholar classification | `gemini-3-flash-preview` | Structured JSON output |
+| Research idea generation | `gemini-3.1-pro-preview` | thinking_level=HIGH |
 | Paper embeddings (UMAP) | `gemini-embedding-001` | task_type=CLUSTERING, 3072 dims |
 | Subfield embeddings | `gemini-embedding-001` | task_type=SEMANTIC_SIMILARITY, 3072 dims |
+
+**Gemini 3 model quick reference:**
+- `gemini-3-flash-preview` — fast/cheap, free tier, best for bulk tasks, grounding, classification
+- `gemini-3.1-pro-preview` — most capable, best for complex reasoning; supports `thinking_level` (MINIMAL/LOW/MEDIUM/HIGH)
+- Thinking: Gemini 3 uses `thinking_level` (not `thinking_budget`); cannot disable on Pro models
+- Structured output: use `response_mime_type="application/json"` + `response_schema={...}` for reliable JSON
+- Grounding: `tools=[types.Tool(google_search=types.GoogleSearch())]` — 5,000 grounded prompts/month free
 
 ### Shared Infrastructure (`scholar_board/`)
 

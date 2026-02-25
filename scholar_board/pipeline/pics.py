@@ -20,6 +20,7 @@ import requests
 from PIL import Image
 
 from scholar_board.config import CSV_PATH, PICS_DIR, get_serper_api_key
+from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_profile_pic
 
 DEFAULT_AVATAR = PICS_DIR / "default_avatar.jpg"
 SERPER_URL = "https://google.serper.dev/images"
@@ -171,6 +172,11 @@ def main():
         for url in urls:
             try:
                 download_and_save(url, output_path)
+                conn = get_connection()
+                init_db(conn)
+                ensure_scholar(conn, scholar["id"], name, scholar.get("institution"))
+                upsert_profile_pic(conn, scholar["id"], filename)
+                conn.close()
                 print(f"  Saved {filename}")
                 success += 1
                 downloaded = True

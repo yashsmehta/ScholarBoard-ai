@@ -38,6 +38,9 @@ SCHOLARS_JSON = BUILD_DIR / "scholars.json"
 SCHOLARS_DIR = BUILD_DIR / "scholars"
 PICS_DIR = BUILD_DIR / "profile_pics"
 
+# Consolidated database
+DB_PATH = DATA_DIR / "scholarboard.db"
+
 load_dotenv(PROJECT_ROOT / ".env")
 
 

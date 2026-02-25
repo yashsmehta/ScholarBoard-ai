@@ -33,6 +33,7 @@ from scholar_board.config import (
 )
 from scholar_board.gemini import parse_json_response
 from scholar_board.prompt_loader import render_prompt
+from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_idea
 
 REQUIRED_FIELDS = [
     "research_thread",
@@ -289,6 +290,11 @@ def main():
 
         if idea:
             filepath = save_idea(idea, sid, name, IDEAS_DIR)
+            conn = get_connection()
+            init_db(conn)
+            ensure_scholar(conn, sid, name, inst)
+            upsert_idea(conn, sid, idea)
+            conn.close()
             with counter_lock:
                 success += 1
                 print(f"    [{index+1}/{total}] Saved: {filepath.name}")

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-ScholarBoard.ai creates interactive 2D dashboards of researchers arranged by research similarity. It uses Gemini 3 Flash Preview with Google Search grounding for researcher info/paper extraction (structured JSON), OpenAI for embeddings, and UMAP/DBSCAN for dimensionality reduction + clustering. The current dataset is ~730 vision neuroscience researchers (VSS).
+ScholarBoard.ai creates interactive 2D dashboards of researchers arranged by research similarity. It uses Gemini 3 Flash Preview with Google Search grounding for researcher info/paper extraction (structured JSON), Gemini gemini-embedding-001 for embeddings (task-specific: CLUSTERING for UMAP, SEMANTIC_SIMILARITY for subfield matching), and UMAP/HDBSCAN for dimensionality reduction + clustering. The current dataset is ~730 vision neuroscience researchers (VSS).
 
 ## Working Style
 - When asked to implement something, proceed decisively. Do NOT ask multiple clarifying questions in sequence — make reasonable assumptions and act, then adjust if corrected.
@@ -62,17 +62,18 @@ Pydantic models defining the canonical data structure:
 - **`Scholar`** — id, name, institution, department, lab_url, main_research_area, bio, papers[], profile_pic, umap_projection{x,y}, cluster
 - **`Paper`** — title, abstract, year, venue, citations, authors, url
 
-### Data Pipeline (7 steps)
+### Data Pipeline (8 steps)
 
 ```
-Papers Fetch → Profile Fetch → Embed → UMAP+DBSCAN → Build JSON → Profile Pics → Website Copy
+Papers Fetch → Profile Fetch → Embed → UMAP+HDBSCAN → Subfields → Build JSON → Profile Pics → Website Copy
 ```
 
 1. **`scripts/scholar_scraper/fetch_papers_gemini.py`** — Gemini 3 Flash Preview with Google Search grounding fetches recent papers per scholar → `data/scholar_papers/*.json`
 2. **`scholar_board/profile_extractor.py`** — Gemini grounded search fetches structured researcher profiles, then normalizes bios (neutral tone, gender-neutral language) → `data/scholar_profiles/{id}_{name}.json`. Use `--skip-normalize` to bypass bio normalization step.
-3. **`scripts/create_paper_embeddings.py`** — OpenAI `text-embedding-3-large` embeds paper text (fallback: VSS abstracts) → `data/scholar_embeddings.nc`
-4. **`scripts/run_umap_dbscan.py`** — UMAP(cosine) → DBSCAN → `data/models/*.joblib`
-5. **`scripts/build_scholars_json.py`** — Merges all sources (CSV + UMAP + papers + profiles + pics) → `data/scholars.json`
+3. **`scripts/create_paper_embeddings.py`** — Gemini `gemini-embedding-001` (task_type=CLUSTERING, 3072 dims) embeds paper text → `data/scholar_embeddings.nc`
+4. **`scripts/run_umap_dbscan.py`** — UMAP(cosine) → HDBSCAN → `data/models/*.joblib`
+5. **`scripts/assign_subfields.py`** — Gemini `gemini-embedding-001` (task_type=SEMANTIC_SIMILARITY, 3072 dims) embeds subfield descriptions + scholar papers, assigns top-3 subfield tags via cosine similarity → `data/scholar_subfields.json`
+6. **`scripts/build_scholars_json.py`** — Merges all sources (CSV + UMAP + papers + profiles + subfields + pics) → `data/scholars.json`
 6. **`scripts/download_profile_pics.py`** — Serper.dev Google Image Search with face/headshot queries → `data/profile_pics/*.jpg`. Supports `--skip-existing`, `--limit`, `--test`.
 7. **`scripts/run_pipeline.py`** — Orchestrator: `--step <name>`, `--execute`, or status display
 
@@ -111,7 +112,7 @@ Static site served with `python3 -m http.server 8000` (no custom server needed).
 
 ## Environment
 
-Requires a `.env` file with API keys: `OPENAI_API_KEY`, `GOOGLE_API_KEY` (or `GEMINI_API_KEY`), `SERPER_API_KEY` (for profile pic downloads). Python 3.10+, managed with `uv`. Virtual environment at `.venv/` — always invoke Python as `.venv/bin/python3` and install packages with `uv pip install`.
+Requires a `.env` file with API keys: `GOOGLE_API_KEY` (or `GEMINI_API_KEY`), `SERPER_API_KEY` (for profile pic downloads). Python 3.10+, managed with `uv`. Virtual environment at `.venv/` — always invoke Python as `.venv/bin/python3` and install packages with `uv pip install`.
 
 ## Code Conventions
 

@@ -6,37 +6,32 @@ structured researcher profiles including bio, main research area, and lab URL.
 Returns structured JSON matching the Scholar schema.
 
 Usage:
-    python3 scholar_board/profile_extractor.py
-    python3 scholar_board/profile_extractor.py --limit 5
-    python3 scholar_board/profile_extractor.py --scholar-id 0005
-    python3 scholar_board/profile_extractor.py --scholar-name "Aaron Seitz"
-    python3 scholar_board/profile_extractor.py --dry-run
-    python3 scholar_board/profile_extractor.py --skip-normalize
+    uv run -m scholar_board.pipeline.fetch_profiles
+    uv run -m scholar_board.pipeline.fetch_profiles --limit 5
+    uv run -m scholar_board.pipeline.fetch_profiles --scholar-id 0005
+    uv run -m scholar_board.pipeline.fetch_profiles --scholar-name "Aaron Seitz"
+    uv run -m scholar_board.pipeline.fetch_profiles --dry-run
+    uv run -m scholar_board.pipeline.fetch_profiles --skip-normalize
 """
 
 import json
-import os
 import re
 import csv
 import argparse
+import sys
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from pathlib import Path
-from dotenv import load_dotenv
+
 from google import genai
 from google.genai import types
 
+from scholar_board.config import (
+    CSV_PATH,
+    PROFILES_DIR,
+    get_gemini_api_key,
+)
+from scholar_board.gemini import extract_grounding_sources
 from scholar_board.prompt_loader import render_prompt
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Get API key from environment variable
-API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
-if not API_KEY:
-    raise ValueError("GOOGLE_API_KEY (or GEMINI_API_KEY) not found in environment variables")
-
-OUTPUT_DIR = Path("data/pipeline/scholar_profiles")
 
 SYSTEM_INSTRUCTION = (
     "You are a research analyst specializing in academic profiling. "
@@ -70,8 +65,8 @@ def build_profile_prompt(scholar_name, institution):
     )
 
 
-def parse_json_response(text, scholar_name):
-    """Parse JSON from Gemini response text, handling code fences."""
+def _parse_profile_response(text, scholar_name):
+    """Parse and normalize JSON from Gemini response for the profile endpoint."""
     text = text.strip()
     if text.startswith("```"):
         lines = text.split("\n")
@@ -80,7 +75,6 @@ def parse_json_response(text, scholar_name):
 
     parsed = json.loads(text)
 
-    # Normalize: ensure it's a dict with scholar_name
     if isinstance(parsed, dict):
         if "scholar_name" not in parsed:
             parsed["scholar_name"] = scholar_name
@@ -88,27 +82,9 @@ def parse_json_response(text, scholar_name):
     return {"scholar_name": scholar_name}
 
 
-def extract_grounding_sources(response):
-    """Extract grounding metadata from response."""
-    sources = []
-    if not response.candidates:
-        return sources
-    candidate = response.candidates[0]
-    if candidate.grounding_metadata:
-        meta = candidate.grounding_metadata
-        if meta.grounding_chunks:
-            for chunk in meta.grounding_chunks:
-                if chunk.web:
-                    sources.append({
-                        "title": chunk.web.title,
-                        "url": chunk.web.uri,
-                    })
-    return sources
-
-
 def query_gemini(client, scholar_name, institution, scholar_id):
-    """
-    Query Gemini with grounded search for structured researcher profile data.
+    """Query Gemini with grounded search for structured researcher profile data.
+
     Returns (parsed_dict, grounding_sources) or (None, []) on failure.
     """
     prompt = build_profile_prompt(scholar_name, institution)
@@ -123,7 +99,6 @@ def query_gemini(client, scholar_name, institution, scholar_id):
             ),
         )
 
-        # Handle empty or RECITATION response
         if response.text is None:
             finish_reason = None
             if response.candidates:
@@ -136,14 +111,14 @@ def query_gemini(client, scholar_name, institution, scholar_id):
 
             return None, []
 
-        result = parse_json_response(response.text, scholar_name)
+        result = _parse_profile_response(response.text, scholar_name)
         sources = extract_grounding_sources(response)
         return result, sources
 
     except json.JSONDecodeError as e:
         print(f"    JSON parse error for {scholar_name}: {e}")
         text = response.text or ""
-        match = re.search(r'\{.*\}', text, re.DOTALL)
+        match = re.search(r"\{.*\}", text, re.DOTALL)
         if match:
             try:
                 return json.loads(match.group()), []
@@ -177,7 +152,7 @@ def _retry_shorter_bio(client, scholar_name, institution):
         if response.text is None:
             return None, []
 
-        result = parse_json_response(response.text, scholar_name)
+        result = _parse_profile_response(response.text, scholar_name)
         sources = extract_grounding_sources(response)
         return result, sources
     except Exception as e:
@@ -186,8 +161,8 @@ def _retry_shorter_bio(client, scholar_name, institution):
 
 
 def scholar_info_exists(scholar_id, output_dir):
-    """Check if structured profile JSON already exists for a scholar."""
-    for file_path in output_dir.glob(f"{scholar_id}_*.json"):
+    """Check if a structured profile JSON already exists for a scholar."""
+    for _ in output_dir.glob(f"{scholar_id}_*.json"):
         return True
     return False
 
@@ -195,16 +170,16 @@ def scholar_info_exists(scholar_id, output_dir):
 def save_profile(data, sources, scholar_id, scholar_name, output_dir):
     """Save structured profile JSON for a scholar."""
     output_dir.mkdir(parents=True, exist_ok=True)
-    safe_name = re.sub(r'[^\w\s-]', '', scholar_name).strip().replace(' ', '_')
+    safe_name = re.sub(r"[^\w\s-]", "", scholar_name).strip().replace(" ", "_")
     filepath = output_dir / f"{scholar_id}_{safe_name}.json"
 
     output = {
         "scholar_id": scholar_id,
         **data,
-        "source_citations": sources
+        "source_citations": sources,
     }
 
-    with open(filepath, 'w', encoding='utf-8') as f:
+    with open(filepath, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
 
     return filepath
@@ -225,15 +200,10 @@ def normalize_bio(client, scholar_name, bio):
 
 
 def _process_single_scholar(scholar_id, scholar, index, total, client,
-                            output_dir, skip_normalize, print_lock):
-    """
-    Process a single scholar: query Gemini, optionally normalize bio, and save.
-
-    Returns True on success, False on failure.
-    Each worker should provide its own `client` instance.
-    """
-    name = scholar['scholar_name']
-    inst = scholar['institution']
+                             output_dir, skip_normalize, print_lock):
+    """Process a single scholar: query Gemini, optionally normalize bio, and save."""
+    name = scholar["scholar_name"]
+    inst = scholar["institution"]
 
     with print_lock:
         print(f"[{index}/{total}] {name} ({scholar_id}) — {inst}")
@@ -258,50 +228,45 @@ def _process_single_scholar(scholar_id, scholar, index, total, client,
         return False
 
 
-def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=None,
-                         scholar_id_filter=None, scholar_name_filter=None,
-                         no_skip=False, skip_normalize=False,
-                         workers=1):
-    """
-    Extract structured profile information for scholars via Gemini grounded search.
-    """
-    output_dir = OUTPUT_DIR
+def extract_scholar_info(dry_run=False, limit=None, scholar_id_filter=None,
+                         scholar_name_filter=None, no_skip=False,
+                         skip_normalize=False, workers=25):
+    """Extract structured profile information for scholars via Gemini grounded search."""
+    output_dir = PROFILES_DIR
     output_dir.mkdir(exist_ok=True, parents=True)
 
-    # Read scholars from CSV
     scholars = {}
-    print(f"Reading scholars from {input_file}")
+    print(f"Reading scholars from {CSV_PATH}")
 
     try:
-        with open(input_file, 'r', encoding='utf-8') as csvfile:
+        with open(CSV_PATH, "r", encoding="utf-8") as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                if 'scholar_id' not in row or not row['scholar_id']:
+                if "scholar_id" not in row or not row["scholar_id"]:
                     continue
 
-                scholar_id = row['scholar_id'].strip().strip('"\'')
+                scholar_id = row["scholar_id"].strip().strip("\"'")
                 if not scholar_id:
                     continue
-
                 if scholar_id.isdigit():
                     scholar_id = scholar_id.zfill(4)
 
                 if scholar_id not in scholars:
-                    scholar_name = row.get('scholar_name', '').strip().strip('"\'')
-                    institution = row.get('scholar_institution', '').strip().strip('"\'')
-                    department = row.get('scholar_department', '').strip().strip('"\'')
+                    scholar_name = row.get("scholar_name", "").strip().strip("\"'")
+                    institution = row.get("scholar_institution", "").strip().strip("\"'")
+                    department = row.get("scholar_department", "").strip().strip("\"'")
 
-                    if (not institution or institution == 'N/A') and department and department != 'N/A':
+                    if (not institution or institution == "N/A") and department and department != "N/A":
                         institution = department
 
-                    if not scholar_name or not institution or institution == 'N/A':
+                    if not scholar_name or not institution or institution == "N/A":
                         print(f"Skipping scholar with ID {scholar_id} due to missing name or institution")
                         continue
 
                     scholars[scholar_id] = {
-                        'scholar_id': scholar_id,
-                        'scholar_name': scholar_name,
-                        'institution': institution,
+                        "scholar_id": scholar_id,
+                        "scholar_name": scholar_name,
+                        "institution": institution,
                     }
     except Exception as e:
         print(f"Error reading input file: {e}")
@@ -313,7 +278,6 @@ def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=No
 
     print(f"Found {len(scholars)} unique scholars")
 
-    # Filter by specific scholar
     scholar_items = list(scholars.items())
     if scholar_id_filter:
         sid = scholar_id_filter.zfill(4)
@@ -323,12 +287,11 @@ def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=No
             return
     elif scholar_name_filter:
         scholar_items = [(k, v) for k, v in scholar_items
-                         if scholar_name_filter.lower() in v['scholar_name'].lower()]
+                         if scholar_name_filter.lower() in v["scholar_name"].lower()]
         if not scholar_items:
             print(f"No scholars matching '{scholar_name_filter}'")
             return
 
-    # Skip already fetched
     if not no_skip:
         before = len(scholar_items)
         scholar_items = [(k, v) for k, v in scholar_items
@@ -337,7 +300,6 @@ def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=No
         if skipped:
             print(f"Skipping {skipped} already-fetched scholars")
 
-    # Apply limit
     if limit:
         scholar_items = scholar_items[:limit]
 
@@ -354,15 +316,13 @@ def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=No
         print(f"\nNo API calls made.")
         return
 
+    api_key = get_gemini_api_key()
     print_lock = threading.Lock()
     total = len(scholar_items)
 
     if workers <= 1:
-        # Sequential execution — identical to original behavior
-        client = genai.Client(api_key=API_KEY)
-        success = 0
-        fail = 0
-
+        client = genai.Client(api_key=api_key)
+        success = fail = 0
         for i, (scholar_id, scholar) in enumerate(scholar_items):
             ok = _process_single_scholar(
                 scholar_id, scholar, i + 1, total, client,
@@ -373,31 +333,27 @@ def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=No
             else:
                 fail += 1
     else:
-        # Parallel execution with ThreadPoolExecutor
         print(f"Using {workers} parallel workers\n")
-        success_count = threading.Lock()
+        counters_lock = threading.Lock()
         counters = {"success": 0, "fail": 0}
 
         def worker_task(index, scholar_id, scholar):
-            # Each worker creates its own client instance
-            worker_client = genai.Client(api_key=API_KEY)
+            worker_client = genai.Client(api_key=api_key)
             ok = _process_single_scholar(
                 scholar_id, scholar, index, total, worker_client,
                 output_dir, skip_normalize, print_lock,
             )
-            with success_count:
+            with counters_lock:
                 if ok:
                     counters["success"] += 1
                 else:
                     counters["fail"] += 1
 
         with ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = []
-            for i, (scholar_id, scholar) in enumerate(scholar_items):
-                future = executor.submit(worker_task, i + 1, scholar_id, scholar)
-                futures.append(future)
-
-            # Wait for all futures and propagate any unexpected exceptions
+            futures = [
+                executor.submit(worker_task, i + 1, scholar_id, scholar)
+                for i, (scholar_id, scholar) in enumerate(scholar_items)
+            ]
             for future in as_completed(futures):
                 future.result()
 

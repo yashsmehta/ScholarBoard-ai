@@ -2,19 +2,21 @@
 Build consolidated scholars.json from all available data sources.
 
 Merges:
-1. data/vss_data.csv → id, name, institution, department
-2. data/scholars.json (current) → umap coordinates, cluster
-3. data/scholar_papers/*.json → papers
-4. data/scholar_profiles/*.json → bio, main_research_area, lab_url, department
-5. data/profile_pics/*.jpg → profile_pic filename
+1. data/source/vss_data.csv → id, name, institution, department
+2. data/build/scholars.json (current) → umap coordinates, cluster
+3. data/pipeline/scholar_papers/*.json → papers
+4. data/pipeline/scholar_profiles/*.json → bio, main_research_area, lab_url, department
+5. data/build/profile_pics/*.jpg → profile_pic filename
+6. data/pipeline/scholar_subfields.json → subfield tags
+7. data/pipeline/scholar_ideas/*.json → suggested research ideas
 
 Outputs:
-- data/scholars/{id}.json (individual files)
-- data/scholars.json (consolidated)
+- data/build/scholars/{id}.json (individual files)
+- data/build/scholars.json (consolidated)
 
 Usage:
-    python3 scripts/build_scholars_json.py
-    python3 scripts/build_scholars_json.py --no-individual  # skip individual files
+    uv run -m scholar_board.pipeline.build
+    uv run -m scholar_board.pipeline.build --no-individual  # skip individual files
 """
 
 import csv
@@ -23,23 +25,24 @@ import re
 import argparse
 from pathlib import Path
 
-# Add parent to path for imports
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
+from scholar_board.config import (
+    CSV_PATH,
+    PAPERS_DIR,
+    PROFILES_DIR,
+    PICS_DIR,
+    SUBFIELDS_PATH,
+    IDEAS_DIR,
+    SCHOLARS_JSON,
+    SCHOLARS_DIR,
+    BUILD_DIR,
+)
 from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection, ResearchIdea
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = PROJECT_ROOT / "data"
-SOURCE_DIR = DATA_DIR / "source"
-PIPELINE_DIR = DATA_DIR / "pipeline"
-BUILD_DIR = DATA_DIR / "build"
 
-
-def load_vss_csv(csv_path: Path) -> dict[str, dict]:
+def load_vss_csv() -> dict[str, dict]:
     """Load unique scholars from vss_data.csv."""
     scholars = {}
-    with open(csv_path, "r", encoding="utf-8") as f:
+    with open(CSV_PATH, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             sid = row.get("scholar_id", "").strip().strip("\"'")
@@ -66,21 +69,20 @@ def load_vss_csv(csv_path: Path) -> dict[str, dict]:
     return scholars
 
 
-def load_current_scholars_json(json_path: Path) -> dict[str, dict]:
+def load_current_scholars_json() -> dict[str, dict]:
     """Load existing scholars.json for umap/cluster data."""
-    if not json_path.exists():
+    if not SCHOLARS_JSON.exists():
         return {}
-    with open(json_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    return data
+    with open(SCHOLARS_JSON, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
-def load_scholar_papers(papers_dir: Path) -> dict[str, list[dict]]:
-    """Load paper data from data/scholar_papers/*.json."""
+def load_scholar_papers() -> dict[str, list[dict]]:
+    """Load paper data from PAPERS_DIR/*.json."""
     papers_by_id = {}
-    if not papers_dir.exists():
+    if not PAPERS_DIR.exists():
         return papers_by_id
-    for fpath in papers_dir.glob("*.json"):
+    for fpath in PAPERS_DIR.glob("*.json"):
         try:
             with open(fpath, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -91,28 +93,22 @@ def load_scholar_papers(papers_dir: Path) -> dict[str, list[dict]]:
     return papers_by_id
 
 
-def load_scholar_profiles(profiles_dir: Path) -> dict[str, dict]:
-    """Load structured profiles from data/scholar_profiles/*.json.
-
-    File naming: "{id}_{name}.json" (id-first) or "{name}_{id}.json" (legacy).
-    Returns dict keyed by scholar_id with bio, main_research_area, lab_url, department.
-    """
+def load_scholar_profiles() -> dict[str, dict]:
+    """Load structured profiles from PROFILES_DIR/*.json."""
     profiles = {}
-    if not profiles_dir.exists():
+    if not PROFILES_DIR.exists():
         return profiles
-    for fpath in profiles_dir.glob("*.json"):
+    for fpath in PROFILES_DIR.glob("*.json"):
         try:
             with open(fpath, "r", encoding="utf-8") as f:
                 data = json.load(f)
             sid = data.get("scholar_id", "")
             if not sid:
-                # Try extracting from filename
                 stem = fpath.stem
                 parts = stem.split("_")
                 if parts[0].isdigit():
                     sid = parts[0].zfill(4)
                 else:
-                    # Legacy naming: name_XXXX
                     match = re.search(r"_(\d{3,4})$", stem)
                     if match:
                         sid = match.group(1).zfill(4)
@@ -131,18 +127,14 @@ def load_scholar_profiles(profiles_dir: Path) -> dict[str, dict]:
     return profiles
 
 
-def find_profile_pics(pics_dir: Path) -> dict[str, str]:
-    """Find profile pic filenames for each scholar ID.
-
-    File naming: "scholar_name_XXXX.jpg" where XXXX is the 4-digit ID.
-    """
+def find_profile_pics() -> dict[str, str]:
+    """Find profile pic filenames for each scholar ID."""
     pics = {}
-    if not pics_dir.exists():
+    if not PICS_DIR.exists():
         return pics
-    for fpath in pics_dir.glob("*.jpg"):
+    for fpath in PICS_DIR.glob("*.jpg"):
         if fpath.name == "default_avatar.jpg":
             continue
-        # Extract ID from filename: last part before .jpg
         match = re.search(r"_(\d{4})\.jpg$", fpath.name)
         if match:
             sid = match.group(1)
@@ -150,26 +142,25 @@ def find_profile_pics(pics_dir: Path) -> dict[str, str]:
     return pics
 
 
-def load_subfield_assignments(subfields_path: Path) -> dict[str, dict]:
-    """Load subfield assignments from data/scholar_subfields.json."""
-    if not subfields_path.exists():
+def load_subfield_assignments() -> dict[str, dict]:
+    """Load subfield assignments from SUBFIELDS_PATH."""
+    if not SUBFIELDS_PATH.exists():
         return {}
-    with open(subfields_path, "r", encoding="utf-8") as f:
+    with open(SUBFIELDS_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-def load_scholar_ideas(ideas_dir: Path) -> dict[str, dict]:
-    """Load AI-generated research ideas from data/scholar_ideas/*.json."""
+def load_scholar_ideas() -> dict[str, dict]:
+    """Load AI-generated research ideas from IDEAS_DIR/*.json."""
     ideas = {}
-    if not ideas_dir.exists():
+    if not IDEAS_DIR.exists():
         return ideas
-    for fpath in ideas_dir.glob("*.json"):
+    for fpath in IDEAS_DIR.glob("*.json"):
         try:
             with open(fpath, "r", encoding="utf-8") as f:
                 data = json.load(f)
             sid = data.get("scholar_id", "")
             if not sid:
-                # Extract from filename: {id}_{name}.json
                 parts = fpath.stem.split("_")
                 if parts[0].isdigit():
                     sid = parts[0].zfill(4)
@@ -186,42 +177,31 @@ def load_scholar_ideas(ideas_dir: Path) -> dict[str, dict]:
 
 def build_scholars(write_individual: bool = True) -> list[Scholar]:
     """Build consolidated scholar data from all sources."""
-    csv_path = SOURCE_DIR / "vss_data.csv"
-    current_json_path = BUILD_DIR / "scholars.json"
-    papers_dir = PIPELINE_DIR / "scholar_papers"
-    profiles_dir = PIPELINE_DIR / "scholar_profiles"
-    pics_dir = BUILD_DIR / "profile_pics"
-    subfields_path = PIPELINE_DIR / "scholar_subfields.json"
-    ideas_dir = PIPELINE_DIR / "scholar_ideas"
-
-    # Load all data sources
     print("Loading data sources...")
-    vss_data = load_vss_csv(csv_path)
+    vss_data = load_vss_csv()
     print(f"  vss_data.csv: {len(vss_data)} unique scholars")
 
-    current_data = load_current_scholars_json(current_json_path)
+    current_data = load_current_scholars_json()
     print(f"  scholars.json: {len(current_data)} entries")
 
-    papers_data = load_scholar_papers(papers_dir)
+    papers_data = load_scholar_papers()
     print(f"  scholar_papers: {len(papers_data)} scholars with papers")
 
-    profiles_data = load_scholar_profiles(profiles_dir)
+    profiles_data = load_scholar_profiles()
     print(f"  scholar_profiles: {len(profiles_data)} profiles")
 
-    pics_data = find_profile_pics(pics_dir)
+    pics_data = find_profile_pics()
     print(f"  profile_pics: {len(pics_data)} profile pictures")
 
-    subfields_data = load_subfield_assignments(subfields_path)
+    subfields_data = load_subfield_assignments()
     print(f"  subfields: {len(subfields_data)} assignments")
 
-    ideas_data = load_scholar_ideas(ideas_dir)
+    ideas_data = load_scholar_ideas()
     print(f"  scholar_ideas: {len(ideas_data)} ideas")
 
-    # Build scholars
     print("\nBuilding scholar objects...")
     scholars = []
     for sid, vss in vss_data.items():
-        # Start with CSV data
         scholar_dict = {
             "id": sid,
             "name": vss["name"],
@@ -229,23 +209,16 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
             "department": vss.get("department"),
         }
 
-        # Add umap + cluster from current scholars.json
         if sid in current_data:
             cur = current_data[sid]
             umap = cur.get("umap_projection")
             if umap and isinstance(umap, dict) and "x" in umap and "y" in umap:
-                scholar_dict["umap_projection"] = UMAPProjection(
-                    x=umap["x"], y=umap["y"]
-                )
+                scholar_dict["umap_projection"] = UMAPProjection(x=umap["x"], y=umap["y"])
             scholar_dict["cluster"] = cur.get("cluster")
 
-        # Add papers
         if sid in papers_data:
-            scholar_dict["papers"] = [
-                Paper(**p) for p in papers_data[sid]
-            ]
+            scholar_dict["papers"] = [Paper(**p) for p in papers_data[sid]]
 
-        # Add profile data (bio, main_research_area, lab_url, department override)
         if sid in profiles_data:
             profile = profiles_data[sid]
             if profile.get("bio"):
@@ -259,29 +232,22 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
             if profile.get("department"):
                 scholar_dict["department"] = profile["department"]
 
-        # Add subfield tags
         if sid in subfields_data:
             sf = subfields_data[sid]
             scholar_dict["primary_subfield"] = sf.get("primary_subfield")
-            scholar_dict["subfields"] = [
-                SubfieldTag(**t) for t in sf.get("subfields", [])
-            ]
+            scholar_dict["subfields"] = [SubfieldTag(**t) for t in sf.get("subfields", [])]
 
-        # Add suggested research idea
         if sid in ideas_data:
             scholar_dict["suggested_idea"] = ResearchIdea(**ideas_data[sid])
 
-        # Add profile pic
         if sid in pics_data:
             scholar_dict["profile_pic"] = pics_data[sid]
 
-        # Validate with Pydantic
         scholar = Scholar(**scholar_dict)
         scholars.append(scholar)
 
     print(f"\nBuilt {len(scholars)} scholars")
 
-    # Stats
     with_umap = sum(1 for s in scholars if s.umap_projection is not None)
     with_papers = sum(1 for s in scholars if len(s.papers) > 0)
     with_bio = sum(1 for s in scholars if s.bio is not None)
@@ -297,24 +263,20 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
     print(f"  With research idea: {with_idea}")
     print(f"  With profile pic: {with_pic}")
 
-    # Write individual files
     if write_individual:
-        individual_dir = BUILD_DIR / "scholars"
-        individual_dir.mkdir(parents=True, exist_ok=True)
+        SCHOLARS_DIR.mkdir(parents=True, exist_ok=True)
         for scholar in scholars:
-            fpath = individual_dir / f"{scholar.id}.json"
+            fpath = SCHOLARS_DIR / f"{scholar.id}.json"
             with open(fpath, "w", encoding="utf-8") as f:
                 f.write(scholar.model_dump_json(indent=2))
-        print(f"\nWrote {len(scholars)} individual files to {individual_dir}")
+        print(f"\nWrote {len(scholars)} individual files to {SCHOLARS_DIR}")
 
-    # Write consolidated JSON (keyed by ID, matching current format)
-    output_path = BUILD_DIR / "scholars.json"
+    output_path = SCHOLARS_JSON
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     consolidated = {}
     for scholar in scholars:
         data = scholar.model_dump(mode="json")
-        # Remove None values for cleaner output
         data = {k: v for k, v in data.items() if v is not None}
-        # Remove empty lists
         if not data.get("papers"):
             data.pop("papers", None)
         consolidated[scholar.id] = data

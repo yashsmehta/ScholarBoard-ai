@@ -1,22 +1,14 @@
-import os
 import numpy as np
 from openai import OpenAI
-from dotenv import load_dotenv
 from typing import Tuple
 from pathlib import Path
 import joblib
 
-# Load environment variables
-load_dotenv()
-
-# Get API key from environment variable
-API_KEY = os.getenv("OPENAI_API_KEY")
-if not API_KEY:
-    raise ValueError("OPENAI_API_KEY not found in environment variables")
+from scholar_board.config import UMAP_MODEL_PATH, SCALER_PATH, get_openai_api_key
 
 def get_query_embedding(query_text):
     """Get embedding for a query text using OpenAI's API"""
-    client = OpenAI(api_key=API_KEY)
+    client = OpenAI(api_key=get_openai_api_key())
     
     try:
         response = client.embeddings.create(
@@ -47,9 +39,9 @@ def project_query_to_umap(query_text: str) -> Tuple[float, float]:
         raise ValueError("Failed to get embedding for query")
     
     # Load the UMAP model and scaler
-    model_path = Path(__file__).parent.parent / 'data' / 'models' / 'umap_n30_d0.2_model.joblib'
-    scaler_path = Path(__file__).parent.parent / 'data' / 'models' / 'scaler.joblib'
-    
+    model_path = UMAP_MODEL_PATH
+    scaler_path = SCALER_PATH
+
     if not model_path.exists() or not scaler_path.exists():
         raise FileNotFoundError(f"Model or scaler not found at {model_path} or {scaler_path}")
     

@@ -25,23 +25,16 @@ uv run scripts/run_pipeline.py
 uv run scripts/run_pipeline.py --step build
 uv run scripts/run_pipeline.py --from embed
 
-# Build consolidated scholars.json from all data sources
-uv run scripts/build_scholars_json.py
+# Run a single pipeline module directly (all support --dry-run)
+uv run -m scholar_board.pipeline.fetch_papers --dry-run --limit 5
+uv run -m scholar_board.pipeline.fetch_profiles --dry-run --limit 5
+uv run -m scholar_board.pipeline.embed --dry-run
+uv run -m scholar_board.pipeline.ideas --dry-run --limit 5
+uv run -m scholar_board.pipeline.pics --dry-run --limit 5
 
 # Frontend development (two terminals)
 uv run serve.py                         # Terminal 1: data server → :8000
 cd frontend && npm run dev              # Terminal 2: Vite dev server → :5173
-
-# Dry-run examples (no API calls)
-uv run scripts/scholar_scraper/fetch_papers_gemini.py --dry-run --limit 5
-uv run scholar_board/profile_extractor.py --dry-run --limit 5
-uv run scripts/create_paper_embeddings.py --dry-run
-uv run scripts/generate_ideas.py --dry-run --limit 5
-uv run scripts/download_profile_pics.py --dry-run --limit 5
-
-# Download profile pictures (Serper.dev image search)
-uv run scripts/download_profile_pics.py --test                # Test with known scholar
-uv run scripts/download_profile_pics.py --skip-existing       # Only missing scholars
 
 # Install a new package
 uv add <package-name>
@@ -60,24 +53,21 @@ uv add <package-name>
 | Paper embeddings (UMAP) | `gemini-embedding-001` | task_type=CLUSTERING, 3072 dims |
 | Subfield embeddings | `gemini-embedding-001` | task_type=SEMANTIC_SIMILARITY, 3072 dims |
 
-### Prompt System (`prompts/`)
+### Shared Infrastructure (`scholar_board/`)
+
+- **`scholar_board/config.py`** — all path constants (`PAPERS_DIR`, `PROFILES_DIR`, `EMBEDDINGS_PATH`, `SCHOLARS_JSON`, etc.) + API key accessors (`get_gemini_api_key()`, `get_serper_api_key()`, `get_openai_api_key()`) + common helpers (`load_scholars_csv()`, `load_paper_texts()`)
+- **`scholar_board/gemini.py`** — shared Gemini utilities: `get_client()`, `parse_json_response()`, `extract_grounding_sources()`, `embed_texts(task_type=...)`
+- **`scholar_board/prompt_loader.py`** — `load_prompt(name)` and `render_prompt(name, **kwargs)`, loads from `scholar_board/prompts/*.md`
+- **`scholar_board/schemas.py`** — Pydantic models: `Scholar`, `Paper`, `SubfieldTag`, `UMAPProjection`, `ResearchIdea`
+
+### Prompt Templates (`scholar_board/prompts/`)
 
 All API prompts are externalized as markdown templates with `{variable}` substitution:
 
-- **`prompts/fetch_papers.md`** — Gemini grounded search: fetch top papers (`{scholar_name}`, `{institution}`, `{num_papers}`)
-- **`prompts/fetch_researcher_info.md`** — Gemini grounded search: structured researcher profile (`{scholar_name}`, `{institution}`)
-- **`prompts/normalize_bio.md`** — Gemini: normalize bio tone and pronouns (`{scholar_name}`, `{bio}`)
-- **`prompts/suggest_next_idea.md`** — Gemini 3.1 Pro: generate research idea (`{scholar_name}`, `{institution}`, `{primary_subfield}`, `{papers_text}`)
-- **`scholar_board/prompt_loader.py`** — `load_prompt(name)` and `render_prompt(name, **kwargs)`
-
-### Data Schema (`scholar_board/schemas.py`)
-
-Pydantic models defining the canonical data structure:
-
-- **`Scholar`** — id, name, institution, department, lab_name, lab_url, main_research_area, bio, papers[], primary_subfield, subfields[], suggested_idea, profile_pic, umap_projection{x,y}, cluster
-- **`Paper`** — title, abstract, year, venue, citations, authors, url
-- **`SubfieldTag`** — subfield, score
-- **`ResearchIdea`** — research_thread, open_question, title, hypothesis, approach, scientific_impact, why_now
+- **`normalize_bio.md`** — normalize bio tone and pronouns (`{scholar_name}`, `{bio}`)
+- **`suggest_next_idea.md`** — generate research idea (`{scholar_name}`, `{institution}`, `{primary_subfield}`, `{papers_text}`)
+- **`fetch_papers.md`** — reference documentation for paper-fetching prompt
+- **`fetch_researcher_info.md`** — reference documentation for profile-fetching prompt
 
 ### Data Pipeline (8 steps)
 
@@ -85,25 +75,20 @@ Pydantic models defining the canonical data structure:
 Papers → Profiles → Embed → UMAP+HDBSCAN → Subfields → Ideas → Build → Pics
 ```
 
-1. **`scripts/scholar_scraper/fetch_papers_gemini.py`** — Gemini 3 Flash Preview + Google Search grounding fetches recent papers per scholar → `data/scholar_papers/*.json`. Supports `--workers 25` for parallel execution.
-2. **`scholar_board/profile_extractor.py`** — Gemini 3 Flash Preview + grounded search fetches structured profiles, then normalizes bios → `data/scholar_profiles/{id}_{name}.json`. Use `--skip-normalize` to bypass bio normalization. Supports `--workers 25`.
-3. **`scripts/create_paper_embeddings.py`** — Gemini `gemini-embedding-001` (task_type=CLUSTERING, 3072 dims) embeds paper text → `data/scholar_embeddings.nc`
-4. **`scripts/run_umap_dbscan.py`** — UMAP(cosine, n_neighbors=15) → HDBSCAN(min_cluster_size=10, min_samples=3) → `data/models/*.joblib`
-5. **`scripts/assign_subfields.py`** — Gemini `gemini-embedding-001` (task_type=SEMANTIC_SIMILARITY, 3072 dims) assigns subfield tags via cosine similarity → `data/scholar_subfields.json`. Supports `--threshold` for score-based filtering.
-6. **`scripts/generate_ideas.py`** — Gemini 3.1 Pro Preview (thinking=HIGH) generates AI-suggested research directions → `data/scholar_ideas/*.json`. Supports `--workers 25`.
-7. **`scripts/build_scholars_json.py`** — Merges all sources (CSV + UMAP + papers + profiles + subfields + ideas + pics) → `data/scholars.json`
-8. **`scripts/download_profile_pics.py`** — Serper.dev Google Image Search with face/headshot queries → `data/profile_pics/*.jpg`. Supports `--skip-existing`, `--limit`, `--test`.
+All pipeline steps live in `scholar_board/pipeline/` and are invoked by `scripts/run_pipeline.py` as `python -m scholar_board.pipeline.<step>`.
+
+1. **`fetch_papers`** — Gemini 3 Flash Preview + Google Search grounding fetches recent papers per scholar → `data/pipeline/scholar_papers/*.json`. Supports `--workers 25` for parallel execution.
+2. **`fetch_profiles`** — Gemini 3 Flash Preview + grounded search fetches structured profiles, then normalizes bios → `data/pipeline/scholar_profiles/{id}_{name}.json`. Use `--skip-normalize` to bypass bio normalization. Supports `--workers 25`.
+3. **`embed`** — Gemini `gemini-embedding-001` (task_type=CLUSTERING, 3072 dims) embeds paper text → `data/pipeline/scholar_embeddings.nc`
+4. **`cluster`** — UMAP(cosine, n_neighbors=15) → HDBSCAN(min_cluster_size=10, min_samples=3) → `data/pipeline/models/*.joblib`
+5. **`subfields`** — Gemini `gemini-embedding-001` (task_type=SEMANTIC_SIMILARITY) assigns subfield tags via cosine similarity → `data/pipeline/scholar_subfields.json`
+6. **`ideas`** — Gemini 3.1 Pro Preview (thinking=HIGH) generates AI-suggested research directions → `data/pipeline/scholar_ideas/*.json`. Supports `--workers 25`.
+7. **`build`** — Merges all sources (CSV + UMAP + papers + profiles + subfields + ideas + pics) → `data/build/scholars.json`
+8. **`pics`** — Serper.dev Google Image Search with face/headshot queries → `data/build/profile_pics/*.jpg`. Supports `--skip-existing`, `--limit`, `--test`.
 
 **Orchestrator:** `scripts/run_pipeline.py` — `--step <name>`, `--from <name>` (run from step onward), `--execute` (all), or status dashboard.
 
-All pipeline scripts support `--dry-run` for safe previewing. Steps 1, 2, and 6 support `--workers N` for parallel API calls (default: 25).
-
-### Legacy Pipeline (still present)
-
-- **`scholar_board/scholar_info_formatter.py`** — Gemini structures raw text → markdown in `data/scholar_markdown/`
-- **`scholar_board/scholar_info_summerizer.py`** — Gemini generates summaries in `data/scholar_summaries/`
-- **`scholar_board/create_embeddings.py`** — Original embedding script (OpenAI/Gemini/HuggingFace)
-- **`scholar_board/low_dim_projection.py`** — Original UMAP/t-SNE/PCA projection
+All pipeline modules support `--dry-run` for safe previewing. Steps 1, 2, and 6 support `--workers N` for parallel API calls (default: 25).
 
 ### Frontend (`frontend/`)
 
@@ -138,11 +123,10 @@ data/
 │   ├── models/                # Trained UMAP + HDBSCAN models (step 4)
 │   ├── scholar_subfields.json # Subfield tag assignments (step 5)
 │   └── scholar_ideas/         # AI-generated research directions (step 6)
-├── build/                     # Final assembled outputs (served by serve.py)
-│   ├── scholars.json          # Master dataset loaded by the frontend
-│   ├── profile_pics/          # Headshot images — name_XXXX.jpg
-│   └── scholars/              # Per-scholar JSON files
-└── archive/                   # Legacy/obsolete data (not used by pipeline)
+└── build/                     # Final assembled outputs (served by serve.py)
+    ├── scholars.json          # Master dataset loaded by the frontend
+    ├── profile_pics/          # Headshot images — name_XXXX.jpg
+    └── scholars/              # Per-scholar JSON files
 ```
 
 ## Environment
@@ -151,14 +135,16 @@ Requires a `.env` file with API keys: `GOOGLE_API_KEY` (or `GEMINI_API_KEY`), `S
 
 ## Code Conventions
 
-- Use direct official SDKs (e.g., `google-genai`) instead of LangChain wrappers (e.g., `langchain-google-genai`) unless explicitly asked otherwise
-- Library code in `scholar_board/` (importable module); standalone scripts in `scripts/`
-- All API prompts externalized in `prompts/*.md`, loaded via `scholar_board/prompt_loader.py`
+- Use direct official SDKs (e.g., `google-genai`) instead of LangChain wrappers unless explicitly asked otherwise
+- All pipeline logic lives in `scholar_board/pipeline/`; `scripts/` contains only the orchestrator (`run_pipeline.py`) and dev utilities
+- Shared paths, API key helpers, and common functions go in `scholar_board/config.py`
+- Shared Gemini utilities go in `scholar_board/gemini.py`
+- All API prompts are in `scholar_board/prompts/*.md`, loaded via `scholar_board/prompt_loader.py`
 - Data schema defined with Pydantic in `scholar_board/schemas.py`
-- Data artifacts in `data/` (git-ignored); structured as `source/`, `pipeline/`, `build/`, `archive/`
+- Data artifacts in `data/` (git-ignored); structured as `source/`, `pipeline/`, `build/`
 - Embedding data uses xarray/NetCDF; trained models use joblib
 - Profile pic naming: `scholar_name_XXXX.jpg` (lowercase, underscores)
-- All pipeline scripts support `--dry-run` flag
+- All pipeline modules support `--dry-run` flag
 
 ## Git & Commits
 - When the user asks to "commit", "commit this", or "commit and push", invoke the `/commit` skill

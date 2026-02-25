@@ -1,26 +1,26 @@
-#!/usr/bin/env python3
-"""Download scholar profile pictures using Serper.dev Google Image Search API.
+"""
+Download scholar profile pictures using Serper.dev Google Image Search API.
 
 Uses image search with face-related queries to find headshot photos.
-Falls back to default avatar when no suitable image is found.
+Falls back gracefully when no suitable image is found.
 
-Setup: Add SERPER_API_KEY=<your-key> to .env
+Usage:
+    uv run -m scholar_board.pipeline.pics --dry-run
+    uv run -m scholar_board.pipeline.pics --skip-existing
+    uv run -m scholar_board.pipeline.pics --limit 10
 """
 
 import argparse
 import csv
 import hashlib
-import os
 import time
 from io import BytesIO
-from pathlib import Path
 
 import requests
-from dotenv import load_dotenv
 from PIL import Image
 
-PICS_DIR = Path("data/build/profile_pics")
-CSV_PATH = Path("data/source/vss_data.csv")
+from scholar_board.config import CSV_PATH, PICS_DIR, get_serper_api_key
+
 DEFAULT_AVATAR = PICS_DIR / "default_avatar.jpg"
 SERPER_URL = "https://google.serper.dev/images"
 MAX_DIM = 400
@@ -50,7 +50,7 @@ def pic_filename(name: str, scholar_id: str) -> str:
     return f"{name.replace(' ', '_').lower()}_{scholar_id}.jpg"
 
 
-def file_md5(path: Path) -> str:
+def file_md5(path) -> str:
     return hashlib.md5(path.read_bytes()).hexdigest()
 
 
@@ -62,9 +62,7 @@ def needs_photo(scholar: dict, default_md5: str) -> bool:
     return file_md5(path) == default_md5
 
 
-def search_face_images(
-    name: str, institution: str, api_key: str, num: int = 10
-) -> list[str]:
+def search_face_images(name: str, institution: str, api_key: str, num: int = 10) -> list[str]:
     """Search for face images using Serper.dev image search."""
     query = f"{name} {institution} neuroscience researcher headshot"
     resp = requests.post(
@@ -81,7 +79,7 @@ def search_face_images(
     ]
 
 
-def download_and_save(url: str, output_path: Path) -> bool:
+def download_and_save(url: str, output_path) -> bool:
     """Download image, validate as headshot, resize, and save as JPEG."""
     resp = requests.get(
         url,
@@ -91,7 +89,6 @@ def download_and_save(url: str, output_path: Path) -> bool:
     resp.raise_for_status()
     img = Image.open(BytesIO(resp.content)).convert("RGB")
     w, h = img.size
-    # Reject images that are too small or too landscape (likely group photos)
     if w < 80 or h < 80:
         raise ValueError(f"Too small ({w}x{h})")
     if w > h * 1.4:
@@ -103,15 +100,15 @@ def download_and_save(url: str, output_path: Path) -> bool:
 
 
 def main():
-    load_dotenv()
     parser = argparse.ArgumentParser(description="Download scholar profile pictures")
     parser.add_argument("--dry-run", action="store_true", help="Preview without downloading")
     parser.add_argument("--limit", type=int, default=0, help="Max scholars to process")
     parser.add_argument("--test", action="store_true", help="Test with a single known scholar")
-    parser.add_argument("--skip-existing", action="store_true", help="Only download for scholars with default avatar")
+    parser.add_argument("--skip-existing", action="store_true",
+                        help="Only download for scholars with default avatar")
     args = parser.parse_args()
 
-    api_key = os.getenv("SERPER_API_KEY")
+    api_key = get_serper_api_key()
     if not api_key:
         print("Error: Set SERPER_API_KEY in .env")
         return
@@ -132,7 +129,6 @@ def main():
             print("  No images found — check your API key")
         return
 
-    # Load scholars and find who needs photos
     scholars = load_scholars()
     default_md5 = file_md5(DEFAULT_AVATAR) if DEFAULT_AVATAR.exists() else ""
 

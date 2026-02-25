@@ -8,40 +8,34 @@ fetched separately from Google Scholar via Serper.dev.
 Supports parallel execution via --workers to speed up bulk fetches.
 
 Usage:
-    python3 scripts/scholar_scraper/fetch_papers_gemini.py
-    python3 scripts/scholar_scraper/fetch_papers_gemini.py --limit 5 --papers 5
-    python3 scripts/scholar_scraper/fetch_papers_gemini.py --scholar-id 0005
-    python3 scripts/scholar_scraper/fetch_papers_gemini.py --scholar-name "Aaron Seitz"
-    python3 scripts/scholar_scraper/fetch_papers_gemini.py --workers 4 --limit 20
+    uv run -m scholar_board.pipeline.fetch_papers
+    uv run -m scholar_board.pipeline.fetch_papers --limit 5 --papers 5
+    uv run -m scholar_board.pipeline.fetch_papers --scholar-id 0005
+    uv run -m scholar_board.pipeline.fetch_papers --scholar-name "Aaron Seitz"
+    uv run -m scholar_board.pipeline.fetch_papers --workers 4 --limit 20
 """
 
 import json
-import os
 import re
 import time
 import argparse
 import sys
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from pathlib import Path
-from dotenv import load_dotenv
+
+import requests
 from google import genai
 from google.genai import types
-import requests
 
-# Project root
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-sys.path.insert(0, str(PROJECT_ROOT))
-load_dotenv(PROJECT_ROOT / ".env")
+from scholar_board.config import (
+    CSV_PATH,
+    PAPERS_DIR,
+    get_gemini_api_key,
+    get_serper_api_key,
+    load_scholars_csv,
+)
+from scholar_board.gemini import extract_grounding_sources
 
-API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
-if not API_KEY:
-    print("Error: GOOGLE_API_KEY (or GEMINI_API_KEY) not found in .env")
-    sys.exit(1)
-
-SERPER_API_KEY = os.getenv("SERPER_API_KEY")
-
-OUTPUT_DIR = PROJECT_ROOT / "data" / "pipeline" / "scholar_papers"
 SERPER_SCHOLAR_URL = "https://google.serper.dev/scholar"
 
 SYSTEM_INSTRUCTION = (
@@ -81,8 +75,8 @@ def build_prompt(scholar_name, institution, num_papers):
     )
 
 
-def parse_json_response(text, scholar_name):
-    """Parse JSON from Gemini response text, handling code fences and normalization."""
+def _parse_papers_response(text, scholar_name):
+    """Parse and normalize JSON from Gemini response for the papers endpoint."""
     text = text.strip()
     if text.startswith("```"):
         lines = text.split("\n")
@@ -91,28 +85,11 @@ def parse_json_response(text, scholar_name):
 
     parsed = json.loads(text)
 
-    # Normalize: Gemini may return a list or an object without "papers" key
     if isinstance(parsed, list):
         return {"scholar_name": scholar_name, "papers": parsed}
     elif isinstance(parsed, dict) and "papers" not in parsed:
         return {"scholar_name": scholar_name, "papers": [parsed]}
     return parsed
-
-
-def extract_grounding_sources(response):
-    """Extract grounding metadata (search queries and source URLs) from response."""
-    sources = []
-    candidate = response.candidates[0]
-    if candidate.grounding_metadata:
-        meta = candidate.grounding_metadata
-        if meta.grounding_chunks:
-            for chunk in meta.grounding_chunks:
-                if chunk.web:
-                    sources.append({
-                        "title": chunk.web.title,
-                        "url": chunk.web.uri,
-                    })
-    return sources
 
 
 def fetch_papers(client, scholar_name, institution, num_papers=5):
@@ -132,7 +109,6 @@ def fetch_papers(client, scholar_name, institution, num_papers=5):
             ),
         )
 
-        # Handle RECITATION or empty response
         if response.text is None:
             finish_reason = None
             if response.candidates:
@@ -145,15 +121,14 @@ def fetch_papers(client, scholar_name, institution, num_papers=5):
 
             return None, []
 
-        result = parse_json_response(response.text, scholar_name)
+        result = _parse_papers_response(response.text, scholar_name)
         sources = extract_grounding_sources(response)
         return result, sources
 
     except json.JSONDecodeError as e:
         print(f"    JSON parse error for {scholar_name}: {e}")
-        # Try to extract JSON from the response
         text = response.text or ""
-        match = re.search(r'\{.*\}', text, re.DOTALL)
+        match = re.search(r"\{.*\}", text, re.DOTALL)
         if match:
             try:
                 result = json.loads(match.group())
@@ -198,7 +173,7 @@ def _retry_without_abstract(client, scholar_name, institution, num_papers):
         if response.text is None:
             return None, []
 
-        result = parse_json_response(response.text, scholar_name)
+        result = _parse_papers_response(response.text, scholar_name)
         sources = extract_grounding_sources(response)
         return result, sources
     except Exception as e:
@@ -219,7 +194,7 @@ def lookup_citations(papers, serper_key):
             resp = requests.post(
                 SERPER_SCHOLAR_URL,
                 headers={"X-API-KEY": serper_key, "Content-Type": "application/json"},
-                json={"q": f'allintitle:{title}', "num": 1},
+                json={"q": f"allintitle:{title}", "num": 1},
                 timeout=15,
             )
             resp.raise_for_status()
@@ -235,42 +210,31 @@ def lookup_citations(papers, serper_key):
     return papers
 
 
-def load_researchers(csv_path):
-    """Load unique researchers from vss_data.csv."""
-    import pandas as pd
-    df = pd.read_csv(csv_path)
-    unique = df.drop_duplicates(subset='scholar_id')[
-        ['scholar_id', 'scholar_name', 'scholar_institution']
-    ].copy()
-    unique['scholar_id'] = unique['scholar_id'].astype(str).str.zfill(4)
-    return unique.to_dict('records')
-
-
 def get_already_fetched(output_dir):
     """Get set of scholar_ids that already have paper data."""
     fetched = set()
     if not output_dir.exists():
         return fetched
     for fname in output_dir.iterdir():
-        if fname.suffix == '.json':
-            fetched.add(fname.stem.split('_')[0])
+        if fname.suffix == ".json":
+            fetched.add(fname.stem.split("_")[0])
     return fetched
 
 
 def save_papers(data, sources, scholar_id, scholar_name, output_dir):
     """Save fetched papers for a scholar."""
     output_dir.mkdir(parents=True, exist_ok=True)
-    safe_name = re.sub(r'[^\w\s-]', '', scholar_name).strip().replace(' ', '_')
+    safe_name = re.sub(r"[^\w\s-]", "", scholar_name).strip().replace(" ", "_")
     filepath = output_dir / f"{scholar_id}_{safe_name}.json"
 
     output = {
         "scholar_id": scholar_id,
         "scholar_name": scholar_name,
         "papers": data.get("papers", []),
-        "source_citations": sources
+        "source_citations": sources,
     }
 
-    with open(filepath, 'w', encoding='utf-8') as f:
+    with open(filepath, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
 
     return filepath
@@ -278,107 +242,87 @@ def save_papers(data, sources, scholar_id, scholar_name, output_dir):
 
 def _process_scholar(researcher, index, total, num_papers, api_key, serper_key,
                      output_dir, counters_lock, counters):
-    """
-    Process a single scholar: fetch papers and save results.
+    """Process a single scholar: fetch papers and save results.
 
     Each worker creates its own genai client to avoid thread-safety issues.
-
-    Args:
-        researcher: dict with scholar_id, scholar_name, scholar_institution
-        index: 0-based index of this scholar in the processing list
-        total: total number of scholars being processed
-        num_papers: number of papers to fetch per scholar
-        api_key: Gemini API key
-        serper_key: Serper.dev API key (or None to skip citation lookup)
-        output_dir: Path to output directory
-        counters_lock: threading.Lock for thread-safe counter updates
-        counters: dict with 'success', 'fail', 'total_papers' keys
     """
-    name = researcher['scholar_name']
-    sid = researcher['scholar_id']
-    inst = researcher['scholar_institution']
+    name = researcher["scholar_name"]
+    sid = researcher["scholar_id"]
+    inst = researcher["scholar_institution"]
 
     with counters_lock:
         print(f"[{index + 1}/{total}] {name} ({sid}) — {inst}")
 
-    # Each worker gets its own client to avoid thread-safety issues
     client = genai.Client(api_key=api_key)
-
     data, sources = fetch_papers(client, name, inst, num_papers)
 
     if data and data.get("papers"):
         papers = data["papers"]
-        # Look up real citation counts from Google Scholar
         if serper_key:
             papers = lookup_citations(papers, serper_key)
             data["papers"] = papers
         save_papers(data, sources, sid, name, output_dir)
         with counters_lock:
-            counters['success'] += 1
-            counters['total_papers'] += len(papers)
+            counters["success"] += 1
+            counters["total_papers"] += len(papers)
             print(f"    {len(papers)} papers saved")
             for p in papers:
-                cites = p.get('citations', '0')
+                cites = p.get("citations", "0")
                 print(f"      - [{p.get('year', '?')}] {p.get('title', '?')[:70]} ({cites} cites)")
     else:
         with counters_lock:
-            counters['fail'] += 1
+            counters["fail"] += 1
             print(f"    No papers found")
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Fetch recent papers for ScholarBoard researchers via Gemini grounded search'
+        description="Fetch recent papers for ScholarBoard researchers via Gemini grounded search"
     )
-    parser.add_argument('--limit', type=int, default=None,
-                        help='Max number of researchers to process')
-    parser.add_argument('--papers', type=int, default=5,
-                        help='Number of recent papers to fetch per researcher (default: 5)')
-    parser.add_argument('--scholar-id', type=str, default=None,
-                        help='Process only a specific scholar by ID')
-    parser.add_argument('--scholar-name', type=str, default=None,
-                        help='Process only a specific scholar by name')
-    parser.add_argument('--no-skip', action='store_true',
-                        help='Re-fetch even if data already exists')
-    parser.add_argument('--dry-run', action='store_true',
-                        help='Show what would be fetched without making API calls')
-    parser.add_argument('--workers', type=int, default=25,
-                        help='Number of parallel workers (default: 25)')
+    parser.add_argument("--limit", type=int, default=None,
+                        help="Max number of researchers to process")
+    parser.add_argument("--papers", type=int, default=5,
+                        help="Number of recent papers to fetch per researcher (default: 5)")
+    parser.add_argument("--scholar-id", type=str, default=None,
+                        help="Process only a specific scholar by ID")
+    parser.add_argument("--scholar-name", type=str, default=None,
+                        help="Process only a specific scholar by name")
+    parser.add_argument("--no-skip", action="store_true",
+                        help="Re-fetch even if data already exists")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Show what would be fetched without making API calls")
+    parser.add_argument("--workers", type=int, default=25,
+                        help="Number of parallel workers (default: 25)")
     args = parser.parse_args()
 
-    csv_path = PROJECT_ROOT / "data" / "source" / "vss_data.csv"
-    if not csv_path.exists():
-        print(f"Error: {csv_path} not found")
+    if not CSV_PATH.exists():
+        print(f"Error: {CSV_PATH} not found")
         sys.exit(1)
 
-    # Load researchers
-    researchers = load_researchers(csv_path)
+    researchers = load_scholars_csv()
     print(f"Loaded {len(researchers)} unique researchers from vss_data.csv")
 
-    # Filter by specific scholar
     if args.scholar_id:
-        researchers = [r for r in researchers if r['scholar_id'] == args.scholar_id.zfill(4)]
+        researchers = [r for r in researchers if r["scholar_id"] == args.scholar_id.zfill(4)]
         if not researchers:
             print(f"Scholar ID {args.scholar_id} not found")
             sys.exit(1)
     elif args.scholar_name:
         researchers = [r for r in researchers
-                       if args.scholar_name.lower() in r['scholar_name'].lower()]
+                       if args.scholar_name.lower() in r["scholar_name"].lower()]
         if not researchers:
             print(f"No scholars matching '{args.scholar_name}'")
             sys.exit(1)
 
-    # Skip already fetched
     if not args.no_skip:
-        already = get_already_fetched(OUTPUT_DIR)
+        already = get_already_fetched(PAPERS_DIR)
         before = len(researchers)
-        researchers = [r for r in researchers if r['scholar_id'] not in already]
+        researchers = [r for r in researchers if r["scholar_id"] not in already]
         if before != len(researchers):
             print(f"Skipping {before - len(researchers)} already-fetched scholars")
 
-    # Apply limit
     if args.limit:
-        researchers = researchers[:args.limit]
+        researchers = researchers[: args.limit]
 
     print(f"Processing {len(researchers)} researchers, {args.papers} papers each\n")
 
@@ -393,28 +337,27 @@ def main():
         print(f"\nNo API calls made.")
         return
 
+    api_key = get_gemini_api_key()
+    serper_key = get_serper_api_key()
     counters_lock = threading.Lock()
-    counters = {'success': 0, 'fail': 0, 'total_papers': 0}
+    counters = {"success": 0, "fail": 0, "total_papers": 0}
     total = len(researchers)
 
     if args.workers <= 1:
-        # Sequential execution — identical behavior to the original
         for i, r in enumerate(researchers):
-            _process_scholar(r, i, total, args.papers, API_KEY, SERPER_API_KEY,
-                             OUTPUT_DIR, counters_lock, counters)
+            _process_scholar(r, i, total, args.papers, api_key, serper_key,
+                             PAPERS_DIR, counters_lock, counters)
     else:
-        # Parallel execution with ThreadPoolExecutor
         print(f"Using {args.workers} parallel workers\n")
         with ThreadPoolExecutor(max_workers=args.workers) as executor:
             futures = {
                 executor.submit(
-                    _process_scholar, r, i, total, args.papers, API_KEY,
-                    SERPER_API_KEY, OUTPUT_DIR, counters_lock, counters
+                    _process_scholar, r, i, total, args.papers, api_key,
+                    serper_key, PAPERS_DIR, counters_lock, counters
                 ): r
                 for i, r in enumerate(researchers)
             }
             for future in as_completed(futures):
-                # Re-raise any unhandled exceptions from workers
                 exc = future.exception()
                 if exc is not None:
                     scholar = futures[future]
@@ -424,7 +367,7 @@ def main():
     print(f"Successful: {counters['success']}/{counters['success'] + counters['fail']}")
     print(f"Failed:     {counters['fail']}/{counters['success'] + counters['fail']}")
     print(f"Total papers: {counters['total_papers']}")
-    print(f"Output: {OUTPUT_DIR}")
+    print(f"Output: {PAPERS_DIR}")
 
 
 if __name__ == "__main__":

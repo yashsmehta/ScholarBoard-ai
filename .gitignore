@@ -3,7 +3,7 @@
 .env
 *.pyc
 __pycache__/
-__init__*
+__init__.pyc
 *.egg-info
 *.npz
 *.nc
@@ -14,3 +14,4 @@ data/build/
 data/archive/
 data/*
 logs/
+frontend/.tmp/

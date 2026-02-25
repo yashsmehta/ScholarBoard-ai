@@ -7,7 +7,7 @@ with variable substitution.
 
 from pathlib import Path
 
-PROMPTS_DIR = Path(__file__).resolve().parent.parent / "prompts"
+PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
 
 
 def load_prompt(name: str) -> str:

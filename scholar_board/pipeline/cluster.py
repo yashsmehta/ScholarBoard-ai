@@ -1,33 +1,28 @@
 """
 Run UMAP dimensionality reduction + HDBSCAN clustering on scholar embeddings.
 
-Loads embeddings from data/scholar_embeddings.nc, reduces to 2D with UMAP,
+Loads embeddings from the pipeline directory, reduces to 2D with UMAP,
 clusters with HDBSCAN, saves models and updates scholars.json.
 
 Usage:
-    python3 scripts/run_umap_dbscan.py --dry-run    # Preview, no changes
-    python3 scripts/run_umap_dbscan.py               # Run full pipeline
+    uv run -m scholar_board.pipeline.cluster --dry-run    # Preview, no changes
+    uv run -m scholar_board.pipeline.cluster               # Run full pipeline
 """
 
 import json
 import argparse
 import sys
-from pathlib import Path
 
 import numpy as np
 import joblib
-from dotenv import load_dotenv
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(PROJECT_ROOT))
-load_dotenv(PROJECT_ROOT / ".env")
-
-DATA_DIR = PROJECT_ROOT / "data"
-PIPELINE_DIR = DATA_DIR / "pipeline"
-BUILD_DIR = DATA_DIR / "build"
-MODELS_DIR = PIPELINE_DIR / "models"
-EMBEDDINGS_PATH = PIPELINE_DIR / "scholar_embeddings.nc"
-SCHOLARS_JSON_PATH = BUILD_DIR / "scholars.json"
+from scholar_board.config import (
+    EMBEDDINGS_PATH,
+    MODELS_DIR,
+    UMAP_MODEL_PATH,
+    HDBSCAN_MODEL_PATH,
+    SCHOLARS_JSON,
+)
 
 
 def load_embeddings():
@@ -41,11 +36,7 @@ def load_embeddings():
 
 
 def run_umap(embeddings, n_neighbors=15, min_dist=0.1, metric="cosine"):
-    """Run UMAP dimensionality reduction.
-
-    No StandardScaler preprocessing — OpenAI embeddings are already L2-normalized,
-    and cosine metric only cares about angles, not magnitudes.
-    """
+    """Run UMAP dimensionality reduction."""
     from umap import UMAP
 
     print(f"  Running UMAP (n_neighbors={n_neighbors}, min_dist={min_dist}, metric={metric})...")
@@ -58,18 +49,11 @@ def run_umap(embeddings, n_neighbors=15, min_dist=0.1, metric="cosine"):
         random_state=42,
     )
     coords = reducer.fit_transform(embeddings)
-
     return coords, reducer
 
 
 def run_hdbscan(coords, min_cluster_size=10, min_samples=3):
-    """Run HDBSCAN clustering on 2D coordinates.
-
-    HDBSCAN is density-based like DBSCAN but does not require an eps parameter.
-    It adapts to varying density, which is important because some vision science
-    sub-areas (e.g., attention, face perception) have many more researchers than
-    niche areas.
-    """
+    """Run HDBSCAN clustering on 2D coordinates."""
     from sklearn.cluster import HDBSCAN
 
     print(f"  Running HDBSCAN (min_cluster_size={min_cluster_size}, min_samples={min_samples})...")
@@ -81,9 +65,9 @@ def run_hdbscan(coords, min_cluster_size=10, min_samples=3):
 
     n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
     n_noise = (labels == -1).sum()
-    print(f"  Found {n_clusters} clusters, {n_noise} noise points ({n_noise}/{len(labels)}, {n_noise/len(labels)*100:.1f}%)")
+    print(f"  Found {n_clusters} clusters, {n_noise} noise points "
+          f"({n_noise}/{len(labels)}, {n_noise/len(labels)*100:.1f}%)")
 
-    # Print cluster size distribution
     from collections import Counter
     counts = Counter(labels)
     sizes = sorted([v for k, v in counts.items() if k != -1], reverse=True)
@@ -96,19 +80,18 @@ def run_hdbscan(coords, min_cluster_size=10, min_samples=3):
 def save_models(reducer, clusterer):
     """Save trained models."""
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
-    joblib.dump(reducer, MODELS_DIR / "umap_model.joblib")
-    joblib.dump(clusterer, MODELS_DIR / "umap_hdbscan.joblib")
+    joblib.dump(reducer, UMAP_MODEL_PATH)
+    joblib.dump(clusterer, HDBSCAN_MODEL_PATH)
     print(f"  Saved models to {MODELS_DIR}")
 
 
 def update_scholars_json(scholar_ids, coords, labels):
     """Update scholars.json with new coordinates and cluster labels."""
-    with open(SCHOLARS_JSON_PATH, "r", encoding="utf-8") as f:
+    with open(SCHOLARS_JSON, "r", encoding="utf-8") as f:
         data = json.load(f)
 
     updated = 0
     for i, sid in enumerate(scholar_ids):
-        # Normalize ID to 4-digit zero-padded format
         sid = str(sid).zfill(4) if str(sid).isdigit() else str(sid)
         if sid in data:
             data[sid]["umap_projection"] = {
@@ -118,10 +101,10 @@ def update_scholars_json(scholar_ids, coords, labels):
             data[sid]["cluster"] = int(labels[i])
             updated += 1
 
-    with open(SCHOLARS_JSON_PATH, "w", encoding="utf-8") as f:
+    with open(SCHOLARS_JSON, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-    print(f"  Updated {updated}/{len(scholar_ids)} scholars in {SCHOLARS_JSON_PATH}")
+    print(f"  Updated {updated}/{len(scholar_ids)} scholars in {SCHOLARS_JSON}")
 
 
 def main():
@@ -142,7 +125,7 @@ def main():
 
     if not EMBEDDINGS_PATH.exists():
         print(f"Error: Embeddings not found at {EMBEDDINGS_PATH}")
-        print("Run create_paper_embeddings.py first.")
+        print("Run embed step first.")
         sys.exit(1)
 
     print("Loading embeddings...")

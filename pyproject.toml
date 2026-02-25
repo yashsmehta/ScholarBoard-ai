@@ -34,8 +34,13 @@ dependencies = [
 [project.scripts]
 scholarboard = "scholar_board.cli:main"
 
-[tool.setuptools]
-packages = ["scholar_board"]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["scholar_board*"]
+namespaces = true
+
+[tool.setuptools.package-data]
+scholar_board = ["prompts/*.md"]
 
 [tool.uv]
-dev-dependencies = [] 
+dev-dependencies = []

@@ -535,7 +535,7 @@ input {
   box-shadow: var(--shadow-1);
   backdrop-filter: blur(8px);
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
 }
 
 .sidebar__header {
@@ -559,6 +559,33 @@ input {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   font-weight: 700;
+}
+
+.sidebar__tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.sidebar__tab {
+  padding: 10px 12px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  transition: color 120ms ease, border-color 120ms ease;
+}
+
+.sidebar__tab:hover {
+  color: var(--ink-0);
+}
+
+.sidebar__tab.is-active {
+  color: var(--brand-0);
+  border-bottom-color: var(--brand-0);
 }
 
 .sidebar__empty {
@@ -642,6 +669,48 @@ input {
   margin: 10px 0 0;
   font-size: 0.88rem;
   line-height: 1.45;
+  color: var(--ink-1);
+}
+
+.profile-card__lab-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--brand-0);
+  text-decoration: none;
+}
+
+.profile-card__lab-link:hover {
+  text-decoration: underline;
+}
+
+.idea-card {
+  background: linear-gradient(135deg, rgba(13, 92, 99, 0.06), rgba(68, 161, 160, 0.08));
+  border: 1px solid var(--brand-border);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.idea-card__title {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--ink-0);
+}
+
+.idea-card__thread {
+  margin: 8px 0 0;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  color: var(--ink-1);
+  font-style: italic;
+}
+
+.idea-section__text {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
   color: var(--ink-1);
 }
 

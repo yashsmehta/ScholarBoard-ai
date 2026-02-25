@@ -36,6 +36,16 @@ class SubfieldTag(BaseModel):
     score: float
 
 
+class ResearchIdea(BaseModel):
+    research_thread: str
+    open_question: str
+    title: str
+    hypothesis: str
+    approach: str
+    scientific_impact: str
+    why_now: str
+
+
 class Scholar(BaseModel):
     id: str
     name: str
@@ -50,4 +60,5 @@ class Scholar(BaseModel):
     subfields: list[SubfieldTag] = Field(default_factory=list)
     profile_pic: Optional[str] = None
     umap_projection: Optional[UMAPProjection] = None
+    suggested_idea: Optional[ResearchIdea] = None
     cluster: Optional[int] = None

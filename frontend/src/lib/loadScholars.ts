@@ -1,4 +1,4 @@
-import type { RawScholar, Scholar, ScholarLoadResult } from '../types/scholar'
+import type { RawScholar, ResearchIdea, Scholar, ScholarLoadResult, SubfieldTag } from '../types/scholar'
 import type { FrontendMode } from './appMode'
 import { embeddedSampleSize } from './appMode'
 
@@ -85,16 +85,22 @@ function normalizeScholar(fallbackId: string, raw: RawScholar): Scholar | null {
     name,
     institution: normalizeString(raw.institution),
     department: normalizeString(raw.department),
+    labName: normalizeString(raw.lab_name),
+    labUrl: normalizeString(raw.lab_url),
+    mainResearchArea: normalizeString(raw.main_research_area),
     bio: normalizeString(raw.bio),
     profilePic: normalizeString(raw.profile_pic),
     cluster: typeof raw.cluster === 'number' ? raw.cluster : -1,
     x,
     y,
+    primarySubfield: normalizeString(raw.primary_subfield),
+    subfields: Array.isArray(raw.subfields) ? raw.subfields.filter(isSubfieldLike) : [],
     researchAreas: Array.isArray(raw.research_areas)
       ? raw.research_areas.filter(isNonEmptyString)
       : [],
     papers: Array.isArray(raw.papers) ? raw.papers.filter(isPaperLike) : [],
     education: Array.isArray(raw.education) ? raw.education.filter(isObjectLike) : [],
+    suggestedIdea: normalizeResearchIdea(raw.suggested_idea),
   }
 }
 
@@ -117,4 +123,26 @@ function isPaperLike(value: unknown): value is Scholar['papers'][number] {
 
 function isObjectLike(value: unknown): value is Record<string, unknown> {
   return value != null && typeof value === 'object'
+}
+
+function isSubfieldLike(value: unknown): value is SubfieldTag {
+  if (!isObjectLike(value)) return false
+  return typeof value.subfield === 'string' && typeof value.score === 'number'
+}
+
+function normalizeResearchIdea(raw: unknown): ResearchIdea | undefined {
+  if (!isObjectLike(raw)) return undefined
+  const r = raw as Record<string, unknown>
+  const title = normalizeString(r.title)
+  const hypothesis = normalizeString(r.hypothesis)
+  if (!title || !hypothesis) return undefined
+  return {
+    researchThread: normalizeString(r.research_thread) ?? '',
+    openQuestion: normalizeString(r.open_question) ?? '',
+    title,
+    hypothesis,
+    approach: normalizeString(r.approach) ?? '',
+    scientificImpact: normalizeString(r.scientific_impact) ?? '',
+    whyNow: normalizeString(r.why_now) ?? '',
+  }
 }

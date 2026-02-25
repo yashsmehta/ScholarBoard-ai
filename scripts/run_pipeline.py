@@ -59,6 +59,13 @@ STEPS = [
         "total": 1,
     },
     {
+        "name": "ideas",
+        "description": "Generate AI-suggested research directions",
+        "command": [PYTHON, "scripts/generate_ideas.py"],
+        "check": lambda: len(list((DATA_DIR / "scholar_ideas").glob("*.json"))),
+        "total": 730,
+    },
+    {
         "name": "build",
         "description": "Build consolidated scholars.json",
         "command": [PYTHON, "scripts/build_scholars_json.py"],
@@ -173,7 +180,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="ScholarBoard.ai pipeline orchestrator")
     parser.add_argument("--step", type=str, default=None,
-                        help="Run a specific step (papers, info, embed, umap, build, website)")
+                        help="Run a specific step (papers, info, embed, umap, subfields, ideas, build, website)")
     parser.add_argument("--execute", action="store_true",
                         help="Run all pipeline steps")
     args = parser.parse_args()

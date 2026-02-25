@@ -27,7 +27,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection
+from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection, ResearchIdea
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
@@ -155,6 +155,32 @@ def load_subfield_assignments(subfields_path: Path) -> dict[str, dict]:
         return json.load(f)
 
 
+def load_scholar_ideas(ideas_dir: Path) -> dict[str, dict]:
+    """Load AI-generated research ideas from data/scholar_ideas/*.json."""
+    ideas = {}
+    if not ideas_dir.exists():
+        return ideas
+    for fpath in ideas_dir.glob("*.json"):
+        try:
+            with open(fpath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            sid = data.get("scholar_id", "")
+            if not sid:
+                # Extract from filename: {id}_{name}.json
+                parts = fpath.stem.split("_")
+                if parts[0].isdigit():
+                    sid = parts[0].zfill(4)
+            if not sid:
+                continue
+            sid = sid.zfill(4) if sid.isdigit() else sid
+            idea = data.get("idea", {})
+            if idea:
+                ideas[sid] = idea
+        except (json.JSONDecodeError, KeyError):
+            continue
+    return ideas
+
+
 def build_scholars(write_individual: bool = True) -> list[Scholar]:
     """Build consolidated scholar data from all sources."""
     csv_path = DATA_DIR / "vss_data.csv"
@@ -163,6 +189,7 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
     profiles_dir = DATA_DIR / "scholar_profiles"
     pics_dir = DATA_DIR / "profile_pics"
     subfields_path = DATA_DIR / "scholar_subfields.json"
+    ideas_dir = DATA_DIR / "scholar_ideas"
 
     # Load all data sources
     print("Loading data sources...")
@@ -183,6 +210,9 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
 
     subfields_data = load_subfield_assignments(subfields_path)
     print(f"  subfields: {len(subfields_data)} assignments")
+
+    ideas_data = load_scholar_ideas(ideas_dir)
+    print(f"  scholar_ideas: {len(ideas_data)} ideas")
 
     # Build scholars
     print("\nBuilding scholar objects...")
@@ -234,6 +264,10 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
                 SubfieldTag(**t) for t in sf.get("subfields", [])
             ]
 
+        # Add suggested research idea
+        if sid in ideas_data:
+            scholar_dict["suggested_idea"] = ResearchIdea(**ideas_data[sid])
+
         # Add profile pic
         if sid in pics_data:
             scholar_dict["profile_pic"] = pics_data[sid]
@@ -251,11 +285,13 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
     with_area = sum(1 for s in scholars if s.main_research_area is not None)
     with_pic = sum(1 for s in scholars if s.profile_pic is not None)
     with_subfield = sum(1 for s in scholars if s.primary_subfield is not None)
+    with_idea = sum(1 for s in scholars if s.suggested_idea is not None)
     print(f"  With UMAP coords: {with_umap}")
     print(f"  With papers: {with_papers}")
     print(f"  With bio: {with_bio}")
     print(f"  With research area: {with_area}")
     print(f"  With subfield tags: {with_subfield}")
+    print(f"  With research idea: {with_idea}")
     print(f"  With profile pic: {with_pic}")
 
     # Write individual files

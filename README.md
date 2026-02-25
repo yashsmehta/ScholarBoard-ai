@@ -4,10 +4,10 @@
 
 ## What's the point of this repository?
 
-ScholarBoard.ai is a Perplexity-powered tool that creates intuitive dashboards of researchers in specific fields (like vision neuroscience). It semantically arranges researchers based on their research similarity, allowing users to:
+ScholarBoard.ai creates interactive dashboards of researchers in specific fields (like vision neuroscience). It semantically arranges researchers based on their research similarity using Gemini grounded search for data extraction, OpenAI for embeddings, and UMAP/DBSCAN for clustering. Users can:
 
 - Explore researchers and their work at a glance
-- See related researchers in their vicinity 
+- See related researchers in their vicinity
 - Search for specific researchers
 - Embed research questions into the 2D visualization space
 
@@ -17,26 +17,15 @@ This tool transforms dense academic information into a navigable visual landscap
 
 The ScholarBoard.ai pipeline functions through several key stages:
 
-1. **Researcher Information Extraction**: Researcher summaries are extracted using optimized Perplexity Sonar prompts, pulling comprehensive information about their research focus, publications, and contributions.
+1. **Researcher Information Extraction**: Researcher profiles and papers are extracted using Gemini 3 Flash Preview with Google Search grounding, pulling comprehensive information about their research focus, publications, and contributions.
 
-2. **Data Cleaning**: Gemini Flash cleans and structures this data into markdown format, ensuring consistency and readability.
+2. **Data Cleaning**: Gemini Flash normalizes bios to ensure neutral tone and consistent formatting.
 
-3. **Embedding Generation**: Researcher embeddings are created using one of three approaches:
-   - Conference abstracts
-   - Complete researcher summaries
-   - Subset of researcher profiles (focused on research areas)
+3. **Embedding Generation**: Researcher embeddings are created from paper abstracts using OpenAI text-embedding-3-large.
 
-4. **Embedding Models**: The system supports multiple embedding models:
-   - Latest Gemini embeddings
-   - OpenAI text embeddings
-   - Sentence transformers from Hugging Face
+4. **Dimensionality Reduction**: UMAP reduces the high-dimensional embeddings to 2D, preserving both local and global structure.
 
-5. **Dimensionality Reduction**: The high-dimensional embeddings are reduced to 2D using one of three methods:
-   - PCA: Linear dimensionality reduction
-   - t-SNE: Non-linear dimensionality reduction preserving local structure
-   - UMAP: Non-linear dimensionality reduction preserving both local and global structure (performs best)
-
-6. **Clustering**: DBSCAN clustering algorithm assigns researchers to 15-40 clusters, color-coding them accordingly for easy visual identification of research communities.
+5. **Clustering**: DBSCAN clustering algorithm assigns researchers to clusters, color-coding them for easy visual identification of research communities.
 
 ### Installation
 
@@ -53,9 +42,8 @@ uv pip install -e .
 Create a `.env` file with your API keys:
 
 ```
-PERPLEXITY_API_KEY=your_perplexity_api_key_here
 OPENAI_API_KEY=your_openai_api_key_here
-GEMINI_API_KEY=your_gemini_api_key_here
+GOOGLE_API_KEY=your_google_api_key_here
 ```
 
 ### Input Format
@@ -77,11 +65,11 @@ scholar_id,scholar_name,institution,country
 ### Running the Pipeline
 
 ```bash
-# Activate virtual environment
-source .venv/bin/activate
-
 # Run the complete pipeline
-python scripts/run_pipeline.py
+.venv/bin/python3 scripts/run_pipeline.py --execute
+
+# Show pipeline status
+.venv/bin/python3 scripts/run_pipeline.py
 ```
 
 ### Visualization
@@ -94,7 +82,7 @@ Once processed, researchers are visualized in an interactive 2D map where:
 
 To view the visualization:
 ```bash
-cd website && python serve.py
+cd website && .venv/bin/python3 -m http.server 8000
 ```
 
-The dashboard will open in your browser at http://localhost:8000 
+The dashboard will open in your browser at http://localhost:8000

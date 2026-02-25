@@ -25,24 +25,16 @@ PYTHON = sys.executable
 STEPS = [
     {
         "name": "papers",
-        "description": "Fetch papers via Perplexity API",
-        "command": [PYTHON, "scripts/scholar_scraper/fetch_papers_perplexity.py"],
+        "description": "Fetch papers via Gemini grounded search",
+        "command": [PYTHON, "scripts/scholar_scraper/fetch_papers_gemini.py"],
         "check": lambda: len(list((DATA_DIR / "scholar_papers").glob("*.json"))),
         "total": 730,
     },
     {
         "name": "info",
-        "description": "Fetch researcher profiles via Perplexity API",
-        "command": [PYTHON, "-m", "scholar_board.plex_info_extractor"],
-        "check": lambda: len(list((DATA_DIR / "perplexity_info").glob("*_raw.txt"))),
-        "total": 730,
-    },
-    {
-        "name": "parse",
-        "description": "Parse raw data to structured JSON via Gemini",
-        "command": [PYTHON, "scripts/parse_raw_to_json.py"],
-        "check": lambda: len(list((DATA_DIR / "scholars").glob("*.json")))
-            if (DATA_DIR / "scholars").exists() else 0,
+        "description": "Fetch researcher profiles via Gemini grounded search",
+        "command": [PYTHON, "-m", "scholar_board.profile_extractor"],
+        "check": lambda: len(list((DATA_DIR / "scholar_profiles").glob("*.json"))),
         "total": 730,
     },
     {
@@ -54,9 +46,16 @@ STEPS = [
     },
     {
         "name": "umap",
-        "description": "Run UMAP + DBSCAN clustering",
+        "description": "Run UMAP + HDBSCAN clustering",
         "command": [PYTHON, "scripts/run_umap_dbscan.py"],
         "check": lambda: 1 if (DATA_DIR / "models" / "umap_model.joblib").exists() else 0,
+        "total": 1,
+    },
+    {
+        "name": "subfields",
+        "description": "Assign vision science subfield labels",
+        "command": [PYTHON, "scripts/assign_subfields.py"],
+        "check": lambda: 1 if (DATA_DIR / "scholar_subfields.json").exists() else 0,
         "total": 1,
     },
     {
@@ -174,7 +173,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="ScholarBoard.ai pipeline orchestrator")
     parser.add_argument("--step", type=str, default=None,
-                        help="Run a specific step (papers, info, parse, embed, umap, build, website)")
+                        help="Run a specific step (papers, info, embed, umap, build, website)")
     parser.add_argument("--execute", action="store_true",
                         help="Run all pipeline steps")
     args = parser.parse_args()

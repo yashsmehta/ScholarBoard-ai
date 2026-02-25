@@ -5,7 +5,7 @@ Merges:
 1. data/vss_data.csv → id, name, institution, department
 2. data/scholars.json (current) → umap coordinates, cluster
 3. data/scholar_papers/*.json → papers
-4. data/scholar_summaries/*_summary.txt → bio
+4. data/scholar_profiles/*.json → bio, main_research_area, lab_url, department
 5. data/profile_pics/*.jpg → profile_pic filename
 
 Outputs:
@@ -27,7 +27,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from scholar_board.schemas import Scholar, Paper, UMAPProjection
+from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
@@ -88,26 +88,44 @@ def load_scholar_papers(papers_dir: Path) -> dict[str, list[dict]]:
     return papers_by_id
 
 
-def load_scholar_summaries(summaries_dir: Path) -> dict[str, str]:
-    """Load bio summaries from data/scholar_summaries/*_summary.txt.
+def load_scholar_profiles(profiles_dir: Path) -> dict[str, dict]:
+    """Load structured profiles from data/scholar_profiles/*.json.
 
-    File naming: "Scholar Name_XXX_summary.txt" where XXX is the ID (possibly 3 digits).
+    File naming: "{id}_{name}.json" (id-first) or "{name}_{id}.json" (legacy).
+    Returns dict keyed by scholar_id with bio, main_research_area, lab_url, department.
     """
-    bios = {}
-    if not summaries_dir.exists():
-        return bios
-    for fpath in summaries_dir.glob("*_summary.txt"):
-        # Extract ID from filename: "Name_XXX_summary.txt"
-        stem = fpath.stem  # e.g. "A . Caglar Tas_001_summary"
-        # Find the last occurrence of _XXX_summary pattern
-        match = re.search(r"_(\d+)_summary$", stem)
-        if match:
-            raw_id = match.group(1)
-            sid = raw_id.zfill(4)
-            text = fpath.read_text(encoding="utf-8").strip()
-            if text:
-                bios[sid] = text
-    return bios
+    profiles = {}
+    if not profiles_dir.exists():
+        return profiles
+    for fpath in profiles_dir.glob("*.json"):
+        try:
+            with open(fpath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            sid = data.get("scholar_id", "")
+            if not sid:
+                # Try extracting from filename
+                stem = fpath.stem
+                parts = stem.split("_")
+                if parts[0].isdigit():
+                    sid = parts[0].zfill(4)
+                else:
+                    # Legacy naming: name_XXXX
+                    match = re.search(r"_(\d{3,4})$", stem)
+                    if match:
+                        sid = match.group(1).zfill(4)
+            if not sid:
+                continue
+            sid = sid.zfill(4) if sid.isdigit() else sid
+            profiles[sid] = {
+                "bio": data.get("bio"),
+                "main_research_area": data.get("main_research_area"),
+                "lab_name": data.get("lab_name"),
+                "lab_url": data.get("lab_url"),
+                "department": data.get("department"),
+            }
+        except (json.JSONDecodeError, KeyError):
+            continue
+    return profiles
 
 
 def find_profile_pics(pics_dir: Path) -> dict[str, str]:
@@ -129,13 +147,22 @@ def find_profile_pics(pics_dir: Path) -> dict[str, str]:
     return pics
 
 
+def load_subfield_assignments(subfields_path: Path) -> dict[str, dict]:
+    """Load subfield assignments from data/scholar_subfields.json."""
+    if not subfields_path.exists():
+        return {}
+    with open(subfields_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
 def build_scholars(write_individual: bool = True) -> list[Scholar]:
     """Build consolidated scholar data from all sources."""
     csv_path = DATA_DIR / "vss_data.csv"
     current_json_path = DATA_DIR / "scholars.json"
     papers_dir = DATA_DIR / "scholar_papers"
-    summaries_dir = DATA_DIR / "scholar_summaries"
+    profiles_dir = DATA_DIR / "scholar_profiles"
     pics_dir = DATA_DIR / "profile_pics"
+    subfields_path = DATA_DIR / "scholar_subfields.json"
 
     # Load all data sources
     print("Loading data sources...")
@@ -148,11 +175,14 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
     papers_data = load_scholar_papers(papers_dir)
     print(f"  scholar_papers: {len(papers_data)} scholars with papers")
 
-    bios_data = load_scholar_summaries(summaries_dir)
-    print(f"  scholar_summaries: {len(bios_data)} bios")
+    profiles_data = load_scholar_profiles(profiles_dir)
+    print(f"  scholar_profiles: {len(profiles_data)} profiles")
 
     pics_data = find_profile_pics(pics_dir)
     print(f"  profile_pics: {len(pics_data)} profile pictures")
+
+    subfields_data = load_subfield_assignments(subfields_path)
+    print(f"  subfields: {len(subfields_data)} assignments")
 
     # Build scholars
     print("\nBuilding scholar objects...")
@@ -182,9 +212,27 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
                 Paper(**p) for p in papers_data[sid]
             ]
 
-        # Add bio
-        if sid in bios_data:
-            scholar_dict["bio"] = bios_data[sid]
+        # Add profile data (bio, main_research_area, lab_url, department override)
+        if sid in profiles_data:
+            profile = profiles_data[sid]
+            if profile.get("bio"):
+                scholar_dict["bio"] = profile["bio"]
+            if profile.get("main_research_area"):
+                scholar_dict["main_research_area"] = profile["main_research_area"]
+            if profile.get("lab_name"):
+                scholar_dict["lab_name"] = profile["lab_name"]
+            if profile.get("lab_url"):
+                scholar_dict["lab_url"] = profile["lab_url"]
+            if profile.get("department"):
+                scholar_dict["department"] = profile["department"]
+
+        # Add subfield tags
+        if sid in subfields_data:
+            sf = subfields_data[sid]
+            scholar_dict["primary_subfield"] = sf.get("primary_subfield")
+            scholar_dict["subfields"] = [
+                SubfieldTag(**t) for t in sf.get("subfields", [])
+            ]
 
         # Add profile pic
         if sid in pics_data:
@@ -200,10 +248,14 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
     with_umap = sum(1 for s in scholars if s.umap_projection is not None)
     with_papers = sum(1 for s in scholars if len(s.papers) > 0)
     with_bio = sum(1 for s in scholars if s.bio is not None)
+    with_area = sum(1 for s in scholars if s.main_research_area is not None)
     with_pic = sum(1 for s in scholars if s.profile_pic is not None)
+    with_subfield = sum(1 for s in scholars if s.primary_subfield is not None)
     print(f"  With UMAP coords: {with_umap}")
     print(f"  With papers: {with_papers}")
     print(f"  With bio: {with_bio}")
+    print(f"  With research area: {with_area}")
+    print(f"  With subfield tags: {with_subfield}")
     print(f"  With profile pic: {with_pic}")
 
     # Write individual files
@@ -223,11 +275,7 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
         data = scholar.model_dump(mode="json")
         # Remove None values for cleaner output
         data = {k: v for k, v in data.items() if v is not None}
-        # Convert empty lists to omit them
-        if not data.get("research_areas"):
-            data.pop("research_areas", None)
-        if not data.get("education"):
-            data.pop("education", None)
+        # Remove empty lists
         if not data.get("papers"):
             data.pop("papers", None)
         consolidated[scholar.id] = data

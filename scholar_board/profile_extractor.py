@@ -1,17 +1,17 @@
 """
-Fetch structured researcher profiles for ScholarBoard using Perplexity API.
+Fetch structured researcher profiles for ScholarBoard using Gemini grounded search.
 
-Uses Perplexity's sonar-pro model with academic search mode to extract
+Uses Gemini 3 Flash Preview with Google Search grounding to extract
 structured researcher profiles including bio, main research area, and lab URL.
 Returns structured JSON matching the Scholar schema.
 
 Usage:
-    python3 scholar_board/plex_info_extractor.py
-    python3 scholar_board/plex_info_extractor.py --limit 5
-    python3 scholar_board/plex_info_extractor.py --scholar-id 0005
-    python3 scholar_board/plex_info_extractor.py --scholar-name "Aaron Seitz"
-    python3 scholar_board/plex_info_extractor.py --dry-run
-    python3 scholar_board/plex_info_extractor.py --skip-normalize
+    python3 scholar_board/profile_extractor.py
+    python3 scholar_board/profile_extractor.py --limit 5
+    python3 scholar_board/profile_extractor.py --scholar-id 0005
+    python3 scholar_board/profile_extractor.py --scholar-name "Aaron Seitz"
+    python3 scholar_board/profile_extractor.py --dry-run
+    python3 scholar_board/profile_extractor.py --skip-normalize
 """
 
 import json
@@ -22,8 +22,8 @@ import csv
 import argparse
 from pathlib import Path
 from dotenv import load_dotenv
-from openai import OpenAI
 from google import genai
+from google.genai import types
 
 from scholar_board.prompt_loader import render_prompt
 
@@ -31,79 +31,118 @@ from scholar_board.prompt_loader import render_prompt
 load_dotenv()
 
 # Get API key from environment variable
-API_KEY = os.getenv("PERPLEXITY_API_KEY")
+API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
 if not API_KEY:
-    raise ValueError("PERPLEXITY_API_KEY not found in environment variables")
+    raise ValueError("GOOGLE_API_KEY (or GEMINI_API_KEY) not found in environment variables")
 
-OUTPUT_DIR = Path("data/perplexity_info")
+OUTPUT_DIR = Path("data/scholar_profiles")
 
-# JSON schema for structured output — maps to Scholar model fields
-PROFILE_SCHEMA = {
-    "type": "object",
-    "properties": {
-        "scholar_name": {"type": "string"},
-        "institution": {"type": "string"},
-        "department": {"type": "string"},
-        "lab_url": {"type": "string"},
-        "main_research_area": {"type": "string"},
-        "bio": {"type": "string"},
-    },
-    "required": ["scholar_name", "bio"]
-}
+SYSTEM_INSTRUCTION = (
+    "You are a research analyst specializing in academic profiling. "
+    "Provide comprehensive, technically precise information about scholars. "
+    "Return results as structured JSON."
+)
 
 
-def query_perplexity(client, scholar_name, institution, scholar_id):
-    """
-    Query the Perplexity API for structured researcher profile data.
-    Returns (parsed_dict, citations) or (None, []) on failure.
-    """
-    prompt = render_prompt(
-        "fetch_researcher_info",
-        scholar_name=scholar_name,
-        institution=institution,
+def build_profile_prompt(scholar_name, institution):
+    """Build the grounded search prompt for researcher profile extraction."""
+    return (
+        f"Search online for the vision science researcher {scholar_name} "
+        f"from {institution}.\n\n"
+        f"This person is a vision science / neuroscience researcher. "
+        f"Use this context to disambiguate from other people with the same name.\n\n"
+        f"Find and provide the following structured information:\n"
+        f"- scholar_name: Full name\n"
+        f"- institution: Current institutional affiliation\n"
+        f"- department: Department or school within the institution\n"
+        f"- lab_name: Name of their research lab (if known)\n"
+        f"- lab_url: URL of their research lab or personal academic page (if found)\n"
+        f"- main_research_area: A concise 2-5 word description of their primary research "
+        f"focus (e.g. \"visual attention and perception\", \"computational neuroscience\")\n"
+        f"- bio: A single paragraph (3-5 sentences) summarizing their most notable "
+        f"research contributions, methodologies, and current research direction. "
+        f"Be technical and precise. Write in your own words.\n\n"
+        f"Use Google Search to check their university faculty page, Google Scholar profile, "
+        f"lab website, and other academic sources.\n\n"
+        f"If a specific field value is unknown, omit it rather than guessing.\n"
+        f"Return ONLY a JSON object with the fields above, no other text."
     )
 
+
+def parse_json_response(text, scholar_name):
+    """Parse JSON from Gemini response text, handling code fences."""
+    text = text.strip()
+    if text.startswith("```"):
+        lines = text.split("\n")
+        lines = [l for l in lines if not l.strip().startswith("```")]
+        text = "\n".join(lines)
+
+    parsed = json.loads(text)
+
+    # Normalize: ensure it's a dict with scholar_name
+    if isinstance(parsed, dict):
+        if "scholar_name" not in parsed:
+            parsed["scholar_name"] = scholar_name
+        return parsed
+    return {"scholar_name": scholar_name}
+
+
+def extract_grounding_sources(response):
+    """Extract grounding metadata from response."""
+    sources = []
+    if not response.candidates:
+        return sources
+    candidate = response.candidates[0]
+    if candidate.grounding_metadata:
+        meta = candidate.grounding_metadata
+        if meta.grounding_chunks:
+            for chunk in meta.grounding_chunks:
+                if chunk.web:
+                    sources.append({
+                        "title": chunk.web.title,
+                        "url": chunk.web.uri,
+                    })
+    return sources
+
+
+def query_gemini(client, scholar_name, institution, scholar_id):
+    """
+    Query Gemini with grounded search for structured researcher profile data.
+    Returns (parsed_dict, grounding_sources) or (None, []) on failure.
+    """
+    prompt = build_profile_prompt(scholar_name, institution)
+
     try:
-        response = client.chat.completions.create(
-            model="sonar-pro",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a research analyst specializing in academic profiling. Provide comprehensive, technically precise information about scholars. Return results as structured JSON."
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            response_format={
-                "type": "json_schema",
-                "json_schema": {
-                    "schema": PROFILE_SCHEMA
-                }
-            },
-            extra_body={
-                "search_mode": "academic",
-                "web_search_options": {
-                    "search_context_size": "high"
-                }
-            }
+        response = client.models.generate_content(
+            model="gemini-3-flash-preview",
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=SYSTEM_INSTRUCTION,
+                tools=[types.Tool(google_search=types.GoogleSearch())],
+            ),
         )
 
-        content = response.choices[0].message.content
-        result = json.loads(content)
+        # Handle empty or RECITATION response
+        if response.text is None:
+            finish_reason = None
+            if response.candidates:
+                finish_reason = response.candidates[0].finish_reason
+            print(f"    Empty response (finish_reason={finish_reason})")
 
-        # Extract citations from response if available
-        citations = []
-        if hasattr(response, 'citations') and response.citations:
-            citations = response.citations
+            if str(finish_reason) == "RECITATION":
+                print(f"    Retrying with shorter bio prompt...")
+                return _retry_shorter_bio(client, scholar_name, institution)
 
-        return result, citations
+            return None, []
+
+        result = parse_json_response(response.text, scholar_name)
+        sources = extract_grounding_sources(response)
+        return result, sources
 
     except json.JSONDecodeError as e:
         print(f"    JSON parse error for {scholar_name}: {e}")
-        content = response.choices[0].message.content
-        match = re.search(r'\{.*\}', content, re.DOTALL)
+        text = response.text or ""
+        match = re.search(r'\{.*\}', text, re.DOTALL)
         if match:
             try:
                 return json.loads(match.group()), []
@@ -115,6 +154,36 @@ def query_perplexity(client, scholar_name, institution, scholar_id):
         return None, []
 
 
+def _retry_shorter_bio(client, scholar_name, institution):
+    """Retry profile fetch with a shorter bio request to avoid RECITATION."""
+    prompt = (
+        f"Search online for the researcher {scholar_name} from {institution}.\n\n"
+        f"Provide: scholar_name, institution, department, lab_url, main_research_area, "
+        f"and bio (1-2 sentences summarizing their research, in your own words).\n\n"
+        f"Return ONLY a JSON object."
+    )
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-3-flash-preview",
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=SYSTEM_INSTRUCTION,
+                tools=[types.Tool(google_search=types.GoogleSearch())],
+            ),
+        )
+
+        if response.text is None:
+            return None, []
+
+        result = parse_json_response(response.text, scholar_name)
+        sources = extract_grounding_sources(response)
+        return result, sources
+    except Exception as e:
+        print(f"    Retry also failed for {scholar_name}: {e}")
+        return None, []
+
+
 def scholar_info_exists(scholar_id, output_dir):
     """Check if structured profile JSON already exists for a scholar."""
     for file_path in output_dir.glob(f"{scholar_id}_*.json"):
@@ -122,7 +191,7 @@ def scholar_info_exists(scholar_id, output_dir):
     return False
 
 
-def save_profile(data, citations, scholar_id, scholar_name, output_dir):
+def save_profile(data, sources, scholar_id, scholar_name, output_dir):
     """Save structured profile JSON for a scholar."""
     output_dir.mkdir(parents=True, exist_ok=True)
     safe_name = re.sub(r'[^\w\s-]', '', scholar_name).strip().replace(' ', '_')
@@ -131,7 +200,7 @@ def save_profile(data, citations, scholar_id, scholar_name, output_dir):
     output = {
         "scholar_id": scholar_id,
         **data,
-        "source_citations": citations
+        "source_citations": sources
     }
 
     with open(filepath, 'w', encoding='utf-8') as f:
@@ -140,11 +209,11 @@ def save_profile(data, citations, scholar_id, scholar_name, output_dir):
     return filepath
 
 
-def normalize_bio(gemini_client, scholar_name, bio):
+def normalize_bio(client, scholar_name, bio):
     """Normalize a bio through Gemini to ensure neutral, factual tone."""
     prompt = render_prompt("normalize_bio", scholar_name=scholar_name, bio=bio)
     try:
-        response = gemini_client.models.generate_content(
+        response = client.models.generate_content(
             model="gemini-3-flash-preview",
             contents=prompt,
         )
@@ -156,9 +225,9 @@ def normalize_bio(gemini_client, scholar_name, bio):
 
 def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=None,
                          scholar_id_filter=None, scholar_name_filter=None,
-                         no_skip=False, delay=2.0, skip_normalize=False):
+                         no_skip=False, delay=1.0, skip_normalize=False):
     """
-    Extract structured profile information for scholars via Perplexity API.
+    Extract structured profile information for scholars via Gemini grounded search.
     """
     output_dir = OUTPUT_DIR
     output_dir.mkdir(exist_ok=True, parents=True)
@@ -249,15 +318,7 @@ def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=No
         print(f"\nNo API calls made.")
         return
 
-    client = OpenAI(api_key=API_KEY, base_url="https://api.perplexity.ai")
-
-    gemini_client = None
-    if not skip_normalize:
-        google_key = os.getenv("GOOGLE_API_KEY")
-        if google_key:
-            gemini_client = genai.Client(api_key=google_key)
-        else:
-            print("Warning: GOOGLE_API_KEY not set, skipping bio normalization")
+    client = genai.Client(api_key=API_KEY)
 
     success = 0
     fail = 0
@@ -267,13 +328,13 @@ def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=No
         inst = scholar['institution']
         print(f"[{i+1}/{len(scholar_items)}] {name} ({scholar_id}) — {inst}")
 
-        data, citations = query_perplexity(client, name, inst, scholar_id)
+        data, sources = query_gemini(client, name, inst, scholar_id)
 
         if data:
-            if gemini_client and data.get("bio"):
-                data["bio"] = normalize_bio(gemini_client, name, data["bio"])
+            if not skip_normalize and data.get("bio"):
+                data["bio"] = normalize_bio(client, name, data["bio"])
                 print(f"    Bio normalized")
-            filepath = save_profile(data, citations, scholar_id, name, output_dir)
+            filepath = save_profile(data, sources, scholar_id, name, output_dir)
             success += 1
             print(f"    Saved to {filepath}")
             area = data.get("main_research_area")
@@ -294,7 +355,7 @@ def extract_scholar_info(input_file="data/vss_data.csv", dry_run=False, limit=No
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Extract structured scholar profiles via Perplexity API"
+        description="Extract structured scholar profiles via Gemini grounded search"
     )
     parser.add_argument("--dry-run", action="store_true",
                         help="Show what would be fetched without making API calls")
@@ -306,8 +367,8 @@ def main():
                         help="Process only a specific scholar by name")
     parser.add_argument("--no-skip", action="store_true",
                         help="Re-fetch even if data already exists")
-    parser.add_argument("--delay", type=float, default=2.0,
-                        help="Delay between API calls in seconds (default: 2.0)")
+    parser.add_argument("--delay", type=float, default=1.0,
+                        help="Delay between API calls in seconds (default: 1.0)")
     parser.add_argument("--skip-normalize", action="store_true",
                         help="Skip Gemini bio normalization step")
     args = parser.parse_args()

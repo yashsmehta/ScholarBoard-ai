@@ -2,14 +2,19 @@
 Fetch recent papers for ScholarBoard researchers using Gemini grounded search.
 
 Uses Gemini 3 Flash Preview with Google Search grounding to find
-the most recent papers for each researcher. Returns title, abstract,
-citations, and year.
+the most recent papers for each researcher. Citation counts are
+fetched separately from Google Scholar via Serper.dev.
+
+Supports parallel execution via --workers to speed up bulk fetches.
+A thread-safe rate limiter ensures Gemini API limits are respected
+regardless of worker count.
 
 Usage:
     python3 scripts/scholar_scraper/fetch_papers_gemini.py
     python3 scripts/scholar_scraper/fetch_papers_gemini.py --limit 5 --papers 5
     python3 scripts/scholar_scraper/fetch_papers_gemini.py --scholar-id 0005
     python3 scripts/scholar_scraper/fetch_papers_gemini.py --scholar-name "Aaron Seitz"
+    python3 scripts/scholar_scraper/fetch_papers_gemini.py --workers 4 --limit 20
 """
 
 import json
@@ -18,10 +23,13 @@ import re
 import time
 import argparse
 import sys
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+import requests
 
 # Project root
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -33,12 +41,32 @@ if not API_KEY:
     print("Error: GOOGLE_API_KEY (or GEMINI_API_KEY) not found in .env")
     sys.exit(1)
 
+SERPER_API_KEY = os.getenv("SERPER_API_KEY")
+
 OUTPUT_DIR = PROJECT_ROOT / "data" / "scholar_papers"
+SERPER_SCHOLAR_URL = "https://google.serper.dev/scholar"
 
 SYSTEM_INSTRUCTION = (
     "You are a research paper database. Return accurate, verified paper information. "
     "Only include papers you are confident exist. Return results as structured JSON."
 )
+
+
+class RateLimiter:
+    """Simple thread-safe rate limiter with minimum delay between calls."""
+
+    def __init__(self, delay: float):
+        self._delay = delay
+        self._lock = threading.Lock()
+        self._last_call = 0.0
+
+    def wait(self):
+        with self._lock:
+            now = time.time()
+            elapsed = now - self._last_call
+            if elapsed < self._delay:
+                time.sleep(self._delay - elapsed)
+            self._last_call = time.time()
 
 
 def build_prompt(scholar_name, institution, num_papers):
@@ -64,7 +92,6 @@ def build_prompt(scholar_name, institution, num_papers):
         f"simplify for a general audience. Preserve all specific methods, model names, brain "
         f"regions, metrics, and quantitative findings. Closely rephrase without copying verbatim.\n"
         f"- year: publication year\n"
-        f"- citations: approximate citation count (or '0' if unknown)\n"
         f"- venue: journal or conference name\n"
         f"- authors: full author list as a comma-separated string\n"
         f"- url: DOI or paper URL if available\n\n"
@@ -171,7 +198,7 @@ def _retry_without_abstract(client, scholar_name, institution, num_papers):
         f"- Full journal articles or preprints only\n"
         f"- EXCLUDE: VSS abstracts, JOV conference abstracts, CCN, COSYNE, SfN, OHBM abstracts\n"
         f"- Only verified papers\n\n"
-        f"For each paper provide: title, year, venue, authors, url, citations.\n"
+        f"For each paper provide: title, year, venue, authors, url.\n"
         f"Set abstract to an empty string.\n\n"
         f"Return a JSON object with keys \"scholar_name\" and \"papers\" array. "
         f"Return ONLY JSON."
@@ -196,6 +223,35 @@ def _retry_without_abstract(client, scholar_name, institution, num_papers):
     except Exception as e:
         print(f"    Retry also failed for {scholar_name}: {e}")
         return None, []
+
+
+def lookup_citations(papers, serper_key):
+    """Look up citation counts from Google Scholar via Serper.dev."""
+    if not serper_key:
+        return papers
+
+    for paper in papers:
+        title = paper.get("title", "")
+        if not title:
+            continue
+        try:
+            resp = requests.post(
+                SERPER_SCHOLAR_URL,
+                headers={"X-API-KEY": serper_key, "Content-Type": "application/json"},
+                json={"q": f'allintitle:{title}', "num": 1},
+                timeout=15,
+            )
+            resp.raise_for_status()
+            results = resp.json().get("organic", [])
+            if results:
+                paper["citations"] = str(results[0].get("citedBy", 0))
+            else:
+                paper["citations"] = "0"
+            time.sleep(0.2)
+        except Exception:
+            paper["citations"] = "0"
+
+    return papers
 
 
 def load_researchers(csv_path):
@@ -239,6 +295,61 @@ def save_papers(data, sources, scholar_id, scholar_name, output_dir):
     return filepath
 
 
+def _process_scholar(researcher, index, total, num_papers, api_key, serper_key,
+                     rate_limiter, output_dir, counters_lock, counters):
+    """
+    Process a single scholar: fetch papers and save results.
+
+    Each worker creates its own genai client to avoid thread-safety issues.
+    The rate_limiter is called before each API request to respect API limits.
+
+    Args:
+        researcher: dict with scholar_id, scholar_name, scholar_institution
+        index: 0-based index of this scholar in the processing list
+        total: total number of scholars being processed
+        num_papers: number of papers to fetch per scholar
+        api_key: Gemini API key
+        serper_key: Serper.dev API key (or None to skip citation lookup)
+        rate_limiter: RateLimiter instance for throttling
+        output_dir: Path to output directory
+        counters_lock: threading.Lock for thread-safe counter updates
+        counters: dict with 'success', 'fail', 'total_papers' keys
+    """
+    name = researcher['scholar_name']
+    sid = researcher['scholar_id']
+    inst = researcher['scholar_institution']
+
+    with counters_lock:
+        print(f"[{index + 1}/{total}] {name} ({sid}) — {inst}")
+
+    # Each worker gets its own client to avoid thread-safety issues
+    client = genai.Client(api_key=api_key)
+
+    # Respect rate limits before making the API call
+    rate_limiter.wait()
+
+    data, sources = fetch_papers(client, name, inst, num_papers)
+
+    if data and data.get("papers"):
+        papers = data["papers"]
+        # Look up real citation counts from Google Scholar
+        if serper_key:
+            papers = lookup_citations(papers, serper_key)
+            data["papers"] = papers
+        save_papers(data, sources, sid, name, output_dir)
+        with counters_lock:
+            counters['success'] += 1
+            counters['total_papers'] += len(papers)
+            print(f"    {len(papers)} papers saved")
+            for p in papers:
+                cites = p.get('citations', '0')
+                print(f"      - [{p.get('year', '?')}] {p.get('title', '?')[:70]} ({cites} cites)")
+    else:
+        with counters_lock:
+            counters['fail'] += 1
+            print(f"    No papers found")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description='Fetch recent papers for ScholarBoard researchers via Gemini grounded search'
@@ -257,6 +368,8 @@ def main():
                         help='Show what would be fetched without making API calls')
     parser.add_argument('--delay', type=float, default=1.0,
                         help='Delay between API calls in seconds (default: 1.0)')
+    parser.add_argument('--workers', type=int, default=1,
+                        help='Number of parallel workers (default: 1)')
     args = parser.parse_args()
 
     csv_path = PROJECT_ROOT / "data" / "vss_data.csv"
@@ -306,41 +419,38 @@ def main():
         print(f"\nNo API calls made.")
         return
 
-    client = genai.Client(api_key=API_KEY)
+    rate_limiter = RateLimiter(delay=args.delay)
+    counters_lock = threading.Lock()
+    counters = {'success': 0, 'fail': 0, 'total_papers': 0}
+    total = len(researchers)
 
-    success = 0
-    fail = 0
-    total_papers = 0
-
-    for i, r in enumerate(researchers):
-        name = r['scholar_name']
-        sid = r['scholar_id']
-        inst = r['scholar_institution']
-
-        print(f"[{i+1}/{len(researchers)}] {name} ({sid}) — {inst}")
-
-        data, sources = fetch_papers(client, name, inst, args.papers)
-
-        if data and data.get("papers"):
-            papers = data["papers"]
-            save_papers(data, sources, sid, name, OUTPUT_DIR)
-            total_papers += len(papers)
-            success += 1
-            print(f"    {len(papers)} papers saved")
-            for p in papers:
-                print(f"      - [{p.get('year', '?')}] {p.get('title', '?')[:80]}")
-        else:
-            fail += 1
-            print(f"    No papers found")
-
-        # Rate limiting
-        if i < len(researchers) - 1:
-            time.sleep(args.delay)
+    if args.workers <= 1:
+        # Sequential execution — identical behavior to the original
+        for i, r in enumerate(researchers):
+            _process_scholar(r, i, total, args.papers, API_KEY, SERPER_API_KEY,
+                             rate_limiter, OUTPUT_DIR, counters_lock, counters)
+    else:
+        # Parallel execution with ThreadPoolExecutor
+        print(f"Using {args.workers} parallel workers\n")
+        with ThreadPoolExecutor(max_workers=args.workers) as executor:
+            futures = {
+                executor.submit(
+                    _process_scholar, r, i, total, args.papers, API_KEY,
+                    SERPER_API_KEY, rate_limiter, OUTPUT_DIR, counters_lock, counters
+                ): r
+                for i, r in enumerate(researchers)
+            }
+            for future in as_completed(futures):
+                # Re-raise any unhandled exceptions from workers
+                exc = future.exception()
+                if exc is not None:
+                    scholar = futures[future]
+                    print(f"    Unexpected error for {scholar['scholar_name']}: {exc}")
 
     print(f"\n--- Summary ---")
-    print(f"Successful: {success}/{success + fail}")
-    print(f"Failed:     {fail}/{success + fail}")
-    print(f"Total papers: {total_papers}")
+    print(f"Successful: {counters['success']}/{counters['success'] + counters['fail']}")
+    print(f"Failed:     {counters['fail']}/{counters['success'] + counters['fail']}")
+    print(f"Total papers: {counters['total_papers']}")
     print(f"Output: {OUTPUT_DIR}")
 
 

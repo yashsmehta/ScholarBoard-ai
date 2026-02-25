@@ -11,7 +11,6 @@ For each paper, provide:
 - title: exact paper title
 - abstract: Write a technical, domain-expert paraphrase of the paper's abstract. Use the same level of specialized terminology and jargon as the original — do NOT simplify for a general audience. Preserve all specific methods, model names, brain regions, metrics, and quantitative findings. Closely rephrase without copying verbatim.
 - year: publication year
-- citations: approximate citation count (or "0" if unknown)
 - venue: journal or conference name
 - authors: full author list as a comma-separated string
 - url: DOI or paper URL if available

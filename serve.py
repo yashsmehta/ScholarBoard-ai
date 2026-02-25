@@ -19,6 +19,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 DATA_DIR = PROJECT_ROOT / "data"
+BUILD_DIR = DATA_DIR / "build"
 
 sys.path.insert(0, str(PROJECT_ROOT))
 
@@ -43,7 +44,7 @@ class ScholarHandler(http.server.SimpleHTTPRequestHandler):
 
     def serve_scholars(self):
         """Serve the full scholars.json."""
-        path = DATA_DIR / "scholars.json"
+        path = BUILD_DIR / "scholars.json"
         if not path.exists():
             self.send_error(404, "scholars.json not found")
             return
@@ -51,7 +52,7 @@ class ScholarHandler(http.server.SimpleHTTPRequestHandler):
 
     def serve_scholar(self, scholar_id):
         """Serve a single scholar by ID."""
-        path = DATA_DIR / "scholars.json"
+        path = BUILD_DIR / "scholars.json"
         if not path.exists():
             self.send_error(404, "scholars.json not found")
             return
@@ -84,7 +85,7 @@ class ScholarHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(400, "Missing query")
             return
 
-        path = DATA_DIR / "scholars.json"
+        path = BUILD_DIR / "scholars.json"
         if not path.exists():
             self.send_error(404, "scholars.json not found")
             return

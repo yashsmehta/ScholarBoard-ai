@@ -8,7 +8,9 @@ __init__*
 *.npz
 *.nc
 .cursorignore
-data/profile_pics/
-data/perplexity_info/
+data/source/
+data/pipeline/
+data/build/
+data/archive/
 data/*
 logs/

@@ -18,6 +18,9 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
+SOURCE_DIR = DATA_DIR / "source"
+PIPELINE_DIR = DATA_DIR / "pipeline"
+BUILD_DIR = DATA_DIR / "build"
 PYTHON = sys.executable
 
 # ── ANSI colors ───────────────────────────────────────────────────────────
@@ -44,7 +47,7 @@ STEPS = [
         "description": "Fetch papers via Gemini grounded search",
         "model": "gemini-3-flash-preview",
         "command": [PYTHON, "scripts/scholar_scraper/fetch_papers_gemini.py"],
-        "check": lambda: len(list((DATA_DIR / "scholar_papers").glob("*.json"))),
+        "check": lambda: len(list((PIPELINE_DIR / "scholar_papers").glob("*.json"))),
         "total": 730,
     },
     {
@@ -53,7 +56,7 @@ STEPS = [
         "description": "Fetch researcher profiles + normalize bios",
         "model": "gemini-3-flash-preview",
         "command": [PYTHON, "-m", "scholar_board.profile_extractor"],
-        "check": lambda: len(list((DATA_DIR / "scholar_profiles").glob("*.json"))),
+        "check": lambda: len(list((PIPELINE_DIR / "scholar_profiles").glob("*.json"))),
         "total": 730,
     },
     {
@@ -62,7 +65,7 @@ STEPS = [
         "description": "Embed paper text for clustering",
         "model": "gemini-embedding-001 (CLUSTERING)",
         "command": [PYTHON, "scripts/create_paper_embeddings.py"],
-        "check": lambda: 1 if (DATA_DIR / "scholar_embeddings.nc").exists() else 0,
+        "check": lambda: 1 if (PIPELINE_DIR / "scholar_embeddings.nc").exists() else 0,
         "total": 1,
     },
     {
@@ -71,7 +74,7 @@ STEPS = [
         "description": "UMAP projection + HDBSCAN clustering",
         "model": "n/a (local)",
         "command": [PYTHON, "scripts/run_umap_dbscan.py"],
-        "check": lambda: 1 if (DATA_DIR / "models" / "umap_model.joblib").exists() else 0,
+        "check": lambda: 1 if (PIPELINE_DIR / "models" / "umap_model.joblib").exists() else 0,
         "total": 1,
     },
     {
@@ -80,7 +83,7 @@ STEPS = [
         "description": "Assign subfield tags via semantic similarity",
         "model": "gemini-embedding-001 (SEMANTIC_SIMILARITY)",
         "command": [PYTHON, "scripts/assign_subfields.py"],
-        "check": lambda: 1 if (DATA_DIR / "scholar_subfields.json").exists() else 0,
+        "check": lambda: 1 if (PIPELINE_DIR / "scholar_subfields.json").exists() else 0,
         "total": 1,
     },
     {
@@ -89,7 +92,7 @@ STEPS = [
         "description": "Generate AI research directions",
         "model": "gemini-3.1-pro-preview (HIGH thinking)",
         "command": [PYTHON, "scripts/generate_ideas.py"],
-        "check": lambda: len(list((DATA_DIR / "scholar_ideas").glob("*.json"))),
+        "check": lambda: len(list((PIPELINE_DIR / "scholar_ideas").glob("*.json"))),
         "total": 730,
     },
     {
@@ -98,7 +101,7 @@ STEPS = [
         "description": "Consolidate all data into scholars.json",
         "model": "n/a (local)",
         "command": [PYTHON, "scripts/build_scholars_json.py"],
-        "check": lambda: 1 if (DATA_DIR / "scholars.json").exists() else 0,
+        "check": lambda: 1 if (BUILD_DIR / "scholars.json").exists() else 0,
         "total": 1,
     },
     {
@@ -107,7 +110,7 @@ STEPS = [
         "description": "Download profile pictures",
         "model": "Serper.dev image search",
         "command": [PYTHON, "scripts/download_profile_pics.py", "--skip-existing"],
-        "check": lambda: len(list((DATA_DIR / "profile_pics").glob("*.jpg"))) + len(list((DATA_DIR / "profile_pics").glob("*.png"))),
+        "check": lambda: len(list((BUILD_DIR / "profile_pics").glob("*.jpg"))) + len(list((BUILD_DIR / "profile_pics").glob("*.png"))),
         "total": 730,
     },
 ]

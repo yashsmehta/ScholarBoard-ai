@@ -25,9 +25,11 @@ sys.path.insert(0, str(PROJECT_ROOT))
 load_dotenv(PROJECT_ROOT / ".env")
 
 DATA_DIR = PROJECT_ROOT / "data"
-PAPERS_DIR = DATA_DIR / "scholar_papers"
-SUBFIELDS_PATH = DATA_DIR / "subfields.json"
-OUTPUT_PATH = DATA_DIR / "scholar_subfields.json"
+SOURCE_DIR = DATA_DIR / "source"
+PIPELINE_DIR = DATA_DIR / "pipeline"
+PAPERS_DIR = PIPELINE_DIR / "scholar_papers"
+SUBFIELDS_PATH = SOURCE_DIR / "subfields.json"
+OUTPUT_PATH = PIPELINE_DIR / "scholar_subfields.json"
 
 EMBEDDING_MODEL = "gemini-embedding-001"
 EMBEDDING_DIM = 3072
@@ -67,7 +69,7 @@ def load_all_paper_texts():
     """Load paper texts for all scholars that have them."""
     import csv
 
-    csv_path = DATA_DIR / "vss_data.csv"
+    csv_path = SOURCE_DIR / "vss_data.csv"
     scholar_ids = []
     with open(csv_path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)

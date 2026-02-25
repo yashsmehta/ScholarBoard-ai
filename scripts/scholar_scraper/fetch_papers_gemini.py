@@ -41,7 +41,7 @@ if not API_KEY:
 
 SERPER_API_KEY = os.getenv("SERPER_API_KEY")
 
-OUTPUT_DIR = PROJECT_ROOT / "data" / "scholar_papers"
+OUTPUT_DIR = PROJECT_ROOT / "data" / "pipeline" / "scholar_papers"
 SERPER_SCHOLAR_URL = "https://google.serper.dev/scholar"
 
 SYSTEM_INSTRUCTION = (
@@ -346,7 +346,7 @@ def main():
                         help='Number of parallel workers (default: 25)')
     args = parser.parse_args()
 
-    csv_path = PROJECT_ROOT / "data" / "vss_data.csv"
+    csv_path = PROJECT_ROOT / "data" / "source" / "vss_data.csv"
     if not csv_path.exists():
         print(f"Error: {csv_path} not found")
         sys.exit(1)

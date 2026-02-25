@@ -23,9 +23,11 @@ sys.path.insert(0, str(PROJECT_ROOT))
 load_dotenv(PROJECT_ROOT / ".env")
 
 DATA_DIR = PROJECT_ROOT / "data"
-MODELS_DIR = DATA_DIR / "models"
-EMBEDDINGS_PATH = DATA_DIR / "scholar_embeddings.nc"
-SCHOLARS_JSON_PATH = DATA_DIR / "scholars.json"
+PIPELINE_DIR = DATA_DIR / "pipeline"
+BUILD_DIR = DATA_DIR / "build"
+MODELS_DIR = PIPELINE_DIR / "models"
+EMBEDDINGS_PATH = PIPELINE_DIR / "scholar_embeddings.nc"
+SCHOLARS_JSON_PATH = BUILD_DIR / "scholars.json"
 
 
 def load_embeddings():

@@ -31,6 +31,9 @@ from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection, R
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
+SOURCE_DIR = DATA_DIR / "source"
+PIPELINE_DIR = DATA_DIR / "pipeline"
+BUILD_DIR = DATA_DIR / "build"
 
 
 def load_vss_csv(csv_path: Path) -> dict[str, dict]:
@@ -183,13 +186,13 @@ def load_scholar_ideas(ideas_dir: Path) -> dict[str, dict]:
 
 def build_scholars(write_individual: bool = True) -> list[Scholar]:
     """Build consolidated scholar data from all sources."""
-    csv_path = DATA_DIR / "vss_data.csv"
-    current_json_path = DATA_DIR / "scholars.json"
-    papers_dir = DATA_DIR / "scholar_papers"
-    profiles_dir = DATA_DIR / "scholar_profiles"
-    pics_dir = DATA_DIR / "profile_pics"
-    subfields_path = DATA_DIR / "scholar_subfields.json"
-    ideas_dir = DATA_DIR / "scholar_ideas"
+    csv_path = SOURCE_DIR / "vss_data.csv"
+    current_json_path = BUILD_DIR / "scholars.json"
+    papers_dir = PIPELINE_DIR / "scholar_papers"
+    profiles_dir = PIPELINE_DIR / "scholar_profiles"
+    pics_dir = BUILD_DIR / "profile_pics"
+    subfields_path = PIPELINE_DIR / "scholar_subfields.json"
+    ideas_dir = PIPELINE_DIR / "scholar_ideas"
 
     # Load all data sources
     print("Loading data sources...")
@@ -296,7 +299,7 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
 
     # Write individual files
     if write_individual:
-        individual_dir = DATA_DIR / "scholars"
+        individual_dir = BUILD_DIR / "scholars"
         individual_dir.mkdir(parents=True, exist_ok=True)
         for scholar in scholars:
             fpath = individual_dir / f"{scholar.id}.json"
@@ -305,7 +308,7 @@ def build_scholars(write_individual: bool = True) -> list[Scholar]:
         print(f"\nWrote {len(scholars)} individual files to {individual_dir}")
 
     # Write consolidated JSON (keyed by ID, matching current format)
-    output_path = DATA_DIR / "scholars.json"
+    output_path = BUILD_DIR / "scholars.json"
     consolidated = {}
     for scholar in scholars:
         data = scholar.model_dump(mode="json")

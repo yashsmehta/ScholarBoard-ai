@@ -26,8 +26,9 @@ sys.path.insert(0, str(PROJECT_ROOT))
 load_dotenv(PROJECT_ROOT / ".env")
 
 DATA_DIR = PROJECT_ROOT / "data"
-PAPERS_DIR = DATA_DIR / "scholar_papers"
-OUTPUT_PATH = DATA_DIR / "scholar_embeddings.nc"
+PIPELINE_DIR = DATA_DIR / "pipeline"
+PAPERS_DIR = PIPELINE_DIR / "scholar_papers"
+OUTPUT_PATH = PIPELINE_DIR / "scholar_embeddings.nc"
 
 EMBEDDING_MODEL = "gemini-embedding-001"
 EMBEDDING_DIM = 3072
@@ -35,7 +36,7 @@ EMBEDDING_DIM = 3072
 
 def load_scholars_csv() -> dict[str, dict]:
     """Load scholars from vss_data.csv (unique by scholar_id)."""
-    csv_path = DATA_DIR / "vss_data.csv"
+    csv_path = SOURCE_DIR / "vss_data.csv"
     scholars = {}
     abstracts_by_id = {}
 

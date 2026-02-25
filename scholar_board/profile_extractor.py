@@ -36,7 +36,7 @@ API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
 if not API_KEY:
     raise ValueError("GOOGLE_API_KEY (or GEMINI_API_KEY) not found in environment variables")
 
-OUTPUT_DIR = Path("data/scholar_profiles")
+OUTPUT_DIR = Path("data/pipeline/scholar_profiles")
 
 SYSTEM_INSTRUCTION = (
     "You are a research analyst specializing in academic profiling. "

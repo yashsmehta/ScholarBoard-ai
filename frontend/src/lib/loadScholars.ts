@@ -7,7 +7,7 @@ type RawScholarMap = Record<string, RawScholar>
 const DEFAULT_SOURCES = [
   import.meta.env.VITE_SCHOLARS_URL as string | undefined,
   '/api/scholars',
-  '/data/scholars.json',
+  '/data/build/scholars.json',
 ].filter((value): value is string => Boolean(value))
 
 const EMBEDDED_SOURCES = ['/embedded-scholars.json', ...DEFAULT_SOURCES]

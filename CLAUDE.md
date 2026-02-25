@@ -12,39 +12,39 @@ ScholarBoard.ai creates interactive 2D dashboards of researchers arranged by res
 
 ## Running Code
 
-**IMPORTANT:** Always use the venv Python directly via `.venv/bin/python3` (NOT `source .venv/bin/activate && python3`, which may resolve to the system Python on this machine). Install packages with `uv pip install`.
+**IMPORTANT:** Use `uv run` to execute all Python scripts. This automatically resolves the project's virtual environment. Install packages with `uv add`.
 
 ```bash
-# Install Python dependencies (uses uv package manager)
-uv pip install -e .
+# Install Python dependencies
+uv sync
 
 # Pipeline — show status dashboard
-.venv/bin/python3 scripts/run_pipeline.py
+uv run scripts/run_pipeline.py
 
 # Pipeline — run a single step or from a step onward
-.venv/bin/python3 scripts/run_pipeline.py --step build
-.venv/bin/python3 scripts/run_pipeline.py --from embed
+uv run scripts/run_pipeline.py --step build
+uv run scripts/run_pipeline.py --from embed
 
 # Build consolidated scholars.json from all data sources
-.venv/bin/python3 scripts/build_scholars_json.py
+uv run scripts/build_scholars_json.py
 
 # Frontend development (two terminals)
-.venv/bin/python3 serve.py              # Terminal 1: data server → :8000
+uv run serve.py                         # Terminal 1: data server → :8000
 cd frontend && npm run dev              # Terminal 2: Vite dev server → :5173
 
 # Dry-run examples (no API calls)
-.venv/bin/python3 scripts/scholar_scraper/fetch_papers_gemini.py --dry-run --limit 5
-.venv/bin/python3 scholar_board/profile_extractor.py --dry-run --limit 5
-.venv/bin/python3 scripts/create_paper_embeddings.py --dry-run
-.venv/bin/python3 scripts/generate_ideas.py --dry-run --limit 5
-.venv/bin/python3 scripts/download_profile_pics.py --dry-run --limit 5
+uv run scripts/scholar_scraper/fetch_papers_gemini.py --dry-run --limit 5
+uv run scholar_board/profile_extractor.py --dry-run --limit 5
+uv run scripts/create_paper_embeddings.py --dry-run
+uv run scripts/generate_ideas.py --dry-run --limit 5
+uv run scripts/download_profile_pics.py --dry-run --limit 5
 
 # Download profile pictures (Serper.dev image search)
-.venv/bin/python3 scripts/download_profile_pics.py --test                # Test with known scholar
-.venv/bin/python3 scripts/download_profile_pics.py --skip-existing       # Only missing scholars
+uv run scripts/download_profile_pics.py --test                # Test with known scholar
+uv run scripts/download_profile_pics.py --skip-existing       # Only missing scholars
 
 # Install a new package
-uv pip install <package-name>
+uv add <package-name>
 ```
 
 ## Architecture
@@ -126,20 +126,28 @@ Python HTTP server at project root serving data and API endpoints:
 
 ### Key Data Files
 
-- **`data/scholars.json`** — Master dataset keyed by scholar ID
-- **`data/vss_data.csv`** — Source CSV: 730 unique scholars with abstracts
-- **`data/scholar_papers/*.json`** — Per-scholar paper data from Gemini grounded search
-- **`data/scholar_profiles/*.json`** — Structured researcher profiles (bio, main_research_area, lab_url, department)
-- **`data/scholar_ideas/*.json`** — AI-generated research directions per scholar
-- **`data/scholar_subfields.json`** — Subfield tag assignments per scholar
-- **`data/subfields.json`** — 20 predefined vision science subfield definitions
-- **`data/profile_pics/*.jpg`** — Profile pictures (naming: `name_XXXX.jpg`)
-- **`data/scholar_embeddings.nc`** — High-dimensional embeddings (NetCDF/xarray)
-- **`data/models/*.joblib`** — Trained UMAP, HDBSCAN, and scaler models
+```
+data/
+├── source/                    # Inputs (never overwritten by pipeline)
+│   ├── vss_data.csv           # 730 unique scholars with abstracts
+│   └── subfields.json         # 23 subfield definitions
+├── pipeline/                  # Intermediates (safe to delete and regenerate)
+│   ├── scholar_papers/        # Per-scholar paper JSONs (step 1)
+│   ├── scholar_profiles/      # Per-scholar profile JSONs (step 2)
+│   ├── scholar_embeddings.nc  # 730×3072 embedding matrix (step 3)
+│   ├── models/                # Trained UMAP + HDBSCAN models (step 4)
+│   ├── scholar_subfields.json # Subfield tag assignments (step 5)
+│   └── scholar_ideas/         # AI-generated research directions (step 6)
+├── build/                     # Final assembled outputs (served by serve.py)
+│   ├── scholars.json          # Master dataset loaded by the frontend
+│   ├── profile_pics/          # Headshot images — name_XXXX.jpg
+│   └── scholars/              # Per-scholar JSON files
+└── archive/                   # Legacy/obsolete data (not used by pipeline)
+```
 
 ## Environment
 
-Requires a `.env` file with API keys: `GOOGLE_API_KEY` (or `GEMINI_API_KEY`), `SERPER_API_KEY` (for profile pic downloads). Python 3.10+, managed with `uv`. Virtual environment at `.venv/` — always invoke Python as `.venv/bin/python3` and install packages with `uv pip install`.
+Requires a `.env` file with API keys: `GOOGLE_API_KEY` (or `GEMINI_API_KEY`), `SERPER_API_KEY` (for profile pic downloads). Python 3.10+, managed with `uv`. Use `uv run` to execute scripts and `uv add` to install packages.
 
 ## Code Conventions
 
@@ -147,7 +155,7 @@ Requires a `.env` file with API keys: `GOOGLE_API_KEY` (or `GEMINI_API_KEY`), `S
 - Library code in `scholar_board/` (importable module); standalone scripts in `scripts/`
 - All API prompts externalized in `prompts/*.md`, loaded via `scholar_board/prompt_loader.py`
 - Data schema defined with Pydantic in `scholar_board/schemas.py`
-- Data artifacts in `data/` (git-ignored); served directly by `serve.py`
+- Data artifacts in `data/` (git-ignored); structured as `source/`, `pipeline/`, `build/`, `archive/`
 - Embedding data uses xarray/NetCDF; trained models use joblib
 - Profile pic naming: `scholar_name_XXXX.jpg` (lowercase, underscores)
 - All pipeline scripts support `--dry-run` flag

@@ -39,9 +39,10 @@ if not API_KEY:
     sys.exit(1)
 
 DATA_DIR = PROJECT_ROOT / "data"
-PAPERS_DIR = DATA_DIR / "scholar_papers"
-OUTPUT_DIR = DATA_DIR / "scholar_ideas"
-SUBFIELDS_PATH = DATA_DIR / "scholar_subfields.json"
+PIPELINE_DIR = DATA_DIR / "pipeline"
+PAPERS_DIR = PIPELINE_DIR / "scholar_papers"
+OUTPUT_DIR = PIPELINE_DIR / "scholar_ideas"
+SUBFIELDS_PATH = PIPELINE_DIR / "scholar_subfields.json"
 
 REQUIRED_FIELDS = [
     "research_thread",
@@ -244,7 +245,7 @@ def main():
                         help='Number of parallel workers (default: 25)')
     args = parser.parse_args()
 
-    csv_path = DATA_DIR / "vss_data.csv"
+    csv_path = DATA_DIR / "source" / "vss_data.csv"
     if not csv_path.exists():
         print(f"Error: {csv_path} not found")
         sys.exit(1)

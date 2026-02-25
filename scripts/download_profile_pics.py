@@ -19,8 +19,8 @@ import requests
 from dotenv import load_dotenv
 from PIL import Image
 
-PICS_DIR = Path("data/profile_pics")
-CSV_PATH = Path("data/vss_data.csv")
+PICS_DIR = Path("data/build/profile_pics")
+CSV_PATH = Path("data/source/vss_data.csv")
 DEFAULT_AVATAR = PICS_DIR / "default_avatar.jpg"
 SERPER_URL = "https://google.serper.dev/images"
 MAX_DIM = 400

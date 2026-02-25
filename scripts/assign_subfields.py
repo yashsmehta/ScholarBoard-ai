@@ -130,11 +130,16 @@ def cosine_similarity(a, b):
 
 
 def assign_subfields(scholar_ids, scholar_embeddings, subfield_embeddings, subfields,
-                     top_k=5, threshold=0.0):
+                     top_k=4, margin=0.01):
     """Assign subfield labels to each scholar based on cosine similarity.
 
-    Ranks all 20 subfields by score, then keeps up to top_k that are above threshold.
-    Every scholar gets at least 1 (the primary subfield, even if below threshold).
+    Uses a relative threshold: keeps the primary subfield (always) plus any
+    additional subfields whose score is within `margin` of the top score,
+    up to `top_k` total.
+
+    Args:
+        margin: max score drop from the top-ranked subfield to keep a subtopic.
+                E.g., 0.01 means a subfield scoring 0.84 is kept if the top is 0.85.
     """
     sim_matrix = cosine_similarity(scholar_embeddings, subfield_embeddings)
     subfield_names = [sf["name"] for sf in subfields]
@@ -145,17 +150,20 @@ def assign_subfields(scholar_ids, scholar_embeddings, subfield_embeddings, subfi
         sid_padded = str(sid).zfill(4) if str(sid).isdigit() else str(sid)
 
         scores = sim_matrix[i]
-        top_indices = np.argsort(scores)[::-1][:top_k]
+        top_indices = np.argsort(scores)[::-1]
+        top_score = float(scores[top_indices[0]])
 
         tags = []
         for idx in top_indices:
             score = float(scores[idx])
-            # Always keep the primary (first), then apply threshold
-            if len(tags) == 0 or score >= threshold:
+            # Always keep the primary; keep others within margin of top
+            if len(tags) == 0 or (score >= top_score - margin and len(tags) < top_k):
                 tags.append({
                     "subfield": subfield_names[idx],
                     "score": round(score, 4),
                 })
+            else:
+                break  # scores are sorted descending, so no more will qualify
 
         tag_counts.append(len(tags))
         assignments[sid_padded] = {
@@ -190,11 +198,11 @@ def main():
     )
     parser.add_argument("--dry-run", action="store_true",
                         help="Preview without making API calls")
-    parser.add_argument("--top", type=int, default=5,
-                        help="Max subfield tags per scholar (default: 5)")
-    parser.add_argument("--threshold", type=float, default=0.0,
-                        help="Min cosine similarity to assign a subfield (default: 0.0 = no threshold). "
-                             "Primary subfield is always assigned regardless.")
+    parser.add_argument("--top", type=int, default=4,
+                        help="Max subfield tags per scholar (default: 4)")
+    parser.add_argument("--margin", type=float, default=0.01,
+                        help="Max score drop from top subfield to keep a subtopic (default: 0.01). "
+                             "E.g., 0.01 keeps subfields scoring within 0.01 of the best match.")
     args = parser.parse_args()
 
     # Load subfield definitions
@@ -219,8 +227,7 @@ def main():
         print(f"\n[DRY RUN] Would embed with Gemini (SEMANTIC_SIMILARITY):")
         print(f"  - {len(subfield_texts)} subfield descriptions")
         print(f"  - {len(scholar_texts)} scholar paper texts")
-        thresh_str = f", threshold={args.threshold}" if args.threshold > 0 else ""
-        print(f"  Then assign up to {args.top} subfields per scholar{thresh_str}")
+        print(f"  Then assign up to {args.top} subfields per scholar (margin={args.margin})")
         return
 
     print(f"\nEmbedding {len(subfield_texts)} subfield descriptions (SEMANTIC_SIMILARITY)...")
@@ -232,11 +239,10 @@ def main():
     print(f"  Shape: {scholar_embeddings.shape}")
 
     # Assign subfields
-    thresh_str = f", threshold={args.threshold}" if args.threshold > 0 else ""
-    print(f"\nAssigning subfield labels (top {args.top}{thresh_str})...")
+    print(f"\nAssigning subfield labels (top {args.top}, margin={args.margin})...")
     assignments = assign_subfields(
         scholar_ids, scholar_embeddings, subfield_embeddings,
-        subfields, top_k=args.top, threshold=args.threshold
+        subfields, top_k=args.top, margin=args.margin
     )
 
     # Save

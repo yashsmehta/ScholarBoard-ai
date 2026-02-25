@@ -15,17 +15,22 @@ ScholarBoard.ai creates interactive 2D dashboards of researchers arranged by res
 **IMPORTANT:** Always use the venv Python directly via `.venv/bin/python3` (NOT `source .venv/bin/activate && python3`, which may resolve to the system Python on this machine). Install packages with `uv pip install`.
 
 ```bash
-# Install dependencies (uses uv package manager)
+# Install Python dependencies (uses uv package manager)
 uv pip install -e .
 
-# Run any script — always use .venv/bin/python3
+# Pipeline — show status dashboard
 .venv/bin/python3 scripts/run_pipeline.py
+
+# Pipeline — run a single step or from a step onward
+.venv/bin/python3 scripts/run_pipeline.py --step build
+.venv/bin/python3 scripts/run_pipeline.py --from embed
 
 # Build consolidated scholars.json from all data sources
 .venv/bin/python3 scripts/build_scholars_json.py
 
-# Serve data for frontend development (http://localhost:8000)
-.venv/bin/python3 serve.py
+# Frontend development (two terminals)
+.venv/bin/python3 serve.py              # Terminal 1: data server → :8000
+cd frontend && npm run dev              # Terminal 2: Vite dev server → :5173
 
 # Dry-run examples (no API calls)
 .venv/bin/python3 scripts/scholar_scraper/fetch_papers_gemini.py --dry-run --limit 5
@@ -36,7 +41,7 @@ uv pip install -e .
 
 # Download profile pictures (Serper.dev image search)
 .venv/bin/python3 scripts/download_profile_pics.py --test                # Test with known scholar
-.venv/bin/python3 scripts/download_profile_pics.py --skip-existing       # Only scholars with default avatar
+.venv/bin/python3 scripts/download_profile_pics.py --skip-existing       # Only missing scholars
 
 # Install a new package
 uv pip install <package-name>
@@ -89,7 +94,7 @@ Papers → Profiles → Embed → UMAP+HDBSCAN → Subfields → Ideas → Build
 7. **`scripts/build_scholars_json.py`** — Merges all sources (CSV + UMAP + papers + profiles + subfields + ideas + pics) → `data/scholars.json`
 8. **`scripts/download_profile_pics.py`** — Serper.dev Google Image Search with face/headshot queries → `data/profile_pics/*.jpg`. Supports `--skip-existing`, `--limit`, `--test`.
 
-**Orchestrator:** `scripts/run_pipeline.py` — `--step <name>`, `--execute`, or status display.
+**Orchestrator:** `scripts/run_pipeline.py` — `--step <name>`, `--from <name>` (run from step onward), `--execute` (all), or status dashboard.
 
 All pipeline scripts support `--dry-run` for safe previewing. Steps 1, 2, and 6 support `--workers N` for parallel API calls (default: 25).
 
@@ -102,11 +107,11 @@ All pipeline scripts support `--dry-run` for safe previewing. Steps 1, 2, and 6 
 
 ### Frontend (`frontend/`)
 
-React + TypeScript + Vite app with D3.js map visualization:
+React 19 + TypeScript + Vite app (3 production deps: react, react-dom, d3):
 
-- Tabbed sidebar with Profile and AI Research Idea views
-- D3.js scatter plot with zoom, pan, scholar dots colored by cluster
-- Search, institution filter, subfield filter
+- D3.js scatter plot with zoom, pan, brush select, scholar dots colored by cluster (Spectral colormap)
+- Tabbed sidebar: Profile (bio, papers, lab link, nearby scholars) + AI Research Idea (hypothesis, approach, impact)
+- Live search, institution filter
 - See `frontend/CLAUDE.md` for detailed architecture
 
 ### Data Server (`serve.py`)

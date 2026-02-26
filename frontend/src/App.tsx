@@ -1,5 +1,6 @@
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import { Header } from './components/Header'
+import { MethodologyModal } from './components/MethodologyModal'
 import { SearchPanel } from './components/SearchPanel'
 import { FilterPanel } from './components/FilterPanel'
 import { MapControls } from './components/MapControls'
@@ -13,6 +14,7 @@ import type { Scholar } from './types/scholar'
 function App() {
   const mode = detectFrontendMode()
   const [state, dispatch] = useReducer(appReducer, initialAppState)
+  const [showMethodology, setShowMethodology] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -67,7 +69,9 @@ function App() {
       <Header
         modeLabel={mode === 'embedded' ? 'Embedded' : undefined}
         scholarCount={state.status === 'ready' ? state.scholars.length : undefined}
+        onMethodologyClick={() => setShowMethodology(true)}
       />
+      {showMethodology && <MethodologyModal onClose={() => setShowMethodology(false)} />}
       <main className="app-main">
         <section className="map-panel" aria-label="Scholar map panel">
           <div className="map-overlay map-overlay-left">

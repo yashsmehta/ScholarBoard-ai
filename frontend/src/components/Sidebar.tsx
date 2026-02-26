@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import type { ResearchIdea, Scholar } from '../types/scholar'
 import { subfieldColor } from '../map/colorScale'
 import { DEFAULT_AVATAR_URL, scholarAvatarUrl } from '../lib/scholarMedia'
@@ -120,20 +120,22 @@ function ProfileTab({
         <section className="sidebar-section">
           <h3>Research Subfields</h3>
           <div className="tag-list">
-            {scholar.subfields.map((sf) => (
-              <button
-                key={sf.subfield}
-                type="button"
-                className={cx(
-                  'subfield-badge',
-                  sf.subfield === scholar.primarySubfield && 'subfield-badge--primary',
-                )}
-                onClick={() => onSubfieldClick?.(sf.subfield)}
-                title={`Filter by ${sf.subfield}`}
-              >
-                {sf.subfield}
-              </button>
-            ))}
+            {scholar.subfields.map((sf) => {
+              const isPrimary = sf.subfield === scholar.primarySubfield
+              const color = subfieldColor(sf.subfield)
+              return (
+                <button
+                  key={sf.subfield}
+                  type="button"
+                  className={cx('subfield-badge', isPrimary && 'subfield-badge--primary')}
+                  style={{ '--sf-color': color } as React.CSSProperties}
+                  onClick={() => onSubfieldClick?.(sf.subfield)}
+                  title={`Filter by ${sf.subfield}`}
+                >
+                  {sf.subfield}
+                </button>
+              )
+            })}
           </div>
         </section>
       )}

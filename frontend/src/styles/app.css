@@ -91,6 +91,148 @@ input {
   color: var(--brand-0);
 }
 
+.topbar__method-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brand-0);
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(13, 92, 99, 0.3);
+  line-height: 1;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.topbar__method-btn:hover {
+  color: var(--brand-1);
+  border-color: var(--brand-1);
+}
+
+/* ── Methodology modal ─────────────────────────────────── */
+
+.method-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(30, 25, 18, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 16px 32px;
+  overflow-y: auto;
+}
+
+.method-panel {
+  position: relative;
+  background: #faf8f5;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-2);
+  max-width: 920px;
+  width: 100%;
+  padding: 44px 48px 48px;
+}
+
+.method-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--ink-2);
+  line-height: 1;
+  padding: 4px 6px;
+  border-radius: var(--radius-md);
+  transition: background 0.15s, color 0.15s;
+}
+
+.method-close:hover {
+  background: rgba(13, 92, 99, 0.07);
+  color: var(--ink-0);
+}
+
+.method-title {
+  margin: 0 0 12px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink-0);
+}
+
+.method-intro {
+  margin: 0 0 32px;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--ink-1);
+}
+
+.method-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.method-step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.method-step__num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(13, 92, 99, 0.09);
+  color: var(--brand-0);
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.method-step h3 {
+  margin: 0 0 5px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink-0);
+}
+
+.method-step p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--ink-1);
+}
+
+.method-about {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 24px;
+}
+
+.method-about h3 {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+}
+
+.method-about p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--ink-1);
+}
+
 .app-main {
   min-height: 0;
   display: grid;
@@ -107,6 +249,16 @@ input {
   border: 1px solid rgba(13, 92, 99, 0.15);
   box-shadow: var(--shadow-2);
   background: rgba(255, 255, 255, 0.6);
+}
+
+.map-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  border-radius: inherit;
+  box-shadow: inset 0 0 100px rgba(15, 12, 8, 0.15);
 }
 
 .scholar-map-shell {
@@ -229,7 +381,7 @@ input {
 .map-overlay-left {
   top: 14px;
   left: 14px;
-  width: min(380px, calc(100% - 28px));
+  width: min(260px, calc(100% - 28px));
 }
 
 .map-overlay-right {
@@ -251,10 +403,10 @@ input {
 .search-panel {
   background: rgba(255, 255, 255, 0.88);
   border: 1px solid rgba(21, 24, 34, 0.09);
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   box-shadow: var(--shadow-1);
   backdrop-filter: blur(12px);
-  padding: 10px;
+  padding: 7px;
 }
 
 .filter-panel__menu {
@@ -270,7 +422,7 @@ input {
 
 .search-panel__icon {
   position: absolute;
-  left: 12px;
+  left: 9px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--ink-2);
@@ -281,8 +433,9 @@ input {
   width: 100%;
   border: 1px solid rgba(13, 92, 99, 0.2);
   background: #fff;
-  border-radius: 12px;
-  padding: 10px 12px 10px 36px;
+  border-radius: 8px;
+  padding: 7px 10px 7px 30px;
+  font-size: 0.88rem;
   outline: none;
 }
 
@@ -292,11 +445,11 @@ input {
 }
 
 .search-results {
-  margin-top: 10px;
-  max-height: 300px;
+  margin-top: 7px;
+  max-height: 260px;
   overflow: auto;
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
+  border-radius: 8px;
   background: #fff;
 }
 
@@ -309,12 +462,12 @@ input {
 .search-results__item {
   width: 100%;
   display: grid;
-  gap: 2px;
+  gap: 1px;
   text-align: left;
   background: transparent;
   border: 0;
   border-bottom: 1px solid rgba(21, 24, 34, 0.05);
-  padding: 10px 12px;
+  padding: 8px 10px;
   cursor: pointer;
   transition: background 120ms ease;
 }
@@ -401,7 +554,17 @@ input {
 }
 
 .filter-option__name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
   color: var(--ink-1);
+}
+
+.filter-option__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .filter-option__count {
@@ -865,35 +1028,35 @@ input {
 }
 
 .subfield-badge {
+  --sf-color: #44a1a0;
   display: inline-flex;
   align-items: center;
-  padding: 5px 9px;
+  padding: 5px 10px;
   border-radius: 999px;
-  background: var(--brand-tint);
-  color: var(--brand-0);
+  background: color-mix(in srgb, var(--sf-color) 10%, transparent);
+  color: var(--sf-color);
   font-size: 0.76rem;
   font-weight: 600;
-  border: 1px solid var(--brand-border);
+  border: 1px solid color-mix(in srgb, var(--sf-color) 28%, transparent);
   cursor: pointer;
   transition: background 120ms ease, border-color 120ms ease;
   font-family: inherit;
 }
 
 .subfield-badge:hover {
-  background: rgba(68, 161, 160, 0.22);
-  border-color: var(--brand-1);
+  background: color-mix(in srgb, var(--sf-color) 20%, transparent);
+  border-color: color-mix(in srgb, var(--sf-color) 52%, transparent);
 }
 
 .subfield-badge--primary {
-  background: var(--brand-1);
+  background: var(--sf-color);
   color: #fff;
-  border-color: var(--brand-1);
-  font-weight: 700;
+  border-color: var(--sf-color);
+  font-weight: 600;
 }
 
 .subfield-badge--primary:hover {
-  background: #3a8e8d;
-  border-color: #3a8e8d;
+  filter: brightness(0.9);
 }
 
 .stack-list {

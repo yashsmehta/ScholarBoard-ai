@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useClickOutside } from '../hooks/useClickOutside'
+import { subfieldColor } from '../map/colorScale'
 import { cx } from '../lib/cx'
 
 interface NameCount {
@@ -168,7 +169,15 @@ export function FilterPanel({
                   checked={draft[activeTab].includes(item.name)}
                   onChange={() => toggleDraft(item.name)}
                 />
-                <span className="filter-option__name">{item.name}</span>
+                <span className="filter-option__name">
+                  {activeTab === 'subfield' && (
+                    <span
+                      className="filter-option__dot"
+                      style={{ backgroundColor: subfieldColor(item.name) }}
+                    />
+                  )}
+                  {item.name}
+                </span>
                 <span className="filter-option__count">{item.count}</span>
               </label>
             ))}

@@ -1,9 +1,10 @@
 interface HeaderProps {
   modeLabel?: string
   scholarCount?: number
+  onMethodologyClick?: () => void
 }
 
-export function Header({ modeLabel, scholarCount }: HeaderProps) {
+export function Header({ modeLabel, scholarCount, onMethodologyClick }: HeaderProps) {
   return (
     <header className="topbar">
       <div className="topbar__content">
@@ -15,6 +16,9 @@ export function Header({ modeLabel, scholarCount }: HeaderProps) {
           {scholarCount != null && scholarCount > 0 && (
             <span className="topbar__stat">{scholarCount} scholars</span>
           )}
+          <button className="topbar__method-btn" onClick={onMethodologyClick}>
+            Methodology
+          </button>
           {modeLabel && <span className="topbar__mode">{modeLabel}</span>}
         </div>
       </div>

@@ -20,7 +20,6 @@ Usage:
 
 import json
 import re
-import csv
 import argparse
 import sys
 import threading
@@ -29,13 +28,12 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from google.genai import types
 
 from scholar_board.config import (
-    CSV_PATH,
     PAPERS_DIR,
     PROFILES_DIR,
 )
 from scholar_board.gemini import get_client, extract_grounding_sources, parse_json_response
 from scholar_board.prompt_loader import render_prompt
-from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_profile
+from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_profile, load_scholars, set_is_pi
 
 PROFILE_SYSTEM_INSTRUCTION = (
     "You are a research analyst specializing in academic profiling. "
@@ -283,9 +281,9 @@ def save_profile(data, sources, scholar_id, scholar_name, output_dir):
 
 def _process_single_scholar(scholar_id, scholar, index, total, client,
                              output_dir, skip_normalize, print_lock):
-    """Process a single scholar: fetch profile → classify PI → normalize bio → save."""
+    """Process a single scholar: fetch profile → classify PI → write is_pi → save if PI."""
     name = scholar["scholar_name"]
-    inst = scholar["institution"]
+    inst = scholar["scholar_institution"]
 
     with print_lock:
         print(f"[{index}/{total}] {name} ({scholar_id}) — {inst}")
@@ -293,31 +291,31 @@ def _process_single_scholar(scholar_id, scholar, index, total, client,
     # Step 1: grounded profile fetch
     data, sources = query_gemini(client, name, inst, scholar_id)
 
-    if not data:
+    if not data or data.get("not_found"):
         with print_lock:
-            print(f"    Failed to extract profile")
-        return False
-
-    if data.get("not_found"):
-        with print_lock:
-            print(f"    Not found online — skipping")
+            msg = "Not found online" if data and data.get("not_found") else "Failed to extract profile"
+            print(f"    {msg} — skipping")
         return False
 
     # Step 2: PI classification (non-grounded, uses fetched bio + any papers on disk)
     papers = _load_papers_for_scholar(scholar_id)
     classification = classify_pi(
-        client,
-        name,
-        data.get("institution", inst),
-        data.get("department", ""),
-        data.get("bio", ""),
-        papers,
+        client, name,
+        data.get("institution", inst), data.get("department", ""),
+        data.get("bio", ""), papers,
     )
     is_pi = classification["is_pi"]
     confidence = classification["confidence"]
     reason = classification["reason"]
 
+    # Always write is_pi to DB (true or false)
+    conn = get_connection()
+    init_db(conn)
+    ensure_scholar(conn, scholar_id, name, inst)
+    set_is_pi(conn, scholar_id, is_pi)
+
     if not is_pi:
+        conn.close()
         with print_lock:
             print(f"    REJECTED [{confidence}]: {reason}")
         return False
@@ -325,18 +323,14 @@ def _process_single_scholar(scholar_id, scholar, index, total, client,
     with print_lock:
         print(f"    PI [{confidence}]: {reason[:80]}")
 
-    # Step 3: normalize bio
+    # Step 3: normalize bio (PI only)
     if not skip_normalize and data.get("bio"):
         data["bio"] = normalize_bio(client, name, data["bio"])
         with print_lock:
             print(f"    Bio normalized")
 
-    # Step 4: save JSON + write to DB
-    filepath = save_profile(data, sources, scholar_id, name, output_dir)
-
-    conn = get_connection()
-    init_db(conn)
-    ensure_scholar(conn, scholar_id, name, inst)
+    # Step 4: save JSON + write profile fields to DB (PI only)
+    save_profile(data, sources, scholar_id, name, output_dir)
     profile_fields = {
         k: data.get(k)
         for k in ("bio", "lab_name", "lab_url", "main_research_area", "department")
@@ -347,8 +341,7 @@ def _process_single_scholar(scholar_id, scholar, index, total, client,
     conn.close()
 
     with print_lock:
-        area = data.get("main_research_area", "")
-        print(f"    Saved — {area}")
+        print(f"    Saved — {data.get('main_research_area', '')}")
     return True
 
 
@@ -361,50 +354,13 @@ def extract_scholar_info(dry_run=False, limit=None, scholar_id_filter=None,
     output_dir = PROFILES_DIR
     output_dir.mkdir(exist_ok=True, parents=True)
 
-    scholars = {}
-    print(f"Reading scholars from {CSV_PATH}")
-
-    try:
-        with open(CSV_PATH, "r", encoding="utf-8") as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                if "scholar_id" not in row or not row["scholar_id"]:
-                    continue
-
-                scholar_id = row["scholar_id"].strip().strip("\"'")
-                if not scholar_id:
-                    continue
-                if scholar_id.isdigit():
-                    scholar_id = scholar_id.zfill(4)
-
-                if scholar_id not in scholars:
-                    scholar_name = row.get("scholar_name", "").strip().strip("\"'")
-                    institution = row.get("scholar_institution", "").strip().strip("\"'")
-                    department = row.get("scholar_department", "").strip().strip("\"'")
-
-                    if (not institution or institution == "N/A") and department and department != "N/A":
-                        institution = department
-
-                    if not scholar_name or not institution or institution == "N/A":
-                        print(f"Skipping scholar with ID {scholar_id} due to missing name or institution")
-                        continue
-
-                    scholars[scholar_id] = {
-                        "scholar_id": scholar_id,
-                        "scholar_name": scholar_name,
-                        "institution": institution,
-                    }
-    except Exception as e:
-        print(f"Error reading input file: {e}")
+    all_scholars = load_scholars(is_pi_only=False)
+    if not all_scholars:
+        print("No scholars found in DB. Run the seed step first.")
         return
 
-    if not scholars:
-        print("No scholars found in the input file.")
-        return
-
-    print(f"Found {len(scholars)} unique scholars")
-
-    scholar_items = list(scholars.items())
+    print(f"Loaded {len(all_scholars)} scholars from DB")
+    scholar_items = [(s["scholar_id"], s) for s in all_scholars]
     if scholar_id_filter:
         sid = scholar_id_filter.zfill(4)
         scholar_items = [(k, v) for k, v in scholar_items if k == sid]

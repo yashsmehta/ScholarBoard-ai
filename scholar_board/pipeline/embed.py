@@ -17,17 +17,16 @@ import sys
 import numpy as np
 
 from scholar_board.config import (
-    CSV_PATH,
     EMBEDDINGS_PATH,
     load_paper_texts,
-    load_scholars_csv,
 )
 from scholar_board.gemini import embed_texts
+from scholar_board.db import load_scholars
 
 
 def build_embedding_pairs() -> list[tuple[str, str]]:
     """Build (scholar_id, text) pairs for embedding from paper data."""
-    scholars = load_scholars_csv()
+    scholars = load_scholars(is_pi_only=True)
     results = []
     paper_count = 0
     skip_count = 0
@@ -71,10 +70,6 @@ def main():
     parser.add_argument("--limit", type=int, default=None,
                         help="Max scholars to process")
     args = parser.parse_args()
-
-    if not CSV_PATH.exists():
-        print(f"Error: {CSV_PATH} not found")
-        sys.exit(1)
 
     print("Building embedding texts...")
     pairs = build_embedding_pairs()

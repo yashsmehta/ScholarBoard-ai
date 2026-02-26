@@ -11,7 +11,6 @@ Usage:
 """
 
 import argparse
-import csv
 import hashlib
 import time
 from io import BytesIO
@@ -19,32 +18,13 @@ from io import BytesIO
 import requests
 from PIL import Image
 
-from scholar_board.config import CSV_PATH, PICS_DIR, get_serper_api_key
-from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_profile_pic
+from scholar_board.config import PICS_DIR, get_serper_api_key
+from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_profile_pic, load_scholars
 
 DEFAULT_AVATAR = PICS_DIR / "default_avatar.jpg"
 SERPER_URL = "https://google.serper.dev/images"
 MAX_DIM = 400
 JPEG_QUALITY = 70
-
-
-def load_scholars() -> list[dict]:
-    """Load unique scholars from CSV."""
-    seen = set()
-    scholars = []
-    with open(CSV_PATH) as f:
-        for row in csv.DictReader(f):
-            sid = row["scholar_id"]
-            if sid not in seen:
-                seen.add(sid)
-                scholars.append(
-                    {
-                        "id": sid,
-                        "name": row["scholar_name"],
-                        "institution": row.get("scholar_institution", ""),
-                    }
-                )
-    return scholars
 
 
 def pic_filename(name: str, scholar_id: str) -> str:
@@ -57,7 +37,7 @@ def file_md5(path) -> str:
 
 def needs_photo(scholar: dict, default_md5: str) -> bool:
     """Check if scholar needs a new photo (missing or is default avatar)."""
-    path = PICS_DIR / pic_filename(scholar["name"], scholar["id"])
+    path = PICS_DIR / pic_filename(scholar["scholar_name"], scholar["scholar_id"])
     if not path.exists():
         return True
     return file_md5(path) == default_md5
@@ -130,7 +110,7 @@ def main():
             print("  No images found — check your API key")
         return
 
-    scholars = load_scholars()
+    scholars = load_scholars(is_pi_only=True)
     default_md5 = file_md5(DEFAULT_AVATAR) if DEFAULT_AVATAR.exists() else ""
 
     if args.skip_existing:
@@ -146,18 +126,20 @@ def main():
 
     success, failed, skipped = 0, 0, 0
     for i, scholar in enumerate(todo):
-        name = scholar["name"]
-        filename = pic_filename(name, scholar["id"])
+        name = scholar["scholar_name"]
+        sid = scholar["scholar_id"]
+        inst = scholar["scholar_institution"]
+        filename = pic_filename(name, sid)
         output_path = PICS_DIR / filename
 
         print(f"[{i + 1}/{len(todo)}] {name}")
 
         if args.dry_run:
-            print(f'  Would search: "{name} {scholar["institution"]} neuroscience researcher headshot"')
+            print(f'  Would search: "{name} {inst} neuroscience researcher headshot"')
             continue
 
         try:
-            urls = search_face_images(name, scholar["institution"], api_key)
+            urls = search_face_images(name, inst, api_key)
         except requests.RequestException as e:
             print(f"  Search error: {e}")
             failed += 1
@@ -174,8 +156,8 @@ def main():
                 download_and_save(url, output_path)
                 conn = get_connection()
                 init_db(conn)
-                ensure_scholar(conn, scholar["id"], name, scholar.get("institution"))
-                upsert_profile_pic(conn, scholar["id"], filename)
+                ensure_scholar(conn, sid, name, inst)
+                upsert_profile_pic(conn, sid, filename)
                 conn.close()
                 print(f"  Saved {filename}")
                 success += 1

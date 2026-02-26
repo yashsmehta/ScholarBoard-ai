@@ -18,15 +18,13 @@ import sys
 import numpy as np
 
 from scholar_board.config import (
-    CSV_PATH,
     PAPERS_DIR,
     SUBFIELDS_DEF_PATH,
     SUBFIELDS_PATH,
     load_paper_texts,
-    load_scholars_csv,
 )
 from scholar_board.gemini import embed_texts
-from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_subfields
+from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_subfields, load_scholars
 
 
 def load_subfields():
@@ -36,8 +34,8 @@ def load_subfields():
 
 
 def load_all_paper_texts():
-    """Load paper texts for all scholars that have them."""
-    scholars = load_scholars_csv()
+    """Load paper texts for PI scholars that have them."""
+    scholars = load_scholars(is_pi_only=True)
     pairs = []
     for s in sorted(scholars, key=lambda x: x["scholar_id"]):
         sid = s["scholar_id"]
@@ -166,13 +164,9 @@ def main():
     print(f"\nSaved subfield assignments to {SUBFIELDS_PATH}")
 
     print("Writing subfield assignments to database...")
-    csv_lookup = {s["scholar_id"]: s for s in load_scholars_csv()}
     conn = get_connection()
     init_db(conn)
     for sid, assignment in assignments.items():
-        if sid in csv_lookup:
-            s = csv_lookup[sid]
-            ensure_scholar(conn, sid, s["scholar_name"], s.get("scholar_institution"))
         upsert_subfields(conn, sid, assignment["primary_subfield"], assignment.get("subfields", []))
     conn.close()
     print(f"  Wrote {len(assignments)} scholars to DB")

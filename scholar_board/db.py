@@ -43,7 +43,8 @@ def init_db(conn: sqlite3.Connection) -> None:
             umap_y             REAL,
             cluster            INTEGER,
             primary_subfield   TEXT,
-            profile_pic        TEXT
+            profile_pic        TEXT,
+            source             TEXT
         );
 
         CREATE TABLE IF NOT EXISTS papers (
@@ -79,6 +80,37 @@ def init_db(conn: sqlite3.Connection) -> None:
             why_now           TEXT
         );
     """)
+    # Migrations for columns added after initial schema
+    for col, defn in [("source", "TEXT"), ("is_pi", "INTEGER")]:
+        try:
+            conn.execute(f"ALTER TABLE scholars ADD COLUMN {col} {defn}")
+        except sqlite3.OperationalError:
+            pass  # column already exists
+    conn.commit()
+
+
+def load_scholars(is_pi_only: bool = False) -> list[dict]:
+    """Load scholars from DB as list of {scholar_id, scholar_name, scholar_institution}.
+
+    If is_pi_only=True, returns only scholars where is_pi = 1.
+    Otherwise returns all scholars (including unclassified, is_pi = NULL).
+    """
+    conn = get_connection()
+    init_db(conn)
+    query = "SELECT id, name, institution FROM scholars"
+    if is_pi_only:
+        query += " WHERE is_pi = 1"
+    rows = conn.execute(query + " ORDER BY id").fetchall()
+    conn.close()
+    return [
+        {"scholar_id": r["id"], "scholar_name": r["name"], "scholar_institution": r["institution"] or ""}
+        for r in rows
+    ]
+
+
+def set_is_pi(conn: sqlite3.Connection, scholar_id: str, is_pi: bool) -> None:
+    """Set the is_pi flag for a scholar (1 = PI, 0 = not PI)."""
+    conn.execute("UPDATE scholars SET is_pi = ? WHERE id = ?", (1 if is_pi else 0, scholar_id))
     conn.commit()
 
 

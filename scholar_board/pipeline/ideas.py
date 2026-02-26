@@ -23,15 +23,13 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from google.genai import errors, types
 
 from scholar_board.config import (
-    CSV_PATH,
     PAPERS_DIR,
     IDEAS_DIR,
     SUBFIELDS_PATH,
-    load_scholars_csv,
 )
 from scholar_board.gemini import get_client, parse_json_response
 from scholar_board.prompt_loader import render_prompt
-from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_idea
+from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_idea, load_scholars
 
 REQUIRED_FIELDS = [
     "research_thread",
@@ -200,12 +198,8 @@ def main():
                         help="Number of parallel workers (default: 25)")
     args = parser.parse_args()
 
-    if not CSV_PATH.exists():
-        print(f"Error: {CSV_PATH} not found")
-        sys.exit(1)
-
-    researchers = load_scholars_csv()
-    print(f"Loaded {len(researchers)} unique researchers from vss_data.csv")
+    researchers = load_scholars(is_pi_only=True)
+    print(f"Loaded {len(researchers)} PI researchers from DB")
 
     subfields = load_subfields(SUBFIELDS_PATH)
 

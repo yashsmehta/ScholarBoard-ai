@@ -19,6 +19,8 @@ import re
 import argparse
 import sys
 import unicodedata
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from google.genai import types
 
@@ -139,35 +141,43 @@ def main():
         print(f"\nNo API calls made.")
         return
 
-    client = get_client()
+    print(f"Running {len(subfields)} subfield queries in parallel\n")
 
-    # Collect all researchers across subfields, deduplicating within this run only
-    seen_names: set[str] = set()   # normalized names seen so far (across subfields)
-    all_researchers: list[dict] = []  # {name, institution, subfield}
+    # Each worker creates its own client to avoid thread-safety issues
+    lock = threading.Lock()
+    results_by_subfield: dict[int, list] = {}  # sf_id → list of {name, institution}
 
-    for sf in subfields:
-        print(f"[{sf['id']:2d}/{len(subfields)}] {sf['name']}")
+    def fetch_one(sf):
+        client = get_client()
         researchers = fetch_subfield_researchers(client, sf["name"], sf["description"])
-        print(f"    Got {len(researchers)} researchers from API")
+        with lock:
+            print(f"  [{sf['id']:2d}/{len(subfields)}] {sf['name']} — {len(researchers)} researchers")
+        return sf["id"], sf["name"], researchers
 
+    with ThreadPoolExecutor(max_workers=len(subfields)) as executor:
+        futures = {executor.submit(fetch_one, sf): sf for sf in subfields}
+        for future in as_completed(futures):
+            sf_id, sf_name, researchers = future.result()
+            results_by_subfield[sf_id] = (sf_name, researchers)
+
+    # Merge in subfield order, deduplicating across subfields
+    seen_names: set[str] = set()
+    all_researchers: list[dict] = []
+
+    for sf in sorted(subfields, key=lambda s: s["id"]):
+        sf_name, researchers = results_by_subfield.get(sf["id"], (sf["name"], []))
         added = 0
         for r in researchers:
             name = r.get("name", "").strip()
             institution = r.get("institution", "").strip()
             if not name:
                 continue
-
             norm = normalize_name(name)
-
-            # Skip if already collected from another subfield this run
             if norm in seen_names:
                 continue
-
             seen_names.add(norm)
-            all_researchers.append({"name": name, "institution": institution, "subfield": sf["name"]})
+            all_researchers.append({"name": name, "institution": institution, "subfield": sf_name})
             added += 1
-
-        print(f"    {added} added (running total: {len(all_researchers)})")
 
     print(f"\nTotal unique researchers: {len(all_researchers)}")
 

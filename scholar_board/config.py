@@ -63,38 +63,6 @@ def get_openai_api_key() -> str:
     return key
 
 
-def load_scholars_csv() -> list[dict]:
-    """Load unique scholars from vss_data.csv (+ extra_researchers.csv if present).
-
-    Returns a list of dicts with keys: scholar_id, scholar_name,
-    scholar_institution, scholar_department (None if not present).
-    Extra researchers (E-prefixed IDs) are appended after VSS scholars,
-    deduplicated by name.
-    """
-    import pandas as pd
-
-    df = pd.read_csv(CSV_PATH)
-    cols = ["scholar_id", "scholar_name", "scholar_institution"]
-    if "scholar_department" in df.columns:
-        cols.append("scholar_department")
-    unique = df.drop_duplicates(subset="scholar_id")[cols].copy()
-    unique["scholar_id"] = unique["scholar_id"].astype(str).str.zfill(4)
-    if "scholar_department" not in unique.columns:
-        unique["scholar_department"] = None
-
-    if EXTRA_RESEARCHERS_PATH.exists():
-        extra = pd.read_csv(EXTRA_RESEARCHERS_PATH)
-        vss_names = set(unique["scholar_name"].str.lower().str.strip())
-        extra = extra[~extra["scholar_name"].str.lower().str.strip().isin(vss_names)].copy()
-        if "scholar_department" not in extra.columns:
-            extra["scholar_department"] = None
-        unique = pd.concat(
-            [unique, extra[["scholar_id", "scholar_name", "scholar_institution", "scholar_department"]]],
-            ignore_index=True,
-        )
-
-    return unique.to_dict("records")
-
 
 def load_paper_texts(scholar_id: str) -> str | None:
     """Load concatenated paper titles + abstracts for a scholar (top 5 papers)."""

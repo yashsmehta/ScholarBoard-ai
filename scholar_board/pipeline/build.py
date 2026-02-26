@@ -24,7 +24,6 @@ from scholar_board.config import (
     SCHOLARS_JSON,
     SCHOLARS_DIR,
     BUILD_DIR,
-    load_scholars_csv,
 )
 from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection, ResearchIdea
 from scholar_board.db import (
@@ -37,6 +36,7 @@ from scholar_board.db import (
     upsert_subfields,
     upsert_idea,
     upsert_profile_pic,
+    load_scholars,
 )
 
 
@@ -142,13 +142,10 @@ def backfill_db(conn) -> None:
     """
     print("Backfilling database from pipeline JSON files...")
 
-    all_scholars = load_scholars_csv()
+    all_scholars = load_scholars(is_pi_only=False)
     for s in all_scholars:
-        dept = s.get("scholar_department")
-        if isinstance(dept, str) and dept in ("N/A", "nan", ""):
-            dept = None
-        ensure_scholar(conn, s["scholar_id"], s["scholar_name"], s.get("scholar_institution"), dept)
-    print(f"  Seeded {len(all_scholars)} scholars from CSV (VSS + extra)")
+        ensure_scholar(conn, s["scholar_id"], s["scholar_name"], s.get("scholar_institution"))
+    print(f"  Ensured {len(all_scholars)} scholars in DB")
 
     papers_data = _load_scholar_papers()
     for sid, papers in papers_data.items():

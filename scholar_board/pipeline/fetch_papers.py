@@ -27,13 +27,11 @@ import requests
 from google.genai import types
 
 from scholar_board.config import (
-    CSV_PATH,
     PAPERS_DIR,
     get_serper_api_key,
-    load_scholars_csv,
 )
 from scholar_board.gemini import get_client, extract_grounding_sources, parse_json_response
-from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_papers
+from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_papers, load_scholars
 
 SERPER_SCHOLAR_URL = "https://google.serper.dev/scholar"
 
@@ -283,12 +281,8 @@ def main():
                         help="Number of parallel workers (default: 25)")
     args = parser.parse_args()
 
-    if not CSV_PATH.exists():
-        print(f"Error: {CSV_PATH} not found")
-        sys.exit(1)
-
-    researchers = load_scholars_csv()
-    print(f"Loaded {len(researchers)} unique researchers from vss_data.csv")
+    researchers = load_scholars(is_pi_only=False)
+    print(f"Loaded {len(researchers)} researchers from DB")
 
     if args.scholar_id:
         researchers = [r for r in researchers if r["scholar_id"] == args.scholar_id.zfill(4)]

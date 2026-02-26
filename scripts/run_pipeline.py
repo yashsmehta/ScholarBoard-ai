@@ -25,6 +25,7 @@ _sys.path.insert(0, str(PROJECT_ROOT))
 from scholar_board.config import (
     PIPELINE_DIR,
     BUILD_DIR,
+    DB_PATH,
     EXTRA_RESEARCHERS_PATH,
 )
 
@@ -46,6 +47,15 @@ BG_YELLOW = "\033[43m"
 # ── Pipeline steps ────────────────────────────────────────────────────────
 
 STEPS = [
+    {
+        "name": "seed",
+        "icon": "0",
+        "description": "Seed DB with all researchers (VSS + extra)",
+        "model": "gemini-3-flash-preview (dedup only)",
+        "command": [PYTHON, "-m", "scholar_board.pipeline.seed"],
+        "check": lambda: int(DB_PATH.exists() and __import__('sqlite3').connect(DB_PATH).execute("SELECT COUNT(*) FROM scholars").fetchone()[0]),
+        "total": 1091,  # ~725 VSS + ~366 extra
+    },
     {
         "name": "discover",
         "icon": "0",
@@ -343,6 +353,7 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=f"""
 steps:
+  seed       Seed DB with all researchers (VSS + extra, deduplicated)
   discover   Discover extra researchers via Gemini subfield search
   papers     Fetch papers via Gemini grounded search
   profiles   Fetch researcher profiles + normalize bios

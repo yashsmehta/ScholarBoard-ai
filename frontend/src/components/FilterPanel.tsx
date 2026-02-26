@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useClickOutside } from '../hooks/useClickOutside'
 import { cx } from '../lib/cx'
 
@@ -32,17 +32,27 @@ export function FilterPanel({
 }: FilterPanelProps) {
   const [open, setOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<FilterTab>('institution')
+  const [instSearch, setInstSearch] = useState('')
   const [draft, setDraft] = useState<Record<FilterTab, string[]>>({
     institution: activeInstitutions,
     subfield: activeSubfields,
   })
+  const searchRef = useRef<HTMLInputElement>(null)
   const containerRef = useClickOutside<HTMLDivElement>(() => setOpen(false))
 
   useEffect(() => {
     if (!open) {
       setDraft({ institution: activeInstitutions, subfield: activeSubfields })
+      setInstSearch('')
     }
   }, [activeInstitutions, activeSubfields, open])
+
+  useEffect(() => {
+    if (open && activeTab === 'institution') {
+      setTimeout(() => searchRef.current?.focus(), 40)
+    }
+    if (activeTab !== 'institution') setInstSearch('')
+  }, [open, activeTab])
 
   function toggleDraft(name: string) {
     setDraft((prev) => {
@@ -75,10 +85,13 @@ export function FilterPanel({
   }
 
   const totalActive = activeInstitutions.length + activeSubfields.length
-  const items = activeTab === 'institution' ? institutions.slice(0, 80) : subfields
-  const label = activeTab === 'institution'
-    ? `${institutions.length} institutions`
-    : `${subfields.length} subfields`
+
+  const knownInstitutions = institutions.filter((i) => !i.name.toLowerCase().includes('unknown'))
+  const filteredInstitutions = instSearch.trim()
+    ? knownInstitutions.filter((i) => i.name.toLowerCase().includes(instSearch.toLowerCase()))
+    : knownInstitutions
+
+  const items = activeTab === 'institution' ? filteredInstitutions : subfields
 
   return (
     <div className="filter-panel" ref={containerRef}>
@@ -127,10 +140,27 @@ export function FilterPanel({
             </button>
           </div>
 
-          <div className="filter-panel__header">
-            <p>{label}</p>
-          </div>
+          {activeTab === 'institution' && (
+            <div className="filter-panel__search">
+              <svg className="filter-panel__search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="10" y1="10" x2="14" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+              <input
+                ref={searchRef}
+                type="text"
+                className="filter-panel__search-input"
+                placeholder="Search institutions…"
+                value={instSearch}
+                onChange={(e) => setInstSearch(e.target.value)}
+              />
+            </div>
+          )}
+
           <div className="filter-panel__options">
+            {items.length === 0 && (
+              <p className="filter-panel__empty">No matches</p>
+            )}
             {items.map((item) => (
               <label key={item.name} className="filter-option">
                 <input
@@ -145,10 +175,10 @@ export function FilterPanel({
           </div>
 
           <div className="filter-panel__actions">
-            <button type="button" className="icon-button is-primary" onClick={handleApply}>
+            <button type="button" className="filter-panel__apply" onClick={handleApply}>
               Apply
             </button>
-            <button type="button" className="icon-button" onClick={handleClear}>
+            <button type="button" className="filter-panel__clear" onClick={handleClear}>
               Clear
             </button>
           </div>

@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 import type { Scholar } from '../types/scholar'
-import { clusterColor } from './colorScale'
+import { subfieldColor } from './colorScale'
 
 const DOT_RADIUS = 3.0
 const DOT_RADIUS_HOVER = 4.8
@@ -187,7 +187,7 @@ export function createD3MapController(
             .append('circle')
             .attr('class', 'scholar-map__dot')
             .attr('r', DOT_RADIUS)
-            .attr('fill-opacity', (d) => (d.cluster < 0 ? 0.64 : 0.96))
+            .attr('fill-opacity', (d) => (d.subfields.length === 0 ? 0.64 : 0.96))
             .attr('stroke', BASE_STROKE)
             .attr('stroke-width', 1)
             .style('pointer-events', 'none'),
@@ -196,7 +196,7 @@ export function createD3MapController(
       )
       .attr('cx', (d) => xScale(d.x))
       .attr('cy', (d) => yScale(d.y))
-      .attr('fill', (d) => clusterColor(d.cluster))
+      .attr('fill', (d) => subfieldColor(d.subfields[0]?.subfield))
 
     hitDots = hitLayer
       .selectAll<SVGCircleElement, Scholar>('circle.scholar-map__dot-hit')

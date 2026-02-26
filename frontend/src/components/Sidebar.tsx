@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { ResearchIdea, Scholar } from '../types/scholar'
-import { clusterColor } from '../map/colorScale'
+import { subfieldColor } from '../map/colorScale'
 import { DEFAULT_AVATAR_URL, scholarAvatarUrl } from '../lib/scholarMedia'
 import { cx } from '../lib/cx'
 
@@ -201,7 +201,7 @@ function ProfileTab({
             >
               <span
                 className="nearby-list__dot"
-                style={{ backgroundColor: clusterColor(item.scholar.cluster) }}
+                style={{ backgroundColor: subfieldColor(item.scholar.subfields[0]?.subfield) }}
                 aria-hidden="true"
               />
               <span className="nearby-list__text">

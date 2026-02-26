@@ -1166,14 +1166,15 @@ input {
 }
 
 .subfield-badge--primary {
-  background: var(--sf-color);
+  background: color-mix(in srgb, var(--sf-color) 80%, #1a1a1a);
   color: #fff;
-  border-color: var(--sf-color);
+  border-color: color-mix(in srgb, var(--sf-color) 80%, #1a1a1a);
   font-weight: 600;
 }
 
 .subfield-badge--primary:hover {
-  filter: brightness(0.9);
+  background: color-mix(in srgb, var(--sf-color) 60%, #1a1a1a);
+  border-color: color-mix(in srgb, var(--sf-color) 60%, #1a1a1a);
 }
 
 .stack-list {

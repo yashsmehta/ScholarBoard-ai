@@ -91,16 +91,14 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, activeSubfields: [] }
     case 'map_reset_requested':
       return { ...state, resetNonce: state.resetNonce + 1 }
-    case 'pan_to_scholar_requested': {
-      const prevNonce = state.panRequest?.nonce ?? 0
+    case 'pan_to_scholar_requested':
       return {
         ...state,
         panRequest: {
           scholarId: action.scholarId,
-          nonce: prevNonce + 1,
+          nonce: (state.panRequest?.nonce ?? 0) + 1,
         },
       }
-    }
     default:
       return state
   }

@@ -72,8 +72,8 @@ export function createD3MapController(
   let interactionState: MapInteractionState = {
     hoveredScholarId: null,
     selectedScholarId: null,
-    activeInstitutions: new Set<string>(),
-    activeSubfields: new Set<string>(),
+    activeInstitutions: new Set(),
+    activeSubfields: new Set(),
   }
 
   const zoom = d3
@@ -118,9 +118,7 @@ export function createD3MapController(
       transformK: currentTransform.k,
     }
   })
-  svg.on('pointerup.selection', (event) => {
-    resolveSvgPressSelection(event)
-  })
+  svg.on('pointerup.selection', resolveSvgPressSelection)
   svg.on('dblclick', (event) => {
     const [px, py] = d3.pointer(event, svg.node())
     const factor = event.shiftKey ? 1 / 1.8 : 1.8
@@ -402,12 +400,10 @@ export function createD3MapController(
 
   function updateBrushLayerInteractivity() {
     if (boxZoomModifierActive) {
-      brushLayer.style('display', null)
-      brushLayer.style('pointer-events', 'all')
+      brushLayer.style('display', null).style('pointer-events', 'all')
       brushLayer.selectAll('*').style('pointer-events', null)
     } else {
-      brushLayer.style('display', 'none')
-      brushLayer.style('pointer-events', 'none')
+      brushLayer.style('display', 'none').style('pointer-events', 'none')
       brushLayer.selectAll('*').style('pointer-events', 'none')
     }
     brushLayer.classed('is-active', boxZoomModifierActive)

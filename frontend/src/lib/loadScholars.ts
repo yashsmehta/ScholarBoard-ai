@@ -108,19 +108,16 @@ function normalizeString(value: unknown): string | undefined {
   return trimmed
 }
 
-function isPaperLike(value: unknown): value is Scholar['papers'][number] {
-  if (value == null || typeof value !== 'object') return false
-  const candidate = value as { title?: unknown }
-  return typeof candidate.title === 'string' && candidate.title.trim().length > 0
-}
-
 function isObjectLike(value: unknown): value is Record<string, unknown> {
   return value != null && typeof value === 'object'
 }
 
+function isPaperLike(value: unknown): value is Scholar['papers'][number] {
+  return isObjectLike(value) && typeof value.title === 'string' && (value.title as string).trim().length > 0
+}
+
 function isSubfieldLike(value: unknown): value is SubfieldTag {
-  if (!isObjectLike(value)) return false
-  return typeof value.subfield === 'string' && typeof value.score === 'number'
+  return isObjectLike(value) && typeof value.subfield === 'string' && typeof value.score === 'number'
 }
 
 function normalizeResearchIdea(raw: unknown): ResearchIdea | undefined {

@@ -53,8 +53,8 @@ function App() {
       ? null
       : state.scholars.find((scholar) => scholar.id === state.selectedScholarId) ?? null
 
-  const institutions = buildInstitutionCounts(state.scholars)
-  const subfields = buildSubfieldCounts(state.scholars)
+  const institutions = buildCounts(state.scholars, (s) => [s.institution ?? 'Unknown'])
+  const subfields = buildCounts(state.scholars, (s) => s.subfields.map((sf) => sf.subfield))
   const selectScholar = (scholarId: string, options?: { pan?: boolean }) => {
     dispatch({ type: 'scholar_selected', scholarId })
     if (options?.pan) {
@@ -142,25 +142,16 @@ function App() {
   )
 }
 
-function buildSubfieldCounts(scholars: Scholar[]): Array<{ name: string; count: number }> {
+function buildCounts(
+  scholars: Scholar[],
+  getKeys: (scholar: Scholar) => string[],
+): Array<{ name: string; count: number }> {
   const counts = new Map<string, number>()
   for (const scholar of scholars) {
-    for (const sf of scholar.subfields) {
-      counts.set(sf.subfield, (counts.get(sf.subfield) ?? 0) + 1)
+    for (const key of getKeys(scholar)) {
+      counts.set(key, (counts.get(key) ?? 0) + 1)
     }
   }
-  return [...counts.entries()]
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
-}
-
-function buildInstitutionCounts(scholars: Scholar[]): Array<{ name: string; count: number }> {
-  const counts = new Map<string, number>()
-  for (const scholar of scholars) {
-    const institution = scholar.institution ?? 'Unknown'
-    counts.set(institution, (counts.get(institution) ?? 0) + 1)
-  }
-
   return [...counts.entries()]
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))

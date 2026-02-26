@@ -2,12 +2,7 @@ import { useEffect, useState } from 'react'
 import { useClickOutside } from '../hooks/useClickOutside'
 import { cx } from '../lib/cx'
 
-interface InstitutionCount {
-  name: string
-  count: number
-}
-
-interface SubfieldCount {
+interface NameCount {
   name: string
   count: number
 }
@@ -15,11 +10,11 @@ interface SubfieldCount {
 type FilterTab = 'institution' | 'subfield'
 
 interface FilterPanelProps {
-  institutions: InstitutionCount[]
+  institutions: NameCount[]
   activeInstitutions: string[]
   onApply: (institutions: string[]) => void
   onClear: () => void
-  subfields: SubfieldCount[]
+  subfields: NameCount[]
   activeSubfields: string[]
   onSubfieldsApply: (subfields: string[]) => void
   onSubfieldsClear: () => void
@@ -37,49 +32,53 @@ export function FilterPanel({
 }: FilterPanelProps) {
   const [open, setOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<FilterTab>('institution')
-  const [draftInstitutions, setDraftInstitutions] = useState<string[]>(activeInstitutions)
-  const [draftSubfields, setDraftSubfields] = useState<string[]>(activeSubfields)
+  const [draft, setDraft] = useState<Record<FilterTab, string[]>>({
+    institution: activeInstitutions,
+    subfield: activeSubfields,
+  })
   const containerRef = useClickOutside<HTMLDivElement>(() => setOpen(false))
 
   useEffect(() => {
     if (!open) {
-      setDraftInstitutions(activeInstitutions)
-      setDraftSubfields(activeSubfields)
+      setDraft({ institution: activeInstitutions, subfield: activeSubfields })
     }
   }, [activeInstitutions, activeSubfields, open])
 
-  function toggleInstitution(name: string) {
-    setDraftInstitutions((current) =>
-      current.includes(name) ? current.filter((v) => v !== name) : [...current, name],
-    )
-  }
-
-  function toggleSubfield(name: string) {
-    setDraftSubfields((current) =>
-      current.includes(name) ? current.filter((v) => v !== name) : [...current, name],
-    )
+  function toggleDraft(name: string) {
+    setDraft((prev) => {
+      const current = prev[activeTab]
+      return {
+        ...prev,
+        [activeTab]: current.includes(name)
+          ? current.filter((v) => v !== name)
+          : [...current, name],
+      }
+    })
   }
 
   function handleApply() {
     if (activeTab === 'institution') {
-      onApply(draftInstitutions)
+      onApply(draft.institution)
     } else {
-      onSubfieldsApply(draftSubfields)
+      onSubfieldsApply(draft.subfield)
     }
     setOpen(false)
   }
 
   function handleClear() {
+    setDraft((prev) => ({ ...prev, [activeTab]: [] }))
     if (activeTab === 'institution') {
-      setDraftInstitutions([])
       onClear()
     } else {
-      setDraftSubfields([])
       onSubfieldsClear()
     }
   }
 
   const totalActive = activeInstitutions.length + activeSubfields.length
+  const items = activeTab === 'institution' ? institutions.slice(0, 80) : subfields
+  const label = activeTab === 'institution'
+    ? `${institutions.length} institutions`
+    : `${subfields.length} subfields`
 
   return (
     <div className="filter-panel" ref={containerRef}>
@@ -128,47 +127,22 @@ export function FilterPanel({
             </button>
           </div>
 
-          {activeTab === 'institution' && (
-            <>
-              <div className="filter-panel__header">
-                <p>{institutions.length} institutions</p>
-              </div>
-              <div className="filter-panel__options">
-                {institutions.slice(0, 80).map((institution) => (
-                  <label key={institution.name} className="filter-option">
-                    <input
-                      type="checkbox"
-                      checked={draftInstitutions.includes(institution.name)}
-                      onChange={() => toggleInstitution(institution.name)}
-                    />
-                    <span className="filter-option__name">{institution.name}</span>
-                    <span className="filter-option__count">{institution.count}</span>
-                  </label>
-                ))}
-              </div>
-            </>
-          )}
-
-          {activeTab === 'subfield' && (
-            <>
-              <div className="filter-panel__header">
-                <p>{subfields.length} subfields</p>
-              </div>
-              <div className="filter-panel__options">
-                {subfields.map((sf) => (
-                  <label key={sf.name} className="filter-option">
-                    <input
-                      type="checkbox"
-                      checked={draftSubfields.includes(sf.name)}
-                      onChange={() => toggleSubfield(sf.name)}
-                    />
-                    <span className="filter-option__name">{sf.name}</span>
-                    <span className="filter-option__count">{sf.count}</span>
-                  </label>
-                ))}
-              </div>
-            </>
-          )}
+          <div className="filter-panel__header">
+            <p>{label}</p>
+          </div>
+          <div className="filter-panel__options">
+            {items.map((item) => (
+              <label key={item.name} className="filter-option">
+                <input
+                  type="checkbox"
+                  checked={draft[activeTab].includes(item.name)}
+                  onChange={() => toggleDraft(item.name)}
+                />
+                <span className="filter-option__name">{item.name}</span>
+                <span className="filter-option__count">{item.count}</span>
+              </label>
+            ))}
+          </div>
 
           <div className="filter-panel__actions">
             <button type="button" className="icon-button is-primary" onClick={handleApply}>

@@ -269,15 +269,13 @@ function IdeaTab({ idea, scholarName }: { idea?: ResearchIdea; scholarName: stri
 }
 
 function ScholarAvatar({ scholar }: { scholar: Scholar }) {
-  const [src, setSrc] = useState(() => scholarAvatarUrl(scholar))
-  const [imageFailed, setImageFailed] = useState(false)
+  const [src, setSrc] = useState<string | null>(() => scholarAvatarUrl(scholar))
 
   useEffect(() => {
     setSrc(scholarAvatarUrl(scholar))
-    setImageFailed(false)
   }, [scholar.id, scholar.profilePic])
 
-  if (imageFailed) {
+  if (!src) {
     return (
       <div className="profile-card__avatar" aria-hidden="true">
         {initials(scholar.name)}
@@ -290,13 +288,7 @@ function ScholarAvatar({ scholar }: { scholar: Scholar }) {
       <img
         src={src}
         alt={`${scholar.name} profile`}
-        onError={() => {
-          if (src !== DEFAULT_AVATAR_URL) {
-            setSrc(DEFAULT_AVATAR_URL)
-            return
-          }
-          setImageFailed(true)
-        }}
+        onError={() => setSrc(src === DEFAULT_AVATAR_URL ? null : DEFAULT_AVATAR_URL)}
       />
     </div>
   )
@@ -314,9 +306,5 @@ function findNearbyScholars(scholar: Scholar, scholars: Scholar[], count: number
 }
 
 function initials(name: string): string {
-  return name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? '')
-    .join('')
+  return name.split(/\s+/, 2).map((p) => p[0]?.toUpperCase() ?? '').join('')
 }

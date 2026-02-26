@@ -232,41 +232,87 @@ function IdeaTab({ idea, scholarName }: { idea?: ResearchIdea; scholarName: stri
   }
 
   return (
-    <>
-      <section className="idea-card">
-        <h3 className="idea-card__title">{idea.title}</h3>
+    <div className="idea-pane">
+      <div className="idea-hero">
+        <div className="idea-hero__badge">
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+            <path d="M6 0l1.2 3.6L11 4.8l-2.8 2.7.7 3.9L6 9.6l-2.9 1.8.7-3.9L1 4.8l3.8-1.2z"/>
+          </svg>
+          AI Research Idea
+        </div>
+        <h3 className="idea-hero__title">{idea.title}</h3>
         {idea.researchThread && (
-          <p className="idea-card__thread">{idea.researchThread}</p>
+          <p className="idea-hero__thread">{idea.researchThread}</p>
         )}
-      </section>
+      </div>
 
-      <section className="sidebar-section">
-        <h3>Open Question</h3>
-        <p className="idea-section__text">{idea.openQuestion}</p>
-      </section>
+      <div className="idea-blocks">
+        {idea.openQuestion && (
+          <div className="idea-block">
+            <div className="idea-block__label">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" strokeWidth="1.3"/>
+                <path d="M6.5 9v-.8M5 5.2a1.5 1.5 0 012.9.5c0 1-1.4 1.5-1.4 2.1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+              </svg>
+              Open Question
+            </div>
+            <p className="idea-block__body">{idea.openQuestion}</p>
+          </div>
+        )}
 
-      <section className="sidebar-section">
-        <h3>Hypothesis</h3>
-        <p className="idea-section__text">{idea.hypothesis}</p>
-      </section>
+        {idea.hypothesis && (
+          <div className="idea-block">
+            <div className="idea-block__label">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <path d="M6.5 1.5a3.5 3.5 0 011 6.84V9.5H5.5V8.34A3.5 3.5 0 016.5 1.5z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+                <path d="M5.5 11h3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+              </svg>
+              Hypothesis
+            </div>
+            <p className="idea-block__body">{idea.hypothesis}</p>
+          </div>
+        )}
 
-      <section className="sidebar-section">
-        <h3>Approach</h3>
-        <p className="idea-section__text">{idea.approach}</p>
-      </section>
+        {idea.approach && (
+          <div className="idea-block">
+            <div className="idea-block__label">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <path d="M2 10.5l2.5-3 2 2 2.5-4 2 4.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                <rect x="1.5" y="1.5" width="10" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.2"/>
+              </svg>
+              Approach
+            </div>
+            <p className="idea-block__body">{idea.approach}</p>
+          </div>
+        )}
 
-      <section className="sidebar-section">
-        <h3>Scientific Impact</h3>
-        <p className="idea-section__text">{idea.scientificImpact}</p>
-      </section>
+        {idea.scientificImpact && (
+          <div className="idea-block">
+            <div className="idea-block__label">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <circle cx="6.5" cy="6.5" r="2" stroke="currentColor" strokeWidth="1.3"/>
+                <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.2"/>
+              </svg>
+              Scientific Impact
+            </div>
+            <p className="idea-block__body">{idea.scientificImpact}</p>
+          </div>
+        )}
 
-      {idea.whyNow && (
-        <section className="sidebar-section">
-          <h3>Why Now</h3>
-          <p className="idea-section__text">{idea.whyNow}</p>
-        </section>
-      )}
-    </>
+        {idea.whyNow && (
+          <div className="idea-block">
+            <div className="idea-block__label">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.2"/>
+                <path d="M6.5 4v2.5l2 1.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+              </svg>
+              Why Now
+            </div>
+            <p className="idea-block__body">{idea.whyNow}</p>
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
 

@@ -143,18 +143,59 @@ export function createD3MapController(
   brushLayer.call(brush)
   updateBrushLayerInteractivity()
 
+  const keysDown = new Set<string>()
+  let panRafId: number | null = null
+  const PAN_SPEED = 7  // px per frame (~420 px/s at 60 fps)
+
+  function startPanLoop() {
+    if (panRafId !== null) return
+    function loop() {
+      let dx = 0, dy = 0
+      if (keysDown.has('ArrowLeft'))  dx += PAN_SPEED
+      if (keysDown.has('ArrowRight')) dx -= PAN_SPEED
+      if (keysDown.has('ArrowUp'))    dy += PAN_SPEED
+      if (keysDown.has('ArrowDown'))  dy -= PAN_SPEED
+      if (dx !== 0 || dy !== 0) {
+        const t = currentTransform
+        svg.call(zoom.transform, d3.zoomIdentity.translate(t.x + dx, t.y + dy).scale(t.k))
+        panRafId = requestAnimationFrame(loop)
+      } else {
+        panRafId = null
+      }
+    }
+    panRafId = requestAnimationFrame(loop)
+  }
+
+  const ARROW_KEYS = new Set(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'])
+
   const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key !== 'Shift') return
-    setBoxZoomModifier(true)
+    const tag = (event.target as HTMLElement)?.tagName
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return
+
+    if (event.key === 'Shift') { setBoxZoomModifier(true); return }
+
+    if (ARROW_KEYS.has(event.key)) {
+      event.preventDefault()
+      keysDown.add(event.key)
+      hideTooltip()
+      startPanLoop()
+      return
+    }
+
+    switch (event.key) {
+      case '+': case '=': event.preventDefault(); zoomAtCenter(1.3);      break
+      case '-':           event.preventDefault(); zoomAtCenter(1 / 1.3);  break
+    }
   }
 
   const onKeyUp = (event: KeyboardEvent) => {
-    if (event.key !== 'Shift') return
-    setBoxZoomModifier(false)
+    if (event.key === 'Shift') { setBoxZoomModifier(false); return }
+    keysDown.delete(event.key)
   }
 
   const onWindowBlur = () => {
     setBoxZoomModifier(false)
+    keysDown.clear()
   }
 
   window.addEventListener('keydown', onKeyDown)
@@ -379,7 +420,12 @@ export function createD3MapController(
     svg.transition().duration(180).call(zoom.transform, nextTransform)
   }
 
+  function zoomAtCenter(factor: number) {
+    zoomAtPoint((container.clientWidth || 640) / 2, (container.clientHeight || 480) / 2, factor)
+  }
+
   function destroy() {
+    if (panRafId !== null) { cancelAnimationFrame(panRafId); panRafId = null }
     svg.interrupt()
     window.removeEventListener('keydown', onKeyDown)
     window.removeEventListener('keyup', onKeyUp)

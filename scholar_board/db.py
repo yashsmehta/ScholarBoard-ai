@@ -81,7 +81,7 @@ def init_db(conn: sqlite3.Connection) -> None:
         );
     """)
     # Migrations for columns added after initial schema
-    for col, defn in [("source", "TEXT"), ("is_pi", "INTEGER")]:
+    for col, defn in [("source", "TEXT"), ("is_pi", "INTEGER"), ("pic_downloaded_at", "TEXT")]:
         try:
             conn.execute(f"ALTER TABLE scholars ADD COLUMN {col} {defn}")
         except sqlite3.OperationalError:
@@ -90,20 +90,28 @@ def init_db(conn: sqlite3.Connection) -> None:
 
 
 def load_scholars(is_pi_only: bool = False) -> list[dict]:
-    """Load scholars from DB as list of {scholar_id, scholar_name, scholar_institution}.
+    """Load scholars from DB as list of dicts.
 
     If is_pi_only=True, returns only scholars where is_pi = 1.
     Otherwise returns all scholars (including unclassified, is_pi = NULL).
+
+    Returned dicts include: scholar_id, scholar_name, scholar_institution, is_pi.
+    is_pi is True, False, or None (unclassified).
     """
     conn = get_connection()
     init_db(conn)
-    query = "SELECT id, name, institution FROM scholars"
+    query = "SELECT id, name, institution, is_pi FROM scholars"
     if is_pi_only:
         query += " WHERE is_pi = 1"
     rows = conn.execute(query + " ORDER BY id").fetchall()
     conn.close()
     return [
-        {"scholar_id": r["id"], "scholar_name": r["name"], "scholar_institution": r["institution"] or ""}
+        {
+            "scholar_id": r["id"],
+            "scholar_name": r["name"],
+            "scholar_institution": r["institution"] or "",
+            "is_pi": None if r["is_pi"] is None else bool(r["is_pi"]),
+        }
         for r in rows
     ]
 
@@ -252,9 +260,9 @@ def upsert_profile_pic(
     scholar_id: str,
     filename: str,
 ) -> None:
-    """Update the profile_pic filename for a scholar."""
+    """Update the profile_pic filename and download timestamp for a scholar."""
     conn.execute(
-        "UPDATE scholars SET profile_pic = ? WHERE id = ?",
+        "UPDATE scholars SET profile_pic = ?, pic_downloaded_at = datetime('now') WHERE id = ?",
         (filename, scholar_id),
     )
     conn.commit()

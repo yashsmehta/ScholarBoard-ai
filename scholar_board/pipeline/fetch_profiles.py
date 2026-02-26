@@ -376,11 +376,14 @@ def extract_scholar_info(dry_run=False, limit=None, scholar_id_filter=None,
 
     if not no_skip:
         before = len(scholar_items)
-        scholar_items = [(k, v) for k, v in scholar_items
-                         if not scholar_info_exists(k, output_dir)]
+        scholar_items = [
+            (k, v) for k, v in scholar_items
+            if not scholar_info_exists(k, output_dir)   # already saved as PI
+            and v.get("is_pi") is not False              # already classified non-PI
+        ]
         skipped = before - len(scholar_items)
         if skipped:
-            print(f"Skipping {skipped} already-fetched scholars")
+            print(f"Skipping {skipped} already-processed scholars")
 
     if limit:
         scholar_items = scholar_items[:limit]
@@ -394,7 +397,7 @@ def extract_scholar_info(dry_run=False, limit=None, scholar_id_filter=None,
     if dry_run:
         print(f"[DRY RUN] Would process {len(scholar_items)} scholars:")
         for i, (sid, s) in enumerate(scholar_items):
-            print(f"  [{i+1}] {s['scholar_name']} ({sid}) — {s['institution']}")
+            print(f"  [{i+1}] {s['scholar_name']} ({sid}) — {s['scholar_institution']}")
         print(f"\nNo API calls made.")
         return
 

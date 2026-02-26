@@ -54,6 +54,7 @@ function App() {
       : state.scholars.find((scholar) => scholar.id === state.selectedScholarId) ?? null
 
   const institutions = buildInstitutionCounts(state.scholars)
+  const subfields = buildSubfieldCounts(state.scholars)
   const selectScholar = (scholarId: string, options?: { pan?: boolean }) => {
     dispatch({ type: 'scholar_selected', scholarId })
     if (options?.pan) {
@@ -87,12 +88,19 @@ function App() {
                 dispatch({ type: 'filters_applied', institutions: institutionsToApply })
               }
               onClear={() => dispatch({ type: 'filters_cleared' })}
+              subfields={subfields}
+              activeSubfields={state.activeSubfields}
+              onSubfieldsApply={(subfieldsToApply) =>
+                dispatch({ type: 'subfields_filter_applied', subfields: subfieldsToApply })
+              }
+              onSubfieldsClear={() => dispatch({ type: 'subfields_filter_cleared' })}
             />
           </div>
 
           <ScholarMap
             scholars={state.scholars}
             activeInstitutions={state.activeInstitutions}
+            activeSubfields={state.activeSubfields}
             hoveredScholarId={state.hoveredScholarId}
             selectedScholarId={state.selectedScholarId}
             resetNonce={state.resetNonce}
@@ -125,10 +133,25 @@ function App() {
           allScholars={state.scholars}
           onClose={() => dispatch({ type: 'sidebar_closed' })}
           onSelectNearby={(scholarId) => selectScholar(scholarId, { pan: true })}
+          onSubfieldClick={(subfield) =>
+            dispatch({ type: 'subfields_filter_applied', subfields: [subfield] })
+          }
         />
       </main>
     </div>
   )
+}
+
+function buildSubfieldCounts(scholars: Scholar[]): Array<{ name: string; count: number }> {
+  const counts = new Map<string, number>()
+  for (const scholar of scholars) {
+    for (const sf of scholar.subfields) {
+      counts.set(sf.subfield, (counts.get(sf.subfield) ?? 0) + 1)
+    }
+  }
+  return [...counts.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
 }
 
 function buildInstitutionCounts(scholars: Scholar[]): Array<{ name: string; count: number }> {

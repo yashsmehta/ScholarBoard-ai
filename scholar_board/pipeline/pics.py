@@ -85,8 +85,8 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="Preview without downloading")
     parser.add_argument("--limit", type=int, default=0, help="Max scholars to process")
     parser.add_argument("--test", action="store_true", help="Test with a single known scholar")
-    parser.add_argument("--skip-existing", action="store_true",
-                        help="Only download for scholars with default avatar")
+    parser.add_argument("--force", action="store_true",
+                        help="Re-download even if a real photo already exists")
     args = parser.parse_args()
 
     api_key = get_serper_api_key()
@@ -113,10 +113,10 @@ def main():
     scholars = load_scholars(is_pi_only=True)
     default_md5 = file_md5(DEFAULT_AVATAR) if DEFAULT_AVATAR.exists() else ""
 
-    if args.skip_existing:
-        todo = [s for s in scholars if needs_photo(s, default_md5)]
-    else:
+    if args.force:
         todo = scholars
+    else:
+        todo = [s for s in scholars if needs_photo(s, default_md5)]
 
     print(f"Scholars to process: {len(todo)}/{len(scholars)}")
 

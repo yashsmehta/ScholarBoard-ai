@@ -11,6 +11,7 @@ interface SidebarProps {
   allScholars: Scholar[]
   onClose: () => void
   onSelectNearby: (scholarId: string) => void
+  onSubfieldClick?: (subfield: string) => void
 }
 
 interface NearbyScholar {
@@ -18,7 +19,7 @@ interface NearbyScholar {
   distance: number
 }
 
-export function Sidebar({ scholar, allScholars, onClose, onSelectNearby }: SidebarProps) {
+export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfieldClick }: SidebarProps) {
   const [activeTab, setActiveTab] = useState<SidebarTab>('profile')
   const nearby = useMemo(
     () => (scholar ? findNearbyScholars(scholar, allScholars, 5) : []),
@@ -77,7 +78,7 @@ export function Sidebar({ scholar, allScholars, onClose, onSelectNearby }: Sideb
 
           <div className="sidebar__content">
             {activeTab === 'profile' && (
-              <ProfileTab scholar={scholar} nearby={nearby} onSelectNearby={onSelectNearby} />
+              <ProfileTab scholar={scholar} nearby={nearby} onSelectNearby={onSelectNearby} onSubfieldClick={onSubfieldClick} />
             )}
             {activeTab === 'idea' && (
               <IdeaTab idea={scholar.suggestedIdea} scholarName={scholar.name} />
@@ -93,10 +94,12 @@ function ProfileTab({
   scholar,
   nearby,
   onSelectNearby,
+  onSubfieldClick,
 }: {
   scholar: Scholar
   nearby: NearbyScholar[]
   onSelectNearby: (scholarId: string) => void
+  onSubfieldClick?: (subfield: string) => void
 }) {
   return (
     <>
@@ -117,14 +120,23 @@ function ProfileTab({
         {scholar.bio && <p className="profile-card__bio">{scholar.bio}</p>}
       </section>
 
-      {scholar.researchAreas.length > 0 && (
+      {scholar.subfields.length > 0 && (
         <section className="sidebar-section">
-          <h3>Research Areas</h3>
+          <h3>Research Subfields</h3>
           <div className="tag-list">
-            {scholar.researchAreas.map((area) => (
-              <span key={area} className="tag">
-                {area}
-              </span>
+            {scholar.subfields.map((sf) => (
+              <button
+                key={sf.subfield}
+                type="button"
+                className={cx(
+                  'subfield-badge',
+                  sf.subfield === scholar.primarySubfield && 'subfield-badge--primary',
+                )}
+                onClick={() => onSubfieldClick?.(sf.subfield)}
+                title={`Filter by ${sf.subfield}`}
+              >
+                {sf.subfield}
+              </button>
             ))}
           </div>
         </section>

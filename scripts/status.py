@@ -12,6 +12,7 @@ Usage:
     uv run scripts/status.py --pending pics       # List scholars missing pics
 """
 
+import csv
 import json
 import sqlite3
 import sys
@@ -33,8 +34,36 @@ from scholar_board.config import (
     SCHOLARS_JSON,
     PICS_DIR,
     DB_PATH,
-    load_scholars_csv,
 )
+
+
+def load_scholars_csv() -> list[dict]:
+    """Load all scholars from vss_data.csv + extra_researchers.csv, deduplicated by scholar_id."""
+    scholars: dict[str, dict] = {}
+
+    if CSV_PATH.exists():
+        with open(CSV_PATH, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                sid = str(row.get("scholar_id", "")).strip()
+                if sid and sid not in scholars:
+                    scholars[sid] = {
+                        "scholar_id": sid,
+                        "scholar_name": row.get("scholar_name", "").strip(),
+                        "scholar_institution": row.get("scholar_institution", "").strip(),
+                    }
+
+    if EXTRA_RESEARCHERS_PATH.exists():
+        with open(EXTRA_RESEARCHERS_PATH, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                sid = str(row.get("scholar_id", "")).strip()
+                if sid and sid not in scholars:
+                    scholars[sid] = {
+                        "scholar_id": sid,
+                        "scholar_name": row.get("scholar_name", "").strip(),
+                        "scholar_institution": row.get("scholar_institution", "").strip(),
+                    }
+
+    return list(scholars.values())
 
 # ── ANSI colors ────────────────────────────────────────────────────────────────
 
@@ -79,10 +108,13 @@ def query_db(db_path: Path) -> dict | None:
         r["scholars_with_bio"]  = q("SELECT COUNT(*) FROM scholars WHERE bio IS NOT NULL")
         r["scholars_with_umap"] = q("SELECT COUNT(*) FROM scholars WHERE umap_x IS NOT NULL")
         r["scholars_subfield"]  = q("SELECT COUNT(*) FROM scholars WHERE primary_subfield IS NOT NULL")
+        r["scholars_is_pi"]     = q("SELECT COUNT(*) FROM scholars WHERE is_pi = 1")
         r["papers_rows"]        = q("SELECT COUNT(*) FROM papers")
         r["papers_scholars"]    = q("SELECT COUNT(DISTINCT scholar_id) FROM papers")
         r["subfields_rows"]     = q("SELECT COUNT(*) FROM subfields")
         r["ideas_rows"]         = q("SELECT COUNT(*) FROM ideas")
+        r["pics_count"]         = q("SELECT COUNT(*) FROM scholars WHERE profile_pic IS NOT NULL")
+        r["pics_latest"]        = q("SELECT MAX(pic_downloaded_at) FROM scholars WHERE pic_downloaded_at IS NOT NULL")
         return r
     except sqlite3.OperationalError:
         return None
@@ -208,12 +240,15 @@ def show_dashboard():
     if db:
         print(f"  {BOLD}SQLite Database{RESET}  {DIM}{DB_PATH.relative_to(PROJECT_ROOT)}{RESET}")
         print(f"    {'Table':<12}  {'Rows':>6}  {'Detail'}")
-        print(f"    {DIM}{'─' * 42}{RESET}")
+        print(f"    {DIM}{'─' * 52}{RESET}")
         print(f"    {'scholars':<12}  {db['scholars']:>6}  "
-              f"{DIM}bio: {db['scholars_with_bio']}, umap: {db['scholars_with_umap']}, subfield: {db['scholars_subfield']}{RESET}")
+              f"{DIM}bio: {db['scholars_with_bio']}, umap: {db['scholars_with_umap']}, "
+              f"subfield: {db['scholars_subfield']}, is_pi: {db['scholars_is_pi']}{RESET}")
         print(f"    {'papers':<12}  {db['papers_rows']:>6}  {DIM}across {db['papers_scholars']} scholars{RESET}")
         print(f"    {'subfields':<12}  {db['subfields_rows']:>6}")
         print(f"    {'ideas':<12}  {db['ideas_rows']:>6}")
+        pics_detail = f"{DIM}latest: {db['pics_latest']}{RESET}" if db["pics_latest"] else f"{DIM}none downloaded yet{RESET}"
+        print(f"    {'pics':<12}  {db['pics_count']:>6}  {pics_detail}")
     else:
         print(f"  {DIM}SQLite Database  not found — will be created on first pipeline run{RESET}")
 

@@ -1,95 +1,48 @@
 # 🧠 ScholarBoard.ai
 
-**An interactive map of a scientific community — where every researcher is a dot, and nearby dots think alike.**
-
-ScholarBoard.ai takes a roster of researchers, reads their publications with AI, and arranges them in 2D space by research similarity. The result is a living, explorable map of an entire field: clusters of related work, bridges between subfields, and a profile card for every scientist — complete with papers, subfield tags, and an AI-generated hypothesis for what they should work on next.
-
-The current dataset: **~730 vision neuroscience researchers** from the [Vision Sciences Society (VSS)](https://www.visionsciences.org/).
+**An interactive map of vision science — where every researcher is a dot, and nearby dots think alike.**
 
 ---
 
-## ✨ What you can do with it
+## What is this?
 
-- **Explore the landscape** — pan and zoom across the research map; clusters reveal the hidden structure of a field
-- **Find neighbors** — see which researchers are working on the most similar problems
-- **Discover someone new** — click any dot to read their bio, recent papers, and subfield tags
-- **Get inspired** — each researcher has an AI-generated research direction: a novel hypothesis grounded in their actual work
-- **Search by name or topic** — type a concept and get projected onto the map
+ScholarBoard.ai is a website that visualizes the field of vision science as a 2D map. Each dot is a researcher. Dots that are close together work on similar problems; dots that are far apart work on very different ones. The layout emerges entirely from AI — there are no manual labels or hand-curated clusters.
+
+The current map covers **~730 vision science researchers** spanning the field's 23 subfields.
 
 ---
 
-## 🚀 Quickstart
+## What can you do on it?
 
-**Prerequisites:** [uv](https://docs.astral.sh/uv/), Node.js 18+, a `GOOGLE_API_KEY` and `SERPER_API_KEY`
-
-```bash
-# 1. Install
-git clone https://github.com/scienta-ai/ScholarBoard-ai.git
-cd ScholarBoard-ai
-uv sync
-cd frontend && npm install && cd ..
-
-# 2. Configure
-echo "GOOGLE_API_KEY=..." >> .env
-echo "SERPER_API_KEY=..." >> .env
-
-# 3. Run the pipeline (builds everything from scratch)
-uv run scripts/run_pipeline.py --execute
-
-# 4. Launch
-uv run serve.py &           # data server  → localhost:8000
-cd frontend && npm run dev  # frontend      → localhost:5173
-```
-
-Open **http://localhost:5173** and start exploring.
+- **Explore the map** — pan and zoom to see how the field is organized; clusters naturally form around shared research themes
+- **Click any researcher** — see their bio, recent papers, institutional affiliation, and subfield tags
+- **Find neighbors** — discover who is working on the most similar problems
+- **Read AI-generated ideas** — each researcher has a novel research direction proposed by AI, grounded in their actual publications
+- **Search** — look up researchers by name or describe a topic to find where it lives on the map
 
 ---
 
-## ⚙️ How it works
+## Where does the data come from?
 
-A fully automated, 8-step AI pipeline builds the map from a CSV of researcher names:
+All researcher data is collected and processed automatically by an AI pipeline:
 
-```
-①  Papers      →  Gemini 3 Flash searches the web for each researcher's recent publications
-②  Profiles    →  Gemini 3 Flash fetches their bio, institution, and lab URL
-③  Embeddings  →  Gemini embeds each researcher's paper text into a 3072-dim vector
-④  Map         →  UMAP reduces to 2D; HDBSCAN finds the clusters
-⑤  Subfields   →  Cosine similarity maps each researcher to their closest research subfields
-⑥  Ideas       →  Gemini 3.1 Pro (with extended thinking) proposes a novel research direction
-⑦  Build       →  Everything is merged into a SQLite database, then exported to JSON
-⑧  Pics        →  Serper.dev finds a headshot for each researcher
-```
+1. **Papers** — Gemini searches the web for each researcher's recent publications
+2. **Profiles** — Gemini fetches their bio, institution, department, and lab URL from public academic pages
+3. **Map layout** — paper texts are embedded into high-dimensional vectors, then reduced to 2D with UMAP and clustered with HDBSCAN
+4. **Subfield tags** — each researcher is matched to the closest of 23 vision science subfields using semantic similarity
+5. **Research ideas** — Gemini 3.1 Pro (with extended thinking) reads a researcher's papers and proposes a novel next direction
+6. **Photos** — headshots are sourced from public academic pages via image search
 
-Check pipeline status at any time:
-
-```bash
-uv run scripts/run_pipeline.py          # show progress dashboard
-uv run scripts/run_pipeline.py --step papers    # run one step
-uv run scripts/run_pipeline.py --from embed     # resume from a step
-```
+The pipeline is re-run periodically to keep the data fresh.
 
 ---
 
-## 🔬 Vision science subfields
-
-Each researcher is automatically tagged across 23 subfields, from neural coding to perceptual learning:
+## The 23 subfields
 
 > *Neural Coding · Representational Geometry · Brain-AI Alignment · Predictive Dynamics · Object Recognition · Face Perception · Scene Perception · Active Vision · Visuomotor Action · Attention · Visual Working Memory · Ensemble Statistics · Perceptual Learning · Multisensory Integration · Perceptual Decision-Making · Visual Development · Neural Decoding · Comparative Vision · Motion Perception · Color Vision · Visual Search · Reading & Word Recognition · Mid-Level Features*
 
 ---
 
-## 🛠️ Stack
-
-| What | How |
-|---|---|
-| AI pipeline | Google Gemini 3 Flash + 3.1 Pro + gemini-embedding-001 |
-| Map layout | UMAP + HDBSCAN |
-| Frontend | React 19 + TypeScript + D3.js |
-| Data layer | SQLite + JSON + NetCDF (embeddings) |
-| Package manager | `uv` (Python) · `npm` (frontend) |
-
----
-
-## 📄 License
+## License
 
 MIT

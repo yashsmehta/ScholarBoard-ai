@@ -11,6 +11,7 @@ export interface AppState {
   hoveredScholarId: string | null
   searchQuery: string
   activeInstitutions: string[]
+  activeSubfields: string[]
   resetNonce: number
   panRequest: { scholarId: string; nonce: number } | null
 }
@@ -25,6 +26,8 @@ export type AppAction =
   | { type: 'sidebar_closed' }
   | { type: 'filters_applied'; institutions: string[] }
   | { type: 'filters_cleared' }
+  | { type: 'subfields_filter_applied'; subfields: string[] }
+  | { type: 'subfields_filter_cleared' }
   | { type: 'map_reset_requested' }
   | { type: 'pan_to_scholar_requested'; scholarId: string }
 
@@ -37,6 +40,7 @@ export const initialAppState: AppState = {
   hoveredScholarId: null,
   searchQuery: '',
   activeInstitutions: [],
+  activeSubfields: [],
   resetNonce: 0,
   panRequest: null,
 }
@@ -78,6 +82,13 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       }
     case 'filters_cleared':
       return { ...state, activeInstitutions: [] }
+    case 'subfields_filter_applied':
+      return {
+        ...state,
+        activeSubfields: [...action.subfields].sort((a, b) => a.localeCompare(b)),
+      }
+    case 'subfields_filter_cleared':
+      return { ...state, activeSubfields: [] }
     case 'map_reset_requested':
       return { ...state, resetNonce: state.resetNonce + 1 }
     case 'pan_to_scholar_requested': {

@@ -31,7 +31,7 @@ Vite proxies `/api`, `/data`, `/images` to `http://localhost:8000` (the data ser
 App.tsx (useReducer)
  ├── Header             — title bar, scholar count
  ├── SearchPanel        — live search with keyboard nav
- ├── FilterPanel        — institution filter dropdown
+ ├── FilterPanel        — institution + subfield filter (tabbed dropdown)
  ├── ScholarMap         — thin React wrapper around D3
  │   └── d3MapController — imperative D3 scatter plot (zoom, pan, brush, tooltips)
  ├── MapControls        — reset button, usage hint
@@ -63,7 +63,7 @@ App.tsx (useReducer)
 
 Two tabs, controlled by `SidebarTab` type (`'profile' | 'idea'`). Defaults to Profile, resets when a new scholar is selected.
 
-**Profile tab:** Avatar (with fallback chain: profile pic → default avatar → initials), name, institution, department, lab link, bio, research areas (tags), recent papers (top 5), education, similar researchers (5 nearest by UMAP distance).
+**Profile tab:** Avatar (with fallback chain: profile pic → default avatar → initials), name, institution, department, lab link, bio, subfield badges (clickable — triggers subfield filter), recent papers (top 5), education, similar researchers (5 nearest by UMAP distance).
 
 **Research Idea tab:** AI-generated research direction — title, research thread, open question, hypothesis, approach, scientific impact, why now. Shows empty state when no idea exists for a scholar.
 
@@ -101,11 +101,13 @@ src/
 
 ## Key Patterns
 
-**State management:** Single `useReducer` in App.tsx with 11 action types (discriminated union). No external state library. Derived state (visible scholars, institution counts) computed inline.
+**State management:** Single `useReducer` in App.tsx with 13 action types (discriminated union). No external state library. Derived state (visible scholars, institution counts, subfield counts) computed inline.
 
 **Nonce pattern:** `resetNonce` and `panRequest.nonce` are incrementing counters that trigger D3 animations via useEffect dependencies. This allows re-triggering the same action (e.g., pan to same scholar twice).
 
 **Click-outside:** Shared `useClickOutside` hook used by SearchPanel and FilterPanel.
+
+**Subfield filter:** `activeSubfields: string[]` in state, set by `subfields_filter_applied` / `subfields_filter_cleared` actions. FilterPanel has two tabs (Institution | Subfield). Clicking a subfield badge in the sidebar dispatches `subfields_filter_applied` with that single subfield. D3 visibility is the AND of both filters via `isScholarVisible()` helper in `d3MapController.ts`.
 
 **Class names:** `cx()` utility for conditional class composition.
 

@@ -14,6 +14,7 @@ export interface MapInteractionState {
   hoveredScholarId: string | null
   selectedScholarId: string | null
   activeInstitutions: Set<string>
+  activeSubfields: Set<string>
 }
 
 export interface D3MapCallbacks {
@@ -72,6 +73,7 @@ export function createD3MapController(
     hoveredScholarId: null,
     selectedScholarId: null,
     activeInstitutions: new Set<string>(),
+    activeSubfields: new Set<string>(),
   }
 
   const zoom = d3
@@ -281,9 +283,7 @@ export function createD3MapController(
     dots.each(function applyStyle(datum) {
       const isSelected = interactionState.selectedScholarId === datum.id
       const isHovered = interactionState.hoveredScholarId === datum.id && !isSelected
-      const institution = datum.institution ?? 'Unknown'
-      const filterActive = interactionState.activeInstitutions.size > 0
-      const isVisible = !filterActive || interactionState.activeInstitutions.has(institution)
+      const isVisible = isScholarVisible(datum, interactionState)
 
       d3.select(this)
         .attr('r', isSelected ? DOT_RADIUS_SELECTED : isHovered ? DOT_RADIUS_HOVER : DOT_RADIUS)
@@ -293,9 +293,7 @@ export function createD3MapController(
     })
 
     hitDots.each(function applyHitTarget(datum) {
-      const institution = datum.institution ?? 'Unknown'
-      const filterActive = interactionState.activeInstitutions.size > 0
-      const isVisible = !filterActive || interactionState.activeInstitutions.has(institution)
+      const isVisible = isScholarVisible(datum, interactionState)
 
       d3.select(this)
         .attr('r', DOT_HIT_RADIUS)
@@ -542,13 +540,7 @@ export function createD3MapController(
     let best: { scholar: Scholar; dist: number } | null = null
 
     for (const scholar of scholars) {
-      const institution = scholar.institution ?? 'Unknown'
-      if (
-        interactionState.activeInstitutions.size > 0 &&
-        !interactionState.activeInstitutions.has(institution)
-      ) {
-        continue
-      }
+      if (!isScholarVisible(scholar, interactionState)) continue
 
       const localX = xScale(scholar.x)
       const localY = yScale(scholar.y)
@@ -564,6 +556,15 @@ export function createD3MapController(
 
     return best?.scholar ?? null
   }
+}
+
+function isScholarVisible(scholar: Scholar, state: MapInteractionState): boolean {
+  const instActive = state.activeInstitutions.size > 0
+  const passesInst = !instActive || state.activeInstitutions.has(scholar.institution ?? 'Unknown')
+  const sfActive = state.activeSubfields.size > 0
+  const passesSf =
+    !sfActive || scholar.subfields.some((sf) => state.activeSubfields.has(sf.subfield))
+  return passesInst && passesSf
 }
 
 function paddedExtent(extent: [number, number]): [number, number] {

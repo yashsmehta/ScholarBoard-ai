@@ -20,6 +20,7 @@ import re
 import time
 import argparse
 import sys
+import random
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -68,6 +69,9 @@ def build_prompt(scholar_name, institution, num_papers):
         f"- authors: full author list as a comma-separated string\n"
         f"- url: DOI or paper URL if available\n\n"
         f"Return a JSON object with keys \"scholar_name\" (string) and \"papers\" (array of paper objects). "
+        f"If you searched thoroughly and found NO qualifying papers for this researcher, return "
+        f"{{\"scholar_name\": \"{scholar_name}\", \"papers\": [], \"not_found\": true}} — "
+        f"do NOT invent papers just to fill the list. "
         f"Return ONLY the JSON, no other text."
     )
 
@@ -82,9 +86,12 @@ def _normalize_papers_result(parsed, scholar_name):
 
 
 def fetch_papers(client, scholar_name, institution, num_papers=5):
-    """
-    Fetch recent papers for a scholar using Gemini grounded search.
-    Returns (parsed_dict, grounding_sources) or (None, []) on failure.
+    """Fetch recent papers for a scholar using Gemini grounded search.
+
+    Returns (data, sources, status) where status is one of:
+      "success"   — papers found and returned
+      "not_found" — Gemini searched but found no qualifying papers
+      "api_error" — transient failure (network, timeout, parse error, etc.)
     """
     prompt = build_prompt(scholar_name, institution, num_papers)
 
@@ -108,19 +115,23 @@ def fetch_papers(client, scholar_name, institution, num_papers=5):
                 print(f"    Retrying with softer abstract prompt...")
                 return _retry_without_abstract(client, scholar_name, institution, num_papers)
 
-            return None, []
+            return None, [], "api_error"
 
         parsed = parse_json_response(response.text)
         result = _normalize_papers_result(parsed, scholar_name)
         sources = extract_grounding_sources(response)
-        return result, sources
+
+        if result.get("not_found") or not result.get("papers"):
+            return result, sources, "not_found"
+
+        return result, sources, "success"
 
     except json.JSONDecodeError as e:
         print(f"    JSON parse error for {scholar_name}: {e}")
-        return None, []
+        return None, [], "api_error"
     except Exception as e:
         print(f"    API error for {scholar_name}: {e}")
-        return None, []
+        return None, [], "api_error"
 
 
 def _retry_without_abstract(client, scholar_name, institution, num_papers):
@@ -137,6 +148,7 @@ def _retry_without_abstract(client, scholar_name, institution, num_papers):
         f"For each paper provide: title, year, venue, authors, url.\n"
         f"Set abstract to an empty string.\n\n"
         f"Return a JSON object with keys \"scholar_name\" and \"papers\" array. "
+        f"If no qualifying papers found, return {{\"scholar_name\": \"{scholar_name}\", \"papers\": [], \"not_found\": true}}. "
         f"Return ONLY JSON."
     )
 
@@ -151,15 +163,19 @@ def _retry_without_abstract(client, scholar_name, institution, num_papers):
         )
 
         if response.text is None:
-            return None, []
+            return None, [], "api_error"
 
         parsed = parse_json_response(response.text)
         result = _normalize_papers_result(parsed, scholar_name)
         sources = extract_grounding_sources(response)
-        return result, sources
+
+        if result.get("not_found") or not result.get("papers"):
+            return result, sources, "not_found"
+
+        return result, sources, "success"
     except Exception as e:
         print(f"    Retry also failed for {scholar_name}: {e}")
-        return None, []
+        return None, [], "api_error"
 
 
 def lookup_citations(papers, serper_key):
@@ -235,9 +251,9 @@ def _process_scholar(researcher, index, total, num_papers, serper_key,
         print(f"[{index + 1}/{total}] {name} ({sid}) — {inst}")
 
     client = get_client()
-    data, sources = fetch_papers(client, name, inst, num_papers)
+    data, sources, status = fetch_papers(client, name, inst, num_papers)
 
-    if data and data.get("papers"):
+    if status == "success":
         papers = data["papers"]
         if serper_key:
             papers = lookup_citations(papers, serper_key)
@@ -255,10 +271,18 @@ def _process_scholar(researcher, index, total, num_papers, serper_key,
             for p in papers:
                 cites = p.get("citations", "0")
                 print(f"      - [{p.get('year', '?')}] {p.get('title', '?')[:70]} ({cites} cites)")
-    else:
+
+    elif status == "not_found":
+        # Gemini searched and explicitly found no qualifying papers — save so we skip next run
+        save_papers({"scholar_name": name, "papers": [], "not_found": True}, [], sid, name, output_dir)
         with counters_lock:
-            counters["fail"] += 1
-            print(f"    No papers found")
+            counters["not_found"] += 1
+            print(f"    No qualifying papers found (Gemini searched, nothing meets criteria)")
+
+    else:  # api_error
+        with counters_lock:
+            counters["api_error"] += 1
+            print(f"    API error — will retry on next run")
 
 
 def main():
@@ -277,8 +301,10 @@ def main():
                         help="Re-fetch even if data already exists")
     parser.add_argument("--dry-run", action="store_true",
                         help="Show what would be fetched without making API calls")
-    parser.add_argument("--workers", type=int, default=25,
-                        help="Number of parallel workers (default: 25)")
+    parser.add_argument("--workers", type=int, default=50,
+                        help="Number of parallel workers (default: 50)")
+    parser.add_argument("--random", action="store_true",
+                        help="Shuffle researchers before applying --limit (random sample)")
     args = parser.parse_args()
 
     researchers = load_scholars(is_pi_only=False)
@@ -303,6 +329,9 @@ def main():
         if before != len(researchers):
             print(f"Skipping {before - len(researchers)} already-fetched scholars")
 
+    if args.random:
+        random.shuffle(researchers)
+
     if args.limit:
         researchers = researchers[: args.limit]
 
@@ -321,7 +350,7 @@ def main():
 
     serper_key = get_serper_api_key()
     counters_lock = threading.Lock()
-    counters = {"success": 0, "fail": 0, "total_papers": 0}
+    counters = {"success": 0, "not_found": 0, "api_error": 0, "total_papers": 0}
     total = len(researchers)
 
     if args.workers <= 1:
@@ -344,10 +373,11 @@ def main():
                     scholar = futures[future]
                     print(f"    Unexpected error for {scholar['scholar_name']}: {exc}")
 
+    total = counters["success"] + counters["not_found"] + counters["api_error"]
     print(f"\n--- Summary ---")
-    print(f"Successful: {counters['success']}/{counters['success'] + counters['fail']}")
-    print(f"Failed:     {counters['fail']}/{counters['success'] + counters['fail']}")
-    print(f"Total papers: {counters['total_papers']}")
+    print(f"Papers found:   {counters['success']}/{total}  ({counters['total_papers']} papers total)")
+    print(f"Not found:      {counters['not_found']}/{total}  (Gemini searched, no qualifying papers)")
+    print(f"API errors:     {counters['api_error']}/{total}  (transient — will retry on next run)")
     print(f"Output: {PAPERS_DIR}")
 
 

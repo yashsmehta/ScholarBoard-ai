@@ -9,6 +9,7 @@ import {
 interface ScholarMapProps {
   scholars: Scholar[]
   activeInstitutions: string[]
+  activeSubfields: string[]
   hoveredScholarId: string | null
   selectedScholarId: string | null
   resetNonce: number
@@ -20,6 +21,7 @@ interface ScholarMapProps {
 export function ScholarMap({
   scholars,
   activeInstitutions,
+  activeSubfields,
   hoveredScholarId,
   selectedScholarId,
   resetNonce,
@@ -37,8 +39,9 @@ export function ScholarMap({
       hoveredScholarId,
       selectedScholarId,
       activeInstitutions: new Set(activeInstitutions),
+      activeSubfields: new Set(activeSubfields),
     }),
-    [hoveredScholarId, selectedScholarId, activeInstitutions],
+    [hoveredScholarId, selectedScholarId, activeInstitutions, activeSubfields],
   )
 
   useEffect(() => {

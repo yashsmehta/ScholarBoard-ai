@@ -65,6 +65,47 @@ def extract_grounding_sources(response) -> list[dict]:
     return sources
 
 
+def generate_text(
+    prompt: str,
+    model: str = "gemini-3-flash-preview",
+    thinking: bool = False,
+    system_instruction: str | None = None,
+    client: "genai.Client | None" = None,
+) -> str | None:
+    """Generate text using a Gemini model.
+
+    Args:
+        prompt: The prompt to send.
+        model: Model ID (e.g. "gemini-3-flash-preview", "gemini-3.1-pro-preview").
+        thinking: Enable thinking/reasoning (only meaningful for Pro models).
+        system_instruction: Optional system instruction.
+        client: Optional pre-created client (useful in threaded code).
+
+    Returns:
+        The generated text, or None if the response was empty.
+    """
+    if client is None:
+        client = get_client()
+
+    config_kwargs: dict = {}
+    if thinking:
+        config_kwargs["thinking_config"] = types.ThinkingConfig(include_thoughts=True)
+    if system_instruction:
+        config_kwargs["system_instruction"] = system_instruction
+
+    config = types.GenerateContentConfig(**config_kwargs) if config_kwargs else None
+
+    response = client.models.generate_content(
+        model=model,
+        contents=prompt,
+        config=config,
+    )
+
+    if response.text is None:
+        return None
+    return response.text.strip()
+
+
 def embed_texts(
     texts: list[str],
     task_type: str = "CLUSTERING",

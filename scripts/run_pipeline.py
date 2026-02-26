@@ -96,7 +96,7 @@ STEPS = [
         "name": "directions",
         "icon": "5",
         "description": "Distill current research directions from papers (PI only)",
-        "model": "gemini-3-flash-preview",
+        "model": "gemini-3.1-pro-preview (MEDIUM thinking)",
         "command": [PYTHON, "-m", "scholar_board.pipeline.directions"],
         "check": lambda: len(list((PIPELINE_DIR / "scholar_directions").glob("*.json"))),
         "total": 815,

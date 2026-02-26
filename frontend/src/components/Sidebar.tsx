@@ -130,12 +130,6 @@ function ProfileTab({
           )}
         </div>
         {scholar.bio && <p className="profile-card__bio">{scholar.bio}</p>}
-        {scholar.researchDirection && (
-          <div className="profile-card__direction">
-            <span className="profile-card__direction-label">Current Research Direction</span>
-            <p>{scholar.researchDirection}</p>
-          </div>
-        )}
       </section>
 
       {scholar.subfields.length > 0 && (
@@ -165,6 +159,9 @@ function ProfileTab({
       {scholar.papers.length > 0 && (
         <section className="sidebar-section">
           <h3>Recent Papers</h3>
+          {scholar.researchDirection && (
+            <AiSummary text={scholar.researchDirection} />
+          )}
           <div className="stack-list">
             {scholar.papers.slice(0, 5).map((paper, index) => (
               <article key={`${paper.title}-${index}`} className="stack-list__item">
@@ -237,6 +234,24 @@ function ProfileTab({
         </div>
       </section>
     </>
+  )
+}
+
+function AiSummary({ text }: { text: string }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className={cx('ai-summary', open && 'is-open')}>
+      <button type="button" className="ai-summary__toggle" onClick={() => setOpen(!open)}>
+        <svg className="ai-summary__icon" width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+          <path d="M6 0l1.2 3.6L11 4.8l-2.8 2.7.7 3.9L6 9.6l-2.9 1.8.7-3.9L1 4.8l3.8-1.2z"/>
+        </svg>
+        <span>AI Summary</span>
+        <svg className="ai-summary__chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+          <path d="M3 4l2 2 2-2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
+      {open && <p className="ai-summary__body">{text}</p>}
+    </div>
   )
 }
 

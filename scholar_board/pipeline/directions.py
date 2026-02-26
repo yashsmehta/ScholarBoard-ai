@@ -20,10 +20,8 @@ import sys
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from google.genai import errors
-
 from scholar_board.config import PAPERS_DIR, DIRECTIONS_DIR
-from scholar_board.gemini import get_client
+from scholar_board.gemini import get_client, generate_text
 from scholar_board.prompt_loader import render_prompt
 from scholar_board.db import (
     get_connection,
@@ -76,7 +74,7 @@ def get_already_generated(output_dir):
 
 
 def generate_direction(client, scholar_name, institution, papers):
-    """Generate a research direction paragraph using Gemini 3 Flash Preview.
+    """Generate a research direction paragraph using Gemini 3.1 Pro Preview with thinking.
 
     Returns the text string on success, or None on failure.
     """
@@ -89,30 +87,31 @@ def generate_direction(client, scholar_name, institution, papers):
     )
 
     try:
-        response = client.models.generate_content(
-            model="gemini-3-flash-preview",
-            contents=prompt,
+        text = generate_text(
+            prompt,
+            model="gemini-3.1-pro-preview",
+            thinking=True,
+            client=client,
         )
 
-        if response.text is None:
-            finish_reason = None
-            if response.candidates:
-                finish_reason = response.candidates[0].finish_reason
-            print(f"    Empty response (finish_reason={finish_reason})")
+        if not text:
+            print(f"    Empty response")
             return None
 
-        text = response.text.strip()
-        if not text:
-            print(f"    Empty text after stripping")
+        # Strip any markdown code fences the model might add
+        if text.startswith("```"):
+            lines = text.split("\n")
+            lines = [l for l in lines if not l.strip().startswith("```")]
+            text = "\n".join(lines).strip()
+
+        if len(text) < 50:
+            print(f"    Response too short ({len(text)} chars)")
             return None
 
         return text
 
-    except errors.ClientError as e:
-        print(f"    Gemini client error: {e}")
-        return None
     except Exception as e:
-        print(f"    Unexpected error: {e}")
+        print(f"    Error: {e}")
         return None
 
 

@@ -45,7 +45,6 @@ export interface RawScholar {
   lab_url?: string
   main_research_area?: string
   bio?: string
-  research_areas?: string[]
   primary_subfield?: string
   subfields?: SubfieldTag[]
   papers?: ScholarPaper[]
@@ -66,7 +65,6 @@ export interface Scholar {
   labUrl?: string
   mainResearchArea?: string
   bio?: string
-  researchAreas: string[]
   primarySubfield?: string
   subfields: SubfieldTag[]
   papers: ScholarPaper[]

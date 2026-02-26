@@ -95,9 +95,6 @@ function normalizeScholar(fallbackId: string, raw: RawScholar): Scholar | null {
     y,
     primarySubfield: normalizeString(raw.primary_subfield),
     subfields: Array.isArray(raw.subfields) ? raw.subfields.filter(isSubfieldLike) : [],
-    researchAreas: Array.isArray(raw.research_areas)
-      ? raw.research_areas.filter(isNonEmptyString)
-      : [],
     papers: Array.isArray(raw.papers) ? raw.papers.filter(isPaperLike) : [],
     education: Array.isArray(raw.education) ? raw.education.filter(isObjectLike) : [],
     suggestedIdea: normalizeResearchIdea(raw.suggested_idea),
@@ -109,10 +106,6 @@ function normalizeString(value: unknown): string | undefined {
   const trimmed = value.trim()
   if (!trimmed || /^(nan|null)$/i.test(trimmed)) return undefined
   return trimmed
-}
-
-function isNonEmptyString(value: unknown): value is string {
-  return typeof value === 'string' && value.trim().length > 0
 }
 
 function isPaperLike(value: unknown): value is Scholar['papers'][number] {

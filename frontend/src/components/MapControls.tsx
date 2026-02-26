@@ -17,7 +17,7 @@ export function MapControls({ onReset }: MapControlsProps) {
     <>
       <div className="map-overlay map-overlay-bottom-left">
         <p className={cx('map-hint', hintHidden && 'map-hint--hidden')}>
-          Scroll to zoom &middot; Drag to pan &middot; Shift+drag to box select
+          Scroll to zoom &middot; Drag to pan &middot; Click a dot
         </p>
       </div>
       <div className="map-overlay map-overlay-bottom-right">

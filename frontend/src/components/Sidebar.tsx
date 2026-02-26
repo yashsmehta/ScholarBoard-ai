@@ -33,16 +33,6 @@ export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfi
 
   return (
     <aside className="sidebar">
-      <div className="sidebar__header">
-        <p className="sidebar__eyebrow">Scholar Profile</p>
-        <button type="button" className="sidebar__close icon-button" onClick={onClose} aria-label="Close sidebar">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <line x1="4" y1="4" x2="12" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="12" y1="4" x2="4" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        </button>
-      </div>
-
       {!scholar && (
         <div className="sidebar__empty">
           <svg className="sidebar__empty-icon" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
@@ -73,6 +63,12 @@ export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfi
               onClick={() => setActiveTab('idea')}
             >
               Research Idea
+            </button>
+            <button type="button" className="sidebar__close" onClick={onClose} aria-label="Close sidebar">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="4" y1="4" x2="12" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <line x1="12" y1="4" x2="4" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
             </button>
           </div>
 

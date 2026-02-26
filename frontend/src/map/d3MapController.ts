@@ -2,9 +2,9 @@ import * as d3 from 'd3'
 import type { Scholar } from '../types/scholar'
 import { clusterColor } from './colorScale'
 
-const DOT_RADIUS = 4.2
-const DOT_RADIUS_HOVER = 6.2
-const DOT_RADIUS_SELECTED = 8.4
+const DOT_RADIUS = 3.0
+const DOT_RADIUS_HOVER = 4.8
+const DOT_RADIUS_SELECTED = 6.5
 const DOT_HIT_RADIUS = 10
 const BASE_STROKE = 'rgba(255,255,255,0.84)'
 const SELECTED_STROKE = '#112136'

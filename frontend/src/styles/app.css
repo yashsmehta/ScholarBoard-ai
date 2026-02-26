@@ -239,22 +239,22 @@ input {
 
 .map-overlay-bottom-left {
   left: 14px;
-  bottom: 44px;
+  bottom: 14px;
   width: min(560px, calc(100% - 28px));
 }
 
 .map-overlay-bottom-right {
   right: 14px;
-  bottom: 44px;
+  bottom: 14px;
 }
 
 .search-panel,
 .filter-panel__menu {
-  background: var(--panel-strong);
+  background: rgba(255, 255, 255, 0.80);
   border: 1px solid rgba(21, 24, 34, 0.09);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-1);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
 }
 
 .search-panel {
@@ -491,7 +491,8 @@ input {
   justify-content: center;
   gap: 5px;
   border: 1px solid var(--border-light);
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(10px);
   color: var(--ink-0);
   padding: 6px 10px;
   border-radius: 10px;
@@ -503,7 +504,7 @@ input {
 }
 
 .icon-button:hover {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.95);
   transform: translateY(-0.5px);
   box-shadow: 0 4px 12px rgba(20, 20, 30, 0.10);
 }

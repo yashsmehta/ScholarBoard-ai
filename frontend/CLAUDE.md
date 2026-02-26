@@ -9,7 +9,7 @@ React + TypeScript + Vite frontend for ScholarBoard.ai. Interactive 2D map of ~7
 npm install
 
 # Start the data server (from project root, in one terminal)
-.venv/bin/python3 serve.py          # → http://localhost:8000
+uv run serve.py                     # → http://localhost:8000
 
 # Start the frontend dev server (in another terminal)
 npm run dev                         # → http://localhost:5173
@@ -48,11 +48,11 @@ App.tsx (useReducer)
 
 ### D3 Integration Pattern
 
-`d3MapController.ts` (~574 lines) is an imperative "island" — a closure that creates/manages the SVG. React never touches the SVG directly.
+`d3MapController.ts` (~571 lines) is an imperative "island" — a closure that creates/manages the SVG. React never touches the SVG directly.
 
 **Controller API:**
 - `setData(scholars)` — update dots
-- `setInteractionState({hoveredId, selectedId, activeInstitutions})` — sync visual state
+- `setInteractionState({hoveredId, selectedId, activeInstitutions, activeSubfields})` — sync visual state
 - `resize()` — refit scales to container
 - `resetView()` / `panToScholar(id)` — animated transitions
 - `destroy()` — cleanup
@@ -76,14 +76,14 @@ src/
 ├── components/
 │   ├── Header.tsx            — Title bar (presentational)
 │   ├── SearchPanel.tsx       — Search input + autocomplete dropdown
-│   ├── FilterPanel.tsx       — Institution filter with draft/apply pattern
+│   ├── FilterPanel.tsx       — Institution + subfield filter (tabbed, draft/apply)
 │   ├── ScholarMap.tsx        — D3 controller lifecycle bridge
 │   ├── MapControls.tsx       — Reset button + auto-hiding hint
 │   └── Sidebar.tsx           — Tabbed sidebar (Profile + Research Idea)
 ├── state/
-│   └── appReducer.ts         — Central reducer (11 action types)
+│   └── appReducer.ts         — Central reducer (13 action types)
 ├── map/
-│   ├── d3MapController.ts    — Core D3 visualization (~574 lines)
+│   ├── d3MapController.ts    — Core D3 visualization (~571 lines)
 │   └── colorScale.ts         — Spectral colormap for clusters
 ├── lib/
 │   ├── loadScholars.ts       — Fetch + normalize scholar data
@@ -96,7 +96,7 @@ src/
 │   └── scholar.ts            — Scholar, RawScholar, Paper, Education, SubfieldTag, ResearchIdea
 └── styles/
     ├── tokens.css            — Design tokens (colors, fonts, radii, shadows, borders)
-    └── app.css               — All component styles (~846 lines)
+    └── app.css               — All component styles (~907 lines)
 ```
 
 ## Key Patterns
@@ -119,13 +119,13 @@ src/
 
 No CSS framework — vanilla CSS with design tokens.
 
-**Token categories** (in `tokens.css`):
+**Token categories** (in `tokens.css`, 25 lines):
 - `--font-sans/mono` — Manrope + IBM Plex Mono
-- `--bg-*`, `--ink-*` — background and text colors
-- `--brand-0/1/2`, `--accent` — teal brand palette + gold + red accent
+- `--ink-0/1/2` — text colors (near-black → mid-grey)
+- `--brand-0/1` — teal palette (#0d5c63 dark, #44a1a0 medium)
 - `--panel/panel-strong`, `--card-bg/card-bg-strong` — surface backgrounds
-- `--border-subtle/light/medium`, `--brand-tint/brand-border` — borders
-- `--shadow-1/2`, `--radius-sm/md/lg` — elevation and rounding
+- `--border-subtle/light`, `--brand-tint/brand-border` — borders
+- `--shadow-1/2`, `--radius-md/lg` — elevation and rounding
 
 **Visual design:** Warm neutral background (`#faf8f5`) with teal brand accents. Glassmorphism panels (backdrop-filter blur). Dot grid pattern on map. Spectral colormap for cluster dots.
 

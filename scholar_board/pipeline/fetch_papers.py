@@ -17,24 +17,17 @@ Usage:
 
 import json
 import re
-import time
 import argparse
 import sys
 import random
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-import requests
 from google.genai import types
 
-from scholar_board.config import (
-    PAPERS_DIR,
-    get_serper_api_key,
-)
+from scholar_board.config import PAPERS_DIR
 from scholar_board.gemini import get_client, extract_grounding_sources, parse_json_response
 from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_papers, load_scholars
-
-SERPER_SCHOLAR_URL = "https://google.serper.dev/scholar"
 
 SYSTEM_INSTRUCTION = (
     "You are a research paper database. Return accurate, verified paper information. "
@@ -48,8 +41,10 @@ def build_prompt(scholar_name, institution, num_papers):
         f"Search online for the {num_papers} most recent papers "
         f"by {scholar_name} from {institution}.\n\n"
         f"STRICT REQUIREMENTS:\n"
-        f"- {scholar_name} MUST be the LAST AUTHOR (senior/corresponding author) on the paper\n"
-        f"- Papers must be published in 2024 or later. Prioritize most recent first.\n"
+        f"- {scholar_name} MUST be a senior author on the paper: first author, last author, "
+        f"or corresponding author. Prefer papers where they are the PI / lab head (last or corresponding). "
+        f"Do NOT include papers where they are a middle author with no PI role.\n"
+        f"- Papers must be published in 2023 or later. Prioritize most recent first.\n"
         f"- Include: peer-reviewed journal articles, preprints (bioRxiv/arXiv), and full papers "
         f"at top-tier ML/vision/neuro conferences (NeurIPS, ICML, ICLR, CVPR, ICCV, ECCV, EMNLP, ACL, etc.)\n"
         f"- Do NOT include conference abstracts, posters, workshop papers, or short extended abstracts\n"
@@ -140,8 +135,8 @@ def _retry_without_abstract(client, scholar_name, institution, num_papers):
         f"Search online for the {num_papers} most recent peer-reviewed journal papers "
         f"by {scholar_name} from {institution}.\n\n"
         f"REQUIREMENTS:\n"
-        f"- {scholar_name} MUST be the LAST AUTHOR (senior/corresponding author)\n"
-        f"- Published in 2024 or later, most recent first\n"
+        f"- {scholar_name} must be a senior author (first, last, or corresponding author)\n"
+        f"- Published in 2023 or later, most recent first\n"
         f"- Full journal articles, preprints, or top-tier conference papers only\n"
         f"- EXCLUDE: VSS abstracts, JOV conference abstracts, CCN, COSYNE, SfN, OHBM abstracts\n"
         f"- Only verified papers\n\n"
@@ -178,35 +173,6 @@ def _retry_without_abstract(client, scholar_name, institution, num_papers):
         return None, [], "api_error"
 
 
-def lookup_citations(papers, serper_key):
-    """Look up citation counts from Google Scholar via Serper.dev."""
-    if not serper_key:
-        return papers
-
-    for paper in papers:
-        title = paper.get("title", "")
-        if not title:
-            continue
-        try:
-            resp = requests.post(
-                SERPER_SCHOLAR_URL,
-                headers={"X-API-KEY": serper_key, "Content-Type": "application/json"},
-                json={"q": f"allintitle:{title}", "num": 1},
-                timeout=15,
-            )
-            resp.raise_for_status()
-            results = resp.json().get("organic", [])
-            if results:
-                paper["citations"] = str(results[0].get("citedBy", 0))
-            else:
-                paper["citations"] = "0"
-            time.sleep(0.2)
-        except Exception:
-            paper["citations"] = "0"
-
-    return papers
-
-
 def get_already_fetched(output_dir):
     """Get set of scholar_ids that already have paper data."""
     fetched = set()
@@ -237,7 +203,7 @@ def save_papers(data, sources, scholar_id, scholar_name, output_dir):
     return filepath
 
 
-def _process_scholar(researcher, index, total, num_papers, serper_key,
+def _process_scholar(researcher, index, total, num_papers,
                      output_dir, counters_lock, counters):
     """Process a single scholar: fetch papers and save results.
 
@@ -247,17 +213,11 @@ def _process_scholar(researcher, index, total, num_papers, serper_key,
     sid = researcher["scholar_id"]
     inst = researcher["scholar_institution"]
 
-    with counters_lock:
-        print(f"[{index + 1}/{total}] {name} ({sid}) — {inst}")
-
     client = get_client()
     data, sources, status = fetch_papers(client, name, inst, num_papers)
 
     if status == "success":
         papers = data["papers"]
-        if serper_key:
-            papers = lookup_citations(papers, serper_key)
-            data["papers"] = papers
         save_papers(data, sources, sid, name, output_dir)
         conn = get_connection()
         init_db(conn)
@@ -267,22 +227,21 @@ def _process_scholar(researcher, index, total, num_papers, serper_key,
         with counters_lock:
             counters["success"] += 1
             counters["total_papers"] += len(papers)
-            print(f"    {len(papers)} papers saved")
+            print(f"[{index + 1}/{total}] {name} ({sid}) — {len(papers)} papers saved")
             for p in papers:
-                cites = p.get("citations", "0")
-                print(f"      - [{p.get('year', '?')}] {p.get('title', '?')[:70]} ({cites} cites)")
+                print(f"      - [{p.get('year', '?')}] {p.get('title', '?')[:70]}")
 
     elif status == "not_found":
         # Gemini searched and explicitly found no qualifying papers — save so we skip next run
         save_papers({"scholar_name": name, "papers": [], "not_found": True}, [], sid, name, output_dir)
         with counters_lock:
             counters["not_found"] += 1
-            print(f"    No qualifying papers found (Gemini searched, nothing meets criteria)")
+            print(f"[{index + 1}/{total}] {name} ({sid}) — no qualifying papers found")
 
     else:  # api_error
         with counters_lock:
             counters["api_error"] += 1
-            print(f"    API error — will retry on next run")
+            print(f"[{index + 1}/{total}] {name} ({sid}) — API error, will retry")
 
 
 def main():
@@ -305,10 +264,12 @@ def main():
                         help="Number of parallel workers (default: 50)")
     parser.add_argument("--random", action="store_true",
                         help="Shuffle researchers before applying --limit (random sample)")
+    parser.add_argument("--is-pi-only", action="store_true",
+                        help="Only fetch papers for confirmed PIs (is_pi=1 in DB)")
     args = parser.parse_args()
 
-    researchers = load_scholars(is_pi_only=False)
-    print(f"Loaded {len(researchers)} researchers from DB")
+    researchers = load_scholars(is_pi_only=args.is_pi_only)
+    print(f"Loaded {len(researchers)} researchers from DB" + (" (PIs only)" if args.is_pi_only else ""))
 
     if args.scholar_id:
         researchers = [r for r in researchers if r["scholar_id"] == args.scholar_id.zfill(4)]
@@ -348,14 +309,13 @@ def main():
         print(f"\nNo API calls made.")
         return
 
-    serper_key = get_serper_api_key()
     counters_lock = threading.Lock()
     counters = {"success": 0, "not_found": 0, "api_error": 0, "total_papers": 0}
     total = len(researchers)
 
     if args.workers <= 1:
         for i, r in enumerate(researchers):
-            _process_scholar(r, i, total, args.papers, serper_key,
+            _process_scholar(r, i, total, args.papers,
                              PAPERS_DIR, counters_lock, counters)
     else:
         print(f"Using {args.workers} parallel workers\n")
@@ -363,7 +323,7 @@ def main():
             futures = {
                 executor.submit(
                     _process_scholar, r, i, total, args.papers,
-                    serper_key, PAPERS_DIR, counters_lock, counters
+                    PAPERS_DIR, counters_lock, counters
                 ): r
                 for i, r in enumerate(researchers)
             }

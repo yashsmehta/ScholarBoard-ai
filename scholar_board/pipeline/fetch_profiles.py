@@ -22,6 +22,7 @@ import json
 import re
 import argparse
 import sys
+import random
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -349,7 +350,7 @@ def _process_single_scholar(scholar_id, scholar, index, total, client,
 
 def extract_scholar_info(dry_run=False, limit=None, scholar_id_filter=None,
                          scholar_name_filter=None, no_skip=False,
-                         skip_normalize=False, workers=25):
+                         skip_normalize=False, workers=50, randomize=False):
     """Extract structured profile information for scholars via Gemini grounded search."""
     output_dir = PROFILES_DIR
     output_dir.mkdir(exist_ok=True, parents=True)
@@ -384,6 +385,9 @@ def extract_scholar_info(dry_run=False, limit=None, scholar_id_filter=None,
         skipped = before - len(scholar_items)
         if skipped:
             print(f"Skipping {skipped} already-processed scholars")
+
+    if randomize:
+        random.shuffle(scholar_items)
 
     if limit:
         scholar_items = scholar_items[:limit]
@@ -466,8 +470,10 @@ def main():
                         help="Re-fetch even if data already exists")
     parser.add_argument("--skip-normalize", action="store_true",
                         help="Skip Gemini bio normalization step")
-    parser.add_argument("--workers", type=int, default=25,
-                        help="Number of parallel workers (default: 25)")
+    parser.add_argument("--workers", type=int, default=50,
+                        help="Number of parallel workers (default: 50)")
+    parser.add_argument("--random", action="store_true",
+                        help="Shuffle scholars before applying --limit (random sample)")
     args = parser.parse_args()
 
     extract_scholar_info(
@@ -478,6 +484,7 @@ def main():
         no_skip=args.no_skip,
         skip_normalize=args.skip_normalize,
         workers=args.workers,
+        randomize=args.random,
     )
 
 

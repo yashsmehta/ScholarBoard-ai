@@ -20,9 +20,8 @@ from scholar_board.config import (
     MODELS_DIR,
     UMAP_MODEL_PATH,
     HDBSCAN_MODEL_PATH,
-    load_scholars_csv,
 )
-from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_cluster
+from scholar_board.db import get_connection, init_db, upsert_cluster, load_scholars
 
 
 def load_embeddings():
@@ -87,15 +86,11 @@ def save_models(reducer, clusterer):
 
 def write_cluster_to_db(scholar_ids, coords, labels):
     """Write UMAP coordinates and cluster labels directly to the database."""
-    csv_lookup = {s["scholar_id"]: s for s in load_scholars_csv()}
     conn = get_connection()
     init_db(conn)
 
     for i, sid in enumerate(scholar_ids):
         sid = str(sid).zfill(4) if str(sid).isdigit() else str(sid)
-        if sid in csv_lookup:
-            s = csv_lookup[sid]
-            ensure_scholar(conn, sid, s["scholar_name"], s.get("scholar_institution"))
         upsert_cluster(conn, sid, float(coords[i, 0]), float(coords[i, 1]), int(labels[i]))
 
     conn.close()

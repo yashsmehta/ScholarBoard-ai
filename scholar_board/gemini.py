@@ -5,6 +5,7 @@ and embedding utilities used across pipeline modules.
 """
 
 import json
+import os
 import re
 
 import numpy as np
@@ -15,7 +16,14 @@ from scholar_board.config import get_gemini_api_key
 
 
 def get_client() -> genai.Client:
-    """Create a new Gemini API client. Each thread should call this separately."""
+    """Create a new Gemini API client. Each thread should call this separately.
+
+    Uses Vertex AI (GCP credits) when GOOGLE_GENAI_USE_VERTEXAI=True is set in the
+    environment, along with GOOGLE_CLOUD_PROJECT and GOOGLE_CLOUD_LOCATION=global.
+    Falls back to AI Studio API key otherwise.
+    """
+    if os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "").lower() == "true":
+        return genai.Client()  # uses ADC from `gcloud auth application-default login`
     return genai.Client(api_key=get_gemini_api_key())
 
 

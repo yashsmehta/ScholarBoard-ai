@@ -45,7 +45,10 @@ export interface RawScholar {
   lab_url?: string
   main_research_area?: string
   bio?: string
+  research_direction?: string
   primary_subfield?: string
+  total_citations?: number
+  h_index?: number
   subfields?: SubfieldTag[]
   papers?: ScholarPaper[]
   education?: ScholarEducation[]
@@ -65,7 +68,10 @@ export interface Scholar {
   labUrl?: string
   mainResearchArea?: string
   bio?: string
+  researchDirection?: string
   primarySubfield?: string
+  totalCitations?: number
+  hIndex?: number
   subfields: SubfieldTag[]
   papers: ScholarPaper[]
   education: ScholarEducation[]

@@ -100,9 +100,9 @@ function ProfileTab({
   return (
     <>
       <section className="profile-card">
-        <div className="profile-card__meta">
+        <div className="profile-card__header">
           <ScholarAvatar scholar={scholar} />
-          <div>
+          <div className="profile-card__info">
             <h3>{scholar.name}</h3>
             <p>{scholar.institution ?? 'Unknown institution'}</p>
             {scholar.department && <p className="muted">{scholar.department}</p>}
@@ -112,8 +112,30 @@ function ProfileTab({
               </a>
             )}
           </div>
+          {(scholar.totalCitations != null || scholar.hIndex != null) && (
+            <div className="profile-card__stats">
+              {scholar.hIndex != null && (
+                <div className="profile-stat">
+                  <span className="profile-stat__value">{scholar.hIndex}</span>
+                  <span className="profile-stat__label">H-Index</span>
+                </div>
+              )}
+              {scholar.totalCitations != null && (
+                <div className="profile-stat">
+                  <span className="profile-stat__value">{scholar.totalCitations.toLocaleString()}</span>
+                  <span className="profile-stat__label">Citations</span>
+                </div>
+              )}
+            </div>
+          )}
         </div>
         {scholar.bio && <p className="profile-card__bio">{scholar.bio}</p>}
+        {scholar.researchDirection && (
+          <div className="profile-card__direction">
+            <span className="profile-card__direction-label">Current Research Direction</span>
+            <p>{scholar.researchDirection}</p>
+          </div>
+        )}
       </section>
 
       {scholar.subfields.length > 0 && (
@@ -156,7 +178,7 @@ function ProfileTab({
                   )}
                 </h4>
                 <p className="muted">
-                  {[paper.year, paper.venue, paper.citations && `${paper.citations} cit.`]
+                  {[paper.year, paper.venue]
                     .filter(Boolean)
                     .join(' \u2022 ')}
                 </p>

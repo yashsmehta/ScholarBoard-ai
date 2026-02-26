@@ -55,6 +55,7 @@ class Scholar(BaseModel):
     lab_url: Optional[str] = None
     main_research_area: Optional[str] = None
     bio: Optional[str] = None
+    research_direction: Optional[str] = None
     papers: list[Paper] = Field(default_factory=list)
     primary_subfield: Optional[str] = None
     subfields: list[SubfieldTag] = Field(default_factory=list)
@@ -62,3 +63,5 @@ class Scholar(BaseModel):
     umap_projection: Optional[UMAPProjection] = None
     suggested_idea: Optional[ResearchIdea] = None
     cluster: Optional[int] = None
+    total_citations: Optional[int] = None
+    h_index: Optional[int] = None

@@ -61,7 +61,7 @@ uv add <package-name>
 - `gemini-3.1-pro-preview` — most capable, best for complex reasoning; supports `thinking_level` (MINIMAL/LOW/MEDIUM/HIGH)
 - Thinking: Gemini 3 uses `thinking_level` (not `thinking_budget`); cannot disable on Pro models
 - Structured output: use `response_mime_type="application/json"` + `response_schema={...}` for reliable JSON
-- Grounding: `tools=[types.Tool(google_search=types.GoogleSearch())]` — 5,000 grounded prompts/month free
+- Grounding: `tools=[types.Tool(google_search=types.GoogleSearch())]` — billed via Vertex AI GCP credits (no monthly cap)
 
 ### Shared Infrastructure (`scholar_board/`)
 
@@ -148,7 +148,19 @@ data/
 
 ## Environment
 
-Requires a `.env` file with API keys: `GOOGLE_API_KEY` (or `GEMINI_API_KEY`), `SERPER_API_KEY` (for profile pic downloads). Python 3.10+, managed with `uv`. Use `uv run` to execute scripts and `uv add` to install packages.
+All Gemini API calls go through **Vertex AI** using GCP credits — never the free AI Studio tier. This avoids all quota limits. Required `.env` vars:
+
+```
+GOOGLE_GENAI_USE_VERTEXAI=True
+GOOGLE_CLOUD_PROJECT=gen-lang-client-0905516452
+GOOGLE_CLOUD_LOCATION=global
+SERPER_API_KEY=...       # for profile pic downloads
+GOOGLE_API_KEY=...       # kept as fallback only; not used when Vertex AI is active
+```
+
+Authentication: `gcloud auth application-default login` must be run once (credentials stored at `~/.config/gcloud/application_default_credentials.json`). The `get_client()` function in `scholar_board/gemini.py` automatically detects `GOOGLE_GENAI_USE_VERTEXAI=True` and uses ADC instead of the API key.
+
+Python 3.10+, managed with `uv`. Use `uv run` to execute scripts and `uv add` to install packages.
 
 ## Code Conventions
 

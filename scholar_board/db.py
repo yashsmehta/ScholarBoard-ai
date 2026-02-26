@@ -81,7 +81,15 @@ def init_db(conn: sqlite3.Connection) -> None:
         );
     """)
     # Migrations for columns added after initial schema
-    for col, defn in [("source", "TEXT"), ("is_pi", "INTEGER"), ("pic_downloaded_at", "TEXT")]:
+    for col, defn in [
+        ("source", "TEXT"),
+        ("is_pi", "INTEGER"),
+        ("pic_downloaded_at", "TEXT"),
+        ("total_citations", "INTEGER"),
+        ("h_index", "INTEGER"),
+        ("scholar_profile_url", "TEXT"),
+        ("research_direction", "TEXT"),
+    ]:
         try:
             conn.execute(f"ALTER TABLE scholars ADD COLUMN {col} {defn}")
         except sqlite3.OperationalError:
@@ -251,6 +259,44 @@ def upsert_cluster(
     conn.execute(
         "UPDATE scholars SET umap_x = ?, umap_y = ?, cluster = ? WHERE id = ?",
         (umap_x, umap_y, cluster, scholar_id),
+    )
+    conn.commit()
+
+
+def upsert_scholar_stats(
+    conn: sqlite3.Connection,
+    scholar_id: str,
+    total_citations: int | None,
+    h_index: int | None,
+    scholar_profile_url: str | None = None,
+) -> None:
+    """Update Google Scholar citation stats for a researcher."""
+    fields: dict = {}
+    if total_citations is not None:
+        fields["total_citations"] = total_citations
+    if h_index is not None:
+        fields["h_index"] = h_index
+    if scholar_profile_url is not None:
+        fields["scholar_profile_url"] = scholar_profile_url
+    if not fields:
+        return
+    placeholders = ", ".join(f"{k} = ?" for k in fields)
+    conn.execute(
+        f"UPDATE scholars SET {placeholders} WHERE id = ?",
+        (*fields.values(), scholar_id),
+    )
+    conn.commit()
+
+
+def upsert_research_direction(
+    conn: sqlite3.Connection,
+    scholar_id: str,
+    text: str,
+) -> None:
+    """Update the research_direction text for a scholar."""
+    conn.execute(
+        "UPDATE scholars SET research_direction = ? WHERE id = ?",
+        (text, scholar_id),
     )
     conn.commit()
 

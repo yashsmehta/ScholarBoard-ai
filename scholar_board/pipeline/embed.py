@@ -1,8 +1,15 @@
 """
-Create paper-based embeddings for scholars.
+Create embeddings for scholars from research direction + paper text.
 
-For each scholar, concatenates title + abstract of their papers.
-Scholars without papers are skipped.
+For each PI scholar with papers, concatenates:
+  1. AI-distilled research direction (from the directions step) — a
+     terminology-rich summary of current work
+  2. Paper titles + abstracts
+
+The research direction gives a clean, focused signal while papers provide
+specific topical detail.  Together they produce richer UMAP layouts than
+papers alone.
+
 Embeds with Gemini gemini-embedding-001 (task_type=CLUSTERING, 3072 dims).
 
 Usage:
@@ -21,26 +28,53 @@ from scholar_board.config import (
     load_paper_texts,
 )
 from scholar_board.gemini import embed_texts
-from scholar_board.db import load_scholars
+from scholar_board.db import get_connection, init_db, load_scholars
+
+
+def _load_research_directions() -> dict[str, str]:
+    """Load research direction text from the DB, keyed by scholar ID."""
+    conn = get_connection()
+    init_db(conn)
+    rows = conn.execute(
+        "SELECT id, research_direction FROM scholars "
+        "WHERE is_pi = 1 AND research_direction IS NOT NULL"
+    ).fetchall()
+    conn.close()
+    return {
+        r["id"]: r["research_direction"]
+        for r in rows
+        if r["research_direction"] and r["research_direction"].strip()
+    }
 
 
 def build_embedding_pairs() -> list[tuple[str, str]]:
-    """Build (scholar_id, text) pairs for embedding from paper data."""
+    """Build (scholar_id, text) pairs for embedding from research direction + papers."""
     scholars = load_scholars(is_pi_only=True)
+    directions = _load_research_directions()
     results = []
+    direction_count = 0
     paper_count = 0
     skip_count = 0
 
     for s in sorted(scholars, key=lambda x: x["scholar_id"]):
         sid = s["scholar_id"]
+        direction = directions.get(sid)
         paper_text = load_paper_texts(sid)
-        if paper_text:
-            results.append((sid, paper_text))
-            paper_count += 1
-        else:
-            skip_count += 1
 
-    print(f"  From papers: {paper_count}")
+        if not paper_text:
+            skip_count += 1
+            continue
+
+        paper_count += 1
+        parts = []
+        if direction:
+            parts.append(direction)
+            direction_count += 1
+        parts.append(paper_text)
+        results.append((sid, " ".join(parts)))
+
+    print(f"  With research direction: {direction_count}")
+    print(f"  With papers: {paper_count}")
     print(f"  Skipped (no papers): {skip_count}")
     return results
 

@@ -194,9 +194,9 @@ def backfill_db(conn) -> None:
 
 def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
     """Read all data from the DB and write scholars.json (+ individual files)."""
-    print("Querying database...")
+    print("Querying database (PI scholars only)...")
 
-    scholar_rows = conn.execute("SELECT * FROM scholars ORDER BY id").fetchall()
+    scholar_rows = conn.execute("SELECT * FROM scholars WHERE is_pi = 1 ORDER BY id").fetchall()
     print(f"  scholars: {len(scholar_rows)}")
 
     papers_rows = conn.execute("SELECT * FROM papers ORDER BY scholar_id, id").fetchall()
@@ -229,6 +229,12 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
             d["umap_projection"] = UMAPProjection(x=row["umap_x"], y=row["umap_y"])
             stats["umap"] += 1
         d.pop("umap_y", None)
+
+        # Strip internal-only DB columns not in the Scholar schema
+        d.pop("is_pi", None)
+        d.pop("pic_downloaded_at", None)
+        d.pop("source", None)
+        d.pop("scholar_profile_url", None)
 
         if sid in papers_by_sid:
             d["papers"] = [

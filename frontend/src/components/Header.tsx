@@ -15,6 +15,13 @@ export function Header({ modeLabel, onFieldDirectionsClick, onMethodologyClick, 
             <span className="topbar__title-dot">.ai</span>
           </h1>
         </div>
+        <div className="topbar__center">
+          <span className="topbar__domain">
+            <span className="topbar__domain-rule" aria-hidden="true" />
+            <span className="topbar__domain-text">Vision Science</span>
+            <span className="topbar__domain-rule" aria-hidden="true" />
+          </span>
+        </div>
         <div className="topbar__right">
           <button className="topbar__method-btn" onClick={onFieldDirectionsClick}>
             Field Directions

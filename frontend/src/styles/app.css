@@ -42,7 +42,7 @@ input {
 .topbar__content {
   padding: 14px 12px;
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(360px, 2fr);
+  grid-template-columns: 1fr auto 1fr;
   gap: 12px;
   align-items: center;
   position: relative;
@@ -71,6 +71,42 @@ input {
 .topbar__title-dot {
   color: var(--brand-1);
   font-weight: 600;
+}
+
+.topbar__center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topbar__domain {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar__domain-rule {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(13, 92, 99, 0.3));
+}
+
+.topbar__domain-rule:last-child {
+  background: linear-gradient(90deg, rgba(13, 92, 99, 0.3), transparent);
+}
+
+.topbar__domain-text {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--brand-1);
+  white-space: nowrap;
+  padding: 4px 14px;
+  border: 1px solid rgba(68, 161, 160, 0.18);
+  border-radius: 999px;
+  background: rgba(68, 161, 160, 0.04);
 }
 
 .topbar__right {
@@ -1490,6 +1526,10 @@ input {
   .topbar__left {
     justify-content: flex-start;
     gap: 12px;
+  }
+
+  .topbar__center {
+    display: none;
   }
 
   .topbar__right {

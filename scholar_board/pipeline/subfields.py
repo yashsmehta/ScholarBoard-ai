@@ -1,9 +1,12 @@
 """
 Assign vision science subfield labels to scholars using embedding similarity.
 
-Embeds subfield descriptions and scholar paper texts with
+Embeds subfield descriptions and scholar research texts with
 Gemini gemini-embedding-001 (task_type=SEMANTIC_SIMILARITY, 3072 dims),
 then assigns each scholar their top matching subfields via cosine similarity.
+
+Prefers the AI-generated research direction paragraph (from the directions
+step) when available, falling back to raw paper text otherwise.
 
 Usage:
     uv run -m scholar_board.pipeline.subfields --dry-run          # Preview
@@ -18,10 +21,8 @@ import sys
 import numpy as np
 
 from scholar_board.config import (
-    PAPERS_DIR,
     SUBFIELDS_DEF_PATH,
     SUBFIELDS_PATH,
-    load_paper_texts,
 )
 from scholar_board.gemini import embed_texts
 from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_subfields, load_scholars
@@ -33,15 +34,31 @@ def load_subfields():
         return json.load(f)
 
 
-def load_all_paper_texts():
-    """Load paper texts for PI scholars that have them."""
-    scholars = load_scholars(is_pi_only=True)
+def load_scholar_texts():
+    """Load research direction text for PI scholars.
+
+    Uses the AI-generated research direction paragraph from the directions
+    pipeline step. Scholars without a research direction are skipped with
+    a warning.
+    """
+    conn = get_connection()
+    init_db(conn)
+    rows = conn.execute(
+        "SELECT id, name, research_direction FROM scholars WHERE is_pi = 1 ORDER BY id"
+    ).fetchall()
+    conn.close()
+
     pairs = []
-    for s in sorted(scholars, key=lambda x: x["scholar_id"]):
-        sid = s["scholar_id"]
-        text = load_paper_texts(sid)
-        if text:
-            pairs.append((sid, text))
+    skipped = 0
+    for row in rows:
+        if row["research_direction"]:
+            pairs.append((row["id"], row["research_direction"]))
+        else:
+            print(f"  WARNING: No research direction for {row['name']} ({row['id']}), skipping")
+            skipped += 1
+
+    if skipped > 0:
+        print(f"  Skipped {skipped} scholars without research directions — run the directions step first")
     return pairs
 
 
@@ -125,12 +142,12 @@ def main():
     subfields = load_subfields()
     print(f"  {len(subfields)} subfields defined")
 
-    print("\nLoading scholar paper texts...")
-    pairs = load_all_paper_texts()
-    print(f"  {len(pairs)} scholars with paper text")
+    print("\nLoading scholar texts (research directions preferred, paper text fallback)...")
+    pairs = load_scholar_texts()
+    print(f"  {len(pairs)} scholars with text")
 
     if not pairs:
-        print("Error: No scholars have paper data. Run fetch_papers step first.")
+        print("Error: No scholars have research directions. Run the directions step first.")
         sys.exit(1)
 
     scholar_ids = [sid for sid, _ in pairs]
@@ -140,7 +157,7 @@ def main():
     if args.dry_run:
         print(f"\n[DRY RUN] Would embed with Gemini (SEMANTIC_SIMILARITY):")
         print(f"  - {len(subfield_texts)} subfield descriptions")
-        print(f"  - {len(scholar_texts)} scholar paper texts")
+        print(f"  - {len(scholar_texts)} scholar texts")
         print(f"  Then assign up to {args.top} subfields per scholar (margin={args.margin})")
         return
 
@@ -148,7 +165,7 @@ def main():
     subfield_embeddings = embed_texts(subfield_texts, task_type="SEMANTIC_SIMILARITY")
     print(f"  Shape: {subfield_embeddings.shape}")
 
-    print(f"\nEmbedding {len(scholar_texts)} scholar paper texts...")
+    print(f"\nEmbedding {len(scholar_texts)} scholar texts...")
     scholar_embeddings = embed_texts(scholar_texts, task_type="SEMANTIC_SIMILARITY")
     print(f"  Shape: {scholar_embeddings.shape}")
 

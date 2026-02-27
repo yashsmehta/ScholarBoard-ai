@@ -995,6 +995,10 @@ input {
   margin-top: 1px;
 }
 
+.profile-card__tags {
+  margin-top: 10px;
+}
+
 .profile-card__bio {
   margin: 10px 0 0;
   font-size: 0.9rem;
@@ -1002,8 +1006,9 @@ input {
   color: var(--ink-1);
 }
 
-.ai-summary {
-  margin-bottom: 12px;
+.profile-card .ai-summary {
+  margin-top: 12px;
+  margin-bottom: 0;
 }
 
 .ai-summary__toggle {

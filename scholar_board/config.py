@@ -31,7 +31,6 @@ EMBEDDINGS_PATH = PIPELINE_DIR / "scholar_embeddings.nc"
 SUBFIELDS_PATH = PIPELINE_DIR / "scholar_subfields.json"
 MODELS_DIR = PIPELINE_DIR / "models"
 UMAP_MODEL_PATH = MODELS_DIR / "umap_model.joblib"
-HDBSCAN_MODEL_PATH = MODELS_DIR / "umap_hdbscan.joblib"
 SCALER_PATH = MODELS_DIR / "scaler.joblib"
 
 # Build outputs

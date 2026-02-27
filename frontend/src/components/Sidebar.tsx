@@ -129,13 +129,8 @@ function ProfileTab({
             </div>
           )}
         </div>
-        {scholar.bio && <p className="profile-card__bio">{scholar.bio}</p>}
-      </section>
-
-      {scholar.subfields.length > 0 && (
-        <section className="sidebar-section">
-          <h3>Research Subfields</h3>
-          <div className="tag-list">
+        {scholar.subfields.length > 0 && (
+          <div className="tag-list profile-card__tags">
             {scholar.subfields.map((sf) => {
               const isPrimary = sf.subfield === scholar.primarySubfield
               const color = subfieldColor(sf.subfield)
@@ -153,15 +148,16 @@ function ProfileTab({
               )
             })}
           </div>
-        </section>
-      )}
+        )}
+        {scholar.bio && <p className="profile-card__bio">{scholar.bio}</p>}
+        {scholar.researchDirection && (
+          <AiSummary text={scholar.researchDirection} label="AI summary of recent research" />
+        )}
+      </section>
 
       {scholar.papers.length > 0 && (
         <section className="sidebar-section">
           <h3>Recent Papers</h3>
-          {scholar.researchDirection && (
-            <AiSummary text={scholar.researchDirection} />
-          )}
           <div className="stack-list">
             {scholar.papers.slice(0, 5).map((paper, index) => (
               <article key={`${paper.title}-${index}`} className="stack-list__item">
@@ -237,7 +233,7 @@ function ProfileTab({
   )
 }
 
-function AiSummary({ text }: { text: string }) {
+function AiSummary({ text, label = 'AI Summary' }: { text: string; label?: string }) {
   const [open, setOpen] = useState(false)
   return (
     <div className={cx('ai-summary', open && 'is-open')}>
@@ -245,7 +241,7 @@ function AiSummary({ text }: { text: string }) {
         <svg className="ai-summary__icon" width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
           <path d="M6 0l1.2 3.6L11 4.8l-2.8 2.7.7 3.9L6 9.6l-2.9 1.8.7-3.9L1 4.8l3.8-1.2z"/>
         </svg>
-        <span>AI Summary</span>
+        <span>{label}</span>
         <svg className="ai-summary__chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
           <path d="M3 4l2 2 2-2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>

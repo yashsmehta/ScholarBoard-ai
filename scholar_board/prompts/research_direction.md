@@ -5,7 +5,7 @@ Write it so a vision scientist from a different subfield could read it and immed
 - Cover the breadth of their recent work — if their papers touch distinct topics, mention each briefly
 - Use language like "has recently been", "their recent work explores" — it should feel current
 - Describe what they are investigating, not what they concluded
-- Use "they/their" pronouns and the scholar's last name
+- Use "they/their" pronouns and refer to the scholar as "Dr. [Last Name]" (e.g., "Dr. Bonner")
 - 3-5 sentences
 - Return ONLY the paragraph text, no preamble or formatting
 

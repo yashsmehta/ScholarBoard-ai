@@ -1,8 +1,11 @@
 """
-Run UMAP dimensionality reduction + HDBSCAN clustering on scholar embeddings.
+Run UMAP dimensionality reduction on scholar embeddings.
 
 Loads embeddings from the pipeline directory, reduces to 2D with UMAP,
-clusters with HDBSCAN, saves models and writes results to the database.
+saves the fitted model and writes coordinates to the database.
+
+Note: Coloring is driven by subfield assignments (see subfields step),
+not by clustering.
 
 Usage:
     uv run -m scholar_board.pipeline.cluster --dry-run    # Preview, no changes
@@ -12,16 +15,14 @@ Usage:
 import argparse
 import sys
 
-import numpy as np
 import joblib
 
 from scholar_board.config import (
     EMBEDDINGS_PATH,
     MODELS_DIR,
     UMAP_MODEL_PATH,
-    HDBSCAN_MODEL_PATH,
 )
-from scholar_board.db import get_connection, init_db, upsert_cluster, load_scholars
+from scholar_board.db import get_connection, init_db, upsert_cluster
 
 
 def load_embeddings():
@@ -51,55 +52,29 @@ def run_umap(embeddings, n_neighbors=15, min_dist=0.1, metric="cosine"):
     return coords, reducer
 
 
-def run_hdbscan(coords, min_cluster_size=10, min_samples=3):
-    """Run HDBSCAN clustering on 2D coordinates."""
-    from sklearn.cluster import HDBSCAN
-
-    print(f"  Running HDBSCAN (min_cluster_size={min_cluster_size}, min_samples={min_samples})...")
-    clusterer = HDBSCAN(
-        min_cluster_size=min_cluster_size,
-        min_samples=min_samples,
-    )
-    labels = clusterer.fit_predict(coords)
-
-    n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
-    n_noise = (labels == -1).sum()
-    print(f"  Found {n_clusters} clusters, {n_noise} noise points "
-          f"({n_noise}/{len(labels)}, {n_noise/len(labels)*100:.1f}%)")
-
-    from collections import Counter
-    counts = Counter(labels)
-    sizes = sorted([v for k, v in counts.items() if k != -1], reverse=True)
-    if sizes:
-        print(f"  Cluster sizes: min={min(sizes)}, max={max(sizes)}, median={np.median(sizes):.0f}")
-
-    return labels, clusterer
-
-
-def save_models(reducer, clusterer):
-    """Save trained models."""
+def save_model(reducer):
+    """Save trained UMAP model."""
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     joblib.dump(reducer, UMAP_MODEL_PATH)
-    joblib.dump(clusterer, HDBSCAN_MODEL_PATH)
-    print(f"  Saved models to {MODELS_DIR}")
+    print(f"  Saved UMAP model to {UMAP_MODEL_PATH}")
 
 
-def write_cluster_to_db(scholar_ids, coords, labels):
-    """Write UMAP coordinates and cluster labels directly to the database."""
+def write_coords_to_db(scholar_ids, coords):
+    """Write UMAP coordinates to the database (cluster set to 0 for all)."""
     conn = get_connection()
     init_db(conn)
 
     for i, sid in enumerate(scholar_ids):
         sid = str(sid).zfill(4) if str(sid).isdigit() else str(sid)
-        upsert_cluster(conn, sid, float(coords[i, 0]), float(coords[i, 1]), int(labels[i]))
+        upsert_cluster(conn, sid, float(coords[i, 0]), float(coords[i, 1]), 0)
 
     conn.close()
-    print(f"  Wrote UMAP coords + cluster for {len(scholar_ids)} scholars to DB")
+    print(f"  Wrote UMAP coords for {len(scholar_ids)} scholars to DB")
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Run UMAP + HDBSCAN on scholar embeddings"
+        description="Run UMAP on scholar embeddings"
     )
     parser.add_argument("--dry-run", action="store_true",
                         help="Preview without making changes")
@@ -107,10 +82,6 @@ def main():
                         help="UMAP n_neighbors (default: 15)")
     parser.add_argument("--min-dist", type=float, default=0.1,
                         help="UMAP min_dist (default: 0.1)")
-    parser.add_argument("--min-cluster-size", type=int, default=10,
-                        help="HDBSCAN min_cluster_size (default: 10)")
-    parser.add_argument("--min-samples", type=int, default=3,
-                        help="HDBSCAN min_samples (default: 3)")
     args = parser.parse_args()
 
     if not EMBEDDINGS_PATH.exists():
@@ -125,7 +96,6 @@ def main():
     if args.dry_run:
         print(f"\n[DRY RUN] Would run:")
         print(f"  UMAP: n_neighbors={args.n_neighbors}, min_dist={args.min_dist}, metric=cosine")
-        print(f"  HDBSCAN: min_cluster_size={args.min_cluster_size}, min_samples={args.min_samples}")
         print(f"  On {len(scholar_ids)} scholar embeddings")
         return
 
@@ -136,18 +106,11 @@ def main():
         min_dist=args.min_dist,
     )
 
-    print("\nRunning HDBSCAN...")
-    labels, clusterer = run_hdbscan(
-        coords,
-        min_cluster_size=args.min_cluster_size,
-        min_samples=args.min_samples,
-    )
-
-    print("\nSaving models...")
-    save_models(reducer, clusterer)
+    print("\nSaving model...")
+    save_model(reducer)
 
     print("\nWriting to database...")
-    write_cluster_to_db(scholar_ids, coords, labels)
+    write_coords_to_db(scholar_ids, coords)
 
     print("\nDone!")
 

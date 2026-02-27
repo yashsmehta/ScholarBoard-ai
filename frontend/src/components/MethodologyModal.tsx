@@ -75,12 +75,12 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
           <div className="method-step">
             <div className="method-step__num">5</div>
             <div>
-              <h3>Coloring by cluster</h3>
+              <h3>Coloring by subfield</h3>
               <p>
-                Each dot's color reflects a natural research cluster. We used HDBSCAN — a
-                density-based clustering algorithm — to find groups of researchers who form
-                coherent neighborhoods. Each color is a distinct cluster; grey dots are
-                researchers who didn't fit cleanly into any group.
+                Each dot's color reflects its primary research subfield. We match each
+                researcher's work to 23 vision science subfields using semantic similarity
+                between their papers and subfield descriptions. The top-matching subfield
+                determines the dot color.
               </p>
             </div>
           </div>

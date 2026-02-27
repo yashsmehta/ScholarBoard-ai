@@ -2,9 +2,10 @@ interface HeaderProps {
   modeLabel?: string
   onFieldDirectionsClick?: () => void
   onMethodologyClick?: () => void
+  onTourClick?: () => void
 }
 
-export function Header({ modeLabel, onFieldDirectionsClick, onMethodologyClick }: HeaderProps) {
+export function Header({ modeLabel, onFieldDirectionsClick, onMethodologyClick, onTourClick }: HeaderProps) {
   return (
     <header className="topbar">
       <div className="topbar__content">
@@ -20,6 +21,9 @@ export function Header({ modeLabel, onFieldDirectionsClick, onMethodologyClick }
           </button>
           <button className="topbar__method-btn" onClick={onMethodologyClick}>
             Methodology
+          </button>
+          <button className="topbar__tour-btn" onClick={onTourClick} aria-label="Take a tour" title="Take a tour">
+            ?
           </button>
           {modeLabel && <span className="topbar__mode">{modeLabel}</span>}
         </div>

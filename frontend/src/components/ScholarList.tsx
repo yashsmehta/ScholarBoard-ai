@@ -69,9 +69,6 @@ export function ScholarList({ scholars, selectedScholarId, onSelectScholar }: Sc
   return (
     <div className="scholar-list">
       <div className="scholar-list__spacer" />
-      <div className="scholar-list__count">
-        {scholars.length} scholar{scholars.length !== 1 ? 's' : ''}
-      </div>
       {groups.map((group) => (
         <div key={group.letter}>
           <div className="scholar-list__letter">{group.letter}</div>

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { Header } from './components/Header'
+import { Onboarding } from './components/Onboarding'
 import { MethodologyModal } from './components/MethodologyModal'
 import { FieldDirectionsPage } from './components/FieldDirectionsPage'
 import type { FieldDirectionsData } from './components/FieldDirectionsPage'
@@ -18,6 +19,7 @@ import type { Scholar } from './types/scholar'
 function App() {
   const mode = detectFrontendMode()
   const [state, dispatch] = useReducer(appReducer, initialAppState)
+  const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem('sb_onboarding_done'))
   const [showMethodology, setShowMethodology] = useState(false)
   const [showFieldDirections, setShowFieldDirections] = useState(false)
   const [fieldDirectionsData, setFieldDirectionsData] = useState<FieldDirectionsData | null>(null)
@@ -139,7 +141,14 @@ function App() {
         modeLabel={mode === 'embedded' ? 'Embedded' : undefined}
         onFieldDirectionsClick={() => setShowFieldDirections(true)}
         onMethodologyClick={() => setShowMethodology(true)}
+        onTourClick={() => setShowOnboarding(true)}
       />
+      {showOnboarding && state.status === 'ready' && (
+        <Onboarding onComplete={() => {
+          localStorage.setItem('sb_onboarding_done', '1')
+          setShowOnboarding(false)
+        }} />
+      )}
       {showMethodology && <MethodologyModal onClose={() => setShowMethodology(false)} />}
       {showFieldDirections && (
         fieldDirectionsData != null ? (

@@ -172,9 +172,10 @@ def main():
             print("Available:", ", ".join(sf["name"] for sf in load_subfield_definitions()))
             sys.exit(1)
 
-    # Load existing output if present
+    # Always load existing output — --no-skip only controls whether we re-run
+    # individual subfields, not whether we preserve the rest of the file
     existing = {}
-    if FIELD_DIRECTIONS_PATH.exists() and not args.no_skip:
+    if FIELD_DIRECTIONS_PATH.exists():
         with open(FIELD_DIRECTIONS_PATH, "r", encoding="utf-8") as f:
             existing = json.load(f)
 

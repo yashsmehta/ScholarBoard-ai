@@ -129,8 +129,17 @@ STEPS = [
         "total": 815,
     },
     {
-        "name": "ideas",
+        "name": "field_directions",
         "icon": "9",
+        "description": "Synthesize field-level research summaries (23 subfields)",
+        "model": "gemini-3.1-pro-preview (HIGH thinking)",
+        "command": [PYTHON, "-m", "scholar_board.pipeline.field_directions"],
+        "check": lambda: len(__import__('json').loads((BUILD_DIR / "field_directions.json").read_text())) if (BUILD_DIR / "field_directions.json").exists() else 0,
+        "total": 23,
+    },
+    {
+        "name": "ideas",
+        "icon": "10",
         "description": "Generate AI research ideas (PI only)",
         "model": "gemini-3.1-pro-preview (HIGH thinking)",
         "command": [PYTHON, "-m", "scholar_board.pipeline.ideas"],
@@ -139,7 +148,7 @@ STEPS = [
     },
     {
         "name": "build",
-        "icon": "10",
+        "icon": "11",
         "description": "Consolidate all data into scholars.json (PI only)",
         "model": "n/a (local)",
         "command": [PYTHON, "-m", "scholar_board.pipeline.build"],
@@ -148,7 +157,7 @@ STEPS = [
     },
     {
         "name": "pics",
-        "icon": "11",
+        "icon": "12",
         "description": "Download profile pictures (PI only)",
         "model": "Serper.dev image search",
         "command": [PYTHON, "-m", "scholar_board.pipeline.pics", "--skip-existing"],

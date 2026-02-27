@@ -676,6 +676,44 @@ input {
   text-align: center;
 }
 
+.filter-panel__mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.filter-panel__mode-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  letter-spacing: 0.02em;
+}
+
+.filter-panel__mode-toggle .filter-panel__mode-btn {
+  padding: 4px 12px;
+  background: none;
+  border: 1px solid rgba(21, 24, 34, 0.13);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.filter-panel__mode-btn:hover {
+  background: rgba(13, 92, 99, 0.05);
+  border-color: rgba(13, 92, 99, 0.2);
+}
+
+.filter-panel__mode-btn.is-active {
+  background: rgba(13, 92, 99, 0.08);
+  color: var(--brand-0);
+  border-color: rgba(13, 92, 99, 0.3);
+}
+
 .filter-panel__actions {
   display: flex;
   gap: 8px;
@@ -685,20 +723,20 @@ input {
 .filter-panel__apply {
   flex: 1;
   padding: 8px 16px;
-  background: var(--brand-0);
-  color: #fff;
-  border: none;
+  background: none;
+  color: var(--brand-0);
+  border: 1px solid rgba(13, 92, 99, 0.25);
   border-radius: 8px;
   font-size: 0.85rem;
   font-weight: 600;
   font-family: var(--font-sans);
   cursor: pointer;
-  transition: background 120ms ease, box-shadow 120ms ease;
+  transition: background 120ms ease, border-color 120ms ease;
 }
 
 .filter-panel__apply:hover {
-  background: var(--brand-1);
-  box-shadow: 0 2px 8px rgba(13, 92, 99, 0.20);
+  background: rgba(13, 92, 99, 0.06);
+  border-color: rgba(13, 92, 99, 0.4);
 }
 
 .filter-panel__clear {
@@ -1287,6 +1325,144 @@ input {
 .nearby-list__text small {
   color: var(--ink-2);
   font-size: 0.72rem;
+}
+
+/* ── View toggle button ──────────────────────────────── */
+
+.view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: 1px solid rgba(13, 92, 99, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--brand-0);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.view-toggle:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(13, 92, 99, 0.4);
+}
+
+.view-toggle svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* ── Scholar list view ───────────────────────────────── */
+
+.scholar-list {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  padding: 60px 14px 14px;
+}
+
+.scholar-list__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+.scholar-list__card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--brand-0);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-sans);
+  transition: background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.scholar-list__card:hover {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(20, 20, 30, 0.07);
+}
+
+.scholar-list__card--selected {
+  border-color: var(--brand-1);
+  border-left-color: var(--brand-1);
+  background: rgba(68, 161, 160, 0.06);
+  box-shadow: 0 0 0 1px var(--brand-1);
+}
+
+.scholar-list__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(13, 92, 99, 0.12), rgba(68, 161, 160, 0.16));
+  border: 1px solid rgba(13, 92, 99, 0.15);
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--brand-0);
+  overflow: hidden;
+}
+
+.scholar-list__avatar.is-image {
+  background: rgba(255, 255, 255, 0.86);
+  padding: 0;
+}
+
+.scholar-list__avatar img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.scholar-list__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.scholar-list__name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink-0);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scholar-list__institution {
+  font-size: 0.75rem;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scholar-list__subfield {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--sf-color) 10%, transparent);
+  color: var(--sf-color);
+  font-size: 0.68rem;
+  font-weight: 600;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 @media (max-width: 1100px) {

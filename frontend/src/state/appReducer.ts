@@ -2,6 +2,10 @@ import type { Scholar } from '../types/scholar'
 
 export type LoadStatus = 'idle' | 'loading' | 'ready' | 'error'
 
+export type SubfieldFilterMode = 'union' | 'intersection'
+
+export type ViewMode = 'map' | 'list'
+
 export interface AppState {
   status: LoadStatus
   scholars: Scholar[]
@@ -12,6 +16,8 @@ export interface AppState {
   searchQuery: string
   activeInstitutions: string[]
   activeSubfields: string[]
+  subfieldFilterMode: SubfieldFilterMode
+  viewMode: ViewMode
   resetNonce: number
   panRequest: { scholarId: string; nonce: number } | null
 }
@@ -28,6 +34,8 @@ export type AppAction =
   | { type: 'filters_cleared' }
   | { type: 'subfields_filter_applied'; subfields: string[] }
   | { type: 'subfields_filter_cleared' }
+  | { type: 'subfield_filter_mode_changed'; mode: SubfieldFilterMode }
+  | { type: 'view_mode_toggled' }
   | { type: 'map_reset_requested' }
   | { type: 'pan_to_scholar_requested'; scholarId: string }
 
@@ -41,6 +49,8 @@ export const initialAppState: AppState = {
   searchQuery: '',
   activeInstitutions: [],
   activeSubfields: [],
+  subfieldFilterMode: 'union',
+  viewMode: 'map',
   resetNonce: 0,
   panRequest: null,
 }
@@ -89,6 +99,10 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       }
     case 'subfields_filter_cleared':
       return { ...state, activeSubfields: [] }
+    case 'subfield_filter_mode_changed':
+      return { ...state, subfieldFilterMode: action.mode }
+    case 'view_mode_toggled':
+      return { ...state, viewMode: state.viewMode === 'map' ? 'list' : 'map' }
     case 'map_reset_requested':
       return { ...state, resetNonce: state.resetNonce + 1 }
     case 'pan_to_scholar_requested':

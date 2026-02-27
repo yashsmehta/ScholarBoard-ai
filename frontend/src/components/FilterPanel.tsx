@@ -10,6 +10,8 @@ interface NameCount {
 
 type FilterTab = 'institution' | 'subfield'
 
+type SubfieldFilterMode = 'union' | 'intersection'
+
 interface FilterPanelProps {
   institutions: NameCount[]
   activeInstitutions: string[]
@@ -17,8 +19,10 @@ interface FilterPanelProps {
   onClear: () => void
   subfields: NameCount[]
   activeSubfields: string[]
+  subfieldFilterMode: SubfieldFilterMode
   onSubfieldsApply: (subfields: string[]) => void
   onSubfieldsClear: () => void
+  onSubfieldFilterModeChange: (mode: SubfieldFilterMode) => void
 }
 
 export function FilterPanel({
@@ -28,8 +32,10 @@ export function FilterPanel({
   onClear,
   subfields,
   activeSubfields,
+  subfieldFilterMode,
   onSubfieldsApply,
   onSubfieldsClear,
+  onSubfieldFilterModeChange,
 }: FilterPanelProps) {
   const [open, setOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<FilterTab>('institution')
@@ -182,6 +188,36 @@ export function FilterPanel({
               </label>
             ))}
           </div>
+
+          {activeTab === 'subfield' && draft.subfield.length >= 2 && (
+            <div className="filter-panel__mode-toggle">
+              <span className="filter-panel__mode-label">Match</span>
+              <button
+                type="button"
+                className={cx('filter-panel__mode-btn', subfieldFilterMode === 'union' && 'is-active')}
+                onClick={() => {
+                  onSubfieldFilterModeChange('union')
+                  onSubfieldsApply(draft.subfield)
+                  setOpen(false)
+                }}
+                title="Match any selected subfield"
+              >
+                Any
+              </button>
+              <button
+                type="button"
+                className={cx('filter-panel__mode-btn', subfieldFilterMode === 'intersection' && 'is-active')}
+                onClick={() => {
+                  onSubfieldFilterModeChange('intersection')
+                  onSubfieldsApply(draft.subfield)
+                  setOpen(false)
+                }}
+                title="Match all selected subfields"
+              >
+                All
+              </button>
+            </div>
+          )}
 
           <div className="filter-panel__actions">
             <button type="button" className="filter-panel__apply" onClick={handleApply}>

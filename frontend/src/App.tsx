@@ -6,6 +6,7 @@ import { FilterPanel } from './components/FilterPanel'
 import { MapControls } from './components/MapControls'
 import { Sidebar } from './components/Sidebar'
 import { ScholarMap } from './components/ScholarMap'
+import { ScholarList } from './components/ScholarList'
 import { loadScholars } from './lib/loadScholars'
 import { detectFrontendMode } from './lib/appMode'
 import { appReducer, initialAppState } from './state/appReducer'
@@ -49,6 +50,16 @@ function App() {
       : state.scholars.filter((scholar) =>
           state.activeInstitutions.includes(scholar.institution ?? 'Unknown'),
         )
+
+  // For list view, apply both institution and subfield filters
+  const filteredScholars = visibleScholars.filter((scholar) => {
+    if (state.activeSubfields.length === 0) return true
+    const scholarSubfields = scholar.subfields.map((sf) => sf.subfield)
+    if (state.subfieldFilterMode === 'intersection') {
+      return state.activeSubfields.every((sf) => scholarSubfields.includes(sf))
+    }
+    return state.activeSubfields.some((sf) => scholarSubfields.includes(sf))
+  })
 
   const selectedScholar =
     state.selectedScholarId == null
@@ -101,6 +112,8 @@ function App() {
       <Header
         modeLabel={mode === 'embedded' ? 'Embedded' : undefined}
         scholarCount={state.status === 'ready' ? state.scholars.length : undefined}
+        viewMode={state.viewMode}
+        onToggleView={() => dispatch({ type: 'view_mode_toggled' })}
         onMethodologyClick={() => setShowMethodology(true)}
       />
       {showMethodology && <MethodologyModal onClose={() => setShowMethodology(false)} />}
@@ -126,31 +139,46 @@ function App() {
               onClear={() => dispatch({ type: 'filters_cleared' })}
               subfields={subfields}
               activeSubfields={state.activeSubfields}
+              subfieldFilterMode={state.subfieldFilterMode}
               onSubfieldsApply={(subfieldsToApply) =>
                 dispatch({ type: 'subfields_filter_applied', subfields: subfieldsToApply })
               }
               onSubfieldsClear={() => dispatch({ type: 'subfields_filter_cleared' })}
+              onSubfieldFilterModeChange={(mode) =>
+                dispatch({ type: 'subfield_filter_mode_changed', mode })
+              }
             />
           </div>
 
-          <ScholarMap
-            scholars={state.scholars}
-            activeInstitutions={state.activeInstitutions}
-            activeSubfields={state.activeSubfields}
-            hoveredScholarId={state.hoveredScholarId}
-            selectedScholarId={state.selectedScholarId}
-            resetNonce={state.resetNonce}
-            panRequest={state.panRequest}
-            onHoverScholarId={(scholarId) => dispatch({ type: 'scholar_hovered', scholarId })}
-            onSelectScholarId={(scholarId) => {
-              if (scholarId == null) return
-              selectScholar(scholarId)
-            }}
-          />
+          {state.viewMode === 'map' ? (
+            <ScholarMap
+              scholars={state.scholars}
+              activeInstitutions={state.activeInstitutions}
+              activeSubfields={state.activeSubfields}
+              subfieldFilterMode={state.subfieldFilterMode}
+              hoveredScholarId={state.hoveredScholarId}
+              selectedScholarId={state.selectedScholarId}
+              resetNonce={state.resetNonce}
+              panRequest={state.panRequest}
+              onHoverScholarId={(scholarId) => dispatch({ type: 'scholar_hovered', scholarId })}
+              onSelectScholarId={(scholarId) => {
+                if (scholarId == null) return
+                selectScholar(scholarId)
+              }}
+            />
+          ) : (
+            <ScholarList
+              scholars={filteredScholars}
+              selectedScholarId={state.selectedScholarId}
+              onSelectScholar={(scholarId) => selectScholar(scholarId)}
+            />
+          )}
 
-          <MapControls
-            onReset={() => dispatch({ type: 'map_reset_requested' })}
-          />
+          {state.viewMode === 'map' && (
+            <MapControls
+              onReset={() => dispatch({ type: 'map_reset_requested' })}
+            />
+          )}
 
           {state.status === 'error' && (
             <div className="overlay-error" role="alert">

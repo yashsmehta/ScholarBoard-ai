@@ -15,6 +15,7 @@ export interface MapInteractionState {
   selectedScholarId: string | null
   activeInstitutions: Set<string>
   activeSubfields: Set<string>
+  subfieldFilterMode: 'union' | 'intersection'
 }
 
 export interface D3MapCallbacks {
@@ -74,6 +75,7 @@ export function createD3MapController(
     selectedScholarId: null,
     activeInstitutions: new Set(),
     activeSubfields: new Set(),
+    subfieldFilterMode: 'union',
   }
 
   const zoom = d3
@@ -604,8 +606,16 @@ function isScholarVisible(scholar: Scholar, state: MapInteractionState): boolean
   const instActive = state.activeInstitutions.size > 0
   const passesInst = !instActive || state.activeInstitutions.has(scholar.institution ?? 'Unknown')
   const sfActive = state.activeSubfields.size > 0
-  const passesSf =
-    !sfActive || scholar.subfields.some((sf) => state.activeSubfields.has(sf.subfield))
+  let passesSf = true
+  if (sfActive) {
+    if (state.subfieldFilterMode === 'intersection') {
+      passesSf = [...state.activeSubfields].every((sf) =>
+        scholar.subfields.some((s) => s.subfield === sf),
+      )
+    } else {
+      passesSf = scholar.subfields.some((sf) => state.activeSubfields.has(sf.subfield))
+    }
+  }
   return passesInst && passesSf
 }
 

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { Header } from './components/Header'
 import { MethodologyModal } from './components/MethodologyModal'
+import { FieldDirectionsPage } from './components/FieldDirectionsPage'
+import type { FieldDirectionsData } from './components/FieldDirectionsPage'
 import { SearchPanel } from './components/SearchPanel'
 import { FilterPanel } from './components/FilterPanel'
 import { MapControls } from './components/MapControls'
@@ -10,12 +12,24 @@ import { ScholarList } from './components/ScholarList'
 import { loadScholars } from './lib/loadScholars'
 import { detectFrontendMode } from './lib/appMode'
 import { appReducer, initialAppState } from './state/appReducer'
+import { cx } from './lib/cx'
 import type { Scholar } from './types/scholar'
 
 function App() {
   const mode = detectFrontendMode()
   const [state, dispatch] = useReducer(appReducer, initialAppState)
   const [showMethodology, setShowMethodology] = useState(false)
+  const [showFieldDirections, setShowFieldDirections] = useState(false)
+  const [fieldDirectionsData, setFieldDirectionsData] = useState<FieldDirectionsData | null>(null)
+
+  useEffect(() => {
+    if (showFieldDirections && fieldDirectionsData == null) {
+      fetch('/data/build/field_directions.json')
+        .then((r) => r.json())
+        .then((d: FieldDirectionsData) => setFieldDirectionsData(d))
+        .catch(() => undefined)
+    }
+  }, [showFieldDirections, fieldDirectionsData])
 
   useEffect(() => {
     let cancelled = false
@@ -52,14 +66,26 @@ function App() {
         )
 
   // For list view, apply both institution and subfield filters
-  const filteredScholars = visibleScholars.filter((scholar) => {
-    if (state.activeSubfields.length === 0) return true
-    const scholarSubfields = scholar.subfields.map((sf) => sf.subfield)
-    if (state.subfieldFilterMode === 'intersection') {
-      return state.activeSubfields.every((sf) => scholarSubfields.includes(sf))
-    }
-    return state.activeSubfields.some((sf) => scholarSubfields.includes(sf))
-  })
+  // Sort primary subfield matches first when a subfield filter is active
+  const filteredScholars = (() => {
+    if (state.activeSubfields.length === 0) return visibleScholars
+    const matching = visibleScholars.filter((scholar) => {
+      const scholarSubfields = scholar.subfields.map((sf) => sf.subfield)
+      if (state.subfieldFilterMode === 'intersection') {
+        return state.activeSubfields.every((sf) => scholarSubfields.includes(sf))
+      }
+      return state.activeSubfields.some((sf) => scholarSubfields.includes(sf))
+    })
+    return matching.sort((a, b) => {
+      const aPrimary = a.subfields[0]?.subfield
+      const bPrimary = b.subfields[0]?.subfield
+      const aIsPrimary = aPrimary != null && state.activeSubfields.includes(aPrimary)
+      const bIsPrimary = bPrimary != null && state.activeSubfields.includes(bPrimary)
+      if (aIsPrimary && !bIsPrimary) return -1
+      if (!aIsPrimary && bIsPrimary) return 1
+      return 0
+    })
+  })()
 
   const selectedScholar =
     state.selectedScholarId == null
@@ -111,14 +137,23 @@ function App() {
     <div className="app-shell">
       <Header
         modeLabel={mode === 'embedded' ? 'Embedded' : undefined}
-        scholarCount={state.status === 'ready' ? state.scholars.length : undefined}
-        viewMode={state.viewMode}
-        onToggleView={() => dispatch({ type: 'view_mode_toggled' })}
+        onFieldDirectionsClick={() => setShowFieldDirections(true)}
         onMethodologyClick={() => setShowMethodology(true)}
       />
       {showMethodology && <MethodologyModal onClose={() => setShowMethodology(false)} />}
+      {showFieldDirections && (
+        fieldDirectionsData != null ? (
+          <FieldDirectionsPage data={fieldDirectionsData} onClose={() => setShowFieldDirections(false)} />
+        ) : (
+          <div className="fd-overlay" onClick={() => setShowFieldDirections(false)} role="dialog" aria-modal="true" aria-label="Loading">
+            <div className="fd-panel fd-panel--loading" onClick={(e) => e.stopPropagation()}>
+              <p className="fd-content__empty">Loading field directions…</p>
+            </div>
+          </div>
+        )
+      )}
       <main className="app-main">
-        <section className="map-panel" aria-label="Scholar map panel">
+        <section className={cx('map-panel', state.viewMode === 'list' && 'map-panel--list')} aria-label="Scholar map panel">
           <div className="map-overlay map-overlay-left">
             <SearchPanel
               scholars={visibleScholars}
@@ -130,24 +165,52 @@ function App() {
           </div>
 
           <div className="map-overlay map-overlay-right">
-            <FilterPanel
-              institutions={institutions}
-              activeInstitutions={state.activeInstitutions}
-              onApply={(institutionsToApply) =>
-                dispatch({ type: 'filters_applied', institutions: institutionsToApply })
-              }
-              onClear={() => dispatch({ type: 'filters_cleared' })}
-              subfields={subfields}
-              activeSubfields={state.activeSubfields}
-              subfieldFilterMode={state.subfieldFilterMode}
-              onSubfieldsApply={(subfieldsToApply) =>
-                dispatch({ type: 'subfields_filter_applied', subfields: subfieldsToApply })
-              }
-              onSubfieldsClear={() => dispatch({ type: 'subfields_filter_cleared' })}
-              onSubfieldFilterModeChange={(mode) =>
-                dispatch({ type: 'subfield_filter_mode_changed', mode })
-              }
-            />
+            <div className="overlay-right-controls">
+              <FilterPanel
+                institutions={institutions}
+                activeInstitutions={state.activeInstitutions}
+                onApply={(institutionsToApply) =>
+                  dispatch({ type: 'filters_applied', institutions: institutionsToApply })
+                }
+                onClear={() => dispatch({ type: 'filters_cleared' })}
+                subfields={subfields}
+                activeSubfields={state.activeSubfields}
+                subfieldFilterMode={state.subfieldFilterMode}
+                onSubfieldsApply={(subfieldsToApply) =>
+                  dispatch({ type: 'subfields_filter_applied', subfields: subfieldsToApply })
+                }
+                onSubfieldsClear={() => dispatch({ type: 'subfields_filter_cleared' })}
+                onSubfieldFilterModeChange={(mode) =>
+                  dispatch({ type: 'subfield_filter_mode_changed', mode })
+                }
+              />
+              <button
+                className="view-toggle icon-button"
+                onClick={() => dispatch({ type: 'view_mode_toggled' })}
+                aria-label={state.viewMode === 'map' ? 'Switch to list view' : 'Switch to map view'}
+                title={state.viewMode === 'map' ? 'List view' : 'Map view'}
+              >
+                {state.viewMode === 'map' ? (
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+                    <rect x="1" y="1" width="6" height="6" rx="1" />
+                    <rect x="9" y="1" width="6" height="6" rx="1" />
+                    <rect x="1" y="9" width="6" height="6" rx="1" />
+                    <rect x="9" y="9" width="6" height="6" rx="1" />
+                  </svg>
+                ) : (
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <circle cx="4" cy="4" r="1.5" />
+                    <circle cx="10" cy="3" r="1.5" />
+                    <circle cx="7" cy="8" r="1.5" />
+                    <circle cx="12" cy="7" r="1.5" />
+                    <circle cx="3" cy="11" r="1.5" />
+                    <circle cx="9" cy="12" r="1.5" />
+                    <circle cx="14" cy="11" r="1.5" />
+                  </svg>
+                )}
+                {state.viewMode === 'map' ? 'List' : 'Map'}
+              </button>
+            </div>
           </div>
 
           {state.viewMode === 'map' ? (

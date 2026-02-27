@@ -37,11 +37,22 @@ def load_subfield_definitions() -> list[dict]:
         return json.load(f)
 
 
+MIN_PRIMARY_THRESHOLD = 15  # augment with secondary researchers below this count
+
+
 def load_researchers_for_subfield(subfield_name: str) -> list[dict]:
-    """Load name + research_direction for all PIs whose primary_subfield matches."""
+    """Load name + research_direction for PIs in this subfield.
+
+    Always includes researchers whose primary_subfield matches. If that count is
+    below MIN_PRIMARY_THRESHOLD, also includes researchers for whom this is a
+    secondary subfield (is_primary=0 in the subfields table), to give the model
+    enough context for a meaningful synthesis.
+    """
     conn = get_connection()
     init_db(conn)
-    rows = conn.execute(
+
+    # Primary researchers — this is their main subfield
+    primary_rows = conn.execute(
         """
         SELECT id, name, research_direction
         FROM scholars
@@ -53,15 +64,44 @@ def load_researchers_for_subfield(subfield_name: str) -> list[dict]:
         """,
         (subfield_name,),
     ).fetchall()
+    primary = [
+        {"id": r["id"], "name": r["name"], "direction": r["research_direction"], "is_primary": True}
+        for r in primary_rows
+    ]
+
+    secondary = []
+    if len(primary) < MIN_PRIMARY_THRESHOLD:
+        primary_ids = {r["id"] for r in primary}
+        secondary_rows = conn.execute(
+            """
+            SELECT s.id, s.name, s.research_direction
+            FROM scholars s
+            JOIN subfields sf ON sf.scholar_id = s.id
+            WHERE s.is_pi = 1
+              AND sf.subfield = ?
+              AND sf.is_primary = 0
+              AND s.research_direction IS NOT NULL
+              AND s.research_direction != ''
+            ORDER BY sf.score DESC
+            """,
+            (subfield_name,),
+        ).fetchall()
+        secondary = [
+            {"id": r["id"], "name": r["name"], "direction": r["research_direction"], "is_primary": False}
+            for r in secondary_rows
+            if r["id"] not in primary_ids
+        ]
+
     conn.close()
-    return [{"id": r["id"], "name": r["name"], "direction": r["research_direction"]} for r in rows]
+    return primary + secondary
 
 
 def build_prompt(subfield_name: str, subfield_description: str, researchers: list[dict]) -> str:
     """Build the synthesis prompt from the prompt template."""
     parts = []
     for r in researchers:
-        parts.append(f"**{r['name']}**\n{r['direction']}")
+        label = "" if r.get("is_primary", True) else " *(also works in this area)*"
+        parts.append(f"**{r['name']}**{label}\n{r['direction']}")
     researcher_directions = "\n\n---\n\n".join(parts)
 
     template_path = Path(__file__).parent.parent / "prompts" / "field_directions.md"
@@ -150,7 +190,12 @@ def main():
             continue
 
         researchers = load_researchers_for_subfield(name)
-        print(f"\n[{name}] — {len(researchers)} researchers with directions")
+        n_primary = sum(1 for r in researchers if r.get("is_primary", True))
+        n_secondary = len(researchers) - n_primary
+        label = f"{n_primary} primary"
+        if n_secondary:
+            label += f" + {n_secondary} secondary"
+        print(f"\n[{name}] — {label} researchers with directions")
 
         if not researchers:
             print(f"  No researchers found, skipping")
@@ -166,7 +211,7 @@ def main():
 
         if summary:
             summary["subfield"] = name
-            summary["n_researchers"] = len(researchers)
+            summary["n_researchers"] = n_primary  # primary count for display
             results[name] = summary
             print(f"  Done — {len(summary.get('active_research_themes', []))} themes, "
                   f"{len(summary.get('open_questions', []))} questions")

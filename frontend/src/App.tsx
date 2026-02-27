@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { Header } from './components/Header'
 import { MethodologyModal } from './components/MethodologyModal'
 import { SearchPanel } from './components/SearchPanel'
@@ -57,12 +57,44 @@ function App() {
 
   const institutions = buildCounts(state.scholars, (s) => [s.institution ?? 'Unknown'])
   const subfields = buildCounts(state.scholars, (s) => s.subfields.map((sf) => sf.subfield))
-  const selectScholar = (scholarId: string, options?: { pan?: boolean }) => {
-    dispatch({ type: 'scholar_selected', scholarId })
-    if (options?.pan) {
-      dispatch({ type: 'pan_to_scholar_requested', scholarId })
+  // Ref to suppress pushState when handling popstate (back/forward button)
+  const isPopStateRef = useRef(false)
+
+  const selectScholar = useCallback(
+    (scholarId: string, options?: { pan?: boolean }) => {
+      dispatch({ type: 'scholar_selected', scholarId })
+      if (options?.pan) {
+        dispatch({ type: 'pan_to_scholar_requested', scholarId })
+      }
+      if (!isPopStateRef.current) {
+        history.pushState({ scholarId }, '')
+      }
+    },
+    [],
+  )
+
+  const closeSidebar = useCallback(() => {
+    dispatch({ type: 'sidebar_closed' })
+    if (!isPopStateRef.current) {
+      history.pushState({ scholarId: null }, '')
     }
-  }
+  }, [])
+
+  // Handle browser back/forward navigation
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      isPopStateRef.current = true
+      const scholarId = event.state?.scholarId ?? null
+      if (scholarId) {
+        selectScholar(scholarId, { pan: true })
+      } else {
+        dispatch({ type: 'sidebar_closed' })
+      }
+      isPopStateRef.current = false
+    }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [selectScholar])
 
   return (
     <div className="app-shell">
@@ -135,7 +167,7 @@ function App() {
         <Sidebar
           scholar={selectedScholar}
           allScholars={state.scholars}
-          onClose={() => dispatch({ type: 'sidebar_closed' })}
+          onClose={closeSidebar}
           onSelectNearby={(scholarId) => selectScholar(scholarId, { pan: true })}
           onSubfieldClick={(subfield) =>
             dispatch({ type: 'subfields_filter_applied', subfields: [subfield] })

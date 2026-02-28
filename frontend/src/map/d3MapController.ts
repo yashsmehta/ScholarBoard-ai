@@ -3,11 +3,11 @@ import type { Scholar } from '../types/scholar'
 import { subfieldColor } from './colorScale'
 
 const DOT_RADIUS = 3.0
-const DOT_RADIUS_HOVER = 4.8
-const DOT_RADIUS_SELECTED = 6.5
+const DOT_RADIUS_HOVER = 4.5
+const DOT_RADIUS_SELECTED = 5.0
 const DOT_HIT_RADIUS = 10
 const BASE_STROKE = 'rgba(255,255,255,0.84)'
-const SELECTED_STROKE = '#112136'
+const SELECTED_STROKE = 'rgba(13, 92, 99, 0.85)'
 const MAP_PADDING = 72
 
 export interface MapInteractionState {
@@ -49,7 +49,9 @@ export function createD3MapController(
   const tooltipEl = document.createElement('div')
   tooltipEl.className = 'scholar-map__tooltip'
   tooltipEl.innerHTML =
-    '<div class="scholar-map__tooltip-name"></div><div class="scholar-map__tooltip-institution"></div>'
+    '<div class="scholar-map__tooltip-name"></div>' +
+    '<div class="scholar-map__tooltip-institution"></div>' +
+    '<div class="scholar-map__tooltip-subfield"><span class="scholar-map__tooltip-dot"></span><span class="scholar-map__tooltip-subfield-text"></span></div>'
   container.appendChild(tooltipEl)
 
   let dots = dotLayer.selectAll<SVGCircleElement, Scholar>('circle.scholar-map__dot')
@@ -265,11 +267,25 @@ export function createD3MapController(
               event.stopPropagation()
             })
             .on('mouseenter', (_event, d) => {
+              // Apply hover visual immediately in D3 (no React round-trip delay)
+              const isSelected = interactionState.selectedScholarId === d.id
+              if (!isSelected) {
+                dots.filter((dd) => dd.id === d.id)
+                  .attr('r', DOT_RADIUS_HOVER)
+                  .attr('stroke-width', 1.5)
+              }
               callbacks.onHoverScholarId(d.id)
-              raiseScholarDotById(d.id)
             })
             .on('mousemove', (event, d) => showTooltip(event, d))
-            .on('mouseleave', () => {
+            .on('mouseleave', (_event, d) => {
+              // Reset hover visual immediately in D3
+              const isSelected = interactionState.selectedScholarId === d.id
+              if (!isSelected) {
+                dots.filter((dd) => dd.id === d.id)
+                  .attr('r', DOT_RADIUS)
+                  .attr('stroke', BASE_STROKE)
+                  .attr('stroke-width', 0.95)
+              }
               callbacks.onHoverScholarId(null)
               hideTooltip()
             })
@@ -329,7 +345,7 @@ export function createD3MapController(
       d3.select(this)
         .attr('r', isSelected ? DOT_RADIUS_SELECTED : isHovered ? DOT_RADIUS_HOVER : DOT_RADIUS)
         .attr('stroke', isSelected ? SELECTED_STROKE : BASE_STROKE)
-        .attr('stroke-width', isSelected ? 3 : isHovered ? 1.9 : 0.95)
+        .attr('stroke-width', isSelected ? 2 : isHovered ? 1.5 : 0.95)
         .attr('opacity', isVisible ? 1 : 0.08)
     })
 
@@ -356,7 +372,7 @@ export function createD3MapController(
       .style('display', null)
       .attr('cx', xScale(selectedScholar.x))
       .attr('cy', yScale(selectedScholar.y))
-      .attr('r', DOT_RADIUS_SELECTED + 6.8)
+      .attr('r', DOT_RADIUS_SELECTED + 4.5)
   }
 
   function resize() {
@@ -508,8 +524,20 @@ export function createD3MapController(
   function showTooltip(event: MouseEvent, scholar: Scholar) {
     const nameEl = tooltipEl.querySelector('.scholar-map__tooltip-name')
     const institutionEl = tooltipEl.querySelector('.scholar-map__tooltip-institution')
+    const subfieldEl = tooltipEl.querySelector('.scholar-map__tooltip-subfield') as HTMLElement | null
+    const dotEl = tooltipEl.querySelector('.scholar-map__tooltip-dot') as HTMLElement | null
+    const subfieldTextEl = tooltipEl.querySelector('.scholar-map__tooltip-subfield-text')
     if (nameEl) nameEl.textContent = scholar.name
     if (institutionEl) institutionEl.textContent = scholar.institution ?? 'Unknown institution'
+
+    const primarySubfield = scholar.subfields[0]?.subfield
+    if (primarySubfield && subfieldEl && dotEl && subfieldTextEl) {
+      subfieldEl.style.display = ''
+      dotEl.style.background = subfieldColor(primarySubfield)
+      subfieldTextEl.textContent = primarySubfield
+    } else if (subfieldEl) {
+      subfieldEl.style.display = 'none'
+    }
 
     tooltipEl.classList.add('is-visible')
     positionTooltip(event)

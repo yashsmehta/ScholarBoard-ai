@@ -8,6 +8,23 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
       <div className="method-panel" onClick={(e) => e.stopPropagation()}>
         <button className="method-close" onClick={onClose} aria-label="Close">✕</button>
 
+        <div className="method-about">
+          <p>
+            This resource was created by{' '}
+            <a href="https://yashsmehta.com/" target="_blank" rel="noopener noreferrer"><strong>Yash Mehta</strong></a>
+            {' '}and{' '}
+            <a href="https://bonnerlab.org/" target="_blank" rel="noopener noreferrer"><strong>Mick Bonner</strong></a>
+            {' '}at the Department of Cognitive Science, Johns Hopkins University. We built this to help aspiring PhD students, current PhD
+            students, postdocs, and PIs get a bird's-eye view of who's working on what in
+            vision science — and where the field is heading.
+          </p>
+          <p>
+            ScholarBoard is a free resource and still early — we'd love your help making it
+            better! If you spot errors or have ideas for collaboration, reach out
+            at <a href="mailto:ymehta3@jhu.edu">ymehta3@jhu.edu</a>.
+          </p>
+        </div>
+
         <h2 className="method-title">How this map was made</h2>
         <p className="method-intro">
           ScholarBoard.ai arranges vision researchers on a 2D map so that researchers working on
@@ -113,15 +130,6 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
           </div>
         </div>
 
-        <div className="method-about">
-          <h3>About</h3>
-          <p>
-            ScholarBoard.ai was created by <strong>Yash Mehta</strong>, from the laboratory
-            of <strong>Michael F. (Mick) Bonner</strong> at the Department of Cognitive
-            Science, Johns Hopkins University. The dataset covers researchers from the Vision
-            Sciences Society (VSS) community.
-          </p>
-        </div>
       </div>
     </div>
   )

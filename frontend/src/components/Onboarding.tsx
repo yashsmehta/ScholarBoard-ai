@@ -18,7 +18,7 @@ const steps = [
     ),
     headline: 'Welcome to ScholarBoard.ai',
     description:
-      'An interactive map of ~700 vision science researchers, arranged so that researchers working on similar topics appear near each other.',
+      'A spatial map of ~700 vision science researchers positioned by research similarity. Built to help PhD students, postdocs, and PIs discover collaborators and explore the research landscape.',
   },
   {
     icon: (
@@ -33,7 +33,7 @@ const steps = [
     ),
     headline: 'Explore the map',
     description:
-      'Each dot is a researcher, colored by their primary research subfield. Scroll to zoom, drag to pan, hold Shift and drag to box-select.',
+      'Each dot is a researcher, colored by subfield. Nearby dots mean similar research \u2014 zoom into clusters to find your community. Scroll to zoom, drag to pan, Shift+drag to box-select.',
   },
   {
     icon: (
@@ -45,7 +45,7 @@ const steps = [
     ),
     headline: 'Search & filter',
     description:
-      'Find researchers by name with the search bar, or narrow the map by institution or subfield using filters.',
+      'Use the search bar to find specific researchers, or filter by institution and subfield to scope out who\u2019s working on what.',
   },
   {
     icon: (
@@ -58,7 +58,7 @@ const steps = [
     ),
     headline: 'Dive deeper',
     description:
-      "Click any dot to open a researcher's profile — their bio, recent papers, and an AI-generated research direction.",
+      "Click any dot for a researcher\u2019s profile \u2014 recent papers, bio, and an AI-generated summary of where their work is heading. You can also explore field-level research directions across the map.",
   },
 ]
 

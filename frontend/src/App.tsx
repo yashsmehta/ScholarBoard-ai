@@ -10,6 +10,7 @@ import { MapControls } from './components/MapControls'
 import { Sidebar } from './components/Sidebar'
 import { ScholarMap } from './components/ScholarMap'
 import { ScholarList } from './components/ScholarList'
+import { BetaBanner } from './components/BetaBanner'
 import { loadScholars } from './lib/loadScholars'
 import { detectFrontendMode } from './lib/appMode'
 import { appReducer, initialAppState } from './state/appReducer'
@@ -26,7 +27,7 @@ function App() {
 
   useEffect(() => {
     if (showFieldDirections && fieldDirectionsData == null) {
-      fetch('/data/build/field_directions.json')
+      fetch(`${import.meta.env.BASE_URL}data/build/field_directions.json`)
         .then((r) => r.json())
         .then((d: FieldDirectionsData) => setFieldDirectionsData(d))
         .catch(() => undefined)
@@ -251,6 +252,8 @@ function App() {
               onReset={() => dispatch({ type: 'map_reset_requested' })}
             />
           )}
+
+          <BetaBanner />
 
           {state.status === 'error' && (
             <div className="overlay-error" role="alert">

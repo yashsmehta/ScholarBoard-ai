@@ -51,22 +51,28 @@ interface LetterGroup {
 }
 
 function groupByLetter(scholars: Scholar[]): LetterGroup[] {
-  const groups: LetterGroup[] = []
-  let current: LetterGroup | null = null
+  const map = new Map<string, Scholar[]>()
   for (const s of scholars) {
-    const letter = (s.name[0] ?? '?').toUpperCase()
-    if (!current || current.letter !== letter) {
-      current = { letter, scholars: [] }
-      groups.push(current)
+    // Normalize accented characters to their base letter (Á→A, Ö→O, etc.)
+    const raw = (s.name[0] ?? '?').toUpperCase()
+    const letter = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '') || raw
+    let group = map.get(letter)
+    if (!group) {
+      group = []
+      map.set(letter, group)
     }
-    current.scholars.push(s)
+    group.push(s)
   }
-  return groups
+  return Array.from(map.entries()).map(([letter, scholars]) => ({ letter, scholars }))
 }
 
 export function ScholarList({ scholars, selectedScholarId, onSelectScholar, searchQuery = '' }: ScholarListProps) {
   const q = searchQuery.trim().toLowerCase()
-  const groups = useMemo(() => groupByLetter(scholars), [scholars])
+  const sorted = useMemo(
+    () => [...scholars].sort((a, b) => a.name.localeCompare(b.name)),
+    [scholars],
+  )
+  const groups = useMemo(() => groupByLetter(sorted), [sorted])
 
   if (scholars.length === 0) {
     return (
@@ -122,14 +128,17 @@ export function ScholarList({ scholars, selectedScholarId, onSelectScholar, sear
 
 function highlight(text: string, query: string): React.ReactNode {
   if (!query) return text
-  const lower = text.toLowerCase()
-  const index = lower.indexOf(query)
-  if (index < 0) return text
+  const words = query.split(/\s+/).filter(Boolean)
+  if (words.length === 0) return text
+  const pattern = words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
+  const regex = new RegExp(`(${pattern})`, 'gi')
+  const parts = text.split(regex)
+  if (parts.length === 1) return text
   return (
     <>
-      {text.slice(0, index)}
-      <mark className="scholar-list__highlight">{text.slice(index, index + query.length)}</mark>
-      {text.slice(index + query.length)}
+      {parts.map((part, i) =>
+        regex.test(part) ? <mark key={i} className="scholar-list__highlight">{part}</mark> : part
+      )}
     </>
   )
 }

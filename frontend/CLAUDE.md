@@ -68,6 +68,8 @@ App.tsx (useReducer)
 
 Two tabs, controlled by `SidebarTab` type (`'profile' | 'idea'`). Defaults to Profile, resets when a new scholar is selected.
 
+**Mobile bottom sheet (< 480px):** When a scholar is selected, a drag handle (pill bar + chevron) appears at the top of the sidebar. Tap or swipe up to expand the sidebar to full screen (`position: fixed; inset: 0`); tap or swipe down to collapse back to half height. The `expanded` state is local to Sidebar, resets on scholar change or close. The handle is hidden on desktop (`display: none` by default, shown via mobile media query). Expanded overlay uses opaque `#faf8f5` background with `env(safe-area-inset-top)` padding for iOS notch. CSS class: `sidebar--expanded`.
+
 **Profile tab:** Avatar (with fallback chain: profile pic → default avatar → initials), name, institution, department, lab link, bio, subfield badges (clickable — triggers subfield filter), recent papers (top 5), education, similar researchers (5 nearest by UMAP distance).
 
 **Research Idea tab:** AI-generated research direction — title, research thread, open question, hypothesis, approach, scientific impact, why now. Shows empty state when no idea exists for a scholar.

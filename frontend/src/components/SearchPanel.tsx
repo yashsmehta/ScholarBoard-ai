@@ -31,8 +31,12 @@ export function SearchPanel({
   const normalizedQuery = deferredQuery.trim().toLowerCase()
   const results = useMemo(() => {
     if (normalizedQuery.length < MIN_QUERY_LENGTH) return []
+    const words = normalizedQuery.split(/\s+/).filter(Boolean)
     return scholars
-      .filter((scholar) => scholar.name.toLowerCase().includes(normalizedQuery))
+      .filter((scholar) => {
+        const name = scholar.name.toLowerCase()
+        return words.every((w) => name.includes(w))
+      })
       .slice(0, MAX_RESULTS)
   }, [scholars, normalizedQuery])
 
@@ -133,14 +137,17 @@ export function SearchPanel({
 
 function highlight(text: string, query: string): React.ReactNode {
   if (!query) return text
-  const lower = text.toLowerCase()
-  const index = lower.indexOf(query)
-  if (index < 0) return text
+  const words = query.split(/\s+/).filter(Boolean)
+  if (words.length === 0) return text
+  const pattern = words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
+  const regex = new RegExp(`(${pattern})`, 'gi')
+  const parts = text.split(regex)
+  if (parts.length === 1) return text
   return (
     <>
-      {text.slice(0, index)}
-      <mark>{text.slice(index, index + query.length)}</mark>
-      {text.slice(index + query.length)}
+      {parts.map((part, i) =>
+        regex.test(part) ? <mark key={i}>{part}</mark> : part
+      )}
     </>
   )
 }

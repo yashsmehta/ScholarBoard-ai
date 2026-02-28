@@ -68,41 +68,29 @@ function App() {
           state.activeInstitutions.includes(scholar.institution ?? 'Unknown'),
         )
 
-  // For list view, apply institution filter, subfield filter, and live search query
+  // Apply subfield filter on top of institution-filtered scholars
+  const subfieldFilteredScholars = (() => {
+    if (state.activeSubfields.length === 0) return visibleScholars
+    return visibleScholars.filter((scholar) => {
+      const scholarSubfields = scholar.subfields.map((sf) => sf.subfield)
+      if (state.subfieldFilterMode === 'intersection') {
+        return state.activeSubfields.every((sf) => scholarSubfields.includes(sf))
+      }
+      return state.activeSubfields.some((sf) => scholarSubfields.includes(sf))
+    })
+  })()
+
+  // For list view, apply live search query on top of all filters
   const filteredScholars = (() => {
-    let result = visibleScholars
-
-    // Subfield filter
-    if (state.activeSubfields.length > 0) {
-      const matching = result.filter((scholar) => {
-        const scholarSubfields = scholar.subfields.map((sf) => sf.subfield)
-        if (state.subfieldFilterMode === 'intersection') {
-          return state.activeSubfields.every((sf) => scholarSubfields.includes(sf))
-        }
-        return state.activeSubfields.some((sf) => scholarSubfields.includes(sf))
-      })
-      result = matching.sort((a, b) => {
-        const aPrimary = a.subfields[0]?.subfield
-        const bPrimary = b.subfields[0]?.subfield
-        const aIsPrimary = aPrimary != null && state.activeSubfields.includes(aPrimary)
-        const bIsPrimary = bPrimary != null && state.activeSubfields.includes(bPrimary)
-        if (aIsPrimary && !bIsPrimary) return -1
-        if (!aIsPrimary && bIsPrimary) return 1
-        return 0
-      })
-    }
-
-    // Live search query (list view only)
     const q = state.searchQuery.trim().toLowerCase()
     if (state.viewMode === 'list' && q.length >= 1) {
-      result = result.filter(
-        (scholar) =>
-          scholar.name.toLowerCase().includes(q) ||
-          (scholar.institution ?? '').toLowerCase().includes(q),
-      )
+      const words = q.split(/\s+/).filter(Boolean)
+      return subfieldFilteredScholars.filter((scholar) => {
+        const text = `${scholar.name} ${scholar.institution ?? ''}`.toLowerCase()
+        return words.every((w) => text.includes(w))
+      })
     }
-
-    return result
+    return subfieldFilteredScholars
   })()
 
   const selectedScholar =
@@ -185,7 +173,7 @@ function App() {
         <section className={cx('map-panel', state.viewMode === 'list' && 'map-panel--list')} aria-label="Scholar map panel">
           <div className="map-overlay map-overlay-left">
             <SearchPanel
-              scholars={visibleScholars}
+              scholars={subfieldFilteredScholars}
               query={state.searchQuery}
               selectedScholarId={state.selectedScholarId}
               onQueryChange={(query) => dispatch({ type: 'search_query_changed', query })}

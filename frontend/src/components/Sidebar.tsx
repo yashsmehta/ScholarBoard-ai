@@ -21,18 +21,38 @@ interface NearbyScholar {
 
 export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfieldClick }: SidebarProps) {
   const [activeTab, setActiveTab] = useState<SidebarTab>('profile')
+  const [expanded, setExpanded] = useState(false)
+  const touchStartY = React.useRef<number | null>(null)
   const nearby = useMemo(
     () => (scholar ? findNearbyScholars(scholar, allScholars, 5) : []),
     [scholar?.id, allScholars],
   )
 
-  // Reset to profile tab when a new scholar is selected
+  // Reset to profile tab and collapse when a new scholar is selected
   useEffect(() => {
     setActiveTab('profile')
+    setExpanded(false)
   }, [scholar?.id])
 
+  const handleClose = () => {
+    setExpanded(false)
+    onClose()
+  }
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartY.current === null) return
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current
+    if (deltaY < -30) setExpanded(true)
+    else if (deltaY > 30) setExpanded(false)
+    touchStartY.current = null
+  }
+
   return (
-    <aside className="sidebar">
+    <aside className={cx('sidebar', expanded && scholar && 'sidebar--expanded')}>
       {!scholar && (
         <div className="sidebar__empty">
           <svg className="sidebar__empty-icon" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
@@ -45,6 +65,25 @@ export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfi
 
       {scholar && (
         <>
+          <div
+            className="sidebar__handle"
+            onClick={() => setExpanded(!expanded)}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            <span className="sidebar__handle-pill" />
+            <svg
+              className={cx('sidebar__handle-chevron', expanded && 'is-flipped')}
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="M3 7.5l3-3 3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+
           <div className="sidebar__tabs" role="tablist">
             <button
               type="button"
@@ -64,7 +103,7 @@ export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfi
             >
               Research Idea
             </button>
-            <button type="button" className="sidebar__close" onClick={onClose} aria-label="Close sidebar">
+            <button type="button" className="sidebar__close" onClick={handleClose} aria-label="Close sidebar">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <line x1="4" y1="4" x2="12" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 <line x1="12" y1="4" x2="4" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />

@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 
+function subfieldSlug(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/(^_|_$)/g, '')
+}
+
 interface FieldDirectionEntry {
   subfield: string
   n_researchers: number
@@ -56,12 +60,22 @@ export function FieldDirectionsPage({ data, onClose }: FieldDirectionsPageProps)
         <div className="fd-content" ref={contentRef}>
           {entry ? (
             <>
-              <div className="fd-content__header">
-                <h2 className="fd-content__title">{entry.subfield}</h2>
-                <span className="fd-content__meta">{entry.n_researchers} researchers</span>
+              <div className="fd-content__hero-banner" key={selected}>
+                <img
+                  className="fd-content__banner-img"
+                  src={`${import.meta.env.BASE_URL}data/build/field_images/${subfieldSlug(entry.subfield)}.png`}
+                  alt={`${entry.subfield} illustration`}
+                  onError={(e) => { (e.target as HTMLImageElement).parentElement!.classList.add('no-image') }}
+                />
+                <div className="fd-content__banner-fade" />
               </div>
-
-              <p className="fd-content__overview">{entry.overview}</p>
+              <div className="fd-content__hero">
+                <div className="fd-content__header">
+                  <h2 className="fd-content__title">{entry.subfield}</h2>
+                  <span className="fd-content__meta">{entry.n_researchers} researchers</span>
+                </div>
+                <p className="fd-content__overview">{entry.overview}</p>
+              </div>
 
               <div className="fd-sections">
                 <section>

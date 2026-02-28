@@ -10,55 +10,48 @@ const steps = [
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="1.5" />
         <circle cx="10" cy="13" r="2" fill="currentColor" opacity="0.5" />
-        <circle cx="18" cy="11" r="2.5" fill="currentColor" opacity="0.7" />
+        <circle cx="18" cy="11" r="2.5" fill="currentColor" opacity="0.8" />
         <circle cx="14" cy="19" r="2" fill="currentColor" opacity="0.5" />
         <circle cx="22" cy="17" r="1.5" fill="currentColor" opacity="0.4" />
         <circle cx="9" cy="20" r="1.5" fill="currentColor" opacity="0.4" />
       </svg>
     ),
-    headline: 'Welcome to ScholarBoard.ai',
-    description:
-      'A spatial map of ~700 vision science researchers positioned by research similarity. Built to help PhD students, postdocs, and PIs discover collaborators and explore the research landscape.',
+    headline: '~800 vision scientists, arranged by similarity',
+    description: 'Each dot is a researcher. The closer two dots, the more their work overlaps. Colors reflect each researcher\'s primary subfield.',
   },
   {
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <rect x="3" y="3" width="26" height="26" rx="4" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="11" cy="12" r="2" fill="currentColor" opacity="0.6" />
-        <circle cx="20" cy="10" r="2.5" fill="currentColor" opacity="0.8" />
-        <circle cx="15" cy="20" r="2" fill="currentColor" opacity="0.6" />
-        <circle cx="23" cy="19" r="1.5" fill="currentColor" opacity="0.5" />
-        <path d="M8 25l4-4m8 0l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+        <circle cx="16" cy="15" r="7" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M12 15h8M16 11v8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity="0.5" />
+        <path d="M4 15h5M23 15h5M16 4v5M16 23v5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity="0.25" />
       </svg>
     ),
-    headline: 'Explore the map',
-    description:
-      'Each dot is a researcher, colored by subfield. Nearby dots mean similar research \u2014 zoom into clusters to find your community. Scroll to zoom, drag to pan, Shift+drag to box-select.',
-  },
-  {
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <circle cx="14" cy="14" r="9" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M21 21l7 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M11 14h6M14 11v6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity="0.5" />
-      </svg>
-    ),
-    headline: 'Search & filter',
-    description:
-      'Use the search bar to find specific researchers, or filter by institution and subfield to scope out who\u2019s working on what.',
+    headline: 'Navigate with scroll, drag, and click',
+    description: 'Scroll to zoom in on a cluster. Drag to pan. Click any dot to open that researcher\'s profile.',
   },
   {
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <rect x="4" y="6" width="24" height="20" rx="3" stroke="currentColor" strokeWidth="1.5" />
         <circle cx="12" cy="14" r="3" stroke="currentColor" strokeWidth="1.3" />
-        <path d="M18 12h6M18 16h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity="0.5" />
-        <path d="M8 22h16" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity="0.3" />
+        <path d="M18 12h8M18 16h5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity="0.5" />
+        <path d="M8 22h16" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.25" />
       </svg>
     ),
-    headline: 'Dive deeper',
-    description:
-      "Click any dot for a researcher\u2019s profile \u2014 recent papers, bio, and an AI-generated summary of where their work is heading. You can also explore field-level research directions across the map.",
+    headline: 'Each profile has papers, bio, and an AI research idea',
+    description: 'Click a dot to see their recent publications and an AI-generated suggestion for where their work could go next.',
+  },
+  {
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="13" cy="13" r="8" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M19 19l8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M4 26h10M4 22h7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.35" />
+      </svg>
+    ),
+    headline: 'Search, filter, and explore field directions',
+    description: 'Find anyone by name top-left. Filter by institution or subfield top-right. Hit "Field Directions" in the header to see what each research community is collectively working on.',
   },
 ]
 
@@ -90,7 +83,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
             className="onboarding-next"
             onClick={() => (isLast ? onComplete() : setStep(step + 1))}
           >
-            {isLast ? 'Start Exploring' : 'Next'}
+            {isLast ? 'Start Exploring' : 'Next →'}
           </button>
         </div>
       </div>

@@ -8,6 +8,7 @@ interface ScholarListProps {
   scholars: Scholar[]
   selectedScholarId: string | null
   onSelectScholar: (scholarId: string) => void
+  searchQuery?: string
 }
 
 function ListAvatar({ scholar }: { scholar: Scholar }) {
@@ -63,8 +64,19 @@ function groupByLetter(scholars: Scholar[]): LetterGroup[] {
   return groups
 }
 
-export function ScholarList({ scholars, selectedScholarId, onSelectScholar }: ScholarListProps) {
+export function ScholarList({ scholars, selectedScholarId, onSelectScholar, searchQuery = '' }: ScholarListProps) {
+  const q = searchQuery.trim().toLowerCase()
   const groups = useMemo(() => groupByLetter(scholars), [scholars])
+
+  if (scholars.length === 0) {
+    return (
+      <div className="scholar-list">
+        <div className="scholar-list__empty">
+          {q ? `No scholars match "${searchQuery}"` : 'No scholars to display'}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="scholar-list">
@@ -86,9 +98,9 @@ export function ScholarList({ scholars, selectedScholarId, onSelectScholar }: Sc
                   onClick={() => onSelectScholar(scholar.id)}
                 >
                   <ListAvatar scholar={scholar} />
-                  <span className="scholar-list__name">{scholar.name}</span>
+                  <span className="scholar-list__name">{highlight(scholar.name, q)}</span>
                   {scholar.institution && (
-                    <span className="scholar-list__institution">{scholar.institution}</span>
+                    <span className="scholar-list__institution">{highlight(scholar.institution, q)}</span>
                   )}
                   {primarySubfield && (
                     <span
@@ -105,5 +117,19 @@ export function ScholarList({ scholars, selectedScholarId, onSelectScholar }: Sc
         </div>
       ))}
     </div>
+  )
+}
+
+function highlight(text: string, query: string): React.ReactNode {
+  if (!query) return text
+  const lower = text.toLowerCase()
+  const index = lower.indexOf(query)
+  if (index < 0) return text
+  return (
+    <>
+      {text.slice(0, index)}
+      <mark className="scholar-list__highlight">{text.slice(index, index + query.length)}</mark>
+      {text.slice(index + query.length)}
+    </>
   )
 }

@@ -9,6 +9,7 @@ interface SearchPanelProps {
   selectedScholarId: string | null
   onQueryChange: (query: string) => void
   onSelectScholar: (scholar: Scholar) => void
+  hideDropdown?: boolean
 }
 
 const MIN_QUERY_LENGTH = 2
@@ -20,6 +21,7 @@ export function SearchPanel({
   selectedScholarId,
   onQueryChange,
   onSelectScholar,
+  hideDropdown = false,
 }: SearchPanelProps) {
   const deferredQuery = useDeferredValue(query)
   const [isOpen, setIsOpen] = useState(false)
@@ -99,7 +101,7 @@ export function SearchPanel({
         />
       </div>
 
-      {isOpen && normalizedQuery.length >= MIN_QUERY_LENGTH && (
+      {!hideDropdown && isOpen && normalizedQuery.length >= MIN_QUERY_LENGTH && (
         <div className="search-results" role="listbox" aria-label="Scholar search results">
           {results.length === 0 && <div className="search-results__empty">No scholars found</div>}
 

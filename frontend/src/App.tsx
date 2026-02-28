@@ -68,26 +68,41 @@ function App() {
           state.activeInstitutions.includes(scholar.institution ?? 'Unknown'),
         )
 
-  // For list view, apply both institution and subfield filters
-  // Sort primary subfield matches first when a subfield filter is active
+  // For list view, apply institution filter, subfield filter, and live search query
   const filteredScholars = (() => {
-    if (state.activeSubfields.length === 0) return visibleScholars
-    const matching = visibleScholars.filter((scholar) => {
-      const scholarSubfields = scholar.subfields.map((sf) => sf.subfield)
-      if (state.subfieldFilterMode === 'intersection') {
-        return state.activeSubfields.every((sf) => scholarSubfields.includes(sf))
-      }
-      return state.activeSubfields.some((sf) => scholarSubfields.includes(sf))
-    })
-    return matching.sort((a, b) => {
-      const aPrimary = a.subfields[0]?.subfield
-      const bPrimary = b.subfields[0]?.subfield
-      const aIsPrimary = aPrimary != null && state.activeSubfields.includes(aPrimary)
-      const bIsPrimary = bPrimary != null && state.activeSubfields.includes(bPrimary)
-      if (aIsPrimary && !bIsPrimary) return -1
-      if (!aIsPrimary && bIsPrimary) return 1
-      return 0
-    })
+    let result = visibleScholars
+
+    // Subfield filter
+    if (state.activeSubfields.length > 0) {
+      const matching = result.filter((scholar) => {
+        const scholarSubfields = scholar.subfields.map((sf) => sf.subfield)
+        if (state.subfieldFilterMode === 'intersection') {
+          return state.activeSubfields.every((sf) => scholarSubfields.includes(sf))
+        }
+        return state.activeSubfields.some((sf) => scholarSubfields.includes(sf))
+      })
+      result = matching.sort((a, b) => {
+        const aPrimary = a.subfields[0]?.subfield
+        const bPrimary = b.subfields[0]?.subfield
+        const aIsPrimary = aPrimary != null && state.activeSubfields.includes(aPrimary)
+        const bIsPrimary = bPrimary != null && state.activeSubfields.includes(bPrimary)
+        if (aIsPrimary && !bIsPrimary) return -1
+        if (!aIsPrimary && bIsPrimary) return 1
+        return 0
+      })
+    }
+
+    // Live search query (list view only)
+    const q = state.searchQuery.trim().toLowerCase()
+    if (state.viewMode === 'list' && q.length >= 1) {
+      result = result.filter(
+        (scholar) =>
+          scholar.name.toLowerCase().includes(q) ||
+          (scholar.institution ?? '').toLowerCase().includes(q),
+      )
+    }
+
+    return result
   })()
 
   const selectedScholar =
@@ -140,6 +155,10 @@ function App() {
     <div className="app-shell">
       <Header
         modeLabel={mode === 'embedded' ? 'Embedded' : undefined}
+        onLogoClick={() => {
+          if (state.viewMode === 'list') dispatch({ type: 'view_mode_toggled' })
+          dispatch({ type: 'map_reset_requested' })
+        }}
         onFieldDirectionsClick={() => setShowFieldDirections(true)}
         onMethodologyClick={() => setShowMethodology(true)}
         onTourClick={() => setShowOnboarding(true)}
@@ -171,6 +190,7 @@ function App() {
               selectedScholarId={state.selectedScholarId}
               onQueryChange={(query) => dispatch({ type: 'search_query_changed', query })}
               onSelectScholar={(scholar) => selectScholar(scholar.id, { pan: true })}
+              hideDropdown={state.viewMode === 'list'}
             />
           </div>
 
@@ -244,6 +264,7 @@ function App() {
               scholars={filteredScholars}
               selectedScholarId={state.selectedScholarId}
               onSelectScholar={(scholarId) => selectScholar(scholarId)}
+              searchQuery={state.searchQuery}
             />
           )}
 

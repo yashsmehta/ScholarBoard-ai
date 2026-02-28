@@ -1,19 +1,23 @@
 interface HeaderProps {
   modeLabel?: string
+  onLogoClick?: () => void
   onFieldDirectionsClick?: () => void
   onMethodologyClick?: () => void
   onTourClick?: () => void
 }
 
-export function Header({ modeLabel, onFieldDirectionsClick, onMethodologyClick, onTourClick }: HeaderProps) {
+export function Header({ modeLabel, onLogoClick, onFieldDirectionsClick, onMethodologyClick, onTourClick }: HeaderProps) {
   return (
     <header className="topbar">
       <div className="topbar__content">
         <div className="topbar__left">
-          <h1 className="topbar__title">
+          <a href="https://yashsmehta.com" className="topbar__creator" title="Yash Mehta — Creator">
+            <img src={`${import.meta.env.BASE_URL}creator-avatar.jpg`} alt="Yash Mehta" className="topbar__creator-img" />
+          </a>
+          <button className="topbar__title" onClick={onLogoClick} aria-label="Go to map view">
             Scholar<span className="topbar__title-accent">Board</span>
             <span className="topbar__title-dot">.ai</span>
-          </h1>
+          </button>
         </div>
         <div className="topbar__center">
           <span className="topbar__domain">

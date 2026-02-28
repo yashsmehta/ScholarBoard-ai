@@ -1,6 +1,6 @@
 # Frontend — CLAUDE.md
 
-React + TypeScript + Vite frontend for ScholarBoard.ai. Interactive 2D map of ~730 vision science researchers with D3.js visualization.
+React + TypeScript + Vite frontend for ScholarBoard.ai. Interactive 2D map of ~800 vision science researchers with D3.js visualization.
 
 ## Quick Start
 
@@ -29,13 +29,18 @@ Vite proxies `/api`, `/data`, `/images` to `http://localhost:8000` (the data ser
 
 ```
 App.tsx (useReducer)
- ├── Header             — title bar, scholar count
+ ├── Header             — creator avatar, title, "Vision Science" label, nav buttons, tour trigger
  ├── SearchPanel        — live search with keyboard nav
  ├── FilterPanel        — institution + subfield filter (tabbed dropdown)
- ├── ScholarMap         — thin React wrapper around D3
+ ├── ScholarMap         — thin React wrapper around D3 (map view)
  │   └── d3MapController — imperative D3 scatter plot (zoom, pan, brush, tooltips)
- ├── MapControls        — reset button, usage hint
- └── Sidebar            — tabbed: Profile | Research Idea
+ ├── ScholarList        — alphabetical directory with avatars (list view)
+ ├── MapControls        — reset button, usage hint (map view only)
+ ├── Sidebar            — tabbed: Profile | Research Idea
+ ├── FieldDirectionsPage — AI-generated research summaries per subfield (modal)
+ ├── Onboarding         — 4-step welcome tour for first-time visitors
+ ├── BetaBanner         — dismissible beta feedback banner
+ └── MethodologyModal   — methodology explanation modal
 ```
 
 ### Data Flow
@@ -72,19 +77,24 @@ Two tabs, controlled by `SidebarTab` type (`'profile' | 'idea'`). Defaults to Pr
 ```
 src/
 ├── main.tsx                  — React entry point
-├── App.tsx                   — Root component, state orchestration
+├── App.tsx                   — Root component, state orchestration, view mode toggle
 ├── components/
-│   ├── Header.tsx            — Title bar (presentational)
+│   ├── Header.tsx            — Creator avatar link, title, "Vision Science" domain label, nav buttons
 │   ├── SearchPanel.tsx       — Search input + autocomplete dropdown
 │   ├── FilterPanel.tsx       — Institution + subfield filter (tabbed, draft/apply)
-│   ├── ScholarMap.tsx        — D3 controller lifecycle bridge
+│   ├── ScholarMap.tsx        — D3 controller lifecycle bridge (map view)
+│   ├── ScholarList.tsx       — Alphabetical scholar directory (list view)
 │   ├── MapControls.tsx       — Reset button + auto-hiding hint
-│   └── Sidebar.tsx           — Tabbed sidebar (Profile + Research Idea)
+│   ├── Sidebar.tsx           — Tabbed sidebar (Profile + Research Idea)
+│   ├── FieldDirectionsPage.tsx — AI field-level research summaries modal
+│   ├── Onboarding.tsx        — 4-step welcome tour carousel
+│   ├── BetaBanner.tsx        — Dismissible beta feedback banner
+│   └── MethodologyModal.tsx  — Methodology explanation modal
 ├── state/
-│   └── appReducer.ts         — Central reducer (13 action types)
+│   └── appReducer.ts         — Central reducer (action types for selection, filters, view mode)
 ├── map/
-│   ├── d3MapController.ts    — Core D3 visualization (~571 lines)
-│   └── colorScale.ts         — Spectral colormap for clusters
+│   ├── d3MapController.ts    — Core D3 visualization
+│   └── colorScale.ts         — Subfield-based color mapping
 ├── lib/
 │   ├── loadScholars.ts       — Fetch + normalize scholar data
 │   ├── appMode.ts            — Full vs embedded mode detection
@@ -96,12 +106,14 @@ src/
 │   └── scholar.ts            — Scholar, RawScholar, Paper, Education, SubfieldTag, ResearchIdea
 └── styles/
     ├── tokens.css            — Design tokens (colors, fonts, radii, shadows, borders)
-    └── app.css               — All component styles (~907 lines)
+    └── app.css               — All component styles
 ```
 
 ## Key Patterns
 
-**State management:** Single `useReducer` in App.tsx with 13 action types (discriminated union). No external state library. Derived state (visible scholars, institution counts, subfield counts) computed inline.
+**View modes:** `viewMode: 'map' | 'list'` in state, toggled via button next to filters. Map view renders D3 scatter plot; list view renders `ScholarList` with alphabetical grouping. Both share selection, filters, search, and sidebar state. In list view, the search dropdown is hidden (`hideDropdown`) and the search query filters the list inline instead. Clicking the logo switches back to map view and resets zoom.
+
+**State management:** Single `useReducer` in App.tsx (discriminated union actions). No external state library. Derived state (visible scholars, institution counts, subfield counts) computed inline.
 
 **Nonce pattern:** `resetNonce` and `panRequest.nonce` are incrementing counters that trigger D3 animations via useEffect dependencies. This allows re-triggering the same action (e.g., pan to same scholar twice).
 
@@ -129,13 +141,26 @@ No CSS framework — vanilla CSS with design tokens.
 
 **Visual design:** Warm neutral background (`#faf8f5`) with teal brand accents. Glassmorphism panels (backdrop-filter blur). Dot grid pattern on map. Spectral colormap for cluster dots.
 
-**Responsive breakpoints:** 1100px (stacked layout), 700px (mobile adjustments).
+**Responsive breakpoints:** 1100px (stacked layout), 700px (tablet), 480px (mobile — compact header, tighter overlays, smaller controls).
 
 ## Dependencies
 
 3 production dependencies: `react` + `react-dom` 19.x, `d3` 7.x
 
 Dev: TypeScript ~5.9, Vite 7.3, ESLint 9.x, Playwright 1.58
+
+## Static Deployment
+
+The site is hosted at **https://yashsmehta.com/scholarboard/** via GitHub Pages (Jekyll site).
+
+```bash
+# Build and deploy to Jekyll site
+bash scripts/deploy_static.sh    # builds with base=/scholarboard/, copies data, syncs to Jekyll repo
+```
+
+`vite.config.ts` supports a dynamic base path via `VITE_BASE` env var (defaults to `/`). The deploy script sets `VITE_BASE=/scholarboard/`.
+
+**Analytics:** GoatCounter script in `index.html` → dashboard at `scholarboard.goatcounter.com`.
 
 ## Embedded Mode
 

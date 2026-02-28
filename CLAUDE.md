@@ -6,6 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ScholarBoard.ai creates interactive 2D dashboards of researchers arranged by research similarity. The entire pipeline runs on Google Gemini models — Gemini 3 Flash Preview (grounded search for papers/profiles), Gemini 3.1 Pro Preview (research idea generation with HIGH thinking), and Gemini gemini-embedding-001 (task-specific embeddings: CLUSTERING for UMAP, SEMANTIC_SIMILARITY for subfield matching). Uses UMAP + HDBSCAN for dimensionality reduction and clustering. The current dataset is ~730 vision neuroscience researchers (VSS).
 
+**Live site:** https://yashsmehta.com/scholarboard/
+**Analytics:** https://scholarboard.goatcounter.com (GoatCounter — privacy-friendly, no cookies)
+
 ## Working Style
 - When asked to implement something, proceed decisively. Do NOT ask multiple clarifying questions in sequence — make reasonable assumptions and act, then adjust if corrected.
 - When verifying API keys or connections, always perform an actual live test call. Never claim something is working based only on config inspection.
@@ -79,11 +82,12 @@ All API prompts are externalized as markdown templates with `{variable}` substit
 - **`suggest_next_idea.md`** — generate research idea (`{scholar_name}`, `{institution}`, `{primary_subfield}`, `{papers_text}`)
 - **`fetch_papers.md`** — reference documentation for paper-fetching prompt
 - **`fetch_researcher_info.md`** — reference documentation for profile-fetching prompt
+- **`field_directions.md`** — synthesize collective field-level research patterns per subfield
 
-### Data Pipeline (10 steps)
+### Data Pipeline (11 steps)
 
 ```
-Discover → Seed → Papers → Profiles → Embed → UMAP+HDBSCAN → Subfields → Ideas → Build → Pics
+Discover → Seed → Papers → Profiles → Embed → UMAP+HDBSCAN → Subfields → Ideas → Field Directions → Build → Pics
 ```
 
 All pipeline steps live in `scholar_board/pipeline/` and are invoked by `scripts/run_pipeline.py` as `python -m scholar_board.pipeline.<step>`. The SQLite DB (`data/scholarboard.db`) is the **single source of truth** — all steps load scholars from DB and write back to DB. JSON files are written in parallel as human-readable artifacts.
@@ -96,8 +100,9 @@ All pipeline steps live in `scholar_board/pipeline/` and are invoked by `scripts
 4. **`cluster`** (`umap`) — UMAP(cosine, n_neighbors=15) → HDBSCAN(min_cluster_size=10, min_samples=3) → `data/pipeline/models/*.joblib`
 5. **`subfields`** — Gemini `gemini-embedding-001` (task_type=SEMANTIC_SIMILARITY) assigns subfield tags via cosine similarity for PI scholars → `data/pipeline/scholar_subfields.json`
 6. **`ideas`** — Gemini 3.1 Pro Preview (thinking=HIGH) generates AI-suggested research directions for PI scholars → `data/pipeline/scholar_ideas/*.json`. Supports `--workers 25`.
-7. **`build`** — Reads all data from DB and exports → `data/build/scholars.json` + per-scholar JSONs in `data/build/scholars/`
-8. **`pics`** — Serper.dev Google Image Search with face/headshot queries for PI scholars → `data/build/profile_pics/*.jpg`. Supports `--skip-existing`, `--limit`, `--test`.
+7. **`field_directions`** — Gemini 3.1 Pro Preview (thinking=HIGH) synthesizes field-level research summaries per subfield (overview, active themes, open questions, methods, emerging directions) → `data/build/field_directions.json`
+8. **`build`** — Reads all data from DB and exports → `data/build/scholars.json` + per-scholar JSONs in `data/build/scholars/`
+9. **`pics`** — Serper.dev Google Image Search with face/headshot queries for PI scholars → `data/build/profile_pics/*.jpg`. Supports `--skip-existing`, `--limit`, `--test`.
 
 **Orchestrator:** `scripts/run_pipeline.py` — `--step <name>`, `--from <name>` (run from step onward), `--execute` (all), or status dashboard.
 
@@ -107,9 +112,13 @@ All pipeline modules support `--dry-run` for safe previewing. Steps 1, 2, and 6 
 
 React 19 + TypeScript + Vite app (3 production deps: react, react-dom, d3):
 
-- D3.js scatter plot with zoom, pan, brush select, scholar dots colored by cluster (Spectral colormap)
+- **Map view:** D3.js scatter plot with zoom, pan, brush select, scholar dots colored by subfield
+- **List view:** Alphabetical directory with avatars, institutions, and subfield badges (toggled via button next to filters)
+- **Field Directions:** AI-generated summaries of research trends per subfield (full-page modal)
+- **Onboarding:** 4-step welcome tour for first-time visitors
 - Tabbed sidebar: Profile (bio, papers, lab link, nearby scholars) + AI Research Idea (hypothesis, approach, impact)
-- Live search, institution filter
+- Live search, institution + subfield filters
+- GoatCounter analytics (script in `index.html`)
 - See `frontend/CLAUDE.md` for detailed architecture
 
 ### Data Server (`serve.py`)
@@ -141,6 +150,7 @@ data/
 │   └── scholar_ideas/         # AI-generated research directions (step 6)
 ├── build/                     # Final assembled outputs (served by serve.py)
 │   ├── scholars.json          # Master dataset loaded by the frontend
+│   ├── field_directions.json  # AI-generated field-level research summaries
 │   ├── profile_pics/          # Headshot images — name_XXXX.jpg
 │   └── scholars/              # Per-scholar JSON files
 └── scholarboard.db            # SQLite database — queryable source of truth
@@ -161,6 +171,24 @@ GOOGLE_API_KEY=...       # kept as fallback only; not used when Vertex AI is act
 Authentication: `gcloud auth application-default login` must be run once (credentials stored at `~/.config/gcloud/application_default_credentials.json`). The `get_client()` function in `scholar_board/gemini.py` automatically detects `GOOGLE_GENAI_USE_VERTEXAI=True` and uses ADC instead of the API key.
 
 Python 3.10+, managed with `uv`. Use `uv run` to execute scripts and `uv add` to install packages.
+
+## Deployment
+
+The site is deployed as a static build to a Jekyll-based GitHub Pages site (`yashsmehta.github.io`).
+
+```bash
+# Build and copy to Jekyll site's scholarboard/ directory
+bash scripts/deploy_static.sh              # default: ~/Websites/yashsmehta.github.io
+bash scripts/deploy_static.sh /path/to/jekyll/site  # custom path
+
+# Then commit and deploy from the Jekyll repo
+cd ~/Websites/yashsmehta.github.io
+git add scholarboard/ && git commit -m 'Update ScholarBoard.ai' && bin/deploy
+```
+
+`deploy_static.sh` builds the frontend with `VITE_BASE=/scholarboard/`, copies `scholars.json`, `field_directions.json`, and `profile_pics/` into the dist, then syncs to the Jekyll site.
+
+`website/` contains screenshot PNGs used for documentation (field directions, onboarding steps, list view).
 
 ## Code Conventions
 

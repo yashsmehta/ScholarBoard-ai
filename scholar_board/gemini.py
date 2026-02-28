@@ -106,6 +106,52 @@ def generate_text(
     return response.text.strip()
 
 
+def generate_image(
+    prompt: str,
+    model: str = "gemini-3.1-flash-image-preview",
+    aspect_ratio: str = "1:1",
+    image_size: str = "1K",
+    client: "genai.Client | None" = None,
+) -> tuple[bytes | None, str | None]:
+    """Generate an image using Gemini's Nano Banana 2 model.
+
+    Args:
+        prompt: The image generation prompt.
+        model: Model ID (default: gemini-3.1-flash-image-preview).
+        aspect_ratio: Aspect ratio — "1:1", "16:9", "4:3", "21:9", etc.
+        image_size: Resolution — "512px", "1K", "2K", "4K".
+        client: Optional pre-created client.
+
+    Returns:
+        Tuple of (image_bytes, text). Either may be None depending on the response.
+    """
+    if client is None:
+        client = get_client()
+
+    response = client.models.generate_content(
+        model=model,
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            response_modalities=["TEXT", "IMAGE"],
+            image_config=types.ImageConfig(
+                aspect_ratio=aspect_ratio,
+                image_size=image_size,
+            ),
+        ),
+    )
+
+    image_bytes = None
+    text = None
+    if response.candidates and response.candidates[0].content:
+        for part in response.candidates[0].content.parts:
+            if part.inline_data:
+                image_bytes = part.inline_data.data
+            elif part.text:
+                text = part.text.strip()
+
+    return image_bytes, text
+
+
 def embed_texts(
     texts: list[str],
     task_type: str = "CLUSTERING",

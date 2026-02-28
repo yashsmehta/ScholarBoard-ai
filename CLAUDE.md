@@ -58,6 +58,7 @@ uv add <package-name>
 | Research idea generation | `gemini-3.1-pro-preview` | thinking_level=HIGH |
 | Paper embeddings (UMAP) | `gemini-embedding-001` | task_type=CLUSTERING, 3072 dims |
 | Subfield embeddings | `gemini-embedding-001` | task_type=SEMANTIC_SIMILARITY, 3072 dims |
+| Image generation | `gemini-3.1-flash-image-preview` | Nano Banana 2 — aspect_ratio, image_size config |
 
 **Gemini 3 model quick reference:**
 - `gemini-3-flash-preview` — fast/cheap, free tier, best for bulk tasks, grounding, classification
@@ -70,7 +71,7 @@ uv add <package-name>
 
 - **`scholar_board/config.py`** — all path constants (`PAPERS_DIR`, `PROFILES_DIR`, `EMBEDDINGS_PATH`, `SCHOLARS_JSON`, etc.) + API key accessors (`get_gemini_api_key()`, `get_serper_api_key()`, `get_openai_api_key()`) + common helpers (`load_paper_texts()`)
 - **`scholar_board/db.py`** — SQLite layer: `get_connection()`, `init_db()`, `load_scholars(is_pi_only=False/True)`, `set_is_pi()`, `ensure_scholar()`, `upsert_papers()`, `upsert_profile()`, `upsert_subfields()`, `upsert_idea()`, `upsert_cluster()`, `upsert_profile_pic()`
-- **`scholar_board/gemini.py`** — shared Gemini utilities: `get_client()`, `parse_json_response()`, `extract_grounding_sources()`, `embed_texts(task_type=...)`
+- **`scholar_board/gemini.py`** — **ALL Gemini API interactions MUST go through this file** — never call `client.models.*` directly from pipeline modules. Shared utilities: `get_client()`, `parse_json_response()`, `extract_grounding_sources()`, `generate_text()`, `generate_image()`, `embed_texts(task_type=...)`
 - **`scholar_board/prompt_loader.py`** — `load_prompt(name)` and `render_prompt(name, **kwargs)`, loads from `scholar_board/prompts/*.md`
 - **`scholar_board/schemas.py`** — Pydantic models: `Scholar`, `Paper`, `SubfieldTag`, `UMAPProjection`, `ResearchIdea`
 
@@ -176,19 +177,33 @@ Python 3.10+, managed with `uv`. Use `uv run` to execute scripts and `uv add` to
 
 The site is deployed as a static build to a Jekyll-based GitHub Pages site (`yashsmehta.github.io`).
 
-```bash
-# Build and copy to Jekyll site's scholarboard/ directory
-bash scripts/deploy_static.sh              # default: ~/Websites/yashsmehta.github.io
-bash scripts/deploy_static.sh /path/to/jekyll/site  # custom path
+### Automatic sync (post-commit hook)
 
-# Then commit and deploy from the Jekyll repo
+A git post-commit hook (`.git/hooks/post-commit`) automatically syncs to the website repo every time you commit changes to `frontend/` or `data/build/`. It runs the website repo's `bin/sync-scholarboard` script which:
+1. Builds the frontend with `VITE_BASE=/scholarboard/`
+2. Copies dist + data files to `~/Websites/yashsmehta.github.io/scholarboard/`
+
+**After the auto-sync, you still need to commit & push from the website repo to deploy:**
+```bash
 cd ~/Websites/yashsmehta.github.io
-git add scholarboard/ && git commit -m 'Update ScholarBoard.ai' && bin/deploy
+git add scholarboard/ && git commit -m 'Update ScholarBoard' && git push
+```
+Pushing to `master` triggers GitHub Actions which builds Jekyll and deploys to `gh-pages`.
+
+### Manual sync
+
+```bash
+# From the website repo:
+cd ~/Websites/yashsmehta.github.io
+./bin/sync-scholarboard
+git add scholarboard/ && git commit -m 'Update ScholarBoard' && git push
 ```
 
-`deploy_static.sh` builds the frontend with `VITE_BASE=/scholarboard/`, copies `scholars.json`, `field_directions.json`, and `profile_pics/` into the dist, then syncs to the Jekyll site.
+### Important
 
-`website/` contains screenshot PNGs used for documentation (field directions, onboarding steps, list view).
+- **Never edit `scholarboard/` files directly in the website repo** — they get overwritten on next sync
+- The post-commit hook is local (lives in `.git/hooks/`, not pushed to remote). Re-add it if you re-clone this repo.
+- `website/` contains screenshot PNGs used for documentation (field directions, onboarding steps, list view)
 
 ## Code Conventions
 
@@ -197,7 +212,7 @@ git add scholarboard/ && git commit -m 'Update ScholarBoard.ai' && bin/deploy
 - **DB-first**: all pipeline steps load scholars via `load_scholars(is_pi_only=...)` from `scholar_board/db.py` — never from CSV directly
 - **`is_pi` flag**: `fetch_profiles` classifies every scholar and writes `is_pi` to DB; steps 3–8 (embed through pics) filter to `is_pi=1` only
 - Shared paths, API key helpers, and common functions go in `scholar_board/config.py`
-- Shared Gemini utilities go in `scholar_board/gemini.py`
+- **Gemini gateway**: ALL Gemini API calls must go through `scholar_board/gemini.py` — never call `client.models.*` directly in pipeline modules. Use `generate_text()`, `generate_image()`, `embed_texts()`, etc.
 - All API prompts are in `scholar_board/prompts/*.md`, loaded via `scholar_board/prompt_loader.py`
 - Data schema defined with Pydantic in `scholar_board/schemas.py`
 - Data artifacts in `data/` (git-ignored); structured as `source/`, `pipeline/`, `build/`

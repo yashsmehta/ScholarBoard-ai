@@ -37,7 +37,7 @@ const steps = [
 export function Onboarding({ onComplete }: OnboardingProps) {
   const [step, setStep] = useState(0)
   const [phase, setPhase] = useState<Phase>('idle')
-  const timerRef = useRef<ReturnType<typeof setTimeout>>()
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined)
   const isLast = step === steps.length - 1
   const current = steps[step]
 

@@ -20,7 +20,10 @@ import type { Scholar } from './types/scholar'
 function App() {
   const mode = detectFrontendMode()
   const [state, dispatch] = useReducer(appReducer, initialAppState)
-  const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem('sb_onboarding_done'))
+  const [showOnboarding, setShowOnboarding] = useState(() => {
+    if (new URLSearchParams(window.location.search).has('onboarding')) return true
+    return !localStorage.getItem('sb_onboarding_done')
+  })
   const [showMethodology, setShowMethodology] = useState(false)
   const [showFieldDirections, setShowFieldDirections] = useState(false)
   const [fieldDirectionsData, setFieldDirectionsData] = useState<FieldDirectionsData | null>(null)

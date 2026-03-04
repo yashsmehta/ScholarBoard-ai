@@ -2,6 +2,8 @@
 
 **An interactive map of vision science — where every researcher is a dot, and nearby dots think alike.**
 
+![ScholarBoard.ai](website/scholarboard_ss.png)
+
 ---
 
 ## What is this?

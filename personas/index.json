@@ -1,0 +1,402 @@
+{
+  "0028": {
+    "name": "Alice J. O'Toole",
+    "summary": "Human-AI face/person recognition; forensic fusion, other-race tests; DCNN/ViT embeddings; configural face/body identity"
+  },
+  "0041": {
+    "name": "Andreas Keil",
+    "summary": "Affective visual neuroscience; dense EEG, ssVEP, EEG-fMRI; threat learning, visuocortical gain; Concept2Brain EEG generative models"
+  },
+  "0052": {
+    "name": "Anne B Sereno",
+    "summary": "Attention, eye movements, sensorimotor biomarkers; extracellular recording, psychophysics; dual-stream CNNs, spatial-map binding, texture segmentation"
+  },
+  "0073": {
+    "name": "Bas Rokers",
+    "summary": "3D motion/depth perception; fMRI pRF/MVPA, tractography; human FST localization, binocular integration, VR/amblyopia applications"
+  },
+  "0078": {
+    "name": "Benjamin Peters",
+    "summary": "NeuroAI algorithm identification; transfer-learning profiles, brain-CNN models; dynamic object vision tasks; MEG/MVPA working-memory precision"
+  },
+  "0091": {
+    "name": "Bradford Z. Mahon",
+    "summary": "Object concepts and action semantics; fMRI, lesions, DES awake mapping; parietal kinematic synergies; dorsal-ventral tool interactions"
+  },
+  "0102": {
+    "name": "Bruno Rossion",
+    "summary": "Human face recognition; FPVS frequency-tagging, N170, sEEG/iEEG, prosopagnosia; VOTC face categorization, pareidolia, BOLD-spiking coupling"
+  },
+  "0104": {
+    "name": "Carlos Ponce",
+    "summary": "Macaque ventral-stream electrophysiology; generative closed-loop image synthesis; IT/PIT feature manifolds; ANN-brain alignment, inhibitory feature segregation"
+  },
+  "0119": {
+    "name": "Chien-Chung Chen",
+    "summary": "Human visual psychophysics; contrast, lateral inhibition, symmetry/faces; fMRI/computational models; bistable gaze dynamics, word-form field asymmetries"
+  },
+  "0160": {
+    "name": "David E Osher",
+    "summary": "Connectivity fingerprints for individualized function; rs-fMRI/dMRI predictive models; high-level visual fROI localization; configural holistic processing, clinical oculomotor networks"
+  },
+  "0167": {
+    "name": "David Watson",
+    "summary": "High-level vision connectivity; fMRI/TMS/psychophysics; scene-network gradients, THINGS PLSR object dimensions, view-symmetric face representations"
+  },
+  "0174": {
+    "name": "Diane M. Beck",
+    "summary": "Visual attention and awareness; fMRI/EEG/TMS-EROS; real-world statistical regularity, scene exemplar typicality, memorability, recurrent V1 awareness"
+  },
+  "0178": {
+    "name": "Dirk Bernhardt-Walther",
+    "summary": "Scene perception and aesthetics; fMRI, eye tracking, Mid-level Vision Toolbox; contours/symmetry, metabolic efficiency, MTL pRF gradients"
+  },
+  "0193": {
+    "name": "Eero P. Simoncelli",
+    "summary": "Computational vision theory; natural image statistics, steerable pyramids, SSIM; neural representation geometry, diffusion/score models, principal distortions"
+  },
+  "0216": {
+    "name": "Fang Fang",
+    "summary": "Visual attention, consciousness, perceptual learning; high-resolution fMRI, MEG/EEG, stimulation; VPL plasticity, ensemble coding, brain-DCNN action alignment"
+  },
+  "0222": {
+    "name": "Frank Tong",
+    "summary": "Visual perception decoding; 7T fMRI, MVPA, psychophysics; VWM contents, amodal completion, motion invariance, blur-robust CNN alignment"
+  },
+  "0230": {
+    "name": "Galit Yovel",
+    "summary": "Face/person recognition; fMRI, iEEG, psychophysics, eye tracking; familiar identity, face-body clutter tolerance, DNN visual-semantic memory"
+  },
+  "0231": {
+    "name": "Garikoitz Lerma-Usabiaga",
+    "summary": "Computational neuroimaging of vOTC vision/literacy; pRF mapping, f/q/dMRI, tractography; reproducible retinotopy, reading white-matter connectivity"
+  },
+  "0235": {
+    "name": "George A. Alvarez",
+    "summary": "Visual attention/working memory and AI vision; psychophysics, fMRI, DNN/ViT interpretability; contour integration, configural shape, feature inhibition"
+  },
+  "0242": {
+    "name": "Gabriel Kreiman",
+    "summary": "Human intracranial neurophysiology and AI vision; single-neuron/iEEG, psychophysics; recurrent object recognition, MIRCs, continual learning, VLM benchmarks"
+  },
+  "0254": {
+    "name": "Heiko H. Schütt",
+    "summary": "RSA/CKA theory and toolboxes; psychophysics; Bayesian representational comparison; DNN/efficient-coding models of vision and eye movements"
+  },
+  "0256": {
+    "name": "Hendrikje Nienborg",
+    "summary": "Macaque visual decision circuits; electrophysiology/optogenetics; attention feedback, V1 minimodels, movement modulation, serotonergic attention"
+  },
+  "0263": {
+    "name": "Hongjing Lu",
+    "summary": "Computational vision/cognition; biological motion and action inference; fMRI/RSA; causal/analogical reasoning, structured representations, sparse-data priors"
+  },
+  "0275": {
+    "name": "Ipek Oruc",
+    "summary": "Face recognition expertise; prosopagnosia/autism face exposure; psychophysics/fMRI/EEG; CNN synthetic fMRI and retinal-image XAI"
+  },
+  "0285": {
+    "name": "James Herman",
+    "summary": "Primate superior-colliculus attention/value/salience coding; high-density electrophysiology/perturbation; recurrent ViT models of reward-trained visual attention"
+  },
+  "0287": {
+    "name": "James J. DiCarlo",
+    "summary": "Primate ventral-stream object recognition; macaque IT electrophysiology; SMART/TDANN models; ANN-guided perceptual and neural perturbations"
+  },
+  "0307": {
+    "name": "Jiahui Guo",
+    "summary": "Individualized face/social topographies; naturalistic fMRI hyperalignment; developmental prosopagnosia; DCNN/RSA models of dynamic face processing"
+  },
+  "0316": {
+    "name": "Jocelyn Faubert",
+    "summary": "3D multiple-object tracking; perceptual-cognitive training; VR psychophysics; aging/TBI/athlete performance; biological-motion Bayesian models"
+  },
+  "0317": {
+    "name": "Jochen Triesch",
+    "summary": "Active Efficient Coding; developmental robotics; spiking/STDP sensorimotor learning; MIMo infant simulation; synaptic homeostasis and gaze-based SSL"
+  },
+  "0324": {
+    "name": "John K. Tsotsos",
+    "summary": "Selective Tuning theory; visual attention complexity; active 3D search/robot vision; task-driven gaze prediction; color-form border-ownership models"
+  },
+  "0344": {
+    "name": "Julie D. Golomb",
+    "summary": "Trans-saccadic attention/remapping; retinotopic feature binding; fMRI/EEG/RSA of 3D space, scene semantics, real-world object size"
+  },
+  "0356": {
+    "name": "Katharina Dobs",
+    "summary": "Task-optimized DNNs for visual specialization; face pareidolia/ORE/context priors; EEG/MEG/fMRI; category-selective multidimensional tuning"
+  },
+  "0365": {
+    "name": "Kenneth D. Miller",
+    "summary": "Stabilized Supralinear Network theory; V1 recurrent E/PV/SST/VIP circuits; surround suppression; cortical development, decision-state manifolds"
+  },
+  "0371": {
+    "name": "Konstantinos Derpanis",
+    "summary": "Spatiotemporal computer vision; human motion/pose/video grounding; static-vs-dynamic metrics; sparse-autoencoder concept connectomes; geometry-aware diffusion"
+  },
+  "0377": {
+    "name": "Kristina J. Nielsen",
+    "summary": "Ferret/primate visual-cortical development; two-photon/electrophysiology; V1-independent PMLS direction selectivity; disparity tuning and motion-pathway plasticity"
+  },
+  "0391": {
+    "name": "Leyla Isik",
+    "summary": "Dynamic social vision; STS/lateral-stream fMRI-MEG-EEG; graph relational models; face-network disentanglement; AI-human social perception gaps"
+  },
+  "0406": {
+    "name": "Lucia Melloni",
+    "summary": "Consciousness mechanisms; ECoG/MEG/fMRI adversarial theory tests; predictive processing; awareness priming; neuroethological consciousness frameworks"
+  },
+  "0416": {
+    "name": "Marieke Mur",
+    "summary": "High-field fMRI/RSA of object representations; frequency-tagged fMRI; biased-competition attention; topographic similarity analysis of adaptive LPFC maps"
+  },
+  "0428": {
+    "name": "Martin A. Giese",
+    "summary": "Biological motion/action perception; physiologically inspired sensomotor models; emotion/body animation psychophysics; norm-referenced face-expression transfer; macaque avatars"
+  },
+  "0431": {
+    "name": "Martin N. Hebart",
+    "summary": "THINGS-scale object representation spaces; human-DNN dimensional alignment; high-resolution fMRI/MVPA; deepRetinotopy; trans-saccadic foveal prediction"
+  },
+  "0441": {
+    "name": "Masataka Sawayama",
+    "summary": "Shitsukan/material perception; gloss, wetness, translucency; psychophysics, DNNs, macaque IT/V4; diagnostic image statistics and material-category morphs"
+  },
+  "0447": {
+    "name": "Meenakshi Khosla",
+    "summary": "Neural representational alignment; optimal transport, soft matching, CKA/RSA alternatives; fMRI encoding; food-selective cortex and abstract semantics"
+  },
+  "0458": {
+    "name": "Michael Beyeler",
+    "summary": "Bionic vision and visual neuroprostheses; phosphene simulation, VR psychophysics, user-centered prosthetic design; mouse-AI robustness benchmarks"
+  },
+  "0459": {
+    "name": "Michael Bonner",
+    "summary": "High-dimensional visual cortex geometry; scale-free fMRI manifolds; universal DNN dimensions; untrained CNN cortex alignment"
+  },
+  "0462": {
+    "name": "Michael J Tarr",
+    "summary": "High-level object/scene vision; BOLD5000, BrainSAIL, ViT encoding; semantic selectivity, dynamic-stimulus fMRI, generative stimulus toolkits"
+  },
+  "0471": {
+    "name": "Michelle Greene",
+    "summary": "Rapid scene gist; visual structure vs semantic richness; EEG/SSVEP, psychophysics, brain-guided CNNs; Visual Experience Dataset"
+  },
+  "0473": {
+    "name": "Miguel Eckstein",
+    "summary": "Computational visual attention/search; CNN model observers, medical image perception, gaze-following saccades; emergent covert attention in feedforward CNNs"
+  },
+  "0491": {
+    "name": "N Apurva Ratan Murty",
+    "summary": "Brain-like topographic ANN constraints; TopoNets/TopoAudio, adversarial encoding probes; 3T/7T fMRI, face-social cognition circuits"
+  },
+  "0507": {
+    "name": "Nihong Chen",
+    "summary": "Visual perceptual learning and crowding; 7T fMRI, TMS, DCM/MVPA; V2 feature binding, V1-V4 attentional connectivity"
+  },
+  "0510": {
+    "name": "Nikolaus Kriegeskorte",
+    "summary": "Representational similarity analysis founder; neural geometry/topology, tRSA; transformer brain encoders, diffusion-optimized stimuli, brain-DNN comparisons"
+  },
+  "0515": {
+    "name": "Nuttida Rungratsameetaweemana",
+    "summary": "Adaptive cognitive coding; human intracranial spikes/fMRI, biologically constrained RNNs; working-memory bursts, Brain2Model transfer, disinhibitory feedback"
+  },
+  "0520": {
+    "name": "Oliver Layton",
+    "summary": "Optic-flow self-motion models; MSTd/MT/V1 competitive dynamics; NNMF/autoencoder dorsal-stream alignment; psychophysics and autonomous navigation"
+  },
+  "0568": {
+    "name": "Robert Desimone",
+    "summary": "Selective attention circuitry; macaque V4/IT/LPFC electrophysiology, MEG, optogenetics; microsaccades, gamma/alpha-beta spectrolaminar motifs"
+  },
+  "0574": {
+    "name": "Roland Fleming",
+    "summary": "Material/surface perception; gloss, 3D shape-from-shading, elasticity; psychophysics, graphics, CLIP embeddings; orientation-field and material-dimension models"
+  },
+  "0579": {
+    "name": "Ru-Yuan Zhang",
+    "summary": "Neural geometry of perception/learning; 7T fMRI, EEG, RNNs; attention warping manifolds, VPL, predictive-error visual reasoning"
+  },
+  "0597": {
+    "name": "Sashank Varma",
+    "summary": "Computational mathematical cognition; CNN-human alignment for geometric/topological concepts; LLM analogical reasoning, resource rationality, numerical heuristics"
+  },
+  "0598": {
+    "name": "Scott O Murray",
+    "summary": "Visual perception/attention; high-field fMRI, EEG, computational models; spatial perspective-taking in MLMs, cerebellar attention, autism sensory gain"
+  },
+  "0599": {
+    "name": "Scott Steinmetz",
+    "summary": "Dorsal-stream optic-flow modeling; CNN/MLP self-motion estimation, MSTd tuning, ReLU sparsity; trusted-AI human calibration"
+  },
+  "0601": {
+    "name": "Se-Bum Paik",
+    "summary": "Developmental NeuroAI; spontaneous-activity priors, hard-wired Gabor filters, sensory maturation curricula; biologically plausible learning and calibration"
+  },
+  "0606": {
+    "name": "Serra Favila",
+    "summary": "Episodic memory-vision interactions; fMRI/pRF, intracranial recordings, eye-tracking; hippocampal differentiation and V1-V3 one-shot reactivation"
+  },
+  "0611": {
+    "name": "Sheng He",
+    "summary": "Visual attention/awareness; binocular rivalry, CFS, retrospective attention; 7T fMRI/MEG; hPIT priority maps, preconscious buffers"
+  },
+  "0621": {
+    "name": "Shuo Wang",
+    "summary": "Social attention and object memory; human single-neuron/iEEG/fMRI; MTL-amygdala codes, memorability, gamma synchrony, goal-directed search"
+  },
+  "0631": {
+    "name": "Stefania Bracci",
+    "summary": "Occipitotemporal object organization; tools/hands/action topography; fMRI RSA, ANN encoding; LOTC action gradients beyond TDANNs"
+  },
+  "0650": {
+    "name": "Taiki Fukiage",
+    "summary": "Human-centric display rendering; monocular depth psychophysics vs DNNs; ocular parallax VR; perceptual transparency, visual comfort models"
+  },
+  "0653": {
+    "name": "Talia Konkle",
+    "summary": "High-level visual cortex organization; real-world size/animacy/category maps; NSD fMRI, DCNN/ViT benchmarking, contrastive learning, SAEs"
+  },
+  "0671": {
+    "name": "Tom P. Franken",
+    "summary": "Macaque V4 border ownership/grouping; Neuropixels laminar electrophysiology; lightness constancy; PredNet natural-video predictive segmentation"
+  },
+  "0676": {
+    "name": "Uri Hasson",
+    "summary": "NeuroAI of concepts/language/vision; fMRI/EEG, DNN/LLM alignment; topographic CNN regularization, feature-importance heatmaps, sighting dominance"
+  },
+  "0691": {
+    "name": "Weina Zhu",
+    "summary": "Visual awareness psychophysics; CFS scene-context effects, closure superiority, EEG/ERP; Mamba/Transformer EEG decoding for motor imagery"
+  },
+  "0703": {
+    "name": "Xuexin Wei",
+    "summary": "Normative computational neuroscience; Bayesian perception, efficient coding, neural manifolds; DVC brain-DNN comparison, predictive-vision grid cells"
+  },
+  "0705": {
+    "name": "Yalda Mohsenzadeh",
+    "summary": "Spatiotemporal visual consciousness; EEG/fMRI/MEG RSA and decoding; memorability, attentional blink, audiovisual DNN feature integration"
+  },
+  "0715": {
+    "name": "Yuanning Li",
+    "summary": "ECoG/iEEG neural encoding-decoding; speech/language/vision DNN alignment; acoustic-linguistic BCI reconstruction, Mandarin tone decoding"
+  },
+  "0724": {
+    "name": "Zhou Tiangang",
+    "summary": "Topological perception/global-first vision; psychophysics, fMRI/TMS; object-based VWM pointers, dual-pathway brain-inspired CNNs"
+  },
+  "E002": {
+    "name": "Stephen Baccus",
+    "summary": "Retinal circuit computation; multielectrode/optical recordings, interpretable CNN/LNK models; contrast adaptation, natural-scene coding, CODEC causal decomposition"
+  },
+  "E011": {
+    "name": "Kenneth Harris",
+    "summary": "Large-scale population neuroscience; Neuropixels/Kilosort, mouse V1; latent dynamics, cortical layers, visuomotor orthogonalization, AI-assisted data exploration"
+  },
+  "E017": {
+    "name": "Kendrick Kay",
+    "summary": "Predictive fMRI encoding models; Natural Scenes Dataset, GLMsingle, intensive 7T/10.5T imaging; signal/noise generative modeling, OOD vision benchmarks"
+  },
+  "E032": {
+    "name": "Thomas Naselaris",
+    "summary": "Visual reconstruction and imagery decoding; 7T fMRI voxelwise encoding; NSD-Imagery, brain-optimized diffusion inference, concept manifold geometry"
+  },
+  "E033": {
+    "name": "Ian Charest",
+    "summary": "Visuo-semantic representational geometry; NSD fMRI/EEG fusion, RSA/MVPA; LLM-caption alignment, prosopagnosia and super-recognizer computations"
+  },
+  "E035": {
+    "name": "Tim Kietzmann",
+    "summary": "Recurrent NeuroAI for active vision; MEG/fMRI/eye-tracking; predictive remapping, glimpse prediction, developmental visual diets, brain-language readout"
+  },
+  "E037": {
+    "name": "Samuel Nastase",
+    "summary": "Naturalistic communication neuroscience; hyperalignment/SRM, intersubject correlation, ECoG/fMRI; LLM encoding, transformer circuits, shared linguistic spaces"
+  },
+  "E039": {
+    "name": "Martin Schrimpf",
+    "summary": "Brain-Score NeuroAI; primate ventral-stream/LLM benchmarking; TDANN microstimulation, scaling laws, causal unit ablation, dyslexia/VWFA models"
+  },
+  "E040": {
+    "name": "Andreas Tolias",
+    "summary": "Functional digital twins; MICRONS connectomics; V1/V4 MEIs; like-to-like wiring; cortical foundation models"
+  },
+  "E042": {
+    "name": "Thomas Serre",
+    "summary": "Brain-inspired recurrent vision; feature binding via phase synchrony; 3D perspective benchmarks; DNN-biological alignment failures"
+  },
+  "E044": {
+    "name": "Grace Lindsay",
+    "summary": "ANN mechanistic models of attention and behavior; neuroscience-derived interpretability; biologically constrained architectures for vision, locomotion, remote sensing"
+  },
+  "E046": {
+    "name": "Felix Wichmann",
+    "summary": "Psychophysics of human-machine vision gaps; psychometric noise modeling; dendritic nonlinearities in early spatial vision; shortcut learning"
+  },
+  "E055": {
+    "name": "Pieter Roelfsema",
+    "summary": "Macaque V1/V4/IT electrophysiology; figure-ground feedback and binding; cortical visual prostheses; THINGS spiking dataset; phosphene mapping"
+  },
+  "E056": {
+    "name": "Caspar Schwiedrzik",
+    "summary": "Predictive coding and task-flexible visual geometry; macaque/human fMRI, iEEG; face hierarchy top-down separation; perceptual-learning generalization"
+  },
+  "E060": {
+    "name": "Rufin VanRullen",
+    "summary": "Perceptual cycles and oscillatory attention; Global Workspace NeuroAI; fMRI concept algebra; multimodal decoding; synchronization-based binding"
+  },
+  "E064": {
+    "name": "Heiko Neumann",
+    "summary": "Neural-dynamical vision models; thalamo-cortical contour tracing; recurrent attention/grouping; shape-biased DCNN learning; cycle-correspondence robotics"
+  },
+  "E081": {
+    "name": "Nicholas Baker",
+    "summary": "Contour-shape abstraction; dot-array shapehood; constant-curvature primitives; Fourier shape-frequency psychophysics; human-DNN shape/texture dissociations"
+  },
+  "E082": {
+    "name": "Zoe Kourtzi",
+    "summary": "7T fMRI/MRS of perceptual learning; laminar GABA inhibition; neurogenetic plasticity; AI prognostic models for dementia stratification"
+  },
+  "E083": {
+    "name": "Benoit Cottereau",
+    "summary": "Spatial vision and 3D scene computation; fMRI/EEG/MEG psychophysics; optic flow/disparity; event-camera SNNs; maculopathy motion cortex"
+  },
+  "E093": {
+    "name": "Kalanit Grill-Spector",
+    "summary": "Ventral temporal cortex development; fMRI adaptation, qMRI, diffusion MRI; category-selective connectivity from infancy; TDANN topographic stream models"
+  },
+  "E112": {
+    "name": "Iris Groen",
+    "summary": "Natural-scene/video brain alignment; fMRI/EEG/ECoG RSA; action-affordance representations; diffusion image manipulation; delayed divisive-normalization adaptation"
+  },
+  "E174": {
+    "name": "Laurent Itti",
+    "summary": "Computational saliency and Bayesian surprise; eye-movement/gaze modeling; neuromorphic attention; Riemannian generative-model fingerprints; BEV robotic navigation"
+  },
+  "E286": {
+    "name": "Shinji Nishimoto",
+    "summary": "Naturalistic fMRI encoding/decoding; movie and music reconstruction; LLM semantic models; cross-modal visual information benchmarks; cognitive representational geometry"
+  },
+  "E287": {
+    "name": "Umut Güçlü",
+    "summary": "Brain reading/writing with GAN/diffusion decoders; receptive-field attention; macaque MUA and fMRI reconstructions; AFRT neural encoding"
+  },
+  "E289": {
+    "name": "Gemma Roig",
+    "summary": "Brain-aligned computer vision; Net2Brain RSA/encoding toolbox; cognitive neural architecture search; EEG cotraining for adversarial robustness; shortcut mitigation"
+  },
+  "E294": {
+    "name": "Andrea Benucci",
+    "summary": "Mouse visual cortex population dynamics; two-photon/widefield imaging; texture efficient coding; movement-signal invariance; low-dimensional choice manifolds"
+  },
+  "E347": {
+    "name": "Stanislas Dehaene",
+    "summary": "Consciousness, reading, numeracy; Global Neuronal Workspace; VWFA ordinal coding; 7T fMRI/MEG; symbolic geometry and math semantics"
+  },
+  "E350": {
+    "name": "Marc Brysbaert",
+    "summary": "Visual word recognition megastudies; SUBTLEX norms; lexical decision modeling; psycholinguistic databases; LLM-simulated reaction times and word ratings"
+  }
+}

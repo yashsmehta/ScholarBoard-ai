@@ -28,3 +28,21 @@ This study examines the impact of different activation functions—specifically 
 Authors: Oliver W. Layton, Scott T. Steinmetz
 
 While accuracy-optimized convolutional neural networks (CNNs) have successfully modeled neural responses in the primate ventral stream, their efficacy in representing the dorsal stream, specifically optic flow processing in the dorsal medial superior temporal area (MSTd), remains largely unexplored. This research compares the tuning properties of neurons within accuracy-optimized CNNs to neurophysiological data from primate MSTd and to the Non-Negative Matrix Factorization (NNMF) model. The study reveals that although accuracy-maximized CNNs can provide highly precise estimates of translational and rotational self-motion, they fail to replicate the specific optic flow tuning signatures observed in biological MSTd neurons. Conversely, the NNMF model, despite achieving lower overall motion estimation accuracy, exhibits tuning characteristics—such as a characteristic 90-degree offset in preferred directions—that align more closely with biological observations. The findings suggest that the functional architecture of MSTd is shaped by computational constraints beyond simple error minimization, such as nonnegativity and sparsity.
+
+### 2022 — Resolved rotation–vibration non-equilibrium with rotational VIPA-CARS
+*Optics Letters · 11 citations*
+Authors: Scott A. Steinmetz, Timothy Y. Chen, Benjamin M. Goldberg, Christopher Limbach, Christopher J. Kliewer
+
+plasma with rotational coherent anti-Stokes Raman scattering (CARS) resolved with a virtually imaged phased array (VIPA)-based spectrometer. A VIPA spectrally separates rotational transitions for each vibrational state, allowing vibrational populations to be directly measured. VIPA-CARS is shown to provide more accurate measurements of non-equilibrium temperatures than grating-resolved rotational CARS. The general characteristics, limitations, and potential uses of VIPA-CARS are discussed.
+
+### 2022 — Gas detection sensitivity of hybrid fs/ps and fs/ns CARS
+*Optics Letters · 5 citations*
+Authors: Scott A. Steinmetz, Christopher J. Kliewer
+
+. The possible benefit of fs/nanosecond (ns) hybrid CARS is also discussed.
+
+### 2022 — Gas-Phase Hydrogen-Atom Measurement above Catalytic and Noncatalytic Materials during Ethane Dehydrogenation
+*The Journal of Physical Chemistry C · 11 citations*
+Authors: Scott A. Steinmetz, Andrew DeLaRiva, Christopher Riley, Paul E. Schrader, Abhaya K. Datye, Erik David Spoerke, Christopher J. Kliewer
+
+The role of a solid surface for initiating gas-phase reactions is still not well understood. The hydrogen atom (H) is an important intermediate in gas-phase ethane dehydrogenation and is known to interact with surface sites on catalysts. However, direct measurements of H near catalytic surfaces have not yet been reported. Here, we present the first H measurements by laser-induced fluorescence in the gas-phase above catalytic and noncatalytic surfaces. Measurements at temperatures up to 700 °C show H concentrations to be at the highest above inert quartz surfaces compared to stainless steel and a platinum-based catalyst. Additionally, H concentrations above the catalyst decreased rapidly with time on stream. These newly obtained observations are consistent with the recently reported differences in bulk ethane dehydrogenation reactivity of these materials, suggesting H may be a good reporter for dehydrogenation activity.

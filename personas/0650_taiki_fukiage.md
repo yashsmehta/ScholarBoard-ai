@@ -29,6 +29,11 @@ Authors: Yuki Kubota, Taiki Fukiage
 
 Human 3D vision from monocular 2D inputs is characterized by systematic distortions, such as distance compression and viewpoint-dependent affine shifts. We conducted a large-scale psychophysical comparison between human depth perception and 64 diverse DNN architectures using a novel human-annotated dataset of natural indoor scenes. By applying an exponential-affine error decomposition framework, we found that both humans and highly accurate DNNs exhibit consistent biases, including depth compression and vertical visual field priors. Strikingly, the correlation between a model's depth estimation accuracy and its similarity to human error patterns suggests a convergence toward human-like heuristics as models improve. However, significant differences remain in ordinal depth perception within affine-invariant spaces, suggesting that DNNs may prioritize metric accuracy over the structural relationships preserved in biological vision.
 
+### 2025 — BrickDisplay: Large, Protruding 3D Image Presentation From Multiple Non-Aligned Monitors With Perceptual Transparency
+Authors: Yuri Mikawa, Taiki Fukiage
+
+We propose BrickDisplay, a system that presents large 3D images to seemingly protrude over multiple, non-aligned heterogeneous monitors using affordable, lightweight 3D glasses. Unlike conventional methods, which require aligning multiple homogeneous monitors and restrict 3D content to appear behind them due to bezel occlusion, BrickDisplay enables 3D images to appear in front of and extend beyond the physical gaps and bezels caused by irregular monitor placement. We achieve this by leveraging perceptual transparency (PT)—a visual illusion introduced by appropriately designing the image luminance that makes the content appear semi-transparent and visually override physical obstructions. This approach allows flexible monitor placement without sacrificing the sense of depth. As a result, any available monitors can be assembled to create large-scale, immersive 3D visual experiences with minimal cost and effort.
+
 ### 2024 — Low-Latency Ocular Parallax Rendering and Investigation of Its Effect on Depth Perception in Virtual Reality
 *IEEE Transactions on Visualization and Computer Graphics*
 Authors: Yuri Mikawa, Taiki Fukiage

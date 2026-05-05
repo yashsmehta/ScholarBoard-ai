@@ -24,6 +24,18 @@ Authors: Shin'ya Nishida, Masataka Sawayama
 
 This research chapter provides a comprehensive synthesis of human Shitsukan (material and quality) perception, focusing on the computational and psychophysical mechanisms used to estimate properties like gloss, wetness, and translucency. The authors argue that the estimation of these physical attributes is an inherently ill-posed problem because image formation depends on the nonlinear interplay of geometry, illumination, and material. They propose that the human visual system circumvents these complexities by relying on diagnostic image statistics and intensity gradient information rather than full physical reconstruction. The work reviews evidence for how different layers of the visual hierarchy—from early luminance histograms to higher-level semantic understanding—contribute to our robust experience of material qualities in natural environments.
 
+### 2026 — From visual appearance to material categories
+*PsyArXiv (OSF Preprints)*
+Authors: Masataka Sawayama, Jacob R. Cheeseman, Chenxi Liao, Bei Xiao, Roland W. Fleming, Filipp Schmidt
+
+Materials from distinct categories share common image features but also exhibit unique characteristics. How do humans recognize materials despite their enormous appearance variations? Using generative neural networks, we create both prototypical and ambiguous materials that morph between categories. To capture the richness of material representation, we characterize how people judge materials using cross-material morphs through three behavioral tasks: material categorization, material property rating, and visual similarity judgment. We find that morphing smoothly modulates perceptual scales of material appearance. Despite this smooth variation, participants can reliably identify the prototypical materials within given appearance ranges, indicating a strong association between material categories and their visual characteristics. Material properties structure the perceptual space, where the salient dimensions--particularly rigidity--strongly correlate with perceived material categories. In contrast, analyzing image embedding derived from a self-supervised deep learning model reveals that learning visual similarities alone is insufficient to reproduce human perceptual space of materials. Together, our results suggest that material representation is more than visual similarities and may require learning material properties that structure relationships among materials within and across categories. Visual features might be used flexibly and task-dependently to support multiple levels of material perception, ranging from discrimination to material property inference to categorization.
+
+### 2026 — MAME experiment data
+*OSF Preprints (OSF Preprints)*
+Authors: Masataka Sawayama
+
+Experiment data and analysis data of MAME project. Kamao, M., Ono, H., Yamashita, A., Amano, K., &amp; Sawayama, M. (2025). MAME: Multidimensional Adaptive Metamer Exploration with Human Perceptual Feedback. arXiv preprint arXiv:2503.13212.
+
 ### 2025 — Revisiting Color Efficient Coding through Material Perception
 *bioRxiv*
 Authors: Masataka Sawayama

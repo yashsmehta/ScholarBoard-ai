@@ -18,6 +18,12 @@ Jiahui Guo is an Assistant Professor at The University of Texas at Dallas whose 
 
 ## Papers
 
+### 2026 — Predicting Individualized Functional Topography in Developmental Prosopagnosia
+*bioRxiv (Cold Spring Harbor Laboratory)*
+Authors: Ian Abenes, Guo Jiahui
+
+Abstract Functional localizer scans have long served as the classic method for mapping individualized functional topographies, but they require dedicated scan time and can be difficult to implement in neuropsychological populations. Previous work has shown that individualized functional topographies can be estimated with high fidelity in typical participants using hyperalignment, but it remains unknown whether this approach generalizes to populations with functional deficits. Here, we tested this question in developmental prosopagnosia (DP), a neuropsychological condition characterized by severe face recognition impairments. Using two independent datasets that included both DP and control participants, we estimated individualized category-selective functional topographies from independent participants using hyperalignment derived from either a task-based scan or a naturalistic movie-viewing scan. Across datasets, whole-brain correlations and searchlight analyses showed that predicted topographies were highly similar to topographies estimated from participants’ own localizer data, especially in cortical areas with strong category-selective responses. Hyperalignment successfully recovered idiosyncratic features of category-selective topographies and consistently outperformed anatomical alignment. Importantly, predictions generalized across groups, such that individualized topographies in DPs could be estimated from control participants and vice versa. In addition, predicted topographies preserved the reduced face selectivity in DPs previously reported in the literature. These findings support a hyperalignment-based framework for estimating individualized functional topographies in neuropsychological populations without requiring separate localizer scans, and provide a foundation for integrating existing datasets to study the underlying neural basis in DP and other atypical populations.
+
 ### 2024 — Shared connectome and organization in the human cortex irrespective of sensory experience
 *Cognitive Computational Neuroscience (CCN)*
 Authors: Jiahui Guo, Francesca Setti, Ma Feilong, Davide Bottari, Maria Ida Gobbini, Pietro Pietrini, Emiliano Ricciardi, James V. Haxby

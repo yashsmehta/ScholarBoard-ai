@@ -19,6 +19,16 @@ REMOTE_SCHOLARS_JSON = "https://yashsmehta.com/scholarboard/data/build/scholars.
 OUTPUT_DIR = PROJECT_ROOT / "personas"
 TARGET_SUBFIELD = "Brain-AI Alignment"
 MAX_PERSONAS = 100
+NAME_CORRECTIONS = {
+    "Grabriel Kreiman": "Gabriel Kreiman",
+}
+ABSTRACT_FIXUPS = [
+    ("commonRelational", "common relational"),
+]
+FIRST_LAST_FILTER_IDS = {"0356", "0462", "0691", "0724"}
+CANONICAL_DUPLICATE_IDS = {
+    "0557": "0491",
+}
 
 
 def is_blank(value: Any) -> bool:
@@ -34,6 +44,20 @@ def clean_text(value: Any) -> str:
     text = re.sub(r"\bprimary_subfield\b", "primary research area", text)
     text = re.sub(r"\bresearch_direction\b", "research direction", text)
     return re.sub(r"[ \t]{2,}", " ", text).strip()
+
+
+def apply_name_correction(name: Any) -> Any:
+    if not isinstance(name, str):
+        return name
+    return NAME_CORRECTIONS.get(name.strip(), name)
+
+
+def apply_abstract_fixups(abstract: Any) -> Any:
+    if not isinstance(abstract, str):
+        return abstract
+    for find, replace in ABSTRACT_FIXUPS:
+        abstract = abstract.replace(find, replace)
+    return abstract
 
 
 def load_scholars() -> dict[str, Any]:
@@ -63,6 +87,22 @@ def name_slug(name: str) -> str:
     return re.sub(r"_+", "_", slug).strip("_")
 
 
+def normalized_for_substring(value: Any) -> str:
+    return re.sub(r"\s+", " ", clean_text(value).lower()).strip()
+
+
+def normalized_name(value: Any) -> str:
+    text = unicodedata.normalize("NFKD", clean_text(value))
+    text = re.sub(r"[^\w\s]", " ", text.lower(), flags=re.ASCII)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def dedup_value(value: Any) -> Any:
+    if is_blank(value):
+        return None
+    return clean_text(value) if isinstance(value, str) else value
+
+
 def scalar(value: Any) -> Any:
     if is_blank(value):
         return None
@@ -88,11 +128,22 @@ def frontmatter_for(scholar: dict[str, Any]) -> dict[str, Any]:
 
 def subhead_for(scholar: dict[str, Any]) -> str:
     area = clean_text(scholar.get("main_research_area"))
-    parts = [
-        clean_text(scholar.get("institution")),
-        clean_text(scholar.get("department")),
-        clean_text(scholar.get("lab_name")),
-    ]
+    institution = clean_text(scholar.get("institution"))
+    department = clean_text(scholar.get("department"))
+    lab_name = clean_text(scholar.get("lab_name"))
+    if (
+        department
+        and institution
+        and normalized_for_substring(department) in normalized_for_substring(institution)
+    ):
+        department = ""
+    if (
+        lab_name
+        and department
+        and normalized_for_substring(lab_name) in normalized_for_substring(department)
+    ):
+        lab_name = ""
+    parts = [institution, department, lab_name]
     affiliation = ", ".join(part for part in parts if part)
     if area and affiliation:
         return f"*{area}* — {affiliation}."
@@ -129,6 +180,80 @@ def sorted_papers(scholar: dict[str, Any]) -> list[dict[str, Any]]:
     )
 
 
+def scholar_last_name(name: Any) -> str:
+    parts = clean_text(name).split()
+    return parts[-1].lower() if parts else ""
+
+
+def first_last_author_matches(scholar: dict[str, Any], paper: dict[str, Any]) -> bool:
+    last_name = scholar_last_name(scholar.get("name"))
+    if not last_name:
+        return False
+    author_entries = [
+        author.strip()
+        for author in authors_text(paper.get("authors")).split(",")
+        if author.strip()
+    ]
+    if not author_entries:
+        return False
+    first_author = author_entries[0].lower()
+    last_author = author_entries[-1].lower()
+    return last_name in first_author or last_name in last_author
+
+
+def prepare_scholar(raw_scholar: dict[str, Any]) -> dict[str, Any]:
+    scholar = dict(raw_scholar)
+    scholar["name"] = apply_name_correction(scholar.get("name"))
+    papers = [dict(paper) for paper in scholar.get("papers") or []]
+    for paper in papers:
+        paper["abstract"] = apply_abstract_fixups(paper.get("abstract"))
+    if clean_text(scholar.get("id")) in FIRST_LAST_FILTER_IDS:
+        papers = [paper for paper in papers if first_last_author_matches(scholar, paper)]
+    scholar["papers"] = papers
+    return scholar
+
+
+def dedup_ranked_matches(
+    matches: list[tuple[dict[str, Any], float]],
+) -> tuple[list[tuple[dict[str, Any], float]], int]:
+    deduped: list[tuple[dict[str, Any], float]] = []
+    seen_name_institution: set[tuple[str, str]] = set()
+    seen_lab_citations: set[tuple[Any, Any, Any]] = set()
+    dropped = 0
+
+    for scholar, score in matches:
+        if clean_text(scholar.get("id")) in CANONICAL_DUPLICATE_IDS:
+            dropped += 1
+            continue
+
+        name_institution_key = (
+            normalized_name(scholar.get("name")),
+            clean_text(scholar.get("institution")).lower(),
+        )
+        lab_citations_key = (
+            dedup_value(scholar.get("institution")),
+            dedup_value(scholar.get("lab_name")),
+            dedup_value(scholar.get("total_citations")),
+        )
+        has_name_institution_key = all(name_institution_key)
+        has_lab_citations_key = all(value is not None for value in lab_citations_key)
+
+        if (
+            has_name_institution_key
+            and name_institution_key in seen_name_institution
+        ) or (has_lab_citations_key and lab_citations_key in seen_lab_citations):
+            dropped += 1
+            continue
+
+        deduped.append((scholar, score))
+        if has_name_institution_key:
+            seen_name_institution.add(name_institution_key)
+        if has_lab_citations_key:
+            seen_lab_citations.add(lab_citations_key)
+
+    return deduped, dropped
+
+
 def paper_markdown(paper: dict[str, Any]) -> str:
     year = clean_text(paper.get("year")) or "Year unknown"
     title = clean_text(paper.get("title")) or "Untitled"
@@ -145,7 +270,7 @@ def paper_markdown(paper: dict[str, Any]) -> str:
     if authors:
         lines.append(f"Authors: {authors}")
 
-    abstract = clean_text(paper.get("abstract")) or "*Abstract unavailable.*"
+    abstract = clean_text(apply_abstract_fixups(paper.get("abstract"))) or "*Abstract unavailable.*"
     lines.extend(["", abstract])
     return "\n".join(lines)
 
@@ -177,8 +302,19 @@ def persona_markdown(scholar: dict[str, Any]) -> str:
 def main() -> int:
     scholars_by_id = load_scholars()
     matches: list[tuple[dict[str, Any], float]] = []
+    filter_kept_ids: set[str] = set()
+    filter_dropped_ids: set[str] = set()
 
-    for scholar in scholars_by_id.values():
+    for raw_scholar in scholars_by_id.values():
+        scholar = prepare_scholar(raw_scholar)
+        scholar_id = clean_text(scholar.get("id"))
+        if scholar_id in FIRST_LAST_FILTER_IDS:
+            if scholar.get("papers"):
+                filter_kept_ids.add(scholar_id)
+            else:
+                filter_dropped_ids.add(scholar_id)
+                continue
+
         score = brain_ai_score(scholar)
         if score is not None:
             matches.append((scholar, score))
@@ -190,9 +326,18 @@ def main() -> int:
             clean_text(item[0].get("name")),
         )
     )
-    top_matches = matches[:MAX_PERSONAS]
+    deduped_matches, dedup_dropped_count = dedup_ranked_matches(matches)
+    top_matches = deduped_matches[:MAX_PERSONAS]
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    intended_paths = {
+        OUTPUT_DIR / f"{clean_text(scholar.get('id'))}_{name_slug(clean_text(scholar.get('name')) or 'unknown_researcher')}.md"
+        for scholar, _score in top_matches
+    }
+    for existing_path in OUTPUT_DIR.glob("*.md"):
+        if existing_path not in intended_paths:
+            existing_path.unlink()
+
     for scholar, _score in top_matches:
         scholar_id = clean_text(scholar.get("id"))
         name = clean_text(scholar.get("name")) or "unknown_researcher"
@@ -203,6 +348,12 @@ def main() -> int:
     min_score = min(scores) if scores else 0
     max_score = max(scores) if scores else 0
     print(f"{TARGET_SUBFIELD} researchers found: {len(matches)}")
+    print(f"Dedup dropped: {dedup_dropped_count}")
+    print(
+        "First/last-author filter: "
+        f"kept {len(filter_kept_ids)} of {len(FIRST_LAST_FILTER_IDS)}, "
+        f"dropped {len(filter_dropped_ids)} (zero matching papers)"
+    )
     print(f"Top-100 score range: {min_score:.4f}..{max_score:.4f}")
     print(f"Files written: {len(top_matches)}")
     print("Output directory: personas/")

@@ -11,7 +11,7 @@ h_index: 52
 
 # Martin A. Giese
 
-*Computational sensomotorics and action perception* — University of Tübingen, Section Computational Sensomotorics, Hertie Institute for Clinical Brain Research, Section Computational Sensomotorics.
+*Computational sensomotorics and action perception* — University of Tübingen, Section Computational Sensomotorics, Hertie Institute for Clinical Brain Research.
 
 ## Background
 

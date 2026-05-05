@@ -9,7 +9,7 @@ main_research_area: human visual perception and media technology
 
 # Taiki Fukiage
 
-*human visual perception and media technology* — NTT Communication Science Laboratories, Human Information Science Laboratory, Sensory Representation Research Group, Sensory Representation Research Group.
+*human visual perception and media technology* — NTT Communication Science Laboratories, Human Information Science Laboratory, Sensory Representation Research Group.
 
 ## Background
 

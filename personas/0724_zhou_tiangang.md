@@ -8,7 +8,7 @@ main_research_area: visual perception and topological structure
 
 # Zhou Tiangang
 
-*visual perception and topological structure* — Chinese Academy of Sciences, State Key Laboratory of Brain and Cognitive Science, State Key Laboratory of Brain and Cognitive Science.
+*visual perception and topological structure* — Chinese Academy of Sciences, State Key Laboratory of Brain and Cognitive Science.
 
 ## Background
 

@@ -1,5 +1,5 @@
 ---
-name: Grabriel Kreiman
+name: Gabriel Kreiman
 institution: Harvard University
 department: Department of Ophthalmology
 lab_name: Kreiman Lab
@@ -8,7 +8,7 @@ total_citations: 24874
 h_index: 50
 ---
 
-# Grabriel Kreiman
+# Gabriel Kreiman
 
 *Computational neuroscience and AI* — Harvard University, Department of Ophthalmology, Kreiman Lab.
 

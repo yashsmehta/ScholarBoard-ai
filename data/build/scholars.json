@@ -167,88 +167,6 @@
     "total_citations": 28703,
     "h_index": 88
   },
-  "0003": {
-    "id": "0003",
-    "name": "A. Webster Michael",
-    "institution": "University of Nevada",
-    "department": "Department of Psychology",
-    "lab_name": "Visual Perception Lab",
-    "lab_url": "https://visionadaptation.com/",
-    "main_research_area": "visual adaptation and perception",
-    "bio": "Webster is a vision scientist who investigates the cognitive and neural processes governing how the human visual system adapts to environmental and internal physiological changes. Their research characterizes the mechanisms of sensory calibration, focusing on how the brain maintains perceptual constancy for color, spatial form, and complex stimuli like faces. By integrating psychophysical methodologies, computational modeling, and natural image statistics, Webster has identified forms of adaptation that indicate coding strategies across the visual hierarchy. Webster currently directs the Center for Integrative Neuroscience and the Visual Perception Lab at the University of Nevada, Reno.",
-    "research_direction": "Dr. Webster has recently been investigating the fundamental representational principles underlying visual perception, with a strong focus on color vision and individual differences. Their recent work explores the spatial and cognitive structure of color processing by examining the warm-cool dimension in uniform color spaces, using EEG frequency-tagging to probe early neural responses to learned object-color associations, and comparing individual differences in perceptual scaling to reveal how hue and motion are distinctively encoded. Beyond basic visual features, they are also studying perceptual variations in higher-level visual judgments, such as how observers differ when categorizing faces. Additionally, Dr. Webster is investigating visual adaptation in applied contexts, specifically examining how prolonged exposure to complex spatial textures alters the perception of distinct modalities of medical images like digital mammograms.",
-    "papers": [
-      {
-        "title": "The warm-cool color dimension aligns with asymmetries in color perception implicit in uniform color spaces",
-        "abstract": "",
-        "year": "2023",
-        "venue": "Journal of Vision",
-        "citations": "1",
-        "authors": "Jake Manalansan, M. Webster",
-        "url": "https://www.semanticscholar.org/paper/19f2ea41b5c82cf79abb9b6867cdf7e364608b40"
-      },
-      {
-        "title": "Fundamentally different representations of color and motion revealed by individual differences in perceptual scaling",
-        "abstract": "Significance The visual attributes of color and motion have often been compared to identify different processing streams within the visual system. Here, we show that the judgments people make about hue and motion direction – in similar tasks – also reveal very different representational principles. Individual differences in perceived motion direction reflect the structure of visual space (e.g., varying in the relative weighting of horizontal and vertical), while variations in hue percepts do not reveal privileged chromatic axes or a global coordinate frame. This distinction may reflect fundamental differences in how information about hue and motion direction are used for vision.",
-        "year": "2023",
-        "venue": "Proceedings of the National Academy of Sciences of the United States of America",
-        "citations": "9",
-        "authors": "Kara J Emery, V. Volbrecht, D. Peterzell, M. Webster",
-        "url": "https://www.semanticscholar.org/paper/2de9673ad663445a1f32de695cfdc305f6ce91a3"
-      },
-      {
-        "title": "Individual differences in judging facial categories",
-        "abstract": "",
-        "year": "2023",
-        "venue": "Journal of Vision",
-        "citations": "0",
-        "authors": "Kassandra R. Lee, M. Webster",
-        "url": "https://www.semanticscholar.org/paper/422dfdf7b80c8a63fcf5a7e61bced3d30baf25e6"
-      },
-      {
-        "title": "Visual adaptation to medical images: a comparison of digital mammography and tomosynthesis",
-        "abstract": "Abstract. Purpose Radiologists and other image readers spend prolonged periods inspecting medical images. The visual system can rapidly adapt or adjust sensitivity to the images that an observer is currently viewing, and previous studies have demonstrated that this can lead to pronounced changes in the perception of mammogram images. We compared these adaptation effects for images from different imaging modalities to explore both general and modality-specific consequences of adaptation in medical image perception. Approach We measured perceptual changes induced by adaptation to images acquired by digital mammography (DM) or digital breast tomosynthesis (DBT), which have both similar and distinct textural properties. Participants (nonradiologists) adapted to images from the same patient acquired from each modality or for different patients with American College of Radiology—Breast Imaging Reporting and Data System (BI-RADS) classification of dense or fatty tissue. The participants then judged the appearance of composite images formed by blending the two adapting images (i.e., DM versus DBT or dense versus fatty in each modality). Results Adaptation to either modality produced similar significant shifts in the perception of dense and fatty textures, reducing the salience of the adapted component in the test images. In side-by-side judgments, a modality-specific adaptation effect was not observed. However, when the images were directly fixated during adaptation and testing, so that the textural differences between the modalities were more visible, significantly different changes in the sensitivity to the noise in the images were observed. Conclusions These results confirm that observers can readily adapt to the visual properties or spatial textures of medical images in ways that can bias their perception of the images, and that adaptation can also be selective for the distinctive visual features of images acquired by different modalities.",
-        "year": "2023",
-        "venue": "Journal of Medical Imaging",
-        "citations": "3",
-        "authors": "M. Parthasarathy, M. Zuley, A. Bandos, C. Abbey, M. Webster",
-        "url": "https://www.semanticscholar.org/paper/436ccc830b08649f363251936343872648439176"
-      },
-      {
-        "title": "Automatic, Early Color-Specific Neural Responses to Object Color Knowledge",
-        "abstract": "Some familiar objects are associated with specific colors, e.g., rubber ducks with yellow. Whether and at what stage neural responses occur to these color associations remain open questions. We recorded frequency-tagged electroencephalogram (EEG) responses to periodic presentations of yellow-associated objects, shown among sequences of non-periodic blue-, red-, and green-associated objects. Both color and grayscale versions of the objects elicited yellow-specific responses, indicating an automatic activation of color knowledge from object shape. Follow-up experiments replicated these effects with green-specific responses, and demonstrated modulated responses for incongruent color/object associations. Importantly, the onset of color-specific responses was as early to grayscale as actually colored stimuli (before 100 ms), the latter additionally eliciting a conventional later response (approximately 140–230 ms) to actual stimulus color. This suggests that the neural representation of familiar objects includes both diagnostic shape and color properties, such that shape can elicit associated color-specific responses before actual color-specific responses occur.",
-        "year": "2023",
-        "venue": "Brain Topography",
-        "citations": "7",
-        "authors": "Talia L. Retter, Yi Gao, Fang Jiang, B. Rossion, M. Webster",
-        "url": "https://www.semanticscholar.org/paper/96ce36403ac4c7a3e7e206b1c0bf7bd5dd66b8cf"
-      }
-    ],
-    "primary_subfield": "Color Vision & Appearance",
-    "subfields": [
-      {
-        "subfield": "Color Vision & Appearance",
-        "score": 0.8862
-      }
-    ],
-    "profile_pic": "a._webster_michael_0003.jpg",
-    "umap_projection": {
-      "x": 8.052536010742188,
-      "y": 4.45628023147583
-    },
-    "suggested_idea": {
-      "research_thread": "Investigating how prior knowledge, individual differences, and short-term visual adaptation dynamically structure and calibrate the perceptual representations of complex visual attributes like color and texture.",
-      "open_question": "While recent EEG work proved that object shape triggers early, automatic color-specific neural responses, it remains an open psychophysical question whether these internally generated top-down signals are functionally robust enough to drive sensory adaptation and recalibrate hue perception.",
-      "title": "Visual adaptation to implied object colors recalibrates low-level hue perception",
-      "hypothesis": "Prolonged visual adaptation to grayscale familiar objects will induce negative chromatic aftereffects in uniform test patches, demonstrating that top-down memory color activations are sufficient to fatigue sensory color channels.",
-      "approach": "Employ a psychophysical adaptation paradigm where observers view rapid sequences of grayscale familiar objects strongly associated with specific colors (e.g., yellow-associated vs. red-associated items). Post-adaptation, use achromatic point adjustment and perceptual hue scaling tasks on uniform patches to measure perceptual shifts. Compare these shifts against control conditions using phase-scrambled grayscale versions of the objects to isolate the semantic shape-to-color contribution.",
-      "scientific_impact": "This would fundamentally alter our understanding of sensory plasticity by proving that internally generated, memory-driven signals can literally adapt low-level visual mechanisms. It would establish that visual recalibration is not strictly feedforward and driven by physical photon catch, but actively incorporates top-down perceptual inferences, refining models of how higher-level object knowledge structures unanchored sensory coordinate spaces.",
-      "why_now": "The recent frequency-tagged EEG demonstration that object-color associations activate extremely early (before 100 ms)—overlapping temporally with early visual cortical processing—provides the critical new mechanistic rationale that these top-down signals can interact directly with low-level sensory adaptation machinery."
-    },
-    "cluster": 0,
-    "total_citations": 11506,
-    "h_index": 50
-  },
   "0004": {
     "id": "0004",
     "name": "Aaron Schurger",
@@ -2761,7 +2679,7 @@
   },
   "0047": {
     "id": "0047",
-    "name": "Anna C Nobre",
+    "name": "Anna C. Nobre",
     "institution": "Yale University",
     "department": "Department of Psychology",
     "lab_name": "Brain & Cognition Lab",
@@ -2814,6 +2732,33 @@
         "citations": "13",
         "authors": "Daniela Gresch, Sage E.P. Boettcher, Chetan Gohil, Freek van Ede, Anna C. Nobre",
         "url": "https://doi.org/10.1073/pnas.2406061121"
+      },
+      {
+        "title": "Sensory and motor contents are prioritized dynamically in working memory",
+        "abstract": "This research utilized electroencephalography (EEG) to examine how internal selective attention independently prioritizes sensory (spatial location) and motor (action plan) attributes within working-memory representations. By orthogonally manipulating the temporal expectations of when an item's location versus its associated motor response would become relevant, the study tracked neural signatures of prioritization. Results demonstrated that lateralization of posterior alpha-band (8–12 Hz) oscillations indexed the selection of sensory locations, while central mu/beta-band (8–30 Hz) activity tracked the preparation of prospective motor responses. Critically, these modulatory dynamics were temporally uncoupled and dissociable, revealing that the brain employs distinct, feature-specific attentional channels to dynamically prepare different aspects of internal representations for adaptive behavior.",
+        "year": "2025",
+        "venue": "PLOS Biology",
+        "citations": "0",
+        "authors": "Irene Echeverria-Altuna, Sage E. P. Boettcher, Freek van Ede, Anna C. Nobre",
+        "url": "https://doi.org/10.1371/journal.pbio.3003273"
+      },
+      {
+        "title": "Neural signatures of flexible temporal orienting under spatial and motor uncertainty",
+        "abstract": "Using EEG, this study investigated how the brain utilizes temporal expectations to guide goal-directed selection when spatial locations and motor requirements are unpredictable. Participants identified task-relevant targets within concurrent, high-frequency visual streams based on color cues, with temporal predictability (early vs. late onset) manipulated independently. Analysis of event-related potentials (ERPs) revealed that target relevance modulated early selection (N2pc) and motor preparation (LRP) components, whereas the P300 amplitude was specifically and additionaly modulated by temporal predictability. These findings demonstrate that temporal attention can facilitate stimulus processing at multiple levels—ranging from sensory selection to late decision-related evidence accumulation—independently of concomitant spatial or motor certainty in dynamic environments.",
+        "year": "2025",
+        "venue": "bioRxiv",
+        "citations": "0",
+        "authors": "Yi Gao, Irene Echeverria-Altuna, Sage E. P. Boettcher, Anna C. Nobre",
+        "url": "https://doi.org/10.1101/2025.04.03.646700"
+      },
+      {
+        "title": "Comparing the impact of contextual associations and statistical regularities in visual search and attention orienting",
+        "abstract": "The study contrasted the efficacy of scene-specific spatial contextual associations and generalized, rule-like statistical regularities in guiding attentional allocation during visual search. In a series of experiments using naturalistic scenes, participants incidentally learned target locations based on either consistent local contexts or broader spatial rules. Results indicated that while both forms of memory facilitation successfully biased attention, they operated over distinct temporal courses. Furthermore, the degree to which these learned associations enhanced explicit memory-recall performance was highly dependent on the congruency between the encoding regularities and the specific retrieval requirements. The data support a dual-process model where complementary learning systems—putatively hippocampal for context and striato-cortical for statistical rules—differentially modulate neural processing and behavioral outcomes.",
+        "year": "2024",
+        "venue": "PLOS One",
+        "citations": "0",
+        "authors": "Marcus Sefranek, Nahid Zokaei, Dejan Draschkow, Anna C. Nobre",
+        "url": "https://doi.org/10.1371/journal.pone.0302751"
       }
     ],
     "primary_subfield": "Visual Working Memory",
@@ -4668,6 +4613,15 @@
         "citations": "2",
         "authors": "Thorsten Hansen, Bevil R. Conway",
         "url": "https://doi.org/10.1167/jov.24.5.1"
+      },
+      {
+        "title": "Art, Intuition, and Identity in Ramón y Cajal",
+        "abstract": "This article evaluates the role of Santiago Ramón y Cajal's artistic intuition and visual language in establishing the foundations of modern systems neuroscience. By analyzing Cajal's use of specific visual syntax—most notably the inclusion of arrows to indicate the direction of information flow in schematics of the hippocampus and spinal cord—the authors illustrate how his intuitive framework for 'functional anatomy' preceded and informed quantitative discoveries in the somatomotor and visual systems. The work argues that Cajal’s ability to translate static histological specimens into dynamic models of neural circuitry was a critical catalyst for the development of our modern understanding of the brain as a complex communication network.",
+        "year": "2024",
+        "venue": "The Neuroscientist",
+        "citations": "0",
+        "authors": "Dawn Hunter, Javier DeFelipe, Arpan R. Mehta, Bevil R. Conway",
+        "url": "https://doi.org/10.1177/10738584241234049"
       }
     ],
     "primary_subfield": "Color Vision & Appearance",
@@ -4964,70 +4918,6 @@
     "cluster": 0,
     "total_citations": 452,
     "h_index": 10
-  },
-  "0088": {
-    "id": "0088",
-    "name": "Boutet Isabelle",
-    "institution": "University of Ottawa",
-    "department": "School of Psychology",
-    "lab_name": "SCOPE Lab",
-    "lab_url": "https://www.boutetscopelab.com/",
-    "main_research_area": "Face perception and social cognition",
-    "bio": "Boutet is an Assistant Professor in the School of Psychology at the University of Ottawa and the Principal Investigator of the Social Cognition and Perception (SCOPE) Lab. Boutet’s research investigates the cognitive and neural mechanisms involved in analyzing social cues, specifically focusing on how face perception and emotion recognition develop and change across the lifespan. Utilizing eye-tracking, EEG, and behavioral psychophysics, Boutet examines the impact of social categorization on visual processing and facial scanning patterns. Their recent work explores how emojis serve as non-verbal proxies for facial expressions to convey social traits and emotional states in virtual environments.",
-    "research_direction": "Dr. Boutet has recently been investigating affective processing and social perception, focusing on how individuals recognize and interpret emotional cues across different demographics and media. Their recent work explores the behavioral and visual mechanisms underlying emotion recognition, utilizing eye-tracking to examine how aging influences visual scanning strategies during facial expression decoding, while also meta-analytically quantifying how stimulus modality and participant sex moderate affective processing. In the domain of digital communication, they are investigating how nonverbal visual signals—specifically the valence and text-congruence of emojis—modulate social attributions of professional competence. Additionally, their research broadens into cognitive evaluation, examining the methodological frameworks of international educational surveys to determine how standardized metrics can better capture diverse, multi-dimensional profiles of student creativity.",
-    "papers": [
-      {
-        "title": "Emojis at Work: The Effects of Emoji Use on Perceptions of Competence and Appropriateness",
-        "abstract": "This research investigates the psychological impact of utilizing facial emojis in professional digital communications, specifically focusing on how emoji valence modulates perceptions of sender competence and communication appropriateness. Across a series of experimental studies involving simulated workplace instant messages, participants evaluated senders based on messages containing congruent or incongruent emoji-text pairings. Findings demonstrate that while positive emojis can enhance perceptions of warmth and approachability in specific contexts, negative emojis significantly degrade perceived competence and are frequently viewed as violations of professional display rules. The results highlight the complex interplay between nonverbal digital cues and social attribution mechanisms in professional settings.",
-        "year": "2026",
-        "venue": "Collabra: Psychology",
-        "citations": "0",
-        "authors": "Erin L. Courtice, Megan Lawrence, Charles A. Collin, Isabelle Boutet",
-        "url": "https://doi.org/10.1525/collabra.147309"
-      },
-      {
-        "title": "Sex differences in the ability to recognise non-verbal displays of emotion: A meta-analysis",
-        "abstract": "This multilevel meta-analysis quantifies the magnitude and moderators of sex differences in humans' proficiency at identifying discrete emotional expressions across visual and auditory modalities. Synthesizing data from over 200 samples and 500 effect sizes, the study evaluates the robust 'female advantage' in emotion recognition. Quantitative analysis reveals a significant, though small-to-moderate, overall performance benefit for females. Crucially, the magnitude of this effect is moderated by variables including the specific emotional category (e.g., negative vs. positive valence), the sex of the individual portraying the emotion, the sensory modality of the stimulus, and the age of the participants, providing a comprehensive framework for understanding biological and social influences on affective processing.",
-        "year": "2025",
-        "venue": "Development and Psychopathology",
-        "citations": "602",
-        "authors": "Erin Leigh Courtice, Megan Lawrence, Collin Charles, Isabelle Boutet",
-        "url": "https://doi.org/10.1017/S095457942400135X"
-      },
-      {
-        "title": "Emotion Processing in Late Adulthood: The Effect of Emotional Valence and Face Age on Behavior and Scanning Patterns",
-        "abstract": "This investigation examines age-related changes in facial expression recognition and visual scanning strategies, specifically testing the 'positivity effect' and 'own-age bias' across three experiments. Utilizing a novel stimulus set of younger and older models, the study recorded recognition accuracy and visual fixation patterns (gaze behavior) in younger and older adult cohorts. Results indicate that while older adults exhibit reduced accuracy in decoding negative emotions compared to younger adults, their gaze behavior—characterized by a preference for the eye region—remains remarkably similar to younger counterparts. The findings suggest that age-related deficits in emotion recognition are not primarily driven by shifted scanning strategies but may reflect changes in the underlying cognitive-evaluative processing of stimulus valence.",
-        "year": "2025",
-        "venue": "Behavioral Sciences",
-        "citations": "1",
-        "authors": "Bozana Meinhardt-Injac, Nicole Altvater-Mackensen, Alexandra Mohs, Jean-Christophe Goulet-Pelletier, Isabelle Boutet",
-        "url": "https://doi.org/10.3390/bs15030302"
-      },
-      {
-        "title": "Fostering Creativity Through Education: Lessons From the PISA 2022 Survey",
-        "abstract": "This paper provides a critical commentary on the PISA 2022 international assessment of creative thinking, which evaluated the generative and evaluative abilities of over 140,000 students across 60 countries. The authors analyze the methodological framework used to derive global creative thinking scores and identify significant limitations, particularly the tendency of aggregate scores to obscure individual profiles of creative strengths and weaknesses. By positioning the PISA results within broader cognitive space theories, the research explores how educational systems can better foster personally meaningful goals and self-expression. The findings suggest a need for more nuanced metrics that capture the diverse dimensions of creativity beyond standard divergent thinking tasks.",
-        "year": "2025",
-        "venue": "The Journal of Creative Behavior",
-        "citations": "0",
-        "authors": "Jean-Christophe Goulet-Pelletier, Ophélie A. Collet, Paul T. Sowden, Sylvana M. Côté, Isabelle Boutet",
-        "url": "https://doi.org/10.1002/jocb.700"
-      }
-    ],
-    "primary_subfield": "Face Perception & Social Vision",
-    "subfields": [
-      {
-        "subfield": "Face Perception & Social Vision",
-        "score": 0.8618
-      }
-    ],
-    "profile_pic": "boutet_isabelle_0088.jpg",
-    "umap_projection": {
-      "x": 10.17212200164795,
-      "y": 2.1135003566741943
-    },
-    "cluster": 0,
-    "total_citations": 3171,
-    "h_index": 30
   },
   "0090": {
     "id": "0090",
@@ -5867,74 +5757,6 @@
     "total_citations": 34007,
     "h_index": 97
   },
-  "0103": {
-    "id": "0103",
-    "name": "Buetti Simona",
-    "institution": "University of Illinois Urbana-Champaign",
-    "department": "Department of Psychology",
-    "lab_name": "The Vision Lab",
-    "lab_url": "https://publish.illinois.edu/visionlab/",
-    "main_research_area": "visual attention and perception",
-    "bio": "Simona Buetti is a Research Associate Professor at the University of Illinois Urbana-Champaign who examines the mechanisms of human visual attention. Buetti's research investigates the computational principles of visual search, specifically how target-distractor distinctiveness and item similarity affect the efficiency of parallel processing. Using behavioral psychophysics, eye-tracking, and computational modeling, Buetti developed theories that characterize search performance through logarithmic reaction-time functions. Their work includes the development of the Template Contrast and Saliency (TCAS) Toolbox for scene evaluation and studies on how multiple feature dimensions integrate to guide goal-directed search.",
-    "research_direction": "Dr. Buetti has recently been investigating the computational and cognitive mechanisms that guide attention during parallel visual search. Their recent work explores how distinct target features—such as color, shape, and texture—are integrated and dynamically weighted to compute multidimensional target distinctiveness. Alongside this feature-combination research, they are using eye-tracking paradigms in pseudo-realistic environments to examine the temporal dynamics and competitive interplay between top-down search templates and bottom-up stimulus salience. Furthermore, Dr. Buetti evaluates computational models to precisely quantify how top-down instructions and perceptual similarity between targets and distractors influence overall search efficiency and evidence accumulation.",
-    "papers": [
-      {
-        "title": "Toward a better understanding of target distinctiveness in visual search: How color, shape, and texture information combine to guide search",
-        "abstract": "This study employs a behavioral-computational framework to elucidate the integration rules for target distinctiveness across color, shape, and texture dimensions during tridimensional visual search. By deriving performance parameters from unidimensional search tasks—where targets differ from distractors along a single feature dimension—the authors test predictive models for tridimensional search performance. The findings indicate that distinctiveness signals from individual dimensions combine in a weighted orthogonal manner, with attentional weights adjusted dynamically based on the relative signal strength of each dimension. This research extends previous bidimensional combination rules and establishes a comprehensive metric for multidimensional attentional guidance.",
-        "year": "2026",
-        "venue": "Journal of Experimental Psychology: General",
-        "citations": "2",
-        "authors": "Zoe Jing Xu, Alejandro Lleras, Simona Buetti",
-        "url": "https://doi.org/10.1037/xge0001712"
-      },
-      {
-        "title": "Evaluating the contributions of top-down and bottom-up processing on eye movements during parallel visual search",
-        "abstract": "This investigation utilizes an eye-tracking paradigm in a pseudo-realistic environment to analyze the temporal dynamics of top-down and bottom-up influences during parallel search tasks. By manipulating target-distractor similarity and the presence of high-salience singletons, the authors compare first-fixation selectivity across free-viewing and goal-directed search conditions. Results indicate that initial saccades are strongly biased toward bottom-up salience in free-viewing conditions, but this bias is significantly attenuated by top-down templates in search tasks. Furthermore, the likelihood of first-fixation selectivity for the target increases as a function of saccade latency, illustrating the time course of competitive interactions between stimulus-driven and goal-driven attentional mechanisms.",
-        "year": "2026",
-        "venue": "Attention, Perception, & Psychophysics",
-        "citations": "1",
-        "authors": "Howard Jia He Tan, Alejandro Lleras, Zoe Jing Xu, Yifan Ding, Simona Buetti",
-        "url": "https://doi.org/10.3758/s13414-025-03199-z"
-      },
-      {
-        "title": "Quantifying the relationship between search efficiency and perceptual similarity in color space across different efficient search tasks",
-        "abstract": "The research evaluates three computational models—the Universal Law of Generalization (ULG) and two versions of Target-Contrast Signal Theory (TCST)—to define the functional relationship between perceptual distance in color space and parallel search efficiency. Across multiple experiments using cortically magnified stimuli to equate visual processing times across eccentricities, the authors found that when the distractor color is unpredictable, logarithmic search efficiency is best characterized as an inverse function of the perceptual distance (delta E) between the target template and distractors. The results suggest that the 'target-distractor contrast' signal, derived from top-down template matching, serves as the primary determinant of evidence accumulation rates in Stage 1 exhaustive processing.",
-        "year": "2025",
-        "venue": "Journal of Experimental Psychology: Human Perception and Performance",
-        "citations": "0",
-        "authors": "Alejandro Lleras, Zoe Jing Xu, Howard Jia He Tan, Yujie Shao, Simona Buetti",
-        "url": "https://doi.org/10.1037/xhp0001327"
-      },
-      {
-        "title": "Top-down instructions influence the attentional weight on color and shape dimensions during bidimensional search",
-        "abstract": "Investigating the cognitive flexibility of parallel visual processing, this research quantifies how top-down goal-oriented instructions modulate attentional weights across separable feature dimensions. Using a bidimensional search paradigm involving color and shape features, the authors demonstrate that instructions to prioritize a specific feature dimension lead to a significant shift in the city-block metric of signal combination. Specifically, the weight of the targeted dimension increases while reliance on the non-targeted dimension decreases, establish a mechanism for the goal-driven modulation of parallel search architectures. This finding provides evidence against purely bottom-up accounts of multidimensional feature integration in efficient visual search.",
-        "year": "2024",
-        "venue": "Scientific Reports",
-        "citations": "2",
-        "authors": "Zoe Jing Xu, Alejandro Lleras, Zixu Gavin Gong, Simona Buetti",
-        "url": "https://doi.org/10.1038/s41598-024-82866-x"
-      }
-    ],
-    "primary_subfield": "Visual Search & Foraging",
-    "subfields": [
-      {
-        "subfield": "Visual Search & Foraging",
-        "score": 0.8971
-      },
-      {
-        "subfield": "Attention & Selection",
-        "score": 0.8907
-      }
-    ],
-    "profile_pic": "buetti_simona_0103.jpg",
-    "umap_projection": {
-      "x": 10.867106437683105,
-      "y": 2.8536617755889893
-    },
-    "cluster": 0,
-    "total_citations": 1112,
-    "h_index": 20
-  },
   "0104": {
     "id": "0104",
     "name": "Carlos Ponce",
@@ -6393,6 +6215,15 @@
         "citations": "0",
         "authors": "Hyun-Woong Kim, Minsun Park, Yune Sang Lee, Chai-Youn Kim",
         "url": "https://doi.org/10.1016/j.concog.2024.103709"
+      },
+      {
+        "title": "A Review of Empirical Aesthetics on Aesthetic Preferences: with a Focus on Artwork, Beholder, and their Interaction",
+        "abstract": "This review paper examines the historical and contemporary trajectories of research in empirical aesthetics, focusing on the dynamic relationship between artwork properties and observer characteristics. The authors critique traditional models that emphasize universal aesthetic principles, advocating instead for an interactionist perspective where preference emerges from the interplay between stimulus features and individual psychological variables. A significant portion of the review addresses the gap in current literature concerning early perceptual processes, noting that most existing models focus on late-stage cognitive evaluations. The paper synthesizes recent empirical work on variables such as visual complexity, familiarity, and the impact of creator attribution (human vs. artificial intelligence) on aesthetic judgments. Finally, the authors propose a new framework that integrates low-level sensory processing and neural dynamics into models of aesthetic appreciation to provide a more comprehensive understanding of human preference.",
+        "year": "2024",
+        "venue": "The Korean Journal of Cognitive and Biological Psychology",
+        "citations": "0",
+        "authors": "Jiwon Song, Chai-Youn Kim",
+        "url": "https://doi.org/10.19032/kjcbp.2024.36.1.11"
       }
     ],
     "primary_subfield": "Multisensory Integration",
@@ -16324,6 +16155,24 @@
         "citations": "65",
         "authors": "Erin L. Courtice, Megan Lawrence, Collin Charles, Isabelle Boutet",
         "url": "https://doi.org/10.3758/s13428-024-02553-w"
+      },
+      {
+        "title": "Sex differences in the ability to recognise non-verbal displays of emotion: A meta-analysis",
+        "abstract": "This multilevel meta-analysis quantifies the magnitude and moderators of sex differences in humans' proficiency at identifying discrete emotional expressions across visual and auditory modalities. Synthesizing data from over 200 samples and 500 effect sizes, the study evaluates the robust 'female advantage' in emotion recognition. Quantitative analysis reveals a significant, though small-to-moderate, overall performance benefit for females. Crucially, the magnitude of this effect is moderated by variables including the specific emotional category (e.g., negative vs. positive valence), the sex of the individual portraying the emotion, the sensory modality of the stimulus, and the age of the participants, providing a comprehensive framework for understanding biological and social influences on affective processing.",
+        "year": "2025",
+        "venue": "Development and Psychopathology",
+        "citations": "602",
+        "authors": "Erin Leigh Courtice, Megan Lawrence, Collin Charles, Isabelle Boutet",
+        "url": "https://doi.org/10.1017/S095457942400135X"
+      },
+      {
+        "title": "Fostering Creativity Through Education: Lessons From the PISA 2022 Survey",
+        "abstract": "This paper provides a critical commentary on the PISA 2022 international assessment of creative thinking, which evaluated the generative and evaluative abilities of over 140,000 students across 60 countries. The authors analyze the methodological framework used to derive global creative thinking scores and identify significant limitations, particularly the tendency of aggregate scores to obscure individual profiles of creative strengths and weaknesses. By positioning the PISA results within broader cognitive space theories, the research explores how educational systems can better foster personally meaningful goals and self-expression. The findings suggest a need for more nuanced metrics that capture the diverse dimensions of creativity beyond standard divergent thinking tasks.",
+        "year": "2025",
+        "venue": "The Journal of Creative Behavior",
+        "citations": "0",
+        "authors": "Jean-Christophe Goulet-Pelletier, Ophélie A. Collet, Paul T. Sowden, Sylvana M. Côté, Isabelle Boutet",
+        "url": "https://doi.org/10.1002/jocb.700"
       }
     ],
     "primary_subfield": "Face Perception & Social Vision",
@@ -21748,168 +21597,6 @@
     "total_citations": 137,
     "h_index": 6
   },
-  "0367": {
-    "id": "0367",
-    "name": "Kia Nobre",
-    "institution": "Yale University",
-    "department": "Department of Psychology",
-    "lab_name": "Brain & Cognition Lab",
-    "lab_url": "https://brainandcognition.org/",
-    "main_research_area": "cognitive neuroscience of attention",
-    "bio": "Kia Nobre is a cognitive neuroscientist who investigates the neural mechanisms of attention, perception, and memory. Nobre’s work established the concept of 'temporal orienting,' demonstrating how the brain generates temporal expectations to prioritize information processing, and they showed that selective attention can be directed within internal working-memory representations. Nobre utilizes a framework that integrates behavioral psychophysics and virtual reality with neuroimaging techniques, including magnetoencephalography (MEG), electroencephalography (EEG), and functional magnetic resonance imaging (fMRI). Currently, Nobre is the Wu Tsai Professor of Psychology at Yale University and Director of the Center for Neurocognition and Behavior, where their research focuses on how memories proactively guide sensory selection to optimize adaptive behavior.",
-    "research_direction": "Dr. Nobre's recent work explores the dynamic interplay between attention, memory, and expectations in guiding perception and action. Using neuroimaging techniques like EEG and MEG, they have recently been investigating how internal selective attention independently prioritizes sensory locations versus motor action plans within working memory, as well as how the brain negotiates attentional shifts between external perceptual streams and internal cognitive states. Their research also examines how temporal predictability guides visual target selection under high spatial uncertainty, and contrasts how distinct forms of implicit memory—such as scene-specific contextual associations versus broad statistical regularities—shape attentional allocation during visual search. Furthermore, they are exploring the intersection of affect and cognition by using remote digital monitoring to determine how mood instability influences the long-term, incidental learning of spatiotemporal regularities over extended periods.",
-    "papers": [
-      {
-        "title": "Implicit learning across varying temporal scales in individuals with and without mood instability",
-        "abstract": "This longitudinal study investigated the nexus between mood instability and the incidental learning of spatiotemporal regularities using digital remote monitoring over a 10-week period. Participants performed a contextual cueing task where target locations were predicted by repeated scene contexts over multiple temporal scales (within-session and across-session/daily). Using MDQ scores to categorize high and low mood instability, findings revealed that while within-session learning rates remained comparable across groups, individuals with high levels of daily mood instability exhibited significantly attenuated learning slopes for regularities integrated across days. These results suggest that affective fluctuations specifically disrupt the long-term mnemonic accumulation and integration of environmental regularities, identifying a transdiagnostic cognitive marker for mood-related dysregulation.",
-        "year": "2025",
-        "venue": "Journal of Affective Disorders",
-        "citations": "0",
-        "authors": "Lauren Z. Atkinson, Nahid Zokaei, Priyanka Panchal, Natalie Nelissen, Kate E. A. Saunders, Matthew F. S. Rushworth, David Darby, John R. Geddes, Catherine J. Harmer, Paul J. Harrison, Anna C. Nobre",
-        "url": "https://doi.org/10.1016/j.jad.2025.120728"
-      },
-      {
-        "title": "Sensory and motor contents are prioritized dynamically in working memory",
-        "abstract": "This research utilized electroencephalography (EEG) to examine how internal selective attention independently prioritizes sensory (spatial location) and motor (action plan) attributes within working-memory representations. By orthogonally manipulating the temporal expectations of when an item's location versus its associated motor response would become relevant, the study tracked neural signatures of prioritization. Results demonstrated that lateralization of posterior alpha-band (8–12 Hz) oscillations indexed the selection of sensory locations, while central mu/beta-band (8–30 Hz) activity tracked the preparation of prospective motor responses. Critically, these modulatory dynamics were temporally uncoupled and dissociable, revealing that the brain employs distinct, feature-specific attentional channels to dynamically prepare different aspects of internal representations for adaptive behavior.",
-        "year": "2025",
-        "venue": "PLOS Biology",
-        "citations": "0",
-        "authors": "Irene Echeverria-Altuna, Sage E. P. Boettcher, Freek van Ede, Anna C. Nobre",
-        "url": "https://doi.org/10.1371/journal.pbio.3003273"
-      },
-      {
-        "title": "Neural signatures of flexible temporal orienting under spatial and motor uncertainty",
-        "abstract": "Using EEG, this study investigated how the brain utilizes temporal expectations to guide goal-directed selection when spatial locations and motor requirements are unpredictable. Participants identified task-relevant targets within concurrent, high-frequency visual streams based on color cues, with temporal predictability (early vs. late onset) manipulated independently. Analysis of event-related potentials (ERPs) revealed that target relevance modulated early selection (N2pc) and motor preparation (LRP) components, whereas the P300 amplitude was specifically and additionaly modulated by temporal predictability. These findings demonstrate that temporal attention can facilitate stimulus processing at multiple levels—ranging from sensory selection to late decision-related evidence accumulation—independently of concomitant spatial or motor certainty in dynamic environments.",
-        "year": "2025",
-        "venue": "bioRxiv",
-        "citations": "0",
-        "authors": "Yi Gao, Irene Echeverria-Altuna, Sage E. P. Boettcher, Anna C. Nobre",
-        "url": "https://doi.org/10.1101/2025.04.03.646700"
-      },
-      {
-        "title": "Comparing the impact of contextual associations and statistical regularities in visual search and attention orienting",
-        "abstract": "The study contrasted the efficacy of scene-specific spatial contextual associations and generalized, rule-like statistical regularities in guiding attentional allocation during visual search. In a series of experiments using naturalistic scenes, participants incidentally learned target locations based on either consistent local contexts or broader spatial rules. Results indicated that while both forms of memory facilitation successfully biased attention, they operated over distinct temporal courses. Furthermore, the degree to which these learned associations enhanced explicit memory-recall performance was highly dependent on the congruency between the encoding regularities and the specific retrieval requirements. The data support a dual-process model where complementary learning systems—putatively hippocampal for context and striato-cortical for statistical rules—differentially modulate neural processing and behavioral outcomes.",
-        "year": "2024",
-        "venue": "PLOS One",
-        "citations": "0",
-        "authors": "Marcus Sefranek, Nahid Zokaei, Dejan Draschkow, Anna C. Nobre",
-        "url": "https://doi.org/10.1371/journal.pone.0302751"
-      },
-      {
-        "title": "Neural dynamics of shifting attention between perception and working-memory contents",
-        "abstract": "This study employed magnetoencephalography (MEG) to delineate the neural dynamics that govern attentional shifts within and between the external (perceptual) and internal (working memory) domains. Using a novel double-cue paradigm, the researchers characterized the patterns of brain activity associated with maintaining focus versus redirecting attention across domains. Multivariate decoding revealed that between-domain shifts are associated with broadly distributed and highly dynamic neural signatures. Intriguingly, crossing between external and internal domains did not delay canonical markers of spatial selection, such as posterior alpha-band lateralization, suggesting that the brain does not require an additional serialized stage to switch domains. Instead, the evidence points toward lingering domain-specific neural states that exert a competitive influence on subsequent attentional re-orienting.",
-        "year": "2024",
-        "venue": "Cognition",
-        "citations": "0",
-        "authors": "Daniela Gresch, Sage E. P. Boettcher, Chetan Gohil, Freek van Ede, Anna C. Nobre",
-        "url": "https://doi.org/10.1016/j.cognition.2024.105731"
-      }
-    ],
-    "primary_subfield": "Visual Working Memory",
-    "subfields": [
-      {
-        "subfield": "Visual Working Memory",
-        "score": 0.8831
-      },
-      {
-        "subfield": "Attention & Selection",
-        "score": 0.8752
-      },
-      {
-        "subfield": "Predictive & Feedback Dynamics",
-        "score": 0.8733
-      }
-    ],
-    "profile_pic": "kia_nobre_0367.jpg",
-    "umap_projection": {
-      "x": 10.365069389343262,
-      "y": 1.0315159559249878
-    },
-    "cluster": 0,
-    "total_citations": 46626,
-    "h_index": 107
-  },
-  "0368": {
-    "id": "0368",
-    "name": "Kim Chai",
-    "institution": "Korea University",
-    "department": "School of Psychology",
-    "lab_name": "Visual Cognitive Neuroscience Lab",
-    "lab_url": "http://vcn.korea.ac.kr",
-    "main_research_area": "multisensory perception and visual cognition",
-    "bio": "Chai-Youn Kim is a Professor at Korea University’s School of Psychology and the director of the Visual Cognitive Neuroscience Lab. Kim’s research examines the neural and psychological mechanisms underlying visual awareness and perception, with a technical focus on phenomena such as binocular rivalry, synesthesia, and neuroaesthetics. Using psychophysical methods and functional magnetic resonance imaging (fMRI), they investigate how multisensory interactions and internal factors modulate visual processing. Kim earned their Ph.D. in Psychology from Vanderbilt University and has conducted research on cross-modal correspondences and the perceptual reality of synesthetic color.",
-    "research_direction": "Dr. Chai has recently been investigating how cross-modal sensory integration and top-down cognitive states influence early visual processing, particularly under conditions of perceptual ambiguity. Using paradigms like binocular rivalry and continuous flash suppression, their recent work explores whether congruent auditory motion or active tactile shape cues can modulate visual mechanisms before stimuli reach conscious awareness. Beyond unconscious multisensory interactions, they are examining high-level visual cognition by modeling how low-level stimulus features and an observer’s prior experiences interact to shape aesthetic preferences. In more applied domains, Dr. Chai also utilizes behavioral and physiological metrics to assess the longitudinal dynamics and oculomotor drivers of cybersickness during prolonged exposure to augmented reality environments.",
-    "papers": [
-      {
-        "title": "Visuotactile object processing in binocular rivalry: The role of shape congruence, voluntary action, and spatial colocalization",
-        "abstract": "This psychophysical investigation examined the influence of visuotactile shape congruence on the resolution of perceptual ambiguity using a binocular rivalry paradigm with three-dimensional (3D) objects. Across four experiments, the researchers manipulated the curvature of 3D-printed tactile stimuli (spiky vs. round) and assessed their impact on the dominance of congruent 3D visual targets. The study specifically investigated the distinct contributions of voluntary motor action (active vs. passive touch) and spatial colocalization (using video recordings of hands to bridge the spatial gap between modalities). Results demonstrated that congruent tactile input significantly biased visual dominance toward the matching 3D shape, an effect that was particularly robust when cues for visuotactile colocalization were present. These findings suggest that cross-modal shape information facilitates visual disambiguation through early-stage multisensory interactions that occur relatively independently of the specific mode of tactile exploration.",
-        "year": "2025",
-        "venue": "Journal of Vision",
-        "citations": "0",
-        "authors": "Seyoon Song, Haeji Shin, Chai-Youn Kim",
-        "url": "https://doi.org/10.1167/jov.25.14.11"
-      },
-      {
-        "title": "Cybersickness in Augmented Reality: Subjective and physiological changes with the course of prolonged exposure",
-        "abstract": "This study conducted a longitudinal evaluation of cybersickness development and dynamics during prolonged (60-minute) exposure to Augmented Reality (AR) environments. The researchers utilized a multi-modal assessment strategy, integrating behavioral performance metrics, physiological signals (respiration pneumogram and electrocardiogram), and subjective reports via the Simulator Sickness Questionnaire (SSQ). Participants were exposed to racing game content at varying speeds to determine the relative impact of exposure duration versus movement velocity. The results revealed that exposure duration was a highly consistent and robust predictor of cybersickness, reflected in both increased SSQ total scores and significantly slower reaction times. Oculomotor and eye-related symptoms were identified as the primary drivers of the temporal accumulation of AR discomfort, while movement speed exerted minimal influence. Furthermore, prior experience with AR technology was found to mitigate symptom severity, highlighting the role of familiarity in managing user experience within AR systems.",
-        "year": "2025",
-        "venue": "Research Square (Preprint)",
-        "citations": "0",
-        "authors": "Zion Park, Seyoon Song, Subin Jeon, Yuyeon Jung, Yeha Cha, Jiyoung Oh, Minsung Jin, Chai-Youn Kim",
-        "url": "https://doi.org/10.21203/rs.3.rs-7182892/v1"
-      },
-      {
-        "title": "Audiovisual interactions outside of visual awareness during motion adaptation",
-        "abstract": "This research explored the capacity for auditory motion to modulate visual motion mechanisms in the absence of conscious visual awareness. Using the visual motion aftereffect (MAE) as a probe for neural adaptation, the researchers employed continuous flash suppression (CFS) to render a translational visual adaptor perceptually invisible during the adaptation phase. Concurrent auditory motion was presented that was either congruent or incongruent with the direction of the suppressed visual motion. Psychophysical testing revealed a statistically significant congruence effect: the duration and initial strength of the subsequent visual MAE were increased when the invisible visual adaptor was accompanied by directionally congruent auditory motion. These findings provide evidence that audiovisual motion integration occurs at a pre-conscious sensory-neural stage of processing, where auditory signals can effectively modulate the response gain of visual motion-selective neurons without requiring explicit awareness of the visual stimulus.",
-        "year": "2024",
-        "venue": "Neuroscience of Consciousness",
-        "citations": "0",
-        "authors": "Minsun Park, Randolph Blake, Chai-Youn Kim",
-        "url": "https://doi.org/10.1093/nc/niad027"
-      },
-      {
-        "title": "Prior conscious experience modulates the impact of audiovisual temporal correspondence on unconscious visual processing",
-        "abstract": "This study investigated whether the facilitatory effect of audiovisual temporal correspondence on the processing of suppressed visual information is contingent upon previous conscious experience with the stimuli. Utilizing a breakthrough-from-suppression paradigm under continuous flash suppression (CFS), the researchers assessed the detection of masked visual scenes when accompanied by temporally aligned or misaligned auditory signals. The experimental design compared pairs of audiovisual stimuli for which participants had established a prior conscious representation versus those that were novel. The results indicated that temporal correspondence facilitated the detection of suppressed visual targets primarily in conditions where participants had prior conscious exposure to the multisensory pairs. This suggests that high-level associations or top-down knowledge derived from conscious awareness can modulate low-level cross-modal integration processes, effectively tuning the brain's ability to extract information from the environment during periods of visual suppression.",
-        "year": "2024",
-        "venue": "Consciousness and Cognition",
-        "citations": "0",
-        "authors": "Hyun-Woong Kim, Minsun Park, Yune Sang Lee, Chai-Youn Kim",
-        "url": "https://doi.org/10.1016/j.concog.2024.103709"
-      },
-      {
-        "title": "A Review of Empirical Aesthetics on Aesthetic Preferences: with a Focus on Artwork, Beholder, and their Interaction",
-        "abstract": "This review paper examines the historical and contemporary trajectories of research in empirical aesthetics, focusing on the dynamic relationship between artwork properties and observer characteristics. The authors critique traditional models that emphasize universal aesthetic principles, advocating instead for an interactionist perspective where preference emerges from the interplay between stimulus features and individual psychological variables. A significant portion of the review addresses the gap in current literature concerning early perceptual processes, noting that most existing models focus on late-stage cognitive evaluations. The paper synthesizes recent empirical work on variables such as visual complexity, familiarity, and the impact of creator attribution (human vs. artificial intelligence) on aesthetic judgments. Finally, the authors propose a new framework that integrates low-level sensory processing and neural dynamics into models of aesthetic appreciation to provide a more comprehensive understanding of human preference.",
-        "year": "2024",
-        "venue": "The Korean Journal of Cognitive and Biological Psychology",
-        "citations": "0",
-        "authors": "Jiwon Song, Chai-Youn Kim",
-        "url": "https://doi.org/10.19032/kjcbp.2024.36.1.11"
-      }
-    ],
-    "primary_subfield": "Multisensory Integration",
-    "subfields": [
-      {
-        "subfield": "Multisensory Integration",
-        "score": 0.8755
-      },
-      {
-        "subfield": "Predictive & Feedback Dynamics",
-        "score": 0.8705
-      },
-      {
-        "subfield": "Attention & Selection",
-        "score": 0.8687
-      }
-    ],
-    "profile_pic": "kim_chai_0368.jpg",
-    "umap_projection": {
-      "x": 7.982277870178223,
-      "y": 3.106548309326172
-    },
-    "cluster": 0,
-    "total_citations": 1729,
-    "h_index": 17
-  },
   "0369": {
     "id": "0369",
     "name": "Kirsten Adam",
@@ -26902,6 +26589,51 @@
         "citations": "0",
         "authors": "Jake Manalansan, Camilla Simoncelli, Michael A. Webster",
         "url": "https://doi.org/10.1364/JOSAA.545307"
+      },
+      {
+        "title": "The warm-cool color dimension aligns with asymmetries in color perception implicit in uniform color spaces",
+        "abstract": "",
+        "year": "2023",
+        "venue": "Journal of Vision",
+        "citations": "1",
+        "authors": "Jake Manalansan, M. Webster",
+        "url": "https://www.semanticscholar.org/paper/19f2ea41b5c82cf79abb9b6867cdf7e364608b40"
+      },
+      {
+        "title": "Fundamentally different representations of color and motion revealed by individual differences in perceptual scaling",
+        "abstract": "Significance The visual attributes of color and motion have often been compared to identify different processing streams within the visual system. Here, we show that the judgments people make about hue and motion direction – in similar tasks – also reveal very different representational principles. Individual differences in perceived motion direction reflect the structure of visual space (e.g., varying in the relative weighting of horizontal and vertical), while variations in hue percepts do not reveal privileged chromatic axes or a global coordinate frame. This distinction may reflect fundamental differences in how information about hue and motion direction are used for vision.",
+        "year": "2023",
+        "venue": "Proceedings of the National Academy of Sciences of the United States of America",
+        "citations": "9",
+        "authors": "Kara J Emery, V. Volbrecht, D. Peterzell, M. Webster",
+        "url": "https://www.semanticscholar.org/paper/2de9673ad663445a1f32de695cfdc305f6ce91a3"
+      },
+      {
+        "title": "Individual differences in judging facial categories",
+        "abstract": "",
+        "year": "2023",
+        "venue": "Journal of Vision",
+        "citations": "0",
+        "authors": "Kassandra R. Lee, M. Webster",
+        "url": "https://www.semanticscholar.org/paper/422dfdf7b80c8a63fcf5a7e61bced3d30baf25e6"
+      },
+      {
+        "title": "Visual adaptation to medical images: a comparison of digital mammography and tomosynthesis",
+        "abstract": "Abstract. Purpose Radiologists and other image readers spend prolonged periods inspecting medical images. The visual system can rapidly adapt or adjust sensitivity to the images that an observer is currently viewing, and previous studies have demonstrated that this can lead to pronounced changes in the perception of mammogram images. We compared these adaptation effects for images from different imaging modalities to explore both general and modality-specific consequences of adaptation in medical image perception. Approach We measured perceptual changes induced by adaptation to images acquired by digital mammography (DM) or digital breast tomosynthesis (DBT), which have both similar and distinct textural properties. Participants (nonradiologists) adapted to images from the same patient acquired from each modality or for different patients with American College of Radiology—Breast Imaging Reporting and Data System (BI-RADS) classification of dense or fatty tissue. The participants then judged the appearance of composite images formed by blending the two adapting images (i.e., DM versus DBT or dense versus fatty in each modality). Results Adaptation to either modality produced similar significant shifts in the perception of dense and fatty textures, reducing the salience of the adapted component in the test images. In side-by-side judgments, a modality-specific adaptation effect was not observed. However, when the images were directly fixated during adaptation and testing, so that the textural differences between the modalities were more visible, significantly different changes in the sensitivity to the noise in the images were observed. Conclusions These results confirm that observers can readily adapt to the visual properties or spatial textures of medical images in ways that can bias their perception of the images, and that adaptation can also be selective for the distinctive visual features of images acquired by different modalities.",
+        "year": "2023",
+        "venue": "Journal of Medical Imaging",
+        "citations": "3",
+        "authors": "M. Parthasarathy, M. Zuley, A. Bandos, C. Abbey, M. Webster",
+        "url": "https://www.semanticscholar.org/paper/436ccc830b08649f363251936343872648439176"
+      },
+      {
+        "title": "Automatic, Early Color-Specific Neural Responses to Object Color Knowledge",
+        "abstract": "Some familiar objects are associated with specific colors, e.g., rubber ducks with yellow. Whether and at what stage neural responses occur to these color associations remain open questions. We recorded frequency-tagged electroencephalogram (EEG) responses to periodic presentations of yellow-associated objects, shown among sequences of non-periodic blue-, red-, and green-associated objects. Both color and grayscale versions of the objects elicited yellow-specific responses, indicating an automatic activation of color knowledge from object shape. Follow-up experiments replicated these effects with green-specific responses, and demonstrated modulated responses for incongruent color/object associations. Importantly, the onset of color-specific responses was as early to grayscale as actually colored stimuli (before 100 ms), the latter additionally eliciting a conventional later response (approximately 140–230 ms) to actual stimulus color. This suggests that the neural representation of familiar objects includes both diagnostic shape and color properties, such that shape can elicit associated color-specific responses before actual color-specific responses occur.",
+        "year": "2023",
+        "venue": "Brain Topography",
+        "citations": "7",
+        "authors": "Talia L. Retter, Yi Gao, Fang Jiang, B. Rossion, M. Webster",
+        "url": "https://www.semanticscholar.org/paper/96ce36403ac4c7a3e7e206b1c0bf7bd5dd66b8cf"
       }
     ],
     "primary_subfield": "Color Vision & Appearance",
@@ -26918,7 +26650,16 @@
     },
     "cluster": 0,
     "total_citations": 11506,
-    "h_index": 50
+    "h_index": 50,
+    "suggested_idea": {
+      "research_thread": "Investigating how prior knowledge, individual differences, and short-term visual adaptation dynamically structure and calibrate the perceptual representations of complex visual attributes like color and texture.",
+      "open_question": "While recent EEG work proved that object shape triggers early, automatic color-specific neural responses, it remains an open psychophysical question whether these internally generated top-down signals are functionally robust enough to drive sensory adaptation and recalibrate hue perception.",
+      "title": "Visual adaptation to implied object colors recalibrates low-level hue perception",
+      "hypothesis": "Prolonged visual adaptation to grayscale familiar objects will induce negative chromatic aftereffects in uniform test patches, demonstrating that top-down memory color activations are sufficient to fatigue sensory color channels.",
+      "approach": "Employ a psychophysical adaptation paradigm where observers view rapid sequences of grayscale familiar objects strongly associated with specific colors (e.g., yellow-associated vs. red-associated items). Post-adaptation, use achromatic point adjustment and perceptual hue scaling tasks on uniform patches to measure perceptual shifts. Compare these shifts against control conditions using phase-scrambled grayscale versions of the objects to isolate the semantic shape-to-color contribution.",
+      "scientific_impact": "This would fundamentally alter our understanding of sensory plasticity by proving that internally generated, memory-driven signals can literally adapt low-level visual mechanisms. It would establish that visual recalibration is not strictly feedforward and driven by physical photon catch, but actively incorporates top-down perceptual inferences, refining models of how higher-level object knowledge structures unanchored sensory coordinate spaces.",
+      "why_now": "The recent frequency-tagged EEG demonstration that object-color associations activate extremely early (before 100 ms)—overlapping temporally with early visual cortical processing—provides the critical new mechanistic rationale that these top-down signals can interact directly with low-level sensory adaptation machinery."
+    }
   },
   "0457": {
     "id": "0457",
@@ -28869,7 +28610,7 @@
   },
   "0491": {
     "id": "0491",
-    "name": "N Apurva Ratan Murty",
+    "name": "N. Apurva Ratan Murty",
     "institution": "Georgia Institute of Technology",
     "department": "School of Psychology",
     "lab_name": "Murty Lab",
@@ -28922,6 +28663,24 @@
         "citations": "0",
         "authors": "Nikolas McNeal, Mainak Deb, Apurva Ratan Murty",
         "url": "https://proceedings.mlr.press/v285/mcneal24a.html"
+      },
+      {
+        "title": "Targeted perturbations reveal brain-like local coding axes in robustified, but not standard, ANN-based brain models",
+        "abstract": "While artificial neural network (ANN)-based encoding models effectively predict neural responses, their reliance on overall predictive accuracy fails to distinguish between models with divergent representational geometries. This research employs small-scale adversarial probes to investigate the local representational manifolds of highly predictive brain models. Findings indicate that standard ANN-based encoding models are significantly fragile, exhibiting sensitivity to imperceptible perturbations and relying on unstable local coding directions that fail to transfer across architectures. In contrast, adversarial probes optimized against robustified models elicit semantically meaningful and generalizable shifts that align with the local coding dimensions of the biological visual system. The study establishes that local representational geometry serves as a more rigorous criterion for neural model evaluation and demonstrates that robust models better capture the underlying principles of neural selectivity.",
+        "year": "2025",
+        "venue": "arXiv",
+        "citations": "0",
+        "authors": "Nikolas McNeal, N. Apurva Ratan Murty",
+        "url": "https://arxiv.org/abs/2509.23333"
+      },
+      {
+        "title": "MOSAIC: A scalable framework for fMRI dataset aggregation and modeling of human vision",
+        "abstract": "Despite the utility of large-scale vision fMRI datasets, practical constraints often limit the number of participants and the diversity of stimuli within individual studies. This paper proposes MOSAIC, a framework designed for the scalable aggregation of functionally diverse fMRI datasets into a common representational space. By standardizing data from multiple sources, MOSAIC allows for the training of vision foundation models that benefit from vastly increased stimulus variety and participant numbers. The framework facilitates the evaluation of model-brain alignment across broad experimental conditions and enables the development of robust, cross-participant encoding models. This approach addresses current bottlenecks in cognitive computational neuroscience by providing a path toward foundation models of human visual representation.",
+        "year": "2025",
+        "venue": "bioRxiv",
+        "citations": "0",
+        "authors": "Benjamin Lahner, Mayukh Deb, N. Apurva Ratan Murty, Aude Oliva",
+        "url": "https://doi.org/10.1101/2025.12.18.629198"
       }
     ],
     "primary_subfield": "Brain-AI Alignment",
@@ -31947,91 +31706,6 @@
     "total_citations": 2477,
     "h_index": 26
   },
-  "0549": {
-    "id": "0549",
-    "name": "R. Conway Bevil",
-    "institution": "National Institutes of Health",
-    "department": "Laboratory of Sensorimotor Research",
-    "lab_name": "Sensation, Cognition, and Action Section",
-    "lab_url": "https://www.nei.nih.gov/research/research-labs-and-branches/laboratory-sensorimotor-research/section-perception-cognition-action",
-    "main_research_area": "color vision and cognitive neuroscience",
-    "bio": "Bevil is a Senior Investigator and Chief of the Sensation, Cognition, and Action Section at the National Eye Institute. Their research employs color as a model system to investigate the neural transformations that bridge physical sensory signals with cognitive processes such as categorization, memory, and emotion. Using comparative fMRI and neurophysiology in humans and macaques, Bevil has mapped the functional organization of the ventral visual stream, identifying specialized domains for faces, places, and colors. Their work also examines the evolution of color naming across cultures and the physiological constraints that influence visual art.",
-    "research_direction": "Dr. Conway Bevil has recently been investigating how color and object concepts are processed across the visual hierarchy, utilizing behavioral match-to-sample paradigms and whole-brain fMRI in macaque monkeys. Their recent work explores both the functional parcellation of early retinotopic visual areas based on spatial frequency and chromaticity, as well as the neural substrates in higher-level regions—such as the temporal pole and prefrontal cortex—that support the mental maintenance of color-shape conjunctions. Broadening this inquiry into how higher-order cognition shapes visual representation, they are also studying whether innate neurobiological constraints or linguistic frameworks drive the formation of consensus color categories. Beyond experimental neurophysiology, their research examines the intersection of perception and art by quantitatively comparing the \"memory color\" effect in historical still life paintings versus calibrated photographs, and by evaluating how Santiago Ramón y Cajal’s artistic syntax helped inform the foundational models of systems neuroscience.",
-    "papers": [
-      {
-        "title": "The origin of color categories",
-        "abstract": "This study investigates the necessity of linguistic frameworks in the formation of color concepts by testing macaque monkeys (Macaca mulatta) in a match-to-sample paradigm previously used with humans. Utilizing computational simulations to model choice biases and account for potential non-uniformities in CIELUV color space, the researchers demonstrate that while humans exhibit robust consensus color categories, macaques do not. Although one monkey displayed evidence of an individualized, 'private' color category, the lack of inter-subject consensus suggests that the universal color categorization observed in humans likely emerges from linguistic or higher-order cognitive processes rather than innate neurobiological constraints of the visual system.",
-        "year": "2025",
-        "venue": "Proceedings of the National Academy of Sciences (PNAS)",
-        "citations": "0",
-        "authors": "Daniel J. Garside, Audrey L. Y. Chang, Hannah M. Selwyn, Bevil R. Conway",
-        "url": "https://doi.org/10.1073/pnas.2400273121"
-      },
-      {
-        "title": "Color and Spatial Frequency Provide Functional Signatures of Retinotopic Visual Areas",
-        "abstract": "Primate retinotopic cortical organization (V1, V2, V3, V4) is traditionally defined by eccentricity and visual field representations. This research employs fMRI in macaque monkeys to identify functional signatures within these parcels using responses to gratings that vary in chromaticity, saturation, and spatial frequency. By developing a Sparse Supervised Embedding (SSE) dimensionality-reduction framework, the authors demonstrate that voxels can be parcellated based on unique multivariate stimulus features: posterior areas (V1-V2) show heightened sensitivity to contrast and saturation at low spatial frequencies, while ventral areas exhibit preferential responses to color over luminance, particularly along the Daylight (orange-blue) axis in cone-opponent space. The increasing dorsal-ventral asymmetry along the visual hierarchy provides a data-driven model for the specialized computational roles of early retinotopic areas.",
-        "year": "2025",
-        "venue": "Journal of Neuroscience",
-        "citations": "0",
-        "authors": "Spencer R. Loggia, Stuart J. Duffield, Kurt Braunlich, Bevil R. Conway",
-        "url": "https://doi.org/10.1523/JNEUROSCI.1673-23.2024"
-      },
-      {
-        "title": "The representation of object concepts across the brain",
-        "abstract": "This work explores the neural substrates of concrete object concepts by training macaque monkeys to associate specific color and shape primitives over several years. Using a whole-brain fMRI searchlight analysis during tasks requiring the mental maintenance of one feature cued by another, the study identifies cross-feature decoding of color and shape conjunctions. While such representations are absent in early retinotopic cortex, they are localized bilaterally in the temporal pole (TP), anterior inferior temporal cortex (aIT), and prefrontal cortex (PFC). Notably, only TP and aIT represent color-shape concepts using a geometry that matches perceptual color-space relationships, whereas PFC activity correlates with behavioral choice errors, suggesting a hierarchy from perceptual binding to cognitive control.",
-        "year": "2025",
-        "venue": "bioRxiv",
-        "citations": "0",
-        "authors": "Spencer R. Loggia, Helen E. Feibes, Stuart Duffield, Karthik Kasi, Bevil R. Conway",
-        "url": "https://doi.org/10.1101/2025.12.07.692815"
-      },
-      {
-        "title": "The color of fruits in photographs and still life paintings",
-        "abstract": "The memory color effect suggests that the perceived saturation of familiar objects is modulated by prior knowledge. This study quantifies the manifestation of this phenomenon in art by comparing the color statistics of 108 still life paintings with 41 calibrated photographs of fruit. Using warm-colored pixels as a proxy for fruit and cool-colored pixels for backgrounds, the analysis reveals that still life paintings exhibit significantly higher relative chromatic contrast for object-associated (warm) colors compared to photographs. These findings suggest that artistic depictions are biased toward the cognitive 'memory color' of objects, highlighting how top-down knowledge of object identity influences both the production and perception of visual representations.",
-        "year": "2024",
-        "venue": "Journal of Vision",
-        "citations": "0",
-        "authors": "Thorsten Hansen, Bevil R. Conway",
-        "url": "https://doi.org/10.1167/jov.24.5.1"
-      },
-      {
-        "title": "Art, Intuition, and Identity in Ramón y Cajal",
-        "abstract": "This article evaluates the role of Santiago Ramón y Cajal's artistic intuition and visual language in establishing the foundations of modern systems neuroscience. By analyzing Cajal's use of specific visual syntax—most notably the inclusion of arrows to indicate the direction of information flow in schematics of the hippocampus and spinal cord—the authors illustrate how his intuitive framework for 'functional anatomy' preceded and informed quantitative discoveries in the somatomotor and visual systems. The work argues that Cajal’s ability to translate static histological specimens into dynamic models of neural circuitry was a critical catalyst for the development of our modern understanding of the brain as a complex communication network.",
-        "year": "2024",
-        "venue": "The Neuroscientist",
-        "citations": "0",
-        "authors": "Dawn Hunter, Javier DeFelipe, Arpan R. Mehta, Bevil R. Conway",
-        "url": "https://doi.org/10.1177/10738584241234049"
-      }
-    ],
-    "primary_subfield": "Comparative & Animal Vision",
-    "subfields": [
-      {
-        "subfield": "Comparative & Animal Vision",
-        "score": 0.8722
-      },
-      {
-        "subfield": "Color Vision & Appearance",
-        "score": 0.8698
-      },
-      {
-        "subfield": "Visual Working Memory",
-        "score": 0.8696
-      },
-      {
-        "subfield": "Representational Geometry",
-        "score": 0.8652
-      }
-    ],
-    "profile_pic": "r._conway_bevil_0549.jpg",
-    "umap_projection": {
-      "x": 6.580846786499023,
-      "y": -0.2656046152114868
-    },
-    "cluster": 0,
-    "total_citations": 6522,
-    "h_index": 40
-  },
   "0550": {
     "id": "0550",
     "name": "Rachel Denison",
@@ -32401,79 +32075,6 @@
     "cluster": 0,
     "total_citations": 2310,
     "h_index": 25
-  },
-  "0557": {
-    "id": "0557",
-    "name": "Ratan Murty",
-    "institution": "Georgia Institute of Technology",
-    "department": "School of Psychology",
-    "lab_name": "Murty Lab",
-    "lab_url": "https://www.murtylab.com",
-    "main_research_area": "cognitive computational neuroscience",
-    "bio": "Apurva Ratan Murty is an Assistant Professor at the Georgia Institute of Technology and director of the Murty Lab, where they explore the intersection of human vision, cognitive science, and artificial intelligence. Murty's research program employs high-field functional MRI and deep convolutional neural networks to model the neural codes and algorithms that support visual perception and category selectivity. Their methodology involves developing biologically constrained encoding models of cortical organization that predict neural responses to novel visual stimuli. This work investigates the functional architecture of the ventral visual pathway and the neurobiological basis of perceptual abnormalities such as agnosias. Prior to this appointment, Murty completed postdoctoral fellowships at MIT's McGovern Institute and earned a PhD from the Indian Institute of Science.",
-    "research_direction": "Dr. Murty’s recent work explores the intersection of computational modeling and cognitive neuroscience, focusing on aligning artificial neural networks with the functional architecture of the human brain. They have recently been investigating how applying spatial smoothness constraints to deep learning architectures can naturally induce biological hallmarks of functional topography across visual, auditory, and language processing. To rigorously test and improve these computational representations, their research uses adversarial perturbations to probe whether encoding models share the local representational geometry of the biological visual system, while simultaneously developing scalable frameworks to aggregate diverse fMRI datasets for training robust vision models. Additionally, beyond artificial models, Dr. Murty is exploring the neural bridge between visual perception and social cognition, specifically examining how anterior regions like the temporal pole process familiar faces to trigger broader social computations.",
-    "papers": [
-      {
-        "title": "Targeted perturbations reveal brain-like local coding axes in robustified, but not standard, ANN-based brain models",
-        "abstract": "While artificial neural network (ANN)-based encoding models effectively predict neural responses, their reliance on overall predictive accuracy fails to distinguish between models with divergent representational geometries. This research employs small-scale adversarial probes to investigate the local representational manifolds of highly predictive brain models. Findings indicate that standard ANN-based encoding models are significantly fragile, exhibiting sensitivity to imperceptible perturbations and relying on unstable local coding directions that fail to transfer across architectures. In contrast, adversarial probes optimized against robustified models elicit semantically meaningful and generalizable shifts that align with the local coding dimensions of the biological visual system. The study establishes that local representational geometry serves as a more rigorous criterion for neural model evaluation and demonstrates that robust models better capture the underlying principles of neural selectivity.",
-        "year": "2025",
-        "venue": "arXiv",
-        "citations": "0",
-        "authors": "Nikolas McNeal, N. Apurva Ratan Murty",
-        "url": "https://arxiv.org/abs/2509.23333"
-      },
-      {
-        "title": "TopoNets: High performing vision and language models with brain-like topography",
-        "abstract": "Biological neural systems are characterized by functional topography, where neurons with similar response properties are spatially clustered. Standard deep learning architectures lack this organization, and previous attempts to induce topography often resulted in significant task performance degradation. This work introduces TopoLoss, a general-purpose inductive bias that enforces spatial smoothness on internal representations. By integrating TopoLoss into training, the authors develop TopoNets—a suite of topographic vision (ResNet, ViT) and language (GPT-Neo) models. TopoNets achieve state-of-the-art performance for topographic models on ImageNet and linguistic tasks while maintaining high alignment with human cortical topography. The models exhibit computational advantages, including parameter efficiency and lower effective dimensionality, successfully recapitulating the functional organization observed in human visual and language cortices.",
-        "year": "2025",
-        "venue": "International Conference on Learning Representations (ICLR)",
-        "citations": "0",
-        "authors": "Mayukh Deb, Mainak Deb, N. Apurva Ratan Murty",
-        "url": "https://arxiv.org/abs/2501.16396"
-      },
-      {
-        "title": "End-to-end topographic auditory models replicate signatures of human auditory cortex",
-        "abstract": "The human auditory cortex exhibits complex topographic organization, including smooth maps for tonotopy and amplitude modulation, alongside modular regions selective for music and speech. Current computational models of audition generally fail to capture this spatial structure. This study presents TopoAudio, the first end-to-end topographic auditory models developed by adapting wiring-length constraints to cochleagram-based deep neural networks. TopoAudio models achieve competitive accuracy in predicting human auditory fMRI responses and performing sound classification. Crucially, they naturally develop hallmark features of biological auditory organization, such as smooth tonotopic gradients in early layers and spatially clustered selectivity for music and speech in higher layers. These results suggest that spatial smoothness constraints are a foundational regularizer for achieving biologically aligned sensory representations across modalities.",
-        "year": "2025",
-        "venue": "arXiv",
-        "citations": "0",
-        "authors": "Haider Al-Tahan, Mayukh Deb, Jenelle Feather, N. Apurva Ratan Murty",
-        "url": "https://arxiv.org/abs/2509.24039"
-      },
-      {
-        "title": "MOSAIC: A scalable framework for fMRI dataset aggregation and modeling of human vision",
-        "abstract": "Despite the utility of large-scale vision fMRI datasets, practical constraints often limit the number of participants and the diversity of stimuli within individual studies. This paper proposes MOSAIC, a framework designed for the scalable aggregation of functionally diverse fMRI datasets into a common representational space. By standardizing data from multiple sources, MOSAIC allows for the training of vision foundation models that benefit from vastly increased stimulus variety and participant numbers. The framework facilitates the evaluation of model-brain alignment across broad experimental conditions and enables the development of robust, cross-participant encoding models. This approach addresses current bottlenecks in cognitive computational neuroscience by providing a path toward foundation models of human visual representation.",
-        "year": "2025",
-        "venue": "bioRxiv",
-        "citations": "0",
-        "authors": "Benjamin Lahner, Mayukh Deb, N. Apurva Ratan Murty, Aude Oliva",
-        "url": "https://doi.org/10.1101/2025.12.18.629198"
-      },
-      {
-        "title": "Linking faces to social cognition: The temporal pole as a potential social switch",
-        "abstract": "Identifying the neural mechanisms that link face recognition to social understanding remains a central challenge in neuroscience. This article evaluates recent evidence demonstrating specialized face-selective regions in the human temporal pole (TP) and perirhinal cortex (PR). While the PR appears primarily involved in processing face identity through image-computable features, face responses in the TP are strongly modulated by familiarity. The findings support a model where the TP acts as a 'social switch,' linking recognized individuals to broader social networks for memory retrieval and personality judgment. This division of labor within the anterior face-processing network provides a mechanistic link between visual perception and social cognition, suggesting that familiar faces trigger unique social computations not captured by standard feed-forward vision models.",
-        "year": "2024",
-        "venue": "Proceedings of the National Academy of Sciences (PNAS)",
-        "citations": "0",
-        "authors": "Alish Dipani, Nikolas McNeal, N. Apurva Ratan Murty",
-        "url": "https://doi.org/10.1073/pnas.2411735121"
-      }
-    ],
-    "primary_subfield": "Brain-AI Alignment",
-    "subfields": [
-      {
-        "subfield": "Brain-AI Alignment",
-        "score": 0.9014
-      }
-    ],
-    "profile_pic": "ratan_murty_0557.jpg",
-    "umap_projection": {
-      "x": 7.661336421966553,
-      "y": -1.1375778913497925
-    },
-    "cluster": 0,
-    "total_citations": 1295,
-    "h_index": 15
   },
   "0560": {
     "id": "0560",
@@ -37476,61 +37077,6 @@
     "cluster": 0,
     "total_citations": 607,
     "h_index": 12
-  },
-  "0649": {
-    "id": "0649",
-    "name": "T.C Sprague",
-    "institution": "University of California, Santa Barbara",
-    "department": "Department of Psychological & Brain Sciences",
-    "lab_name": "Perception, Cognition, and Action Lab (Sprague Lab)",
-    "lab_url": "https://spraguelab.psych.ucsb.edu/",
-    "main_research_area": "visual cognition and computational neuroimaging",
-    "bio": "Thomas C. Sprague is an Assistant Professor at the University of California, Santa Barbara, investigating how the human brain encodes and transforms sensory information to support goal-directed behavior. Sprague’s research integrates functional MRI, electroencephalography (EEG), and psychophysics to map the neural representations of visual attention and working memory across occipital, parietal, and frontal cortices. They utilize inverted encoding models (IEMs) and multivariate analysis techniques to non-invasively reconstruct stimulus-specific features from brain activity. This work focuses on characterizing 'priority maps' that index environmental importance and exploring how these neural frameworks are modulated by varying cognitive demands and behavioral goals.",
-    "research_direction": "Dr. Sprague has recently been investigating the neural architectures supporting visual working memory and selective attention. Using functional MRI paired with multivariate inverted encoding models, their recent work explores how spatial maps in the retinotopic cortex dynamically respond to changing behavioral goals. Specifically, they are studying the resilience of spatial working memory representations against task-irrelevant visual interruptions across the cortical hierarchy. Additionally, Dr. Sprague is examining how attending to different feature dimensions, such as color versus motion, differentially modulates specialized visual areas and influences whether maintaining those specific features in memory will incidentally capture attention during visual search tasks.",
-    "papers": [
-      {
-        "title": "Retinotopic Spatial Working Memory Representations Are Not Affected by Task-irrelevant Visual Stimuli",
-        "abstract": "Visual working memory (WM) is theoretically conceptualized as a form of active storage resistant to external disruption, yet empirical evidence often relies on 'empty' delay periods. We investigated the resilience of spatial WM representations within human retinotopic cortex (visual, parietal, and frontal regions) when challenged by task-irrelevant interrupting stimuli. Human participants performed a spatial recall task where a brief interrupter was presented during the mnemonic delay. While the interrupter elicited robust transient univariate BOLD responses across the visual hierarchy, multivariate spatial reconstructions derived from inverted encoding models (IEMs) demonstrated that the fidelity of the remembered location remained stable. Behavioral performance on a continuous recall task was similarly unaffected by the visual interruption. These findings indicate that retinotopic spatial WM representations are highly robust against incoming visual noise, potentially due to the redundant and distributed nature of their encoding across the cortical hierarchy.",
-        "year": "2026",
-        "venue": "Journal of Cognitive Neuroscience",
-        "citations": "0",
-        "authors": "Kelvin Vu-Cheung, Edward F. Ester, Thomas C. Sprague",
-        "url": "https://doi.org/10.1162/jocn_a_00366"
-      },
-      {
-        "title": "Attention Modulates Stimulus Representations in Neural Feature Dimension Maps",
-        "abstract": "Computational theories of attentional control propose that behavioral goals dynamically weight feature-specific spatial maps, which are subsequently integrated into a global priority map. Using fMRI and multivariate inverted encoding models (IEMs), we assessed how selective attention to specific feature dimensions (color or motion) modulates stimulus-related activation profiles across specialized cortical regions. We found that feature-selective regions—specifically color-selective (hV4/VO1/VO2) and motion-selective (TO1/TO2) areas—exhibited the greatest stimulus reconstruction strength when their preferred feature was task-relevant. Notably, color-selective regions showed localized enhancement at the stimulus position, whereas motion-selective regions displayed a more global profile of modulation. These results provide empirical evidence for compartmentalized 'neural feature dimension maps' that track task relevance and index salient locations to guide visual attention.",
-        "year": "2025",
-        "venue": "Journal of Cognitive Neuroscience",
-        "citations": "0",
-        "authors": "Daniel D. Thayer, Thomas C. Sprague",
-        "url": "https://doi.org/10.1162/jocn_a_74"
-      },
-      {
-        "title": "Interactions between working memory and attention depend on remembered feature dimension",
-        "abstract": "Theories of visual search posit that working memory (WM) contents guide attention toward matching environmental items, often resulting in incidental capture even when such items are task-irrelevant. We investigated whether this capture effect persists for features that may be reformatted into spatial coordinates, such as motion. While we replicated standard incidental capture for color memoranda, we found that maintaining a motion direction in WM did not produce additional capture compared to salient distractors. Analysis of behavioral response times indicated that search targets at locations predicted by neural prioritization models were processed faster, suggesting that remembered motion directions were recoded into spatial coordinates. Our findings suggest that the influence of WM on attentional guidance is non-uniform across feature dimensions and is contingent upon the representational format used for memory maintenance.",
-        "year": "2025",
-        "venue": "psyArXiv",
-        "citations": "0",
-        "authors": "Daniel Thayer, Thomas C. Sprague",
-        "url": "https://doi.org/10.31234/osf.io/8vpwz"
-      }
-    ],
-    "primary_subfield": "Visual Working Memory",
-    "subfields": [
-      {
-        "subfield": "Visual Working Memory",
-        "score": 0.8959
-      }
-    ],
-    "profile_pic": "t.c_sprague_0649.jpg",
-    "umap_projection": {
-      "x": 10.007033348083496,
-      "y": 0.04568200930953026
-    },
-    "cluster": 0,
-    "total_citations": 2797,
-    "h_index": 20
   },
   "0650": {
     "id": "0650",
@@ -45623,6 +45169,24 @@
         "citations": "0",
         "authors": "Siying Xie, Johannes Singer, Bati Yilmaz, Daniel Kaiser, Radoslaw M. Cichy",
         "url": "https://doi.org/10.1371/journal.pbio.3003354"
+      },
+      {
+        "title": "Self-supervised learning yields representational signatures of category-selective cortex",
+        "abstract": "Functional specialization in the human ventral visual stream is characterized by category-selective regions, such as the fusiform face area (FFA) and parahippocampal place area (PPA), which exhibit idiosyncratic tuning for specific visual dimensions. We interrogated the hypothesis that these specialized representations emerge via domain-general self-supervised learning without explicit semantic labels. By applying functional localizer protocols to both human fMRI data and self-supervised neural networks, we identified face- and scene-selective units in both systems. We then evaluated these units against a high-dimensional test battery probing representational signatures including curvature sensitivity, animacy preferences, real-world size, mid-level visual features, face geometry, and spatial layout. We found that self-supervised model units largely recapitulate the classic tuning properties and representational geometries of human category-selective cortex. These results suggest that specialized cortical modules may arise from unified computational objectives akin to instance-level contrastive learning rather than domain-specific evolutionary or developmental priors.",
+        "year": "2026",
+        "venue": "bioRxiv",
+        "citations": "0",
+        "authors": "Daniel Janini, Radoslaw M. Cichy",
+        "url": "https://doi.org/10.1101/2026.02.09.704031"
+      },
+      {
+        "title": "Modeling short visual events through the BOLD moments video fMRI dataset and metadata",
+        "abstract": "Investigating the neural basis of dynamic visual perception requires large-scale datasets capturing diverse visual events. We introduce the BOLD Moments Dataset (BMD), a repository of whole-brain fMRI responses to 1,102 naturalistic 3-second video clips across ten human subjects. Utilizing extensive metadata, we demonstrate how the human brain represents word- and sentence-level descriptions of visual actions and identify correlates of video memorability within the parietal cortex. Benchmarking these data against a battery of 99 deep video models revealed a match in hierarchical processing between cortical regions of interest and spatiotemporal model layers. BMD captures fine-grained temporal dynamics at sub-second resolution, offering a high-quality resource for understanding the cortical mechanisms of dynamic visual event processing and the alignment between human vision and video-computable artificial models.",
+        "year": "2024",
+        "venue": "Nature Communications",
+        "citations": "0",
+        "authors": "Benjamin Lahner, Kshitij Dwivedi, Polina Iamshchinina, Monika Graumann, Alex Lascelles, Gemma Roig, Alessandro Thomas Gifford, Bowen Pan, SouYoung Jin, N. Apurva Ratan Murty, Kendrick Kay, Aude Oliva, Radoslaw Cichy",
+        "url": "https://doi.org/10.1038/s41467-024-50478-4"
       }
     ],
     "primary_subfield": "Neural Decoding & Neuroimaging Methods",
@@ -52904,79 +52468,6 @@
     "cluster": 0,
     "total_citations": 84376,
     "h_index": 131
-  },
-  "E282": {
-    "id": "E282",
-    "name": "Radek Cichy",
-    "institution": "Freie Universität Berlin",
-    "department": "Department of Education and Psychology",
-    "lab_name": "Neural Dynamics of Visual Cognition Group",
-    "lab_url": "http://userpage.fu-berlin.de/rmcichy/",
-    "main_research_area": "Visual object recognition and computational neuroscience",
-    "bio": "Radoslaw Martin Cichy is a professor at Freie Universität Berlin and the principal investigator of the Neural Dynamics of Visual Cognition Group. Cichy’s research characterizes the spatio-temporal dynamics of human object recognition by integrating functional MRI with magnetoencephalography (MEG). They utilize deep neural networks as algorithmically explicit models to simulate the hierarchical processing of the human ventral visual stream. Through the application of representational similarity analysis (RSA) and multivariate pattern decoding, their work links biological neural representations with artificial intelligence architectures.",
-    "research_direction": "Dr. Cichy has recently been investigating the computational principles and spatio-temporal dynamics of human perception by combining multimodal neuroimaging (fMRI, EEG) with deep neural network benchmarking. Their recent work explores how robust visual representations emerge in the ventral stream, using tools like self-supervised artificial models and backward masking paradigms to interrogate the origins of category selectivity and the specific roles of recurrent processing. They are also probing the network-level dependencies of the visual system by leveraging in silico encoding models to generate specific visual stimuli that test shared and unique representational content across interconnected cortical areas. Expanding beyond static vision, their research examines the large-scale neural processing of dynamic naturalistic videos as well as cross-modal predictive phenomena, such as how the auditory phonological signatures of an \"inner voice\" emerge during silent reading.",
-    "papers": [
-      {
-        "title": "Self-supervised learning yields representational signatures of category-selective cortex",
-        "abstract": "Functional specialization in the human ventral visual stream is characterized by category-selective regions, such as the fusiform face area (FFA) and parahippocampal place area (PPA), which exhibit idiosyncratic tuning for specific visual dimensions. We interrogated the hypothesis that these specialized representations emerge via domain-general self-supervised learning without explicit semantic labels. By applying functional localizer protocols to both human fMRI data and self-supervised neural networks, we identified face- and scene-selective units in both systems. We then evaluated these units against a high-dimensional test battery probing representational signatures including curvature sensitivity, animacy preferences, real-world size, mid-level visual features, face geometry, and spatial layout. We found that self-supervised model units largely recapitulate the classic tuning properties and representational geometries of human category-selective cortex. These results suggest that specialized cortical modules may arise from unified computational objectives akin to instance-level contrastive learning rather than domain-specific evolutionary or developmental priors.",
-        "year": "2026",
-        "venue": "bioRxiv",
-        "citations": "0",
-        "authors": "Daniel Janini, Radoslaw M. Cichy",
-        "url": "https://doi.org/10.1101/2026.02.09.704031"
-      },
-      {
-        "title": "Recurrence affects the geometry of visual representations across the ventral visual stream in the human brain",
-        "abstract": "Human object recognition relies on an intricate coordination of feedforward and recurrent processing, yet the specific spatio-temporal dynamics and representational consequences of recurrence are not fully elucidated. We utilized a backward masking paradigm combined with multivariate analysis of human EEG and fMRI data to isolate recurrent neural activity. Our results indicate that recurrent processing significantly shapes visual representations across the ventral stream, with critical engagements at ~100 ms in early visual cortex (EVC) and two distinct phases (~175 ms and ~300 ms) in the lateral occipital cortex (LOC). Comparison with deep convolutional neural network (CNN) architectures revealed that these recurrent dynamics fundamentally alter the representational format in LOC, shifting the geometry from mid-level visual features toward high-level categorical abstractions. This demonstrates that recurrence provides persistent, non-transient dynamics necessary for the emergence of robust object representations in the human brain.",
-        "year": "2025",
-        "venue": "PLOS Biology",
-        "citations": "0",
-        "authors": "Siying Xie, Johannes Singer, Bati Yilmaz, Daniel Kaiser, Radoslaw M. Cichy",
-        "url": "https://doi.org/10.1371/journal.pbio.3002821"
-      },
-      {
-        "title": "Auditory representations of words during silent visual reading",
-        "abstract": "Silent visual reading is often accompanied by the subjective experience of an 'inner voice,' yet the neural representation and functional role of auditory word signatures during silent reading remain poorly understood. We recorded human electroencephalography (EEG) data during naturalistic narrative reading and employed computational modeling to isolate time-resolved auditory, visual, and semantic representations. Our analysis revealed robust auditory representations that tracked the phonological sequences of words with high temporal precision, emerging even prior to word onset. Furthermore, we found that these auditory signatures exhibit key hallmarks of predictive processing, as they are significantly stronger for linguistically unexpected than expected words. These findings suggest that auditory word representations are recruited in a predictive manner during reading, with early features facilitating pre-onset predictions and later features contributing post-onset, providing a neurocomputational basis for the phenomenological experience of inner speech.",
-        "year": "2025",
-        "venue": "bioRxiv",
-        "citations": "0",
-        "authors": "Jiawei Li, Adrien Doerig, Radoslaw Martin Cichy",
-        "url": "https://doi.org/10.1101/2025.12.12.693932"
-      },
-      {
-        "title": "In silico discovery of representational relationships across visual cortex",
-        "abstract": "The human visual system is composed of an interconnected network of cortical areas that jointly represent the world, yet the specific representational dependencies between these areas are largely unknown. We developed Relational Neural Control (RNC), a framework for investigating the shared and unique representational content between brain regions. Using the Natural Scenes Dataset (NSD), we trained deep neural network encoding models to generate high-fidelity in silico fMRI responses. Through RNC, we discovered 'controlling images' that selectively align or disentangle univariate and multivariate responses across visual areas. This revealed a network-level topology where the degree of shared representational content is systematically modulated by cortical distance, position in the visual hierarchy, and category selectivity. We validated these in silico discoveries against independent in vivo fMRI data, demonstrating how diverse cortical areas function as a coordinated relational network to mediate visual perception.",
-        "year": "2025",
-        "venue": "Nature Human Behaviour",
-        "citations": "0",
-        "authors": "Alessandro T. Gifford, Maya A. Jastrzębowska, Johannes J.D. Singer, Radoslaw M. Cichy",
-        "url": "https://doi.org/10.1038/s41562-024-02052-5"
-      },
-      {
-        "title": "Modeling short visual events through the BOLD moments video fMRI dataset and metadata",
-        "abstract": "Investigating the neural basis of dynamic visual perception requires large-scale datasets capturing diverse visual events. We introduce the BOLD Moments Dataset (BMD), a repository of whole-brain fMRI responses to 1,102 naturalistic 3-second video clips across ten human subjects. Utilizing extensive metadata, we demonstrate how the human brain represents word- and sentence-level descriptions of visual actions and identify correlates of video memorability within the parietal cortex. Benchmarking these data against a battery of 99 deep video models revealed a match in hierarchical processing between cortical regions of interest and spatiotemporal model layers. BMD captures fine-grained temporal dynamics at sub-second resolution, offering a high-quality resource for understanding the cortical mechanisms of dynamic visual event processing and the alignment between human vision and video-computable artificial models.",
-        "year": "2024",
-        "venue": "Nature Communications",
-        "citations": "0",
-        "authors": "Benjamin Lahner, Kshitij Dwivedi, Polina Iamshchinina, Monika Graumann, Alex Lascelles, Gemma Roig, Alessandro Thomas Gifford, Bowen Pan, SouYoung Jin, N. Apurva Ratan Murty, Kendrick Kay, Aude Oliva, Radoslaw Cichy",
-        "url": "https://doi.org/10.1038/s41467-024-50478-4"
-      }
-    ],
-    "primary_subfield": "Neural Decoding & Neuroimaging Methods",
-    "subfields": [
-      {
-        "subfield": "Neural Decoding & Neuroimaging Methods",
-        "score": 0.8989
-      }
-    ],
-    "profile_pic": "radek_cichy_E282.jpg",
-    "umap_projection": {
-      "x": 7.939742565155029,
-      "y": -0.9845362305641174
-    },
-    "cluster": 0,
-    "total_citations": 7824,
-    "h_index": 39
   },
   "E283": {
     "id": "E283",

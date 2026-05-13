@@ -38,3 +38,19 @@ Pass 1 triage flagged 100 candidate records in `/tmp/factcheck_candidates.json`.
 | `0456` Michael A. Webster | `lab_url` | `https://www.unr.edu/psychology/labs/visual-perception-lab` | `https://labs.psych.unr.edu/websterlab/` | https://www.unr.edu/psychology/michael-webster ; https://labs.psych.unr.edu/websterlab/ |
 | `0537` Philip J. Kellman | `lab_url` | `https://humanperceptionlab.psych.ucla.edu/` | `https://kellmanlab.psych.ucla.edu/` | https://kellmanlab.psych.ucla.edu/ ; https://www.psych.ucla.edu/faculty-page/kellman/ |
 | `0695` William H. Warren | `lab_url` | `https://venlab.brown.edu/` | `https://sites.brown.edu/venlab/` | https://sites.brown.edu/venlab/ |
+
+## Duplicate merges (round 3)
+
+Nine user-approved merges of records that were the same person (token reversal, nicknames, name initialization, or transliteration variants). Each retired record's unique papers were unioned into the survivor; all other fields preferred the survivor's value, falling back only when missing.
+
+| Survivor | Retired | Final name | Institution | Signals |
+|---|---|---|---|---|
+| `0661` | `0649` | Thomas C. Sprague | UCSB | initials → full name, same lab, shared papers |
+| `0491` | `0557` | N. Apurva Ratan Murty | Georgia Institute of Technology | token containment, same Murty Lab |
+| `0622` | `0103` | Simona Buetti | UIUC | token reversal, same lab |
+| `0081` | `0549` | Bevil Conway | NIH | token reversal, same lab |
+| `0110` | `0368` | Chai-Youn Kim | Korea University | token containment, same lab URL |
+| `0279` | `0088` | Isabelle Boutet | University of Ottawa | token reversal, same SCOPE Lab |
+| `E090` | `E282` | Radoslaw Martin Cichy | Freie Universität Berlin | nickname (Radek = Radoslaw), same lab URL |
+| `0047` | `0367` | Anna C. Nobre | Yale University | nickname (Kia = Anna), same lab URL |
+| `0456` | `0003` | Michael A. Webster | University of Nevada, Reno | token reversal, same lab |

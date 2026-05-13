@@ -22,15 +22,15 @@ const steps = [
   },
   {
     image: `${import.meta.env.BASE_URL}onboarding/step3_profile.jpg`,
-    headline: 'Papers, bio, and an AI research idea',
+    headline: 'Dive into each researcher',
     description:
-      'Each profile shows recent publications and an AI-generated suggestion for where their work could go next.',
+      'Every profile collects recent papers, a short bio, lab link, subfield tags, and the closest researchers by subject.',
   },
   {
     image: `${import.meta.env.BASE_URL}onboarding/step4_search.jpg`,
-    headline: 'Search, filter, explore field directions',
+    headline: 'Search, filter, switch views',
     description:
-      'Find anyone by name. Filter by institution or subfield. Open "Field Directions" to see what each community is collectively working on.',
+      'Find anyone by name, filter by institution or subfield, and toggle between the map and an alphabetical list view. Open "Field Directions" to see what each community is collectively working on.',
   },
 ]
 

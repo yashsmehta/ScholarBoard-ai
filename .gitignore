@@ -8,11 +8,12 @@ __init__.pyc
 *.npz
 *.nc
 .cursorignore
-data/source/
-data/pipeline/
-data/build/
-data/archive/
 data/*
 !data/CLAUDE.md
+!data/build/
+data/build/*
+!data/build/scholars.json
+!data/build/field_directions.json
+!data/build/profile_pics/
 logs/
 frontend/.tmp/

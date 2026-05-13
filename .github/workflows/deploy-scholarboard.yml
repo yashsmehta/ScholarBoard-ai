@@ -1,0 +1,86 @@
+name: Deploy ScholarBoard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - 'data/build/**'
+      - '.github/workflows/deploy-scholarboard.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-scholarboard
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout ScholarBoard-ai
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Build frontend
+        working-directory: frontend
+        env:
+          VITE_BASE: /scholarboard/
+        run: |
+          npm ci
+          npm run build
+
+      - name: Configure SSH for website repo
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.WEBSITE_DEPLOY_KEY }}
+
+      - name: Clone website repo
+        run: |
+          git clone git@github.com:yashsmehta/yashsmehta.github.io.git website
+          cd website
+          git config user.name "ScholarBoard Deploy"
+          git config user.email "deploy@scholarboard.ai"
+
+      - name: Sync build output and data into website repo
+        run: |
+          set -e
+          TARGET=website/scholarboard
+
+          rm -rf "$TARGET/assets"
+          rm -f "$TARGET/index.html" "$TARGET/embedded-scholars.json"
+
+          cp -r frontend/dist/assets "$TARGET/assets"
+          cp frontend/dist/index.html "$TARGET/index.html"
+          [ -f frontend/dist/embedded-scholars.json ] && \
+            cp frontend/dist/embedded-scholars.json "$TARGET/embedded-scholars.json"
+
+          find frontend/dist -maxdepth 1 -type f \
+            ! -name 'index.html' ! -name 'embedded-scholars.json' \
+            -exec cp {} "$TARGET/" \;
+
+          find frontend/dist -mindepth 1 -maxdepth 1 -type d \
+            ! -name 'assets' \
+            -exec cp -r {} "$TARGET/" \;
+
+          mkdir -p "$TARGET/data/build"
+          rsync -a --delete data/build/scholars.json "$TARGET/data/build/"
+          rsync -a --delete data/build/field_directions.json "$TARGET/data/build/"
+          rsync -a --delete data/build/profile_pics/ "$TARGET/data/build/profile_pics/"
+
+      - name: Commit and push to website repo
+        working-directory: website
+        run: |
+          git add scholarboard
+          if git diff --cached --quiet; then
+            echo "No changes to deploy."
+            exit 0
+          fi
+          git commit -m "Deploy ScholarBoard from ${GITHUB_SHA:0:7}"
+          git push origin master

@@ -14,10 +14,10 @@ export const SUBFIELD_COLORS: Record<string, string> = {
   'Ensemble & Summary Statistics':          '#ca8a04',  // gold
   'Perceptual Learning & Plasticity':       '#16a34a',  // green
   'Multisensory Integration':               '#c026d3',  // fuchsia
-  'Perceptual Decision-Making':             '#e11d48',  // crimson
+  'Visual Perception & Cognition':          '#e11d48',  // crimson
   'Visual Development':                     '#a78bfa',  // lavender
   'Neural Decoding & Neuroimaging Methods': '#64748b',  // slate
-  'Comparative & Animal Vision':            '#c2410c',  // rust orange
+  'Animal Vision':                          '#c2410c',  // rust orange
   'Motion Perception':                      '#0f766e',  // dark teal
   'Color Vision & Appearance':              '#f472b4',  // light pink
   'Visual Search & Foraging':               '#6366f1',  // indigo

@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import type { ResearchIdea, Scholar } from '../types/scholar'
+import type { Scholar } from '../types/scholar'
 import { subfieldColor } from '../map/colorScale'
 import { DEFAULT_AVATAR_URL, scholarAvatarUrl } from '../lib/scholarMedia'
 import { cx } from '../lib/cx'
-
-type SidebarTab = 'profile' | 'idea'
 
 interface SidebarProps {
   scholar: Scholar | null
@@ -20,7 +18,6 @@ interface NearbyScholar {
 }
 
 export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfieldClick }: SidebarProps) {
-  const [activeTab, setActiveTab] = useState<SidebarTab>('profile')
   const [expanded, setExpanded] = useState(false)
   const touchStartY = React.useRef<number | null>(null)
   const nearby = useMemo(
@@ -28,9 +25,8 @@ export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfi
     [scholar?.id, allScholars],
   )
 
-  // Reset to profile tab and collapse when a new scholar is selected
+  // Collapse when a new scholar is selected
   useEffect(() => {
-    setActiveTab('profile')
     setExpanded(false)
   }, [scholar?.id])
 
@@ -84,25 +80,7 @@ export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfi
             </svg>
           </div>
 
-          <div className="sidebar__tabs" role="tablist">
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'profile'}
-              className={cx('sidebar__tab', activeTab === 'profile' && 'is-active')}
-              onClick={() => setActiveTab('profile')}
-            >
-              Profile
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeTab === 'idea'}
-              className={cx('sidebar__tab', activeTab === 'idea' && 'is-active')}
-              onClick={() => setActiveTab('idea')}
-            >
-              Research Idea
-            </button>
+          <div className="sidebar__header">
             <button type="button" className="sidebar__close" onClick={handleClose} aria-label="Close sidebar">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <line x1="4" y1="4" x2="12" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -112,12 +90,7 @@ export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfi
           </div>
 
           <div className="sidebar__content">
-            {activeTab === 'profile' && (
-              <ProfileTab scholar={scholar} nearby={nearby} onSelectNearby={onSelectNearby} onSubfieldClick={onSubfieldClick} />
-            )}
-            {activeTab === 'idea' && (
-              <IdeaTab idea={scholar.suggestedIdea} scholarName={scholar.name} />
-            )}
+            <ProfileTab scholar={scholar} nearby={nearby} onSelectNearby={onSelectNearby} onSubfieldClick={onSubfieldClick} />
           </div>
         </>
       )}
@@ -286,104 +259,6 @@ function AiSummary({ text, label = 'AI Summary' }: { text: string; label?: strin
         </svg>
       </button>
       {open && <p className="ai-summary__body">{text}</p>}
-    </div>
-  )
-}
-
-function IdeaTab({ idea, scholarName }: { idea?: ResearchIdea; scholarName: string }) {
-  if (!idea) {
-    return (
-      <div className="sidebar__empty">
-        <svg className="sidebar__empty-icon" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-          <circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M20 12v8M16 24h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-        <p>No AI-generated research idea available for {scholarName} yet.</p>
-      </div>
-    )
-  }
-
-  return (
-    <div className="idea-pane">
-      <div className="idea-hero">
-        <div className="idea-hero__badge">
-          <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
-            <path d="M6 0l1.2 3.6L11 4.8l-2.8 2.7.7 3.9L6 9.6l-2.9 1.8.7-3.9L1 4.8l3.8-1.2z"/>
-          </svg>
-          AI Research Idea
-        </div>
-        <h3 className="idea-hero__title">{idea.title}</h3>
-        {idea.researchThread && (
-          <p className="idea-hero__thread">{idea.researchThread}</p>
-        )}
-      </div>
-
-      <div className="idea-blocks">
-        {idea.openQuestion && (
-          <div className="idea-block">
-            <div className="idea-block__label">
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                <circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" strokeWidth="1.3"/>
-                <path d="M6.5 9v-.8M5 5.2a1.5 1.5 0 012.9.5c0 1-1.4 1.5-1.4 2.1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-              </svg>
-              Open Question
-            </div>
-            <p className="idea-block__body">{idea.openQuestion}</p>
-          </div>
-        )}
-
-        {idea.hypothesis && (
-          <div className="idea-block">
-            <div className="idea-block__label">
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                <path d="M6.5 1.5a3.5 3.5 0 011 6.84V9.5H5.5V8.34A3.5 3.5 0 016.5 1.5z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
-                <path d="M5.5 11h3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-              </svg>
-              Hypothesis
-            </div>
-            <p className="idea-block__body">{idea.hypothesis}</p>
-          </div>
-        )}
-
-        {idea.approach && (
-          <div className="idea-block">
-            <div className="idea-block__label">
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                <path d="M2 10.5l2.5-3 2 2 2.5-4 2 4.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                <rect x="1.5" y="1.5" width="10" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.2"/>
-              </svg>
-              Approach
-            </div>
-            <p className="idea-block__body">{idea.approach}</p>
-          </div>
-        )}
-
-        {idea.scientificImpact && (
-          <div className="idea-block">
-            <div className="idea-block__label">
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                <circle cx="6.5" cy="6.5" r="2" stroke="currentColor" strokeWidth="1.3"/>
-                <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.2"/>
-              </svg>
-              Scientific Impact
-            </div>
-            <p className="idea-block__body">{idea.scientificImpact}</p>
-          </div>
-        )}
-
-        {idea.whyNow && (
-          <div className="idea-block">
-            <div className="idea-block__label">
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.2"/>
-                <path d="M6.5 4v2.5l2 1.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-              </svg>
-              Why Now
-            </div>
-            <p className="idea-block__body">{idea.whyNow}</p>
-          </div>
-        )}
-      </div>
     </div>
   )
 }

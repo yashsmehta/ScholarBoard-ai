@@ -1384,7 +1384,7 @@
   "0022": {
     "id": "0022",
     "name": "Alex Martin",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Laboratory of Brain and Cognition",
     "lab_name": "Section on Cognitive Neuropsychology",
     "lab_url": "https://irp.nih.gov/pi/alex-martin",
@@ -3393,7 +3393,7 @@
   "0059": {
     "id": "0059",
     "name": "Arash Afraz",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "National Institute of Mental Health, Laboratory of Neuropsychology",
     "lab_name": "Unit on Neurons, Circuits and Behavior (UNCB)",
     "lab_url": "https://irp.nih.gov/pi/arash-afraz",
@@ -3590,15 +3590,6 @@
         "citations": "0",
         "authors": "Laysa Hedjar, Jasna Martinovic, Søren K Andersen, Arthur G Shapiro",
         "url": "https://doi.org/10.1016/j.visres.2025.108567"
-      },
-      {
-        "title": "The Pulfrich Effect in Virtual Reality",
-        "abstract": "This work leverages virtual reality to characterize the strength of the Pulfrich effect as a function of luminance and Michelson contrast. Utilizing a nulling task with a helix rotation stimulus, we quantify the interocular latency differences induced by lighting conditions. We find that depth misperceptions are significantly magnified under low luminance and low contrast conditions, with stimulus reflectance exerting an unexpected asymmetric influence on the Hess and Pulfrich phenomena. The derived data were linearized using logit-Michelson contrast and power law fits, providing a computational framework for understanding how asymmetric lighting environments in VR affect three-dimensional distance and direction perception.",
-        "year": "2024",
-        "venue": "bioRxiv",
-        "citations": "0",
-        "authors": "Anthony LoPrete, Arthur G. Shapiro",
-        "url": "https://doi.org/10.1101/2024.03.21.585956"
       }
     ],
     "primary_subfield": "Neural Decoding & Neuroimaging Methods",
@@ -3632,7 +3623,7 @@
   "0065": {
     "id": "0065",
     "name": "Aude Oliva",
-    "institution": "MIT",
+    "institution": "Massachusetts Institute of Technology",
     "department": "Computer Science and Artificial Intelligence Laboratory (CSAIL)",
     "lab_name": "Computational Perception and Cognition",
     "lab_url": "https://olivalab.mit.edu/",
@@ -4000,7 +3991,7 @@
   "0072": {
     "id": "0072",
     "name": "Barry J Richmond",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Laboratory of Neuropsychology",
     "lab_name": "Section on Neural Coding and Computation",
     "lab_url": "https://irp.nih.gov/pi/barry-richmond",
@@ -4625,7 +4616,7 @@
   "0081": {
     "id": "0081",
     "name": "Bevil Conway",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Laboratory of Sensorimotor Research",
     "lab_name": "Section on Perception, Cognition, and Action",
     "lab_url": "https://www.bevilconway.com/",
@@ -6922,7 +6913,7 @@
   "0121": {
     "id": "0121",
     "name": "Chris Baker",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Laboratory of Brain and Cognition",
     "lab_name": "Unit on Learning and Plasticity",
     "lab_url": "https://www.nimh.nih.gov/research/research-conducted-at-nimh/principal-investigators/christopher-baker-phd",
@@ -8775,15 +8766,6 @@
         "citations": "0",
         "authors": "Daniel Linares, Aster Joostens, Cristina de la Malla",
         "url": "https://doi.org/10.1093/schbul/sbae194"
-      },
-      {
-        "title": "A systematic review and meta-analysis on contrast sensitivity in schizophrenia",
-        "abstract": "In this meta-analytical review, the authors evaluated perceptual alterations in schizophrenia by examining contrast sensitivity thresholds across numerous psychophysical paradigms. The analysis encompassed 46 studies, primarily focusing on chronic patients. The findings demonstrate a robust reduction in contrast sensitivity among the patient population (standardized mean difference g = 0.74). Key findings include a significant relationship between antipsychotic medication levels and the degree of sensitivity loss. The study also identifies critical methodological gaps in existing research, specifically the lack of systematic estimation for attentional lapses and potential refractive error confounding. The authors argue that while these findings support the presence of visual processing anomalies in schizophrenia, future research must utilize tasks designed to disentangle early sensory processing deficits from cognitive factors like attention and decision-making criteria to validate contrast sensitivity as a potential clinical biomarker.",
-        "year": "2023",
-        "venue": "PsyArXiv",
-        "citations": "0",
-        "authors": "Daniel Linares, Aster Joostens, Cristina de la Malla",
-        "url": "https://doi.org/10.31234/osf.io/k6rf3"
       }
     ],
     "primary_subfield": "Perceptual Decision-Making",
@@ -9432,7 +9414,7 @@
   "0162": {
     "id": "0162",
     "name": "DAVID LEOPOLD",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Laboratory of Neuropsychology",
     "lab_name": "Section on Cognitive Neurophysiology and Imaging (SCNI)",
     "lab_url": "https://www.nimh.nih.gov/research/research-conducted-at-nimh/principal-investigators/david-leopold",
@@ -10446,91 +10428,6 @@
     "total_citations": 20107,
     "h_index": 75
   },
-  "0177": {
-    "id": "0177",
-    "name": "Dirk B. Walther",
-    "institution": "University of Toronto",
-    "department": "Department of Psychology",
-    "lab_name": "Bernhardt-Walther Lab",
-    "lab_url": "https://www.bwlab.org/",
-    "main_research_area": "high-level visual perception",
-    "bio": "Dirk B. Walther is a Professor in the Department of Psychology at the University of Toronto and the Director of the Cognitive Science Program. Walther's research investigates the neural and computational principles of high-level sensory perception by integrating functional neuroimaging, psychophysics, and computational modeling. This work involves the development of multivariate neuroimaging analysis methods and tools for quantifying mid-level visual features within the fields of scene perception and empirical aesthetics. Walther's current research explores how the brain represents structural properties of real-world environments and the impact of attention on neural representations in both adults and children.",
-    "research_direction": "Dr. Walther's recent work explores how the human visual system encodes complex natural scenes, spanning mechanisms of spatial representation, attention, and visual aesthetics. Using methods such as fMRI population receptive field mapping and computational modeling, they have recently been investigating how scene-selective cortical regions process spatial frequencies and whether structural contours drive orientation selectivity more than standard spatial frequency energy. Their research also probes the attentional dynamics of rapid scene perception, employing psychophysics and generative adversarial networks to test how well foundational visual search theories scale to ecologically valid properties like lighting, texture, and global ensemble statistics. Additionally, they are exploring neuroaesthetics by testing the energy-saving heuristic, which investigates whether subjective aesthetic preference is fundamentally linked to the metabolic efficiency of neural encoding across early and high-level visual cortices.",
-    "papers": [
-      {
-        "title": "Population receptive field size does not correspond to spatial frequency processing in scene-selective cortex",
-        "abstract": "This study employs high-resolution population receptive field (pRF) mapping and multivoxel pattern analysis (MVPA) to investigate the functional organization of the parahippocampal place area (PPA) and occipital place area (OPA). While both regions exhibit a significant anterior-posterior pRF size gradient, decoding of scene categories from spatial frequency-filtered imagery reveals a preference pattern that contradicts the expected pRF-spatial frequency correspondence observed in early visual cortex (V1). Specifically, anterior subregions with larger pRFs do not demonstrate the predicted bias toward low-spatial-frequency gist; instead, preferred scene feature representations undergo hierarchical transformations that decouple pRF size from spatial frequency selectivity in high-level visual areas, challenging the assumption that scene-selective cortex primarily processes coarse-grained global features.",
-        "year": "2026",
-        "venue": "Imaging Neuroscience",
-        "citations": "0",
-        "authors": "Charlotte A. Leferink, Claudia Damiano, Dirk B. Walther",
-        "url": "https://doi.org/10.1162/IMAG.a.1111"
-      },
-      {
-        "title": "Contours drive distinct orientation selectivity in the human visual system",
-        "abstract": "This research evaluates whether orientation processing in natural scenes is dominated by filter-based orientation energy or structural contours. Psychophysical experiments requiring average orientation judgments of natural scene patches demonstrate a consistent perceptual bias toward contour-based estimates, particularly when these estimates diverge from steerable pyramid filter outputs. Model-based fMRI analysis of responses from the Natural Scenes Dataset further indicates that models prioritizing contour structure better explain neural activity patterns and identify discrete orientation preferences throughout the visual cortex. These findings suggest that the human visual system extracts boundary-defining contours to encode scene orientation, rather than relying on oriented spatial frequency energy as proposed by standard filter-bank models.",
-        "year": "2025",
-        "venue": "Scientific Reports",
-        "citations": "0",
-        "authors": "Seohee Han, Dirk B. Walther",
-        "url": "https://doi.org/10.1038/s41598-025-31385-4"
-      },
-      {
-        "title": "Less is more: Aesthetic liking is inversely related to metabolic expense by the visual system",
-        "abstract": "This study tests the 'energy-saving heuristic' in visual aesthetics, proposing that aesthetic preference is inversely related to the metabolic cost of neural representations. Integrating a VGG19 convolutional neural network model as a computational proxy for the visual system with fMRI BOLD signal measurements across a dataset of nearly 5,000 images, the researchers identified a robust inverse correlation between aesthetic ratings and metabolic expenditure. This effect was observed in early visual regions (V1, V2, V4) and higher-level areas including the fusiform face area (FFA), occipital place area (OPA), and parahippocampal place area (PPA). The results suggest that aesthetic pleasure functions as a biological reward for metabolic efficiency during neural encoding, offering a unified framework for theories of processing fluency and visual complexity.",
-        "year": "2025",
-        "venue": "PNAS Nexus",
-        "citations": "2",
-        "authors": "Yikai Tang, William A. Cunningham, Dirk B. Walther",
-        "url": "https://doi.org/10.1093/pnasnexus/pgaf347"
-      },
-      {
-        "title": "Attention to complex scene features",
-        "abstract": "Using visual search paradigms with stimuli systematically sampled from a parametric space of high-level features via generative adversarial networks (GANs), this work evaluates the generalizability of Feature Integration Theory (FIT) and Guided Search (GS) to complex scene properties. Search performance for features such as indoor lighting and texture was found to be consistently inefficient, as evidenced by significant set size effects, suggesting that these high-level scene features are not preattentive and require selective attention for processing. However, the finding that feature search was significantly more efficient than conjunction search indicates that these ecologically valid properties still facilitate attentional guidance in a manner consistent with the GS model, suggesting a hierarchical extension of search mechanisms to functionally meaningful scene attributes.",
-        "year": "2025",
-        "venue": "Attention, Perception, & Psychophysics",
-        "citations": "0",
-        "authors": "Gaeun Son, Michael L. Mack, Dirk B. Walther",
-        "url": "https://doi.org/10.3758/s13414-025-03081-y"
-      },
-      {
-        "title": "No evidence for a privileged role of global ensemble statistics in rapid scene perception: A registered replication attempt",
-        "abstract": "This pre-registered replication study re-examines previous evidence suggesting that global ensemble texture information serves as a privileged pathway for rapid scene recognition but not for object recognition. By employing content priming paradigms that isolate structureless summary statistics from natural imagery, the study tested whether texture information selectively supports scene gist extraction. The replication failed to find evidence for a privileged use of texture in scenes compared to objects, concluding that there is no fundamental dissociation between scene and object processing pathways regarding ensemble statistics. Instead, the results suggest that both scene and object perception rely on a combination of structural features defining spatial topology and global texture information, supporting a more integrated model of rapid visual categorization.",
-        "year": "2025",
-        "venue": "Attention, Perception, & Psychophysics",
-        "citations": "0",
-        "authors": "Jiongtian Guo, Jay Pratt, Dirk B. Walther",
-        "url": "https://doi.org/10.3758/s13414-024-02994-4"
-      }
-    ],
-    "primary_subfield": "Neural Decoding & Neuroimaging Methods",
-    "subfields": [
-      {
-        "subfield": "Neural Decoding & Neuroimaging Methods",
-        "score": 0.8806
-      },
-      {
-        "subfield": "Neural Coding & Transduction",
-        "score": 0.8793
-      },
-      {
-        "subfield": "Representational Geometry",
-        "score": 0.8785
-      },
-      {
-        "subfield": "Scene Perception & Navigation",
-        "score": 0.8768
-      }
-    ],
-    "profile_pic": "dirk_b._walther_0177.jpg",
-    "umap_projection": {
-      "x": 8.54338264465332,
-      "y": -0.15155933797359467
-    },
-    "cluster": 0,
-    "total_citations": 6514,
-    "h_index": 32
-  },
   "0178": {
     "id": "0178",
     "name": "Dirk Bernhardt-Walther",
@@ -10586,6 +10483,33 @@
         "citations": "11",
         "authors": "Charlotte A. Leferink, Jordan DeKraker, Iva K. Brunec, Stefan Köhler, Morris Moscovitch, Dirk B. Walther",
         "url": "https://doi.org/10.1093/cercor/bhad429"
+      },
+      {
+        "title": "Population receptive field size does not correspond to spatial frequency processing in scene-selective cortex",
+        "abstract": "This study employs high-resolution population receptive field (pRF) mapping and multivoxel pattern analysis (MVPA) to investigate the functional organization of the parahippocampal place area (PPA) and occipital place area (OPA). While both regions exhibit a significant anterior-posterior pRF size gradient, decoding of scene categories from spatial frequency-filtered imagery reveals a preference pattern that contradicts the expected pRF-spatial frequency correspondence observed in early visual cortex (V1). Specifically, anterior subregions with larger pRFs do not demonstrate the predicted bias toward low-spatial-frequency gist; instead, preferred scene feature representations undergo hierarchical transformations that decouple pRF size from spatial frequency selectivity in high-level visual areas, challenging the assumption that scene-selective cortex primarily processes coarse-grained global features.",
+        "year": "2026",
+        "venue": "Imaging Neuroscience",
+        "citations": "0",
+        "authors": "Charlotte A. Leferink, Claudia Damiano, Dirk B. Walther",
+        "url": "https://doi.org/10.1162/IMAG.a.1111"
+      },
+      {
+        "title": "Contours drive distinct orientation selectivity in the human visual system",
+        "abstract": "This research evaluates whether orientation processing in natural scenes is dominated by filter-based orientation energy or structural contours. Psychophysical experiments requiring average orientation judgments of natural scene patches demonstrate a consistent perceptual bias toward contour-based estimates, particularly when these estimates diverge from steerable pyramid filter outputs. Model-based fMRI analysis of responses from the Natural Scenes Dataset further indicates that models prioritizing contour structure better explain neural activity patterns and identify discrete orientation preferences throughout the visual cortex. These findings suggest that the human visual system extracts boundary-defining contours to encode scene orientation, rather than relying on oriented spatial frequency energy as proposed by standard filter-bank models.",
+        "year": "2025",
+        "venue": "Scientific Reports",
+        "citations": "0",
+        "authors": "Seohee Han, Dirk B. Walther",
+        "url": "https://doi.org/10.1038/s41598-025-31385-4"
+      },
+      {
+        "title": "Attention to complex scene features",
+        "abstract": "Using visual search paradigms with stimuli systematically sampled from a parametric space of high-level features via generative adversarial networks (GANs), this work evaluates the generalizability of Feature Integration Theory (FIT) and Guided Search (GS) to complex scene properties. Search performance for features such as indoor lighting and texture was found to be consistently inefficient, as evidenced by significant set size effects, suggesting that these high-level scene features are not preattentive and require selective attention for processing. However, the finding that feature search was significantly more efficient than conjunction search indicates that these ecologically valid properties still facilitate attentional guidance in a manner consistent with the GS model, suggesting a hierarchical extension of search mechanisms to functionally meaningful scene attributes.",
+        "year": "2025",
+        "venue": "Attention, Perception, & Psychophysics",
+        "citations": "0",
+        "authors": "Gaeun Son, Michael L. Mack, Dirk B. Walther",
+        "url": "https://doi.org/10.3758/s13414-025-03081-y"
       }
     ],
     "primary_subfield": "Scene Perception & Navigation",
@@ -11517,7 +11441,7 @@
   "0196": {
     "id": "0196",
     "name": "Elisha Merriam",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Laboratory of Brain and Cognition",
     "lab_name": "Computational Neuroimaging and Perception Team",
     "lab_url": "https://www.nimh.nih.gov/research/research-conducted-at-nimh/irp/units/lbc",
@@ -15136,7 +15060,7 @@
   "0256": {
     "id": "0256",
     "name": "Hendrikje Nienborg",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Laboratory of Sensorimotor Research",
     "lab_name": "Visual Decision Making Section",
     "lab_url": "https://www.nei.nih.gov/research/research-labs-and-branches/laboratory-sensorimotor-research/visual-decision-making-section",
@@ -16879,7 +16803,7 @@
   "0287": {
     "id": "0287",
     "name": "James J. DiCarlo",
-    "institution": "MIT",
+    "institution": "Massachusetts Institute of Technology",
     "department": "Department of Brain and Cognitive Sciences",
     "lab_name": "The DiCarlo Lab",
     "lab_url": "https://dicarlo.mit.edu/",
@@ -18107,15 +18031,6 @@
         "citations": "0",
         "authors": "Madison Fansher, Logan Walls, Chenxu Hao, Hariharan Subramonyam, Aysecan Boduroglu, Priti Shah, Jessica K. Witt",
         "url": "https://doi.org/10.1186/s41235-025-00613-w"
-      },
-      {
-        "title": "Narrative Visualizations: Depicting Accumulating Risks and Increasing Trust in Data",
-        "abstract": "In this work, the authors introduce and evaluate narrative visualizations as a method to bridge the gap between static data representations and interactive simulations for risk communication. In scenarios where individuals lack significant prior knowledge, such as infectious disease transmission, truthful data can often appear implausible, leading to skepticism and poor decision-making. Through a series of behavioral experiments, the study demonstrates that narrative visualizations increase risk concern and trust more effectively than static visualizations by clarifying the cumulative nature of risk. The findings suggest that by illustrating how individual risks compound into a larger total, narrative visualizations foster a better understanding of scientific models. This preprint emphasizes the role of trust in data as a mediator for behavior change and suggests that narrative-driven visual design is a powerful strategy for science communication in high-uncertainty domains.",
-        "year": "2024",
-        "venue": "PsyArXiv (Preprint)",
-        "citations": "0",
-        "authors": "Madison Fansher, Logan Walls, Chenxu Hao, Hariharan Subramonyam, Aysecan Boduroglu, Priti Shah, Jessica K. Witt",
-        "url": "https://doi.org/10.31234/osf.io/mnt84"
       }
     ],
     "primary_subfield": "Perceptual Decision-Making",
@@ -20088,7 +20003,7 @@
   "0337": {
     "id": "0337",
     "name": "Joseph Pare",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Department of Emergency Medicine",
     "lab_name": "Emergency Ultrasound Research",
     "lab_url": "https://vivo.brown.edu/display/jpare",
@@ -22807,7 +22722,7 @@
   "0384": {
     "id": "0384",
     "name": "Laura Lewis",
-    "institution": "MIT",
+    "institution": "Massachusetts Institute of Technology",
     "department": "Institute for Medical Engineering and Science (IMES); Department of Electrical Engineering and Computer Science (EECS)",
     "lab_name": "Lewis Lab",
     "lab_url": "https://www.lewisneurolab.org/",
@@ -29109,7 +29024,7 @@
   "0493": {
     "id": "0493",
     "name": "Nancy Kanwisher",
-    "institution": "MIT",
+    "institution": "Massachusetts Institute of Technology",
     "department": "Department of Brain and Cognitive Sciences",
     "lab_name": "Kanwisher Lab",
     "lab_url": "https://kanwisherlab.mit.edu/",
@@ -30236,7 +30151,7 @@
   "0518": {
     "id": "0518",
     "name": "Okihide Hikosaka",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "National Eye Institute (NEI)",
     "lab_name": "Laboratory of Sensorimotor Research",
     "lab_url": "https://irp.nih.gov/pi/okihide-hikosaka",
@@ -30547,7 +30462,7 @@
   "0524": {
     "id": "0524",
     "name": "Pascal Mamassian",
-    "institution": "CNRS",
+    "institution": "French National Centre for Scientific Research",
     "department": "Département d’études cognitives",
     "lab_name": "Laboratoire des Systèmes Perceptifs",
     "lab_url": "https://lsp.dec.ens.fr/",
@@ -30746,7 +30661,7 @@
   "0529": {
     "id": "0529",
     "name": "Pawan Sinha",
-    "institution": "MIT",
+    "institution": "Massachusetts Institute of Technology",
     "department": "Department of Brain and Cognitive Sciences",
     "lab_name": "The Sinha Lab for Developmental Research",
     "lab_url": "https://sinhalab.mit.edu/",
@@ -30823,7 +30738,7 @@
   "0530": {
     "id": "0530",
     "name": "Peter Bandettini",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Laboratory of Brain and Cognition",
     "lab_name": "Section on Functional Imaging Methods",
     "lab_url": "https://www.nimh.nih.gov/research/research-conducted-at-nimh/principal-investigators/peter-bandettini",
@@ -32035,7 +31950,7 @@
   "0549": {
     "id": "0549",
     "name": "R. Conway Bevil",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Laboratory of Sensorimotor Research",
     "lab_name": "Sensation, Cognition, and Action Section",
     "lab_url": "https://www.nei.nih.gov/research/research-labs-and-branches/laboratory-sensorimotor-research/section-perception-cognition-action",
@@ -32736,7 +32651,7 @@
   "0564": {
     "id": "0564",
     "name": "Richard J. Krauzlis",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Laboratory of Sensorimotor Research",
     "lab_name": "Visual Circuits Section",
     "lab_url": "https://irp.nih.gov/pi/richard-krauzlis",
@@ -32975,7 +32890,7 @@
   "0568": {
     "id": "0568",
     "name": "Robert Desimone",
-    "institution": "MIT",
+    "institution": "Massachusetts Institute of Technology",
     "department": "Department of Brain and Cognitive Sciences",
     "lab_name": "Desimone Lab",
     "lab_url": "https://mcgovern.mit.edu/principal-investigator/robert-desimone/",
@@ -35916,7 +35831,7 @@
   "0618": {
     "id": "0618",
     "name": "Shruti Japee",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Laboratory of Brain and Cognition (LBC)",
     "lab_name": "Laboratory of Brain and Cognition (LBC)",
     "lab_url": "https://www.nimh.nih.gov/research/research-conducted-at-nimh/irp-groups/lbc/staff",
@@ -36770,15 +36685,6 @@
         "citations": "0",
         "authors": "Colin S. Flowers, Gordon E. Legge, Stephen A. Engel",
         "url": "https://doi.org/10.1167/jov.24.4.17"
-      },
-      {
-        "title": "Visual Snow Is Susceptible to the Motion Aftereffect",
-        "abstract": "This work characterizes the interaction between spontaneous neural activity in visual snow syndrome (VSS) and direction-selective neural populations in the visual cortex. Through a series of psychophysical experiments, the researchers demonstrated that adaptation to directional motion (drifting gratings) results in a subsequent perceived motion of the stationary flickering dots that constitute the visual snow symptom. The temporal dynamics of this effect, specifically the linear scaling of the log-MAE duration with the log-adapter duration, suggest that the spontaneous firing associated with VSS is integrated into the same cortical circuits that process external moving stimuli. This finding suggests that VSS symptoms may be localized to early-to-mid-level extrastriate regions including V5/MT.",
-        "year": "2025",
-        "venue": "PsyArXiv (Preprint)",
-        "citations": "0",
-        "authors": "Samantha A. Montoya, Anna J. Hillstrom, Karly D. Allison, Carter B. Mulder, Hannah R. Moser, Michael-Paul Schallmo, Stephen A. Engel",
-        "url": "https://doi.org/10.31234/osf.io/u6fcx"
       },
       {
         "title": "Effect of environmental color changes on chromatic sensitivity",
@@ -38918,15 +38824,6 @@
         "citations": "0",
         "authors": "Zeyuan Ye, Ralf Wessel, Tom P. Franken",
         "url": "https://doi.org/10.1016/j.isci.2025.112199"
-      },
-      {
-        "title": "Brain-like border ownership signals support prediction of natural videos",
-        "abstract": "The study explores the development of border ownership (BOS) selectivity in PredNet, a deep-learning-based predictive coding model trained to anticipate future frames in natural video datasets. Quantitative analysis reveals that significant populations of neural units in the model exhibit selective firing dependent on the side-of-ownership of object borders, independent of the local contrast polarity. The researchers utilized ablation techniques to determine that these BOS-selective units are critical for the model's ability to maintain high-fidelity predictions during object motion. The emergence of these signals in a network lacking explicit object-level supervision indicates that scene segmentation circuits in the primate visual system may have evolved primarily to facilitate the prediction of future sensory inputs in dynamic environments, rather than to serve as a purely descriptive representational layer.",
-        "year": "2024",
-        "venue": "bioRxiv (Preprint)",
-        "citations": "0",
-        "authors": "Zeyuan Ye, Ralf Wessel, Tom P. Franken",
-        "url": "https://doi.org/10.1101/2024.08.11.607040"
       }
     ],
     "primary_subfield": "Predictive & Feedback Dynamics",
@@ -39425,7 +39322,7 @@
   "0686": {
     "id": "0686",
     "name": "Vivian C. Paulun",
-    "institution": "MIT",
+    "institution": "Massachusetts Institute of Technology",
     "department": "Department of Psychology",
     "lab_name": "Paulun Lab",
     "lab_url": "https://paulunlab.psych.wisc.edu/",
@@ -40249,15 +40146,6 @@
         "citations": "0",
         "authors": "Can Oluk, Wilson S. Geisler",
         "url": "https://doi.org/10.1167/jov.25.2.3"
-      },
-      {
-        "title": "Optimal Visual Search with Highly Heuristic Decision Rules",
-        "abstract": "This computational and psychophysical study examines the discrepancy between Bayesian-optimal decision rules and the heuristic processes likely employed by biological visual systems during covert search tasks. The authors demonstrate that the use of a maximum-likelihood decision rule, or even simpler fixed heuristic rules that neglect specific variations in target detectability across the visual field, results in only marginal performance loss compared to the true ideal observer. The analysis incorporates foveated sensitivity maps and explores the impact of correlated neural noise on decision variable statistics. The results imply that the visual system's high efficiency in natural search tasks is supported by simple, robust computations that are easily learned and implemented in neural circuitry, provided that sensory responses are properly normalized by local scene statistics.",
-        "year": "2024",
-        "venue": "arXiv",
-        "citations": "0",
-        "authors": "Anqi Zhang, Wilson S. Geisler",
-        "url": "https://arxiv.org/abs/2409.12124"
       }
     ],
     "primary_subfield": "Perceptual Decision-Making",
@@ -41526,7 +41414,7 @@
   "0718": {
     "id": "0718",
     "name": "Zaghloul Kareem",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Surgical Neurology Branch",
     "lab_name": "Functional and Restorative Neurosurgery Unit",
     "lab_url": "https://www.ninds.nih.gov/about-ninds/who-we-are/kareem-zaghloul-md-phd",
@@ -44587,7 +44475,7 @@
   "E060": {
     "id": "E060",
     "name": "Rufin VanRullen",
-    "institution": "CNRS",
+    "institution": "French National Centre for Scientific Research",
     "department": "Centre de Recherche Cerveau et Cognition (CerCo)",
     "lab_name": "Neuro.AI",
     "lab_url": "https://rufinv.github.io",
@@ -49077,7 +48965,7 @@
   "E186": {
     "id": "E186",
     "name": "Earl Miller",
-    "institution": "MIT",
+    "institution": "Massachusetts Institute of Technology",
     "department": "Department of Brain and Cognitive Sciences",
     "lab_name": "The Miller Lab",
     "lab_url": "https://ekmillerlab.mit.edu",
@@ -52226,7 +52114,7 @@
   "E268": {
     "id": "E268",
     "name": "James A. Bourne",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Systems Neurodevelopment Laboratory",
     "lab_name": "Section on Cellular and Cognitive Neurodevelopment",
     "lab_url": "https://www.nimh.nih.gov/research/research-conducted-at-nimh/principal-investigators/james-bourne",
@@ -55837,7 +55725,7 @@
   "E343": {
     "id": "E343",
     "name": "Todd Horowitz",
-    "institution": "NIH",
+    "institution": "National Institutes of Health",
     "department": "Behavioral Research Program, Division of Cancer Control and Population Sciences",
     "lab_url": "https://cancercontrol.cancer.gov/brp/bbpsb/staff/todd-horowitz",
     "main_research_area": "visual attention and perception",

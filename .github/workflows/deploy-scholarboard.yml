@@ -43,15 +43,15 @@ jobs:
 
       - name: Clone website repo
         run: |
-          git clone git@github.com:yashsmehta/yashsmehta.github.io.git website
-          cd website
+          git clone git@github.com:yashsmehta/yashsmehta.github.io.git "$RUNNER_TEMP/website"
+          cd "$RUNNER_TEMP/website"
           git config user.name "ScholarBoard Deploy"
           git config user.email "deploy@scholarboard.ai"
 
       - name: Sync build output and data into website repo
         run: |
           set -e
-          TARGET=website/scholarboard
+          TARGET="$RUNNER_TEMP/website/scholarboard"
 
           rm -rf "$TARGET/assets"
           rm -f "$TARGET/index.html" "$TARGET/embedded-scholars.json"
@@ -75,7 +75,7 @@ jobs:
           rsync -a --delete data/build/profile_pics/ "$TARGET/data/build/profile_pics/"
 
       - name: Commit and push to website repo
-        working-directory: website
+        working-directory: ${{ runner.temp }}/website
         run: |
           git add scholarboard
           if git diff --cached --quiet; then

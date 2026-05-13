@@ -1,0 +1,5129 @@
+{
+  "generated_at": "2026-05-13T17:27:43Z",
+  "total_scholars": 810,
+  "total_pairs": 297,
+  "counts": {
+    "HIGH": 11,
+    "MEDIUM": 10,
+    "LOW": 276
+  },
+  "pairs": [
+    {
+      "a_id": "0649",
+      "b_id": "0661",
+      "a_name": "T.C Sprague",
+      "b_name": "Thomas C. Sprague",
+      "confidence": "HIGH",
+      "score": 317.5,
+      "signals": [
+        "token_containment",
+        "last_name_first_token_overlap",
+        "same_institution_similar_name",
+        "same_institution",
+        "shared_papers:3"
+      ],
+      "shared_papers": 3,
+      "paper_jaccard": 0.75,
+      "same_institution": true,
+      "sample_shared_titles": [
+        "Attention Modulates Stimulus Representations in Neural Feature Dimension Maps",
+        "Interactions between working memory and attention depend on remembered feature dimension",
+        "Retinotopic Spatial Working Memory Representations Are Not Affected by Task-irrelevant Visual Stimuli"
+      ],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0491",
+      "b_id": "0557",
+      "a_name": "N Apurva Ratan Murty",
+      "b_name": "Ratan Murty",
+      "confidence": "HIGH",
+      "score": 301.429,
+      "signals": [
+        "token_containment",
+        "last_name_first_token_overlap",
+        "same_institution_similar_name",
+        "same_institution",
+        "shared_papers:3"
+      ],
+      "shared_papers": 3,
+      "paper_jaccard": 0.429,
+      "same_institution": true,
+      "sample_shared_titles": [
+        "End-to-end topographic auditory models replicate signatures of human auditory cortex",
+        "Linking faces to social cognition: The temporal pole as a potential social switch",
+        "TopoNets: High performing vision and language models with brain-like topography"
+      ],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0103",
+      "b_id": "0622",
+      "a_name": "Buetti Simona",
+      "b_name": "Simona Buetti",
+      "confidence": "HIGH",
+      "score": 290.0,
+      "signals": [
+        "token_reversal",
+        "same_institution_similar_name",
+        "same_institution",
+        "shared_papers:4"
+      ],
+      "shared_papers": 4,
+      "paper_jaccard": 1.0,
+      "same_institution": true,
+      "sample_shared_titles": [
+        "Evaluating the contributions of top-down and bottom-up processing on eye movements during parallel visual search",
+        "Quantifying the relationship between search efficiency and perceptual similarity in color space across different efficient search tasks",
+        "Top-down instructions influence the attentional weight on color and shape dimensions during bidimensional search"
+      ],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0081",
+      "b_id": "0549",
+      "a_name": "Bevil Conway",
+      "b_name": "R. Conway Bevil",
+      "confidence": "HIGH",
+      "score": 273.333,
+      "signals": [
+        "token_reversal",
+        "same_institution_similar_name",
+        "same_institution",
+        "shared_papers:4"
+      ],
+      "shared_papers": 4,
+      "paper_jaccard": 0.667,
+      "same_institution": true,
+      "sample_shared_titles": [
+        "Color and Spatial Frequency Provide Functional Signatures of Retinotopic Visual Areas",
+        "The color of fruits in photographs and still life paintings",
+        "The origin of color categories"
+      ],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0110",
+      "b_id": "0368",
+      "a_name": "Chai-Youn Kim",
+      "b_name": "Kim Chai",
+      "confidence": "HIGH",
+      "score": 273.333,
+      "signals": [
+        "token_containment",
+        "same_institution_similar_name",
+        "same_institution",
+        "shared_papers:4"
+      ],
+      "shared_papers": 4,
+      "paper_jaccard": 0.667,
+      "same_institution": true,
+      "sample_shared_titles": [
+        "Audiovisual interactions outside of visual awareness during motion adaptation",
+        "Cybersickness in Augmented Reality: Subjective and physiological changes with the course of prolonged exposure",
+        "Prior conscious experience modulates the impact of audiovisual temporal correspondence on unconscious visual processing"
+      ],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0088",
+      "b_id": "0279",
+      "a_name": "Boutet Isabelle",
+      "b_name": "Isabelle Boutet",
+      "confidence": "HIGH",
+      "score": 260.0,
+      "signals": [
+        "token_reversal",
+        "same_institution_similar_name",
+        "same_institution",
+        "shared_papers:2"
+      ],
+      "shared_papers": 2,
+      "paper_jaccard": 0.4,
+      "same_institution": true,
+      "sample_shared_titles": [
+        "Emojis at Work: The Effects of Emoji Use on Perceptions of Competence and Appropriateness",
+        "Emotion Processing in Late Adulthood: The Effect of Emotional Valence and Face Age on Behavior and Scanning Patterns"
+      ],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E090",
+      "b_id": "E282",
+      "a_name": "Radoslaw Martin Cichy",
+      "b_name": "Radek Cichy",
+      "confidence": "HIGH",
+      "score": 201.429,
+      "signals": [
+        "same_institution_similar_name",
+        "same_institution",
+        "shared_papers:3"
+      ],
+      "shared_papers": 3,
+      "paper_jaccard": 0.429,
+      "same_institution": true,
+      "sample_shared_titles": [
+        "Auditory representations of words during silent visual reading",
+        "In silico discovery of representational relationships across visual cortex",
+        "Recurrence affects the geometry of visual representations across the ventral visual stream in the human brain"
+      ],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0047",
+      "b_id": "0367",
+      "a_name": "Anna C Nobre",
+      "b_name": "Kia Nobre",
+      "confidence": "HIGH",
+      "score": 192.5,
+      "signals": [
+        "same_institution_similar_name",
+        "same_institution",
+        "shared_papers:2"
+      ],
+      "shared_papers": 2,
+      "paper_jaccard": 0.25,
+      "same_institution": true,
+      "sample_shared_titles": [
+        "Implicit learning across varying temporal scales in individuals with and without mood instability",
+        "Neural dynamics of shifting attention between perception and working-memory contents"
+      ],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0006",
+      "b_id": "0188",
+      "a_name": "Adam Green",
+      "b_name": "E. J. Green",
+      "confidence": "HIGH",
+      "score": 140.0,
+      "signals": [
+        "token_containment"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0188",
+      "b_id": "E217",
+      "a_name": "E. J. Green",
+      "b_name": "C. Shawn Green",
+      "confidence": "HIGH",
+      "score": 140.0,
+      "signals": [
+        "token_containment"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0003",
+      "b_id": "0456",
+      "a_name": "A. Webster Michael",
+      "b_name": "Michael A. Webster",
+      "confidence": "HIGH",
+      "score": 100.0,
+      "signals": [
+        "token_reversal"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E331",
+      "b_id": "E332",
+      "a_name": "Maureen Neitz",
+      "b_name": "Jay Neitz",
+      "confidence": "MEDIUM",
+      "score": 127.143,
+      "signals": [
+        "same_institution_similar_name",
+        "same_institution",
+        "shared_papers:1"
+      ],
+      "shared_papers": 1,
+      "paper_jaccard": 0.143,
+      "same_institution": true,
+      "sample_shared_titles": [
+        "Diffusion Optics Technology (DOT): A Myopia Control Spectacle Lens Based on Contrast Theory"
+      ],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0084",
+      "b_id": "0401",
+      "a_name": "Billy Hammond",
+      "b_name": "Lisa Renzi-Hammond",
+      "confidence": "MEDIUM",
+      "score": 120.0,
+      "signals": [
+        "same_institution_similar_name",
+        "same_institution"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": true,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0341",
+      "b_id": "0546",
+      "a_name": "Juan Chen",
+      "b_name": "Qi Chen",
+      "confidence": "MEDIUM",
+      "score": 120.0,
+      "signals": [
+        "same_institution_similar_name",
+        "same_institution"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": true,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0702",
+      "b_id": "0719",
+      "a_name": "Xiaoqing Gao",
+      "b_name": "Zaifeng Gao",
+      "confidence": "MEDIUM",
+      "score": 120.0,
+      "signals": [
+        "same_institution_similar_name",
+        "same_institution"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": true,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0025",
+      "b_id": "0051",
+      "a_name": "Alexander C. Schütz",
+      "b_name": "Anna Schubö",
+      "confidence": "MEDIUM",
+      "score": 100.0,
+      "signals": [
+        "same_institution",
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": true,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0113",
+      "b_id": "0459",
+      "a_name": "Charles E. Connor",
+      "b_name": "Michael Bonner",
+      "confidence": "MEDIUM",
+      "score": 100.0,
+      "signals": [
+        "same_institution",
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": true,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0191",
+      "b_id": "0456",
+      "a_name": "Edward F Ester",
+      "b_name": "Michael A. Webster",
+      "confidence": "MEDIUM",
+      "score": 100.0,
+      "signals": [
+        "same_institution",
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": true,
+      "sample_shared_titles": [],
+      "truncated_for_a": true,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0603",
+      "b_id": "0669",
+      "a_name": "Sebastian M. Frank",
+      "b_name": "Tina Plank",
+      "confidence": "MEDIUM",
+      "score": 100.0,
+      "signals": [
+        "same_institution",
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": true,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0169",
+      "b_id": "0264",
+      "a_name": "Delwin Lindsey",
+      "b_name": "Hsin-Hung Li",
+      "confidence": "MEDIUM",
+      "score": 80.0,
+      "signals": [
+        "same_institution_similar_name",
+        "same_institution"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": true,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0311",
+      "b_id": "0346",
+      "a_name": "jiayu Zhan",
+      "b_name": "Jun-Yun Zhang",
+      "confidence": "MEDIUM",
+      "score": 80.0,
+      "signals": [
+        "same_institution_similar_name",
+        "same_institution"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": true,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0002",
+      "b_id": "0029",
+      "a_name": "A. Mike Burton",
+      "b_name": "Alisa Baron",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0002",
+      "b_id": "0079",
+      "a_name": "A. Mike Burton",
+      "b_name": "Benjamin van Buren",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0002",
+      "b_id": "E105",
+      "a_name": "A. Mike Burton",
+      "b_name": "Jason Barton",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0003",
+      "b_id": "0451",
+      "a_name": "A. Webster Michael",
+      "b_name": "Melchi M. Michel",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0005",
+      "b_id": "0396",
+      "a_name": "Aaron Seitz",
+      "b_name": "Linda B. Smith",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0005",
+      "b_id": "E331",
+      "a_name": "Aaron Seitz",
+      "b_name": "Maureen Neitz",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0005",
+      "b_id": "E332",
+      "a_name": "Aaron Seitz",
+      "b_name": "Jay Neitz",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0006",
+      "b_id": "0471",
+      "a_name": "Adam Green",
+      "b_name": "Michelle Greene",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0006",
+      "b_id": "E112",
+      "a_name": "Adam Green",
+      "b_name": "Iris Groen",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0007",
+      "b_id": "0298",
+      "a_name": "Adam Reeves",
+      "b_name": "Jennifer K. E. Steeves",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0009",
+      "b_id": "0434",
+      "a_name": "Adam W. Kiefer",
+      "b_name": "Martin Wiener",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0012",
+      "b_id": "0191",
+      "a_name": "Adrian Nestor",
+      "b_name": "Edward F Ester",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": true
+    },
+    {
+      "a_id": "0022",
+      "b_id": "E105",
+      "a_name": "Alex Martin",
+      "b_name": "Jason Barton",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0022",
+      "b_id": "E152",
+      "a_name": "Alex Martin",
+      "b_name": "Tamar Makin",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0024",
+      "b_id": "0168",
+      "a_name": "Alex White",
+      "b_name": "David Whitney",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0025",
+      "b_id": "0254",
+      "a_name": "Alexander C. Schütz",
+      "b_name": "Heiko H. Schütt",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0028",
+      "b_id": "0109",
+      "a_name": "Alice J. O'Toole",
+      "b_name": "Cathleen M. Moore",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0028",
+      "b_id": "E136",
+      "a_name": "Alice J. O'Toole",
+      "b_name": "Tirin Moore",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0028",
+      "b_id": "E308",
+      "a_name": "Alice J. O'Toole",
+      "b_name": "Nikolaus F. Troje",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0029",
+      "b_id": "0079",
+      "a_name": "Alisa Baron",
+      "b_name": "Benjamin van Buren",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0029",
+      "b_id": "0091",
+      "a_name": "Alisa Baron",
+      "b_name": "Bradford Z. Mahon",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0029",
+      "b_id": "0134",
+      "a_name": "Alisa Baron",
+      "b_name": "Claus-Christian Carbon",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0029",
+      "b_id": "E105",
+      "a_name": "Alisa Baron",
+      "b_name": "Jason Barton",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0030",
+      "b_id": "E005",
+      "a_name": "Allison B. Sekuler",
+      "b_name": "Thomas Euler",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0032",
+      "b_id": "0345",
+      "a_name": "Alon Hafri",
+      "b_name": "Julie M. Harris",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0032",
+      "b_id": "0387",
+      "a_name": "Alon Hafri",
+      "b_name": "Laurence Harris",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0032",
+      "b_id": "0725",
+      "a_name": "Alon Hafri",
+      "b_name": "Ziad M. Hafed",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0032",
+      "b_id": "E011",
+      "a_name": "Alon Hafri",
+      "b_name": "Kenneth Harris",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0042",
+      "b_id": "0594",
+      "a_name": "Andrew B. Leber",
+      "b_name": "Sarah Lamer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0042",
+      "b_id": "0645",
+      "a_name": "Andrew B. Leber",
+      "b_name": "Susanne Ferber",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0047",
+      "b_id": "0109",
+      "a_name": "Anna C Nobre",
+      "b_name": "Cathleen M. Moore",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0047",
+      "b_id": "E136",
+      "a_name": "Anna C Nobre",
+      "b_name": "Tirin Moore",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0048",
+      "b_id": "0316",
+      "a_name": "Anna Grubert",
+      "b_name": "Jocelyn Faubert",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0050",
+      "b_id": "0294",
+      "a_name": "Anna Ma-Wyatt",
+      "b_name": "Jay Pratt",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0050",
+      "b_id": "E253",
+      "a_name": "Anna Ma-Wyatt",
+      "b_name": "Valentin Wyart",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0059",
+      "b_id": "E156",
+      "a_name": "Arash Afraz",
+      "b_name": "Volker Franz",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0073",
+      "b_id": "0100",
+      "a_name": "Bas Rokers",
+      "b_name": "Brigitte Röder",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0076",
+      "b_id": "0106",
+      "a_name": "Benjamin Balas",
+      "b_name": "Caroline Blais",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0076",
+      "b_id": "0158",
+      "a_name": "Benjamin Balas",
+      "b_name": "David Alais",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0076",
+      "b_id": "0226",
+      "a_name": "Benjamin Balas",
+      "b_name": "Fuat Balci",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0078",
+      "b_id": "0439",
+      "a_name": "Benjamin Peters",
+      "b_name": "Mary Peterson",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0079",
+      "b_id": "0320",
+      "a_name": "Benjamin van Buren",
+      "b_name": "Johannes Burge",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0079",
+      "b_id": "0696",
+      "a_name": "Benjamin van Buren",
+      "b_name": "William S. Tuten",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0080",
+      "b_id": "0432",
+      "a_name": "Benjamin Wolfe",
+      "b_name": "Martin Rolfs",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0081",
+      "b_id": "0500",
+      "a_name": "Bevil Conway",
+      "b_name": "Nelson Cowan",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0083",
+      "b_id": "0721",
+      "a_name": "Bilge Sayim",
+      "b_name": "Zeynep M. Saygin",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0091",
+      "b_id": "0247",
+      "a_name": "Bradford Z. Mahon",
+      "b_name": "Guillaume S Masson",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0091",
+      "b_id": "E152",
+      "a_name": "Bradford Z. Mahon",
+      "b_name": "Tamar Makin",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0095",
+      "b_id": "0453",
+      "a_name": "Brian A. Anderson",
+      "b_name": "Mette Elmose Andersen",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0095",
+      "b_id": "E129",
+      "a_name": "Brian A. Anderson",
+      "b_name": "John M. Henderson",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0095",
+      "b_id": "E151",
+      "a_name": "Brian A. Anderson",
+      "b_name": "Richard A. Andersen",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0096",
+      "b_id": "E252",
+      "a_name": "Brian Keane",
+      "b_name": "Roozbeh Kiani",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0100",
+      "b_id": "E069",
+      "a_name": "Brigitte Röder",
+      "b_name": "James Elder",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0102",
+      "b_id": "E147",
+      "a_name": "Bruno Rossion",
+      "b_name": "Sabrina Rossit",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0104",
+      "b_id": "E236",
+      "a_name": "Carlos Ponce",
+      "b_name": "Charles Spence",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0106",
+      "b_id": "0158",
+      "a_name": "Caroline Blais",
+      "b_name": "David Alais",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0109",
+      "b_id": "0367",
+      "a_name": "Cathleen M. Moore",
+      "b_name": "Kia Nobre",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0113",
+      "b_id": "0514",
+      "a_name": "Charles E. Connor",
+      "b_name": "Nitzan Censor",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0113",
+      "b_id": "E254",
+      "a_name": "Charles E. Connor",
+      "b_name": "Tobias H. Donner",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0116",
+      "b_id": "0249",
+      "a_name": "Cheryl Olman",
+      "b_name": "Haluk Öǧmen",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0121",
+      "b_id": "0123",
+      "a_name": "Chris Baker",
+      "b_name": "Christian Vater",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0121",
+      "b_id": "0209",
+      "a_name": "Chris Baker",
+      "b_name": "Erik Blaser",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0121",
+      "b_id": "0258",
+      "a_name": "Chris Baker",
+      "b_name": "Herwig Baier",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0121",
+      "b_id": "0400",
+      "a_name": "Chris Baker",
+      "b_name": "Lisa M. Oakes",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0121",
+      "b_id": "0424",
+      "a_name": "Chris Baker",
+      "b_name": "Mark W. Becker",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0121",
+      "b_id": "0594",
+      "a_name": "Chris Baker",
+      "b_name": "Sarah Lamer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0123",
+      "b_id": "0144",
+      "a_name": "Christian Vater",
+      "b_name": "Daniel Baker",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0123",
+      "b_id": "0191",
+      "a_name": "Christian Vater",
+      "b_name": "Edward F Ester",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": true
+    },
+    {
+      "a_id": "0123",
+      "b_id": "0258",
+      "a_name": "Christian Vater",
+      "b_name": "Herwig Baier",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0123",
+      "b_id": "0536",
+      "a_name": "Christian Vater",
+      "b_name": "Petra Vetter",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0123",
+      "b_id": "0594",
+      "a_name": "Christian Vater",
+      "b_name": "Sarah Lamer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0123",
+      "b_id": "E081",
+      "a_name": "Christian Vater",
+      "b_name": "Nicholas Baker",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0129",
+      "b_id": "E005",
+      "a_name": "Christopher Tyler",
+      "b_name": "Thomas Euler",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0134",
+      "b_id": "E105",
+      "a_name": "Claus-Christian Carbon",
+      "b_name": "Jason Barton",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0136",
+      "b_id": "0668",
+      "a_name": "Clayton Hickey",
+      "b_name": "Timothy Vickery",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0139",
+      "b_id": "0549",
+      "a_name": "Corey Bohil",
+      "b_name": "R. Conway Bevil",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0140",
+      "b_id": "0301",
+      "a_name": "Cory Miller",
+      "b_name": "Jeremy B Wilmer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0140",
+      "b_id": "0335",
+      "a_name": "Cory Miller",
+      "b_name": "Jorge Otero-Millan",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0140",
+      "b_id": "E300",
+      "a_name": "Cory Miller",
+      "b_name": "Marla Feller",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0142",
+      "b_id": "0325",
+      "a_name": "Cristina de la Malla",
+      "b_name": "John Maule",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0142",
+      "b_id": "0335",
+      "a_name": "Cristina de la Malla",
+      "b_name": "Jorge Otero-Millan",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0144",
+      "b_id": "0209",
+      "a_name": "Daniel Baker",
+      "b_name": "Erik Blaser",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0144",
+      "b_id": "0258",
+      "a_name": "Daniel Baker",
+      "b_name": "Herwig Baier",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0144",
+      "b_id": "0400",
+      "a_name": "Daniel Baker",
+      "b_name": "Lisa M. Oakes",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0144",
+      "b_id": "0424",
+      "a_name": "Daniel Baker",
+      "b_name": "Mark W. Becker",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0144",
+      "b_id": "0594",
+      "a_name": "Daniel Baker",
+      "b_name": "Sarah Lamer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0146",
+      "b_id": "0285",
+      "a_name": "Daniel Denman",
+      "b_name": "James Herman",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0146",
+      "b_id": "E170",
+      "a_name": "Daniel Denman",
+      "b_name": "John Duncan",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0148",
+      "b_id": "0258",
+      "a_name": "Daniel Kaiser",
+      "b_name": "Herwig Baier",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0148",
+      "b_id": "E234",
+      "a_name": "Daniel Kaiser",
+      "b_name": "Christoph Kayser",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0150",
+      "b_id": "0400",
+      "a_name": "Daniel R Coates",
+      "b_name": "Lisa M. Oakes",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0151",
+      "b_id": "0688",
+      "a_name": "Daniel Schneider",
+      "b_name": "Walter Scheirer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0160",
+      "b_id": "0191",
+      "a_name": "David E Osher",
+      "b_name": "Edward F Ester",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": true
+    },
+    {
+      "a_id": "0160",
+      "b_id": "0628",
+      "a_name": "David E Osher",
+      "b_name": "Sophia Vinci-Booher",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0160",
+      "b_id": "E214",
+      "a_name": "David E Osher",
+      "b_name": "Barbara Anne Dosher",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0160",
+      "b_id": "E263",
+      "a_name": "David E Osher",
+      "b_name": "Marius Usher",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0167",
+      "b_id": "0247",
+      "a_name": "David Watson",
+      "b_name": "Guillaume S Masson",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0167",
+      "b_id": "0676",
+      "a_name": "David Watson",
+      "b_name": "Uri Hasson",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0169",
+      "b_id": "E044",
+      "a_name": "Delwin Lindsey",
+      "b_name": "Grace Lindsay",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0170",
+      "b_id": "0375",
+      "a_name": "Denis G Pelli",
+      "b_name": "Krista Kelly",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0170",
+      "b_id": "0551",
+      "a_name": "Denis G Pelli",
+      "b_name": "Rachel Kelly",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0182",
+      "b_id": "0622",
+      "a_name": "Domenica Bueti",
+      "b_name": "Simona Buetti",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0184",
+      "b_id": "0285",
+      "a_name": "Dora Hermes",
+      "b_name": "James Herman",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0188",
+      "b_id": "0471",
+      "a_name": "E. J. Green",
+      "b_name": "Michelle Greene",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0188",
+      "b_id": "E112",
+      "a_name": "E. J. Green",
+      "b_name": "Iris Groen",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0191",
+      "b_id": "0340",
+      "a_name": "Edward F Ester",
+      "b_name": "Jr. Rhea T. Eskew",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": true,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0191",
+      "b_id": "0426",
+      "a_name": "Edward F Ester",
+      "b_name": "Markus Meister",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": true,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0191",
+      "b_id": "0430",
+      "a_name": "Edward F Ester",
+      "b_name": "Martin Eimer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": true,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0191",
+      "b_id": "0536",
+      "a_name": "Edward F Ester",
+      "b_name": "Petra Vetter",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": true,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0191",
+      "b_id": "E005",
+      "a_name": "Edward F Ester",
+      "b_name": "Thomas Euler",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": true,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0191",
+      "b_id": "E069",
+      "a_name": "Edward F Ester",
+      "b_name": "James Elder",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": true,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0192",
+      "b_id": "0230",
+      "a_name": "Edward K. Vogel",
+      "b_name": "Galit Yovel",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0192",
+      "b_id": "0634",
+      "a_name": "Edward K. Vogel",
+      "b_name": "Stephen Engel",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0201",
+      "b_id": "0628",
+      "a_name": "Emily A Cooper",
+      "b_name": "Sophia Vinci-Booher",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0207",
+      "b_id": "E006",
+      "a_name": "Erez Freud",
+      "b_name": "Greg Field",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0207",
+      "b_id": "E167",
+      "a_name": "Erez Freud",
+      "b_name": "Stefan Treue",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0209",
+      "b_id": "0258",
+      "a_name": "Erik Blaser",
+      "b_name": "Herwig Baier",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0209",
+      "b_id": "0594",
+      "a_name": "Erik Blaser",
+      "b_name": "Sarah Lamer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0209",
+      "b_id": "E081",
+      "a_name": "Erik Blaser",
+      "b_name": "Nicholas Baker",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0210",
+      "b_id": "0346",
+      "a_name": "Erik Chihhung Chang",
+      "b_name": "Jun-Yun Zhang",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0210",
+      "b_id": "0521",
+      "a_name": "Erik Chihhung Chang",
+      "b_name": "Olivia S. Cheung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0210",
+      "b_id": "0579",
+      "a_name": "Erik Chihhung Chang",
+      "b_name": "Ru-Yuan Zhang",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0210",
+      "b_id": "0590",
+      "a_name": "Erik Chihhung Chang",
+      "b_name": "Sang Chul Chong",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0210",
+      "b_id": "0644",
+      "a_name": "Erik Chihhung Chang",
+      "b_name": "Susana T. L Chung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0210",
+      "b_id": "0692",
+      "a_name": "Erik Chihhung Chang",
+      "b_name": "Weiwei Zhang",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0210",
+      "b_id": "0708",
+      "a_name": "Erik Chihhung Chang",
+      "b_name": "Yi Jiang",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0210",
+      "b_id": "E026",
+      "a_name": "Erik Chihhung Chang",
+      "b_name": "SueYeon Chung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0213",
+      "b_id": "0428",
+      "a_name": "Eva Wiese",
+      "b_name": "Martin A. Giese",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0213",
+      "b_id": "0434",
+      "a_name": "Eva Wiese",
+      "b_name": "Martin Wiener",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0213",
+      "b_id": "E001",
+      "a_name": "Eva Wiese",
+      "b_name": "Fred Rieke",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0218",
+      "b_id": "0603",
+      "a_name": "Felix Franke",
+      "b_name": "Sebastian M. Frank",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0218",
+      "b_id": "0671",
+      "a_name": "Felix Franke",
+      "b_name": "Tom P. Franken",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0218",
+      "b_id": "E156",
+      "a_name": "Felix Franke",
+      "b_name": "Volker Franz",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0220",
+      "b_id": "0232",
+      "a_name": "Frank Bremmer",
+      "b_name": "Gene Brewer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0220",
+      "b_id": "E144",
+      "a_name": "Frank Bremmer",
+      "b_name": "Eli Brenner",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0225",
+      "b_id": "0504",
+      "a_name": "Frédéric Gosselin",
+      "b_name": "Nicholas Gaspelin",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0226",
+      "b_id": "0631",
+      "a_name": "Fuat Balci",
+      "b_name": "Stefania Bracci",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0232",
+      "b_id": "E144",
+      "a_name": "Gene Brewer",
+      "b_name": "Eli Brenner",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0237",
+      "b_id": "E125",
+      "a_name": "George Sperling",
+      "b_name": "Miriam Spering",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0246",
+      "b_id": "E366",
+      "a_name": "Guido Maiello",
+      "b_name": "Marco Marelli",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0247",
+      "b_id": "0676",
+      "a_name": "Guillaume S Masson",
+      "b_name": "Uri Hasson",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0251",
+      "b_id": "0252",
+      "a_name": "Hannah Block",
+      "b_name": "Hans Op de Beeck",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0256",
+      "b_id": "E007",
+      "a_name": "Hendrikje Nienborg",
+      "b_name": "Sheila Nirenberg",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0258",
+      "b_id": "0594",
+      "a_name": "Herwig Baier",
+      "b_name": "Sarah Lamer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0258",
+      "b_id": "E081",
+      "a_name": "Herwig Baier",
+      "b_name": "Nicholas Baker",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0260",
+      "b_id": "0428",
+      "a_name": "Holger Wiese",
+      "b_name": "Martin A. Giese",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0260",
+      "b_id": "0434",
+      "a_name": "Holger Wiese",
+      "b_name": "Martin Wiener",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0260",
+      "b_id": "E001",
+      "a_name": "Holger Wiese",
+      "b_name": "Fred Rieke",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0279",
+      "b_id": "0299",
+      "a_name": "Isabelle Boutet",
+      "b_name": "Jenny Bosten",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0279",
+      "b_id": "E259",
+      "a_name": "Isabelle Boutet",
+      "b_name": "Alexandre Pouget",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0282",
+      "b_id": "0537",
+      "a_name": "Jacob Feldman",
+      "b_name": "Philip J. Kellman",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0285",
+      "b_id": "E203",
+      "a_name": "James Herman",
+      "b_name": "Jason Haberman",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0294",
+      "b_id": "0464",
+      "a_name": "Jay Pratt",
+      "b_name": "Michael Pratte",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0296",
+      "b_id": "0353",
+      "a_name": "Jeffrey D. Wammes",
+      "b_name": "Karin James",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0299",
+      "b_id": "0357",
+      "a_name": "Jenny Bosten",
+      "b_name": "Kathryn Bonnen",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0301",
+      "b_id": "0365",
+      "a_name": "Jeremy B Wilmer",
+      "b_name": "Kenneth D. Miller",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0301",
+      "b_id": "0430",
+      "a_name": "Jeremy B Wilmer",
+      "b_name": "Martin Eimer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0301",
+      "b_id": "0434",
+      "a_name": "Jeremy B Wilmer",
+      "b_name": "Martin Wiener",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0301",
+      "b_id": "E186",
+      "a_name": "Jeremy B Wilmer",
+      "b_name": "Earl Miller",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0302",
+      "b_id": "0432",
+      "a_name": "Jeremy M. Wolfe",
+      "b_name": "Martin Rolfs",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0320",
+      "b_id": "E268",
+      "a_name": "Johannes Burge",
+      "b_name": "James A. Bourne",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0335",
+      "b_id": "0365",
+      "a_name": "Jorge Otero-Millan",
+      "b_name": "Kenneth D. Miller",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0335",
+      "b_id": "E186",
+      "a_name": "Jorge Otero-Millan",
+      "b_name": "Earl Miller",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0342",
+      "b_id": "0451",
+      "a_name": "Jude Mitchell",
+      "b_name": "Melchi M. Michel",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0346",
+      "b_id": "0590",
+      "a_name": "Jun-Yun Zhang",
+      "b_name": "Sang Chul Chong",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0346",
+      "b_id": "0644",
+      "a_name": "Jun-Yun Zhang",
+      "b_name": "Susana T. L Chung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0346",
+      "b_id": "0708",
+      "a_name": "Jun-Yun Zhang",
+      "b_name": "Yi Jiang",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0346",
+      "b_id": "E026",
+      "a_name": "Jun-Yun Zhang",
+      "b_name": "SueYeon Chung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0353",
+      "b_id": "0400",
+      "a_name": "Karin James",
+      "b_name": "Lisa M. Oakes",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0353",
+      "b_id": "0481",
+      "a_name": "Karin James",
+      "b_name": "Molly Jameson",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0353",
+      "b_id": "0594",
+      "a_name": "Karin James",
+      "b_name": "Sarah Lamer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0353",
+      "b_id": "0618",
+      "a_name": "Karin James",
+      "b_name": "Shruti Japee",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0357",
+      "b_id": "0459",
+      "a_name": "Kathryn Bonnen",
+      "b_name": "Michael Bonner",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0357",
+      "b_id": "E254",
+      "a_name": "Kathryn Bonnen",
+      "b_name": "Tobias H. Donner",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0358",
+      "b_id": "E300",
+      "a_name": "Katja Fiehler",
+      "b_name": "Marla Feller",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0358",
+      "b_id": "E357",
+      "a_name": "Katja Fiehler",
+      "b_name": "Johannes Ziegler",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0362",
+      "b_id": "0688",
+      "a_name": "Keith A. Schneider",
+      "b_name": "Walter Scheirer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0364",
+      "b_id": "0441",
+      "a_name": "Ken Nakayama",
+      "b_name": "Masataka Sawayama",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0365",
+      "b_id": "E300",
+      "a_name": "Kenneth D. Miller",
+      "b_name": "Marla Feller",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0367",
+      "b_id": "E136",
+      "a_name": "Kia Nobre",
+      "b_name": "Tirin Moore",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0375",
+      "b_id": "E274",
+      "a_name": "Krista Kelly",
+      "b_name": "Zsuzsa Kaldy",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0378",
+      "b_id": "E057",
+      "a_name": "Kristina Visscher",
+      "b_name": "Jason Fischer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0380",
+      "b_id": "E191",
+      "a_name": "Krystel Huxlin",
+      "b_name": "Masud Husain",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0400",
+      "b_id": "E081",
+      "a_name": "Lisa M. Oakes",
+      "b_name": "Nicholas Baker",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0410",
+      "b_id": "0529",
+      "a_name": "Manish Singh",
+      "b_name": "Pawan Sinha",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0419",
+      "b_id": "0430",
+      "a_name": "Mark B. Neider",
+      "b_name": "Martin Eimer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0419",
+      "b_id": "E069",
+      "a_name": "Mark B. Neider",
+      "b_name": "James Elder",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0422",
+      "b_id": "0471",
+      "a_name": "Mark Greenlee",
+      "b_name": "Michelle Greene",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0424",
+      "b_id": "0658",
+      "a_name": "Mark W. Becker",
+      "b_name": "Tessa Dekker",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0424",
+      "b_id": "E081",
+      "a_name": "Mark W. Becker",
+      "b_name": "Nicholas Baker",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0425",
+      "b_id": "0618",
+      "a_name": "Markus Lappe",
+      "b_name": "Shruti Japee",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0425",
+      "b_id": "E168",
+      "a_name": "Markus Lappe",
+      "b_name": "Nilli Lavie",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0425",
+      "b_id": "E264",
+      "a_name": "Markus Lappe",
+      "b_name": "Floris P. de Lange",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0426",
+      "b_id": "0456",
+      "a_name": "Markus Meister",
+      "b_name": "Michael A. Webster",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0426",
+      "b_id": "0698",
+      "a_name": "Markus Meister",
+      "b_name": "Wilson Geisler",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0428",
+      "b_id": "E001",
+      "a_name": "Martin A. Giese",
+      "b_name": "Fred Rieke",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0430",
+      "b_id": "0594",
+      "a_name": "Martin Eimer",
+      "b_name": "Sarah Lamer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0430",
+      "b_id": "E005",
+      "a_name": "Martin Eimer",
+      "b_name": "Thomas Euler",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0430",
+      "b_id": "E069",
+      "a_name": "Martin Eimer",
+      "b_name": "James Elder",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0439",
+      "b_id": "0448",
+      "a_name": "Mary Peterson",
+      "b_name": "Megan A. K. Peters",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0459",
+      "b_id": "0628",
+      "a_name": "Michael Bonner",
+      "b_name": "Sophia Vinci-Booher",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0459",
+      "b_id": "E144",
+      "a_name": "Michael Bonner",
+      "b_name": "Eli Brenner",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0459",
+      "b_id": "E254",
+      "a_name": "Michael Bonner",
+      "b_name": "Tobias H. Donner",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0465",
+      "b_id": "0647",
+      "a_name": "Michael S. Landy",
+      "b_name": "T Rowan Candy",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0465",
+      "b_id": "E264",
+      "a_name": "Michael S. Landy",
+      "b_name": "Floris P. de Lange",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0465",
+      "b_id": "E274",
+      "a_name": "Michael S. Landy",
+      "b_name": "Zsuzsa Kaldy",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0470",
+      "b_id": "0631",
+      "a_name": "Michele Rucci",
+      "b_name": "Stefania Bracci",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0471",
+      "b_id": "E112",
+      "a_name": "Michelle Greene",
+      "b_name": "Iris Groen",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0471",
+      "b_id": "E217",
+      "a_name": "Michelle Greene",
+      "b_name": "C. Shawn Green",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0473",
+      "b_id": "E107",
+      "a_name": "Miguel Eckstein",
+      "b_name": "Russell Epstein",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0490",
+      "b_id": "0634",
+      "a_name": "Máté Lengyel",
+      "b_name": "Stephen Engel",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0500",
+      "b_id": "E202",
+      "a_name": "Nelson Cowan",
+      "b_name": "Michael A. Cohen",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0500",
+      "b_id": "E296",
+      "a_name": "Nelson Cowan",
+      "b_name": "Marlene Cohen",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0500",
+      "b_id": "E348",
+      "a_name": "Nelson Cowan",
+      "b_name": "Laurent Cohen",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0509",
+      "b_id": "E267",
+      "a_name": "Niko A. Busch",
+      "b_name": "Eileen Birch",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0520",
+      "b_id": "E105",
+      "a_name": "Oliver Layton",
+      "b_name": "Jason Barton",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0521",
+      "b_id": "0590",
+      "a_name": "Olivia S. Cheung",
+      "b_name": "Sang Chul Chong",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0521",
+      "b_id": "0644",
+      "a_name": "Olivia S. Cheung",
+      "b_name": "Susana T. L Chung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0521",
+      "b_id": "E026",
+      "a_name": "Olivia S. Cheung",
+      "b_name": "SueYeon Chung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0523",
+      "b_id": "0529",
+      "a_name": "Paola Binda",
+      "b_name": "Pawan Sinha",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0548",
+      "b_id": "0590",
+      "a_name": "Quoc Vuong",
+      "b_name": "Sang Chul Chong",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0548",
+      "b_id": "0709",
+      "a_name": "Quoc Vuong",
+      "b_name": "Ying-zi Xiong",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0551",
+      "b_id": "E274",
+      "a_name": "Rachel Kelly",
+      "b_name": "Zsuzsa Kaldy",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0579",
+      "b_id": "0590",
+      "a_name": "Ru-Yuan Zhang",
+      "b_name": "Sang Chul Chong",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0579",
+      "b_id": "0644",
+      "a_name": "Ru-Yuan Zhang",
+      "b_name": "Susana T. L Chung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0579",
+      "b_id": "0708",
+      "a_name": "Ru-Yuan Zhang",
+      "b_name": "Yi Jiang",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0579",
+      "b_id": "E026",
+      "a_name": "Ru-Yuan Zhang",
+      "b_name": "SueYeon Chung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0580",
+      "b_id": "E323",
+      "a_name": "Ruben Coen-Cagli",
+      "b_name": "Takehiro Nagai",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0590",
+      "b_id": "0644",
+      "a_name": "Sang Chul Chong",
+      "b_name": "Susana T. L Chung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0590",
+      "b_id": "0692",
+      "a_name": "Sang Chul Chong",
+      "b_name": "Weiwei Zhang",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0590",
+      "b_id": "0709",
+      "a_name": "Sang Chul Chong",
+      "b_name": "Ying-zi Xiong",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0590",
+      "b_id": "E026",
+      "a_name": "Sang Chul Chong",
+      "b_name": "SueYeon Chung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0594",
+      "b_id": "E081",
+      "a_name": "Sarah Lamer",
+      "b_name": "Nicholas Baker",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0602",
+      "b_id": "E228",
+      "a_name": "Sean Polyn",
+      "b_name": "Uri Polat",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0603",
+      "b_id": "0671",
+      "a_name": "Sebastian M. Frank",
+      "b_name": "Tom P. Franken",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0603",
+      "b_id": "E156",
+      "a_name": "Sebastian M. Frank",
+      "b_name": "Volker Franz",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0608",
+      "b_id": "0666",
+      "a_name": "Shannon Ross-Sheehy",
+      "b_name": "Timothy D. Sweeny",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0628",
+      "b_id": "E214",
+      "a_name": "Sophia Vinci-Booher",
+      "b_name": "Barbara Anne Dosher",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0637",
+      "b_id": "E066",
+      "a_name": "Steven Dakin",
+      "b_name": "Duje Tadin",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0637",
+      "b_id": "E152",
+      "a_name": "Steven Dakin",
+      "b_name": "Tamar Makin",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0644",
+      "b_id": "0692",
+      "a_name": "Susana T. L Chung",
+      "b_name": "Weiwei Zhang",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0645",
+      "b_id": "E300",
+      "a_name": "Susanne Ferber",
+      "b_name": "Marla Feller",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0647",
+      "b_id": "E274",
+      "a_name": "T Rowan Candy",
+      "b_name": "Zsuzsa Kaldy",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0669",
+      "b_id": "0681",
+      "a_name": "Tina Plank",
+      "b_name": "Victoria Plaza",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0670",
+      "b_id": "E357",
+      "a_name": "Todd Zickler",
+      "b_name": "Johannes Ziegler",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0673",
+      "b_id": "E301",
+      "a_name": "Tony Pansell",
+      "b_name": "John Maunsell",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0676",
+      "b_id": "E235",
+      "a_name": "Uri Hasson",
+      "b_name": "Henrik Ehrsson",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0684",
+      "b_id": "E065",
+      "a_name": "Viola Stoermer",
+      "b_name": "Philipp Sterzer",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0692",
+      "b_id": "0708",
+      "a_name": "Weiwei Zhang",
+      "b_name": "Yi Jiang",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0692",
+      "b_id": "E026",
+      "a_name": "Weiwei Zhang",
+      "b_name": "SueYeon Chung",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0708",
+      "b_id": "0709",
+      "a_name": "Yi Jiang",
+      "b_name": "Ying-zi Xiong",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0708",
+      "b_id": "E252",
+      "a_name": "Yi Jiang",
+      "b_name": "Roozbeh Kiani",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0708",
+      "b_id": "E342",
+      "a_name": "Yi Jiang",
+      "b_name": "Beatriz Gil-Gómez de Liaño",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E001",
+      "b_id": "E018",
+      "a_name": "Fred Rieke",
+      "b_name": "Nicholas Priebe",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E005",
+      "b_id": "E069",
+      "a_name": "Thomas Euler",
+      "b_name": "James Elder",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E005",
+      "b_id": "E300",
+      "a_name": "Thomas Euler",
+      "b_name": "Marla Feller",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E006",
+      "b_id": "E292",
+      "a_name": "Greg Field",
+      "b_name": "Christopher Niell",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E045",
+      "b_id": "E144",
+      "a_name": "Wieland Brendel",
+      "b_name": "Eli Brenner",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E066",
+      "b_id": "E152",
+      "a_name": "Duje Tadin",
+      "b_name": "Tamar Makin",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E069",
+      "b_id": "E300",
+      "a_name": "James Elder",
+      "b_name": "Marla Feller",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E105",
+      "b_id": "E330",
+      "a_name": "Jason Barton",
+      "b_name": "Paul Martin",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E112",
+      "b_id": "E217",
+      "a_name": "Iris Groen",
+      "b_name": "C. Shawn Green",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E114",
+      "b_id": "E158",
+      "a_name": "Thomas Wolbers",
+      "b_name": "Daniel Wolpert",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E152",
+      "b_id": "E330",
+      "a_name": "Tamar Makin",
+      "b_name": "Paul Martin",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E167",
+      "b_id": "E308",
+      "a_name": "Stefan Treue",
+      "b_name": "Nikolaus F. Troje",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E168",
+      "b_id": "E264",
+      "a_name": "Nilli Lavie",
+      "b_name": "Floris P. de Lange",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E178",
+      "b_id": "E353",
+      "a_name": "Bradley Postle",
+      "b_name": "Kathleen Rastle",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E186",
+      "b_id": "E300",
+      "a_name": "Earl Miller",
+      "b_name": "Marla Feller",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E214",
+      "b_id": "E254",
+      "a_name": "Barbara Anne Dosher",
+      "b_name": "Tobias H. Donner",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E214",
+      "b_id": "E263",
+      "a_name": "Barbara Anne Dosher",
+      "b_name": "Marius Usher",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E236",
+      "b_id": "E281",
+      "a_name": "Charles Spence",
+      "b_name": "Elizabeth Spelke",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E241",
+      "b_id": "E292",
+      "a_name": "Fiona Newell",
+      "b_name": "Christopher Niell",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E252",
+      "b_id": "E342",
+      "a_name": "Roozbeh Kiani",
+      "b_name": "Beatriz Gil-Gómez de Liaño",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E262",
+      "b_id": "E283",
+      "a_name": "Timothy D. Hanks",
+      "b_name": "John-Dylan Haynes",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:2"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "E302",
+      "b_id": "E343",
+      "a_name": "Greg Horwitz",
+      "b_name": "Todd Horowitz",
+      "confidence": "LOW",
+      "score": 20.0,
+      "signals": [
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    },
+    {
+      "a_id": "0165",
+      "b_id": "0166",
+      "a_name": "David Soto",
+      "b_name": "David Souto",
+      "confidence": "LOW",
+      "score": 0.0,
+      "signals": [
+        "previously_resolved_round_1",
+        "surname_levenshtein:1"
+      ],
+      "shared_papers": 0,
+      "paper_jaccard": 0.0,
+      "same_institution": false,
+      "sample_shared_titles": [],
+      "truncated_for_a": false,
+      "truncated_for_b": false
+    }
+  ]
+}

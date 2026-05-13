@@ -54,3 +54,19 @@ Nine user-approved merges of records that were the same person (token reversal, 
 | `E090` | `E282` | Radoslaw Martin Cichy | Freie Universität Berlin | nickname (Radek = Radoslaw), same lab URL |
 | `0047` | `0367` | Anna C. Nobre | Yale University | nickname (Kia = Anna), same lab URL |
 | `0456` | `0003` | Michael A. Webster | University of Nevada, Reno | token reversal, same lab |
+
+### Trim papers to 5 most recent (round-3 survivors)
+
+After the merges above, papers were unioned, so several survivors exceeded the 5-paper cap. Trimmed each to the 5 most recent papers (year descending, citations as tiebreaker). Author-position filtering was not changed in this pass — papers remain last-author only.
+
+| Scholar | Before | After |
+|---|---|---|
+| `0661` Thomas C. Sprague | 4 | 4 |
+| `0491` N. Apurva Ratan Murty | 7 | 5 |
+| `0622` Simona Buetti | 4 | 4 |
+| `0081` Bevil Conway | 6 | 5 |
+| `0110` Chai-Youn Kim | 6 | 5 |
+| `0279` Isabelle Boutet | 5 | 5 |
+| `E090` Radoslaw Martin Cichy | 7 | 5 |
+| `0047` Anna C. Nobre | 8 | 5 |
+| `0456` Michael A. Webster | 10 | 5 |

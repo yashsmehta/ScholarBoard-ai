@@ -10,7 +10,7 @@
 
 ScholarBoard.ai is a website that visualizes the field of vision science as a 2D map. Each dot is a researcher. Dots that are close together work on similar problems; dots that are far apart work on very different ones. The layout emerges entirely from AI — there are no manual labels or hand-curated clusters.
 
-The current map covers **~730 vision science researchers** spanning the field's 23 subfields.
+The current map covers **~810 vision science researchers** (principal investigators) spanning the field's 23 subfields.
 
 ---
 
@@ -30,8 +30,8 @@ All researcher data is collected and processed automatically by an AI pipeline:
 
 1. **Papers** — Gemini searches the web for each researcher's recent publications
 2. **Profiles** — Gemini fetches their bio, institution, department, and lab URL from public academic pages
-3. **Map layout** — paper texts are embedded into high-dimensional vectors, then reduced to 2D with UMAP and clustered with HDBSCAN
-4. **Subfield tags** — each researcher is matched to the closest of 23 vision science subfields using semantic similarity
+3. **Map layout** — each researcher's distilled research direction plus their paper texts are embedded into high-dimensional vectors, then reduced to 2D with UMAP to position them by research similarity
+4. **Subfield tags** — a Gemini 3 Flash classifier reads each researcher's profile and assigns them to one of the 21 Vision Sciences Society (VSS) topic areas (one primary + up to two secondary)
 5. **Research ideas** — Gemini 3.1 Pro (with extended thinking) reads a researcher's papers and proposes a novel next direction
 6. **Photos** — headshots are sourced from public academic pages via image search
 

@@ -40,12 +40,12 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
               <p>
                 Researchers were drawn from two sources. The first is the Vision Sciences
                 Society (VSS) — we started with roughly 730 presenters and attendees from
-                recent VSS meetings. The second is an AI-powered search: for each of 23
-                hand-curated vision neuroscience subfields (e.g., motion perception, scene
-                understanding, visual cortex organization), we asked Gemini AI — with live
-                web search — to find active researchers prominent in that area who weren't
-                already in the VSS list. Both lists were merged and deduplicated, then
-                filtered to principal investigators running their own research programs.
+                recent VSS meetings. The second is an AI-powered search: for each of the 21
+                VSS topic areas (e.g., motion, scene perception, eye movements), we asked
+                Gemini AI — with live web search — to find active researchers prominent in
+                that area who weren't already in the VSS list. Both lists were merged and
+                deduplicated, then filtered to principal investigators running their own
+                research programs.
               </p>
             </div>
           </div>
@@ -94,9 +94,9 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
             <div>
               <h3>Coloring by subfield</h3>
               <p>
-                Each dot's color reflects its primary research subfield. We match each
-                researcher's work to 23 vision science subfields using semantic similarity
-                between their papers and subfield descriptions. The top-matching subfield
+                Each dot's color reflects its primary research subfield. A Gemini language
+                model reads each researcher's profile and papers and assigns them to one of
+                the 21 Vision Sciences Society (VSS) topic areas. That primary topic area
                 determines the dot color.
               </p>
             </div>
@@ -107,10 +107,10 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
             <div>
               <h3>Subfield tags</h3>
               <p>
-                Each researcher was tagged with one or more of 23 vision science subfields
-                (e.g., Object Recognition, Eye Movements, fMRI/Neuroimaging). Tags were
-                assigned by comparing each researcher's fingerprint to a description of each
-                subfield and finding the closest matches.
+                Each researcher is tagged with one primary plus up to two secondary topic
+                areas from the 21 VSS categories (e.g., Object Recognition, Eye Movements,
+                Theory & Computation). The same Gemini classifier picks the topics that best
+                capture the center of gravity of their work.
               </p>
             </div>
           </div>

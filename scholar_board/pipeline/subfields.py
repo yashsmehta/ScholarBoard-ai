@@ -1,198 +1,199 @@
 """
-Assign vision science subfield labels to scholars using embedding similarity.
+Assign Vision Sciences Society (VSS) topic areas to scholars with an LLM.
 
-Embeds subfield descriptions and scholar research texts with
-Gemini gemini-embedding-001 (task_type=SEMANTIC_SIMILARITY, 3072 dims),
-then assigns each scholar their top matching subfields via cosine similarity.
+For each PI, Gemini 3 Flash reads the researcher's profile (bio, stated research
+area, AI-distilled research direction, and recent papers) and picks the single
+best-fitting VSS topic area as `primary`, plus up to two `secondary` areas.
+This replaces the earlier embedding cosine-similarity approach — a language model
+judges fit directly, which handles the boundary cases (mechanism vs. application,
+computational vs. empirical) far better than nearest-neighbor on embeddings.
 
-Prefers the AI-generated research direction paragraph (from the directions
-step) when available, falling back to raw paper text otherwise.
+The {primary_subfield, subfields:[{subfield, score}]} output shape is unchanged,
+so build + frontend consume it exactly as before (score is a confidence weight:
+1.0 primary, 0.5 secondary).
 
 Usage:
-    uv run -m scholar_board.pipeline.subfields --dry-run          # Preview
-    uv run -m scholar_board.pipeline.subfields                    # Run
-    uv run -m scholar_board.pipeline.subfields --top 3            # Assign top 3 (default: 4)
+    uv run -m scholar_board.pipeline.subfields --dry-run            # Preview
+    uv run -m scholar_board.pipeline.subfields                      # Run all PIs
+    uv run -m scholar_board.pipeline.subfields --limit 5            # First 5
+    uv run -m scholar_board.pipeline.subfields --scholar-id 0459    # Single scholar
+    uv run -m scholar_board.pipeline.subfields --workers 25         # Parallelism
 """
 
 import json
 import argparse
 import sys
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-import numpy as np
+from scholar_board.config import SUBFIELDS_DEF_PATH, SUBFIELDS_PATH, load_paper_texts
+from scholar_board.gemini import get_client, generate_text, parse_json_response
+from scholar_board.prompt_loader import render_prompt
+from scholar_board.db import get_connection, init_db, upsert_subfields
 
-from scholar_board.config import (
-    SUBFIELDS_DEF_PATH,
-    SUBFIELDS_PATH,
-)
-from scholar_board.gemini import embed_texts
-from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_subfields, load_scholars
+SECONDARY_SCORE = 0.5
+PRIMARY_SCORE = 1.0
 
 
-def load_subfields():
-    """Load subfield definitions from data/source/subfields.json."""
+def load_subfields() -> list[dict]:
+    """Load VSS topic-area definitions from data/source/subfields.json."""
     with open(SUBFIELDS_DEF_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-def load_scholar_texts():
-    """Load research direction text for PI scholars.
-
-    Uses the AI-generated research direction paragraph from the directions
-    pipeline step. Scholars without a research direction are skipped with
-    a warning.
-    """
+def load_pi_scholars() -> list[dict]:
+    """Load PI scholars with the profile fields used for classification."""
     conn = get_connection()
     init_db(conn)
     rows = conn.execute(
-        "SELECT id, name, research_direction FROM scholars WHERE is_pi = 1 ORDER BY id"
+        "SELECT id, name, institution, main_research_area, bio, research_direction "
+        "FROM scholars WHERE is_pi = 1 ORDER BY id"
     ).fetchall()
     conn.close()
-
-    pairs = []
-    skipped = 0
-    for row in rows:
-        if row["research_direction"]:
-            pairs.append((row["id"], row["research_direction"]))
-        else:
-            print(f"  WARNING: No research direction for {row['name']} ({row['id']}), skipping")
-            skipped += 1
-
-    if skipped > 0:
-        print(f"  Skipped {skipped} scholars without research directions — run the directions step first")
-    return pairs
+    return [dict(r) for r in rows]
 
 
-def cosine_similarity(a, b):
-    """Cosine similarity: (N, D) x (M, D) -> (N, M)."""
-    a_norm = a / np.linalg.norm(a, axis=1, keepdims=True)
-    b_norm = b / np.linalg.norm(b, axis=1, keepdims=True)
-    return a_norm @ b_norm.T
+def build_response_schema(names: list[str]) -> dict:
+    """JSON schema constraining primary/secondary to the exact topic names."""
+    return {
+        "type": "object",
+        "properties": {
+            "primary": {"type": "string", "enum": names},
+            "secondary": {"type": "array", "items": {"type": "string", "enum": names}},
+            "reasoning": {"type": "string"},
+        },
+        "required": ["primary"],
+    }
 
 
-def assign_subfields(scholar_ids, scholar_embeddings, subfield_embeddings, subfields,
-                     top_k=4, margin=0.01):
-    """Assign subfield labels to each scholar based on cosine similarity.
+def classify_scholar(scholar: dict, subfields: list[dict], names: set[str],
+                     schema: dict, client) -> dict | None:
+    """Classify one scholar into VSS topic areas. Returns assignment dict or None."""
+    sid = scholar["id"]
+    papers_text = load_paper_texts(sid) or "(no papers available)"
 
-    Uses a relative threshold: always keeps the primary subfield plus any
-    additional subfields whose score is within `margin` of the top score,
-    up to `top_k` total.
-    """
-    sim_matrix = cosine_similarity(scholar_embeddings, subfield_embeddings)
-    subfield_names = [sf["name"] for sf in subfields]
-    assignments = {}
-    tag_counts = []
+    subfields_block = "\n".join(
+        f"- {sf['name']}: {sf['description']}" for sf in subfields
+    )
+    prompt = render_prompt(
+        "classify_subfield",
+        n_subfields=len(subfields),
+        subfields_block=subfields_block,
+        scholar_name=scholar["name"],
+        institution=scholar.get("institution") or "Unknown",
+        main_research_area=scholar.get("main_research_area") or "Unknown",
+        bio=scholar.get("bio") or "(no bio)",
+        research_direction=scholar.get("research_direction") or "(no research direction)",
+        papers_text=papers_text,
+    )
 
-    for i, sid in enumerate(scholar_ids):
-        sid_padded = str(sid).zfill(4) if str(sid).isdigit() else str(sid)
-        scores = sim_matrix[i]
-        top_indices = np.argsort(scores)[::-1]
-        top_score = float(scores[top_indices[0]])
+    try:
+        text = generate_text(prompt, model="gemini-3-flash-preview",
+                             response_schema=schema, client=client)
+        if not text:
+            return None
+        result = parse_json_response(text)
+    except Exception as e:
+        print(f"  ERROR {sid} {scholar['name']}: {e}")
+        return None
 
-        tags = []
-        for idx in top_indices:
-            score = float(scores[idx])
-            if len(tags) == 0 or (score >= top_score - margin and len(tags) < top_k):
-                tags.append({"subfield": subfield_names[idx], "score": round(score, 4)})
-            else:
-                break
+    primary = result.get("primary")
+    if primary not in names:
+        print(f"  SKIP {sid} {scholar['name']}: invalid primary {primary!r}")
+        return None
 
-        tag_counts.append(len(tags))
-        assignments[sid_padded] = {
-            "primary_subfield": tags[0]["subfield"],
-            "subfields": tags,
-        }
+    # Keep valid, de-duplicated secondaries (max 2), excluding the primary.
+    secondary = []
+    for s in result.get("secondary") or []:
+        if s in names and s != primary and s not in secondary:
+            secondary.append(s)
+        if len(secondary) == 2:
+            break
 
-    counts = np.array(tag_counts)
-    print(f"  Tags per scholar: min={counts.min()}, max={counts.max()}, "
-          f"mean={counts.mean():.1f}, median={np.median(counts):.0f}")
-
-    return assignments
+    tags = [{"subfield": primary, "score": PRIMARY_SCORE}]
+    tags += [{"subfield": s, "score": SECONDARY_SCORE} for s in secondary]
+    return {"primary_subfield": primary, "subfields": tags}
 
 
-def print_summary(assignments, subfields):
-    """Print distribution of primary subfield assignments."""
-    from collections import Counter
-
+def print_summary(assignments: dict, subfields: list[dict]) -> None:
+    """Print distribution of primary topic-area assignments."""
     primary_counts = Counter(a["primary_subfield"] for a in assignments.values())
-
-    print(f"\nPrimary subfield distribution ({len(assignments)} scholars):")
-    for sf in subfields:
+    print(f"\nPrimary topic-area distribution ({len(assignments)} scholars):")
+    for sf in sorted(subfields, key=lambda s: primary_counts.get(s["name"], 0), reverse=True):
         count = primary_counts.get(sf["name"], 0)
-        bar = "#" * (count // 2)
-        print(f"  {sf['name']:40s} {count:4d}  {bar}")
+        print(f"  {sf['name']:32s} {count:4d}  {'#' * (count // 2)}")
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Assign vision science subfield labels to scholars via embedding similarity"
+        description="Assign VSS topic areas to scholars via an LLM classifier"
     )
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Preview without making API calls")
-    parser.add_argument("--top", type=int, default=4,
-                        help="Max subfield tags per scholar (default: 4)")
-    parser.add_argument("--margin", type=float, default=0.01,
-                        help="Max score drop from top subfield to keep a subtopic (default: 0.01)")
+    parser.add_argument("--dry-run", action="store_true", help="Preview without API calls")
+    parser.add_argument("--limit", type=int, default=None, help="Only classify the first N scholars")
+    parser.add_argument("--scholar-id", type=str, default=None, help="Classify a single scholar by ID")
+    parser.add_argument("--workers", type=int, default=25, help="Parallel API workers (default: 25)")
     args = parser.parse_args()
 
     if not SUBFIELDS_DEF_PATH.exists():
-        print(f"Error: Subfield definitions not found at {SUBFIELDS_DEF_PATH}")
+        print(f"Error: Topic-area definitions not found at {SUBFIELDS_DEF_PATH}")
         sys.exit(1)
 
-    print("Loading subfield definitions...")
     subfields = load_subfields()
-    print(f"  {len(subfields)} subfields defined")
+    names = {sf["name"] for sf in subfields}
+    schema = build_response_schema([sf["name"] for sf in subfields])
+    print(f"Loaded {len(subfields)} VSS topic areas")
 
-    print("\nLoading scholar texts (research directions preferred, paper text fallback)...")
-    pairs = load_scholar_texts()
-    print(f"  {len(pairs)} scholars with text")
+    scholars = load_pi_scholars()
+    if args.scholar_id:
+        scholars = [s for s in scholars if s["id"] == args.scholar_id]
+    if args.limit:
+        scholars = scholars[: args.limit]
+    print(f"Classifying {len(scholars)} PI scholars (Gemini 3 Flash, {args.workers} workers)")
 
-    if not pairs:
-        print("Error: No scholars have research directions. Run the directions step first.")
-        sys.exit(1)
-
-    scholar_ids = [sid for sid, _ in pairs]
-    scholar_texts = [text for _, text in pairs]
-    subfield_texts = [f"{sf['name']}: {sf['description']}" for sf in subfields]
-
-    if args.dry_run:
-        print(f"\n[DRY RUN] Would embed with Gemini (SEMANTIC_SIMILARITY):")
-        print(f"  - {len(subfield_texts)} subfield descriptions")
-        print(f"  - {len(scholar_texts)} scholar texts")
-        print(f"  Then assign up to {args.top} subfields per scholar (margin={args.margin})")
+    if not scholars:
+        print("No scholars to classify.")
         return
 
-    print(f"\nEmbedding {len(subfield_texts)} subfield descriptions...")
-    subfield_embeddings = embed_texts(subfield_texts, task_type="SEMANTIC_SIMILARITY")
-    print(f"  Shape: {subfield_embeddings.shape}")
+    if args.dry_run:
+        print("\n[DRY RUN] Would classify each scholar into one primary + up to two secondary topics.")
+        print(f"  Example scholar: {scholars[0]['name']} ({scholars[0]['id']})")
+        return
 
-    print(f"\nEmbedding {len(scholar_texts)} scholar texts...")
-    scholar_embeddings = embed_texts(scholar_texts, task_type="SEMANTIC_SIMILARITY")
-    print(f"  Shape: {scholar_embeddings.shape}")
+    client = get_client()
+    assignments: dict[str, dict] = {}
 
-    print(f"\nAssigning subfield labels (top {args.top}, margin={args.margin})...")
-    assignments = assign_subfields(
-        scholar_ids, scholar_embeddings, subfield_embeddings,
-        subfields, top_k=args.top, margin=args.margin,
-    )
+    with ThreadPoolExecutor(max_workers=args.workers) as ex:
+        futures = {
+            ex.submit(classify_scholar, s, subfields, names, schema, client): s
+            for s in scholars
+        }
+        done = 0
+        for fut in as_completed(futures):
+            s = futures[fut]
+            assignment = fut.result()
+            done += 1
+            if assignment:
+                assignments[s["id"]] = assignment
+            if done % 25 == 0 or done == len(scholars):
+                print(f"  {done}/{len(scholars)} classified ({len(assignments)} ok)")
 
     SUBFIELDS_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(SUBFIELDS_PATH, "w", encoding="utf-8") as f:
         json.dump(assignments, f, indent=2, ensure_ascii=False)
-    print(f"\nSaved subfield assignments to {SUBFIELDS_PATH}")
+    print(f"\nSaved {len(assignments)} assignments to {SUBFIELDS_PATH}")
 
-    print("Writing subfield assignments to database...")
     conn = get_connection()
     init_db(conn)
-    for sid, assignment in assignments.items():
-        upsert_subfields(conn, sid, assignment["primary_subfield"], assignment.get("subfields", []))
+    for sid, a in assignments.items():
+        upsert_subfields(conn, sid, a["primary_subfield"], a["subfields"])
     conn.close()
-    print(f"  Wrote {len(assignments)} scholars to DB")
+    print(f"Wrote {len(assignments)} scholars to DB")
 
     print_summary(assignments, subfields)
 
-    print(f"\nExample assignments:")
+    print("\nExample assignments:")
     for sid, a in list(assignments.items())[:5]:
-        tags = ", ".join(f"{t['subfield']} ({t['score']:.3f})" for t in a["subfields"])
+        tags = ", ".join(t["subfield"] for t in a["subfields"])
         print(f"  {sid}: {tags}")
 
 

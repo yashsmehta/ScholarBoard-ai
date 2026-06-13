@@ -9,16 +9,14 @@ data/
 ├── source/                    # Static inputs — never overwritten by the pipeline
 │   ├── vss_data.csv           # ~730 VSS scholars (scholar_id, scholar_name, scholar_institution, abstract)
 │   ├── extra_researchers.csv  # Additional researchers found by the discover step (E-prefixed IDs)
-│   └── subfields.json         # 23 vision science subfield definitions used for semantic matching
+│   └── subfields.json         # 21 VSS topic-area definitions used by the LLM subfield classifier
 │
 ├── pipeline/                  # Pipeline intermediates — safe to delete and regenerate
 │   ├── scholar_papers/        # {id}_{name}.json — papers fetched per scholar (step 1)
 │   ├── scholar_profiles/      # {id}_{name}.json — structured profiles + bios (step 2)
 │   ├── scholar_embeddings.nc  # N×3072 xarray/NetCDF embedding matrix (step 3)
-│   ├── models/                # Trained scikit-learn models (step 4):
-│   │   ├── umap_model.joblib      — fitted UMAP reducer
-│   │   ├── umap_hdbscan.joblib    — fitted HDBSCAN clusterer
-│   │   └── scaler.joblib          — StandardScaler for embeddings
+│   ├── models/                # Trained model (step 4):
+│   │   └── umap_model.joblib      — fitted UMAP reducer (2D projection)
 │   ├── scholar_subfields.json # {scholar_id: [{subfield, score}, ...]} (step 5)
 │   └── scholar_ideas/         # {id}_{name}.json — AI-generated research ideas (step 6)
 │
@@ -52,7 +50,7 @@ Embeddings are **not** stored here — they live in `scholar_embeddings.nc`.
 | `bio`              | TEXT    | 3–5 sentence normalized bio |
 | `umap_x`           | REAL    | UMAP x coordinate (set by cluster step) |
 | `umap_y`           | REAL    | UMAP y coordinate (set by cluster step) |
-| `cluster`          | INTEGER | HDBSCAN cluster label (-1 = noise) |
+| `cluster`          | INTEGER | Legacy clustering column — unused (always 0); dot color comes from `primary_subfield` |
 | `primary_subfield` | TEXT    | Top-ranked subfield tag |
 | `profile_pic`      | TEXT    | Filename in `build/profile_pics/` (e.g. `"jane_doe_0042.jpg"`) |
 
@@ -75,8 +73,8 @@ Embeddings are **not** stored here — they live in `scholar_embeddings.nc`.
 | Column      | Type       | Description |
 |-------------|------------|-------------|
 | `scholar_id`| TEXT FK    | → `scholars.id` |
-| `subfield`  | TEXT       | Subfield name (from `subfields.json`) |
-| `score`     | REAL       | Cosine similarity score |
+| `subfield`  | TEXT       | VSS topic-area name (from `subfields.json`) |
+| `score`     | REAL       | LLM confidence weight (1.0 primary, 0.5 secondary) |
 | `is_primary`| INTEGER    | 1 if this is the scholar's top subfield, else 0 |
 
 Composite PK: `(scholar_id, subfield)`

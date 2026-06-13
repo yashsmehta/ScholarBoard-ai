@@ -70,6 +70,7 @@ def generate_text(
     model: str = "gemini-3-flash-preview",
     thinking: bool = False,
     system_instruction: str | None = None,
+    response_schema: dict | None = None,
     client: "genai.Client | None" = None,
 ) -> str | None:
     """Generate text using a Gemini model.
@@ -79,6 +80,9 @@ def generate_text(
         model: Model ID (e.g. "gemini-3-flash-preview", "gemini-3.1-pro-preview").
         thinking: Enable thinking/reasoning (only meaningful for Pro models).
         system_instruction: Optional system instruction.
+        response_schema: Optional JSON schema (dict) for structured output. When
+            provided, response_mime_type is set to application/json and the model
+            is constrained to the schema — parse the result with json.loads.
         client: Optional pre-created client (useful in threaded code).
 
     Returns:
@@ -92,6 +96,9 @@ def generate_text(
         config_kwargs["thinking_config"] = types.ThinkingConfig(include_thoughts=True)
     if system_instruction:
         config_kwargs["system_instruction"] = system_instruction
+    if response_schema is not None:
+        config_kwargs["response_mime_type"] = "application/json"
+        config_kwargs["response_schema"] = response_schema
 
     config = types.GenerateContentConfig(**config_kwargs) if config_kwargs else None
 

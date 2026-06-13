@@ -216,7 +216,7 @@ def show_dashboard():
     row("3", "Embed paper text",
         1 if EMBEDDINGS_PATH.exists() else 0, 1, None)
 
-    row("4", "UMAP + HDBSCAN clustering",
+    row("4", "UMAP projection",
         1 if UMAP_MODEL_PATH.exists() else 0, 1,
         db["scholars_with_umap"] if db else None)
 

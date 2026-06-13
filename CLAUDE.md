@@ -188,33 +188,24 @@ Python 3.10+, managed with `uv`. Use `uv run` to execute scripts and `uv add` to
 
 The site is deployed as a static build to a Jekyll-based GitHub Pages site (`yashsmehta.github.io`).
 
-### Automatic sync (post-commit hook)
+### Automatic deploy via GitHub Actions
 
-A git post-commit hook (`.git/hooks/post-commit`) automatically syncs to the website repo every time you commit changes to `frontend/` or `data/build/`. It runs the website repo's `bin/sync-scholarboard` script which:
+The workflow at `.github/workflows/deploy-scholarboard.yml` runs on every push to `main` that touches `frontend/**`, `data/build/**`, or the workflow file itself. It:
 1. Builds the frontend with `VITE_BASE=/scholarboard/`
-2. Copies dist + data files to `~/Websites/yashsmehta.github.io/scholarboard/`
+2. Clones the website repo via the `WEBSITE_DEPLOY_KEY` SSH deploy key (into `$RUNNER_TEMP/website` to avoid clashing with the local `website/` screenshots dir)
+3. Rsyncs `frontend/dist/*` + `data/build/scholars.json`, `field_directions.json`, and `profile_pics/` into `scholarboard/` in the website repo
+4. Commits and pushes to `master` of `yashsmehta.github.io` — that push triggers Jekyll → `gh-pages` deploy
 
-**After the auto-sync, you still need to commit & push from the website repo to deploy:**
-```bash
-cd ~/Websites/yashsmehta.github.io
-git add scholarboard/ && git commit -m 'Update ScholarBoard' && git push
-```
-Pushing to `master` triggers GitHub Actions which builds Jekyll and deploys to `gh-pages`.
+**To deploy: just `git push` this repo's `main`.** No local hook, no local clone of the website repo, no manual sync step needed.
 
-### Manual sync
-
-```bash
-# From the website repo:
-cd ~/Websites/yashsmehta.github.io
-./bin/sync-scholarboard
-git add scholarboard/ && git commit -m 'Update ScholarBoard' && git push
-```
+Manual trigger: `workflow_dispatch` is enabled, so you can also run the workflow from the GitHub Actions tab.
 
 ### Important
 
-- **Never edit `scholarboard/` files directly in the website repo** — they get overwritten on next sync
-- The post-commit hook is local (lives in `.git/hooks/`, not pushed to remote). Re-add it if you re-clone this repo.
-- `website/` contains screenshot PNGs used for documentation (field directions, onboarding steps, list view)
+- **Never edit `scholarboard/` files directly in the website repo** — the workflow overwrites them on next deploy
+- The `WEBSITE_DEPLOY_KEY` secret in this repo holds the SSH private key with write access to `yashsmehta.github.io`
+- `website/` (local) contains screenshot PNGs used for documentation (field directions, onboarding steps, list view) — unrelated to deployment
+- Data-only changes (e.g. cleanups to `data/build/scholars.json`) still trigger a redeploy because `data/build/**` is in the workflow's `paths` filter
 
 ## Code Conventions
 

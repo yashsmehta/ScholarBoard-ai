@@ -1,0 +1,184 @@
+[
+  {
+    "scholar_id": "0001",
+    "name": "A. Caglar Tas",
+    "field": "name",
+    "old_value": "A . Caglar Tas",
+    "new_value": "A. Caglar Tas",
+    "source_urls": [
+      "https://vpclab.weebly.com/",
+      "https://faculty.utk.edu/Caglar.Tas"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "Corrected obvious punctuation spacing in the public name; the VPC Lab and UT profile identify the researcher as Caglar Tas."
+  },
+  {
+    "scholar_id": "0109",
+    "name": "Cathleen M. Moore",
+    "field": "lab_url",
+    "old_value": "https://iapl.lab.uiowa.edu/",
+    "new_value": "https://psychology.uiowa.edu/people/cathleen-moore",
+    "source_urls": [
+      "https://psychology.uiowa.edu/people/cathleen-moore"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "Old lab host no longer resolves; replaced with the current University of Iowa faculty page, which lists Moore's visual perception and attention research."
+  },
+  {
+    "scholar_id": "0128",
+    "name": "Christopher L. Striemer",
+    "field": "institution",
+    "old_value": "University of Alberta",
+    "new_value": "MacEwan University",
+    "source_urls": [
+      "https://www.macewan.ca/academics/academic-departments/psychology/our-people/profile/?profileid=striemerc",
+      "https://sites.google.com/macewan.ca/apa-lab"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "MacEwan's profile lists Striemer as Professor in the Department of Psychology; the University of Alberta is listed as an affiliate affiliation rather than the primary institution."
+  },
+  {
+    "scholar_id": "0128",
+    "name": "Christopher L. Striemer",
+    "field": "lab_url",
+    "old_value": "https://sites.google.com/a/macewan.ca/striemer-lab/",
+    "new_value": "https://sites.google.com/macewan.ca/apa-lab",
+    "source_urls": [
+      "https://sites.google.com/macewan.ca/apa-lab",
+      "https://www.macewan.ca/academics/academic-departments/psychology/our-people/profile/?profileid=striemerc"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "Old Google Sites URL redirects to a sign-in page; the current public APA Lab Google Site is cited by the MacEwan profile/search result."
+  },
+  {
+    "scholar_id": "0145",
+    "name": "Daniel D. Dilks",
+    "field": "lab_url",
+    "old_value": "https://psychology.emory.edu/dilks-lab/",
+    "new_value": "https://secure.web.emory.edu/psychology/dilks/main.php",
+    "source_urls": [
+      "https://secure.web.emory.edu/psychology/dilks/main.php",
+      "https://secure.web.emory.edu/psychology/dilks/people.php"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "Old Emory URL returns 404; the current Emory-hosted Dilks Lab pages identify Daniel D. Dilks as principal investigator."
+  },
+  {
+    "scholar_id": "0197",
+    "name": "Elissa L. Newport",
+    "field": "lab_url",
+    "old_value": "https://cbpr.georgetown.edu/people/elissa-l-newport-ph-d/",
+    "new_value": "https://ldl.georgetown.edu/home",
+    "source_urls": [
+      "https://neurology.georgetown.edu/newport/",
+      "https://ldl.georgetown.edu/home",
+      "https://cbpr.georgetown.edu/learning-and-developmental-plasticity/"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "Old CBPR people URL is broken; Georgetown's neurology profile and CBPR page identify Newport as Director/PI of the Learning and Development Lab."
+  },
+  {
+    "scholar_id": "0254",
+    "name": "Heiko H. Schütt",
+    "field": "lab_url",
+    "old_value": "https://heiko-schuett.github.io/",
+    "new_value": "https://www.uni.lu/fhse-en/people/heiko-schutt/",
+    "source_urls": [
+      "https://www.uni.lu/fhse-en/people/heiko-schutt/",
+      "https://orbilu.uni.lu/profile?uid=50065259"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "Old GitHub Pages URL returns 404; replaced with the current University of Luxembourg profile."
+  },
+  {
+    "scholar_id": "0302",
+    "name": "Jeremy M. Wolfe",
+    "field": "lab_url",
+    "old_value": "https://search.bwh.harvard.edu/",
+    "new_value": "https://search.bwh.harvard.edu/new/",
+    "source_urls": [
+      "https://search.bwh.harvard.edu/new/",
+      "https://eye.hms.harvard.edu/jeremywolfe"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "The Harvard Ophthalmology profile links Wolfe's Visual Attention Lab to the /new/ path; the prior root URL is only a search-domain landing URL."
+  },
+  {
+    "scholar_id": "0400",
+    "name": "Lisa M. Oakes",
+    "field": "lab_url",
+    "old_value": "https://infantcognition.ucdavis.edu/",
+    "new_value": "https://oakeslab.ucdavis.edu/",
+    "source_urls": [
+      "https://oakeslab.ucdavis.edu/",
+      "https://psychology.ucdavis.edu/research-labs/infant-cognition-lab-oakes",
+      "https://mindbrain.ucdavis.edu/people/lisa-oakes"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "Old infantcognition.ucdavis.edu host no longer resolves; UC Davis search results identify oakeslab.ucdavis.edu as the current Infant Cognition Lab site."
+  },
+  {
+    "scholar_id": "0439",
+    "name": "Mary Peterson",
+    "field": "lab_url",
+    "old_value": "https://mapeters.wixsite.com/visualperceptionlab",
+    "new_value": "https://petersonlab.wixsite.com/visualperceptionlab",
+    "source_urls": [
+      "https://www.cogsci.arizona.edu/person/mary-peterson",
+      "https://petersonlab.wixsite.com/visualperceptionlab"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "Old Wix URL returns 404; the University of Arizona Cognitive Science page links Peterson's lab website, which resolves to the petersonlab Wix site."
+  },
+  {
+    "scholar_id": "0456",
+    "name": "Michael A. Webster",
+    "field": "lab_url",
+    "old_value": "https://www.unr.edu/psychology/labs/visual-perception-lab",
+    "new_value": "https://labs.psych.unr.edu/websterlab/",
+    "source_urls": [
+      "https://www.unr.edu/psychology/michael-webster",
+      "https://labs.psych.unr.edu/websterlab/"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "Old UNR lab path returns 404; Webster's current UNR profile links the Visual Perception Lab at labs.psych.unr.edu/websterlab."
+  },
+  {
+    "scholar_id": "0537",
+    "name": "Philip J. Kellman",
+    "field": "lab_url",
+    "old_value": "https://humanperceptionlab.psych.ucla.edu/",
+    "new_value": "https://kellmanlab.psych.ucla.edu/",
+    "source_urls": [
+      "https://kellmanlab.psych.ucla.edu/",
+      "https://www.psych.ucla.edu/faculty-page/kellman/"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "Old UCLA lab host no longer resolves; the current UCLA-hosted Kellman lab page and faculty page verify the replacement."
+  },
+  {
+    "scholar_id": "0695",
+    "name": "William H. Warren",
+    "field": "lab_url",
+    "old_value": "https://venlab.brown.edu/",
+    "new_value": "https://sites.brown.edu/venlab/",
+    "source_urls": [
+      "https://sites.brown.edu/venlab/"
+    ],
+    "confidence": "high",
+    "applied": true,
+    "notes": "Old Brown VENLab host no longer resolves; the current Brown Sites VENLab page is active and identifies the Virtual Environment Navigation Laboratory."
+  }
+]

@@ -57,19 +57,136 @@ export async function loadScholars(options: LoadScholarsOptions = {}): Promise<S
 }
 
 function normalizePayload(payload: unknown): Scholar[] {
+  let scholars: Scholar[]
+
   if (Array.isArray(payload)) {
-    return payload
+    scholars = payload
       .map((value, index) => normalizeScholar(String(index), value as RawScholar))
       .filter((value): value is Scholar => value !== null)
-  }
-
-  if (payload != null && typeof payload === 'object') {
-    return Object.entries(payload as RawScholarMap)
+  } else if (payload != null && typeof payload === 'object') {
+    scholars = Object.entries(payload as RawScholarMap)
       .map(([id, value]) => normalizeScholar(id, value))
       .filter((value): value is Scholar => value !== null)
+  } else {
+    scholars = []
   }
 
-  return []
+  // Apply jitter to separate overlapping dots
+  if (scholars.length > 0) {
+    applyJitter(scholars)
+  }
+
+  return scholars
+}
+
+/**
+ * Applies deterministic jitter to scholars whose (x, y) coordinates are
+ * within a small threshold of each other, so overlapping dots become visible.
+ * Non-overlapping scholars are not moved.
+ */
+function applyJitter(scholars: Scholar[]): void {
+  if (scholars.length < 2) return
+
+  // Compute bounding box diagonal
+  let minX = Infinity,
+    maxX = -Infinity,
+    minY = Infinity,
+    maxY = -Infinity
+  for (const s of scholars) {
+    if (s.x < minX) minX = s.x
+    if (s.x > maxX) maxX = s.x
+    if (s.y < minY) minY = s.y
+    if (s.y > maxY) maxY = s.y
+  }
+  const diagonal = Math.sqrt((maxX - minX) ** 2 + (maxY - minY) ** 2)
+  // EPS is 0.5% of diagonal — threshold for considering points "overlapping"
+  const eps = diagonal * 0.005
+
+  // Skip if data has no spread (degenerate case)
+  if (diagonal === 0 || !Number.isFinite(eps)) return
+
+  // Build spatial index: grid cells of size eps
+  const cellSize = eps
+  const grid = new Map<string, Scholar[]>()
+
+  const cellKey = (x: number, y: number): string => {
+    const cx = Math.floor(x / cellSize)
+    const cy = Math.floor(y / cellSize)
+    return `${cx},${cy}`
+  }
+
+  for (const s of scholars) {
+    const key = cellKey(s.x, s.y)
+    let cell = grid.get(key)
+    if (!cell) {
+      cell = []
+      grid.set(key, cell)
+    }
+    cell.push(s)
+  }
+
+  // Track which scholars have been processed
+  const processed = new Set<string>()
+
+  // For each scholar, find nearby scholars and form clusters
+  for (const s of scholars) {
+    if (processed.has(s.id)) continue
+
+    // Gather all scholars within eps distance (check own cell + neighbors)
+    const cx = Math.floor(s.x / cellSize)
+    const cy = Math.floor(s.y / cellSize)
+    const cluster: Scholar[] = []
+
+    for (let dx = -1; dx <= 1; dx++) {
+      for (let dy = -1; dy <= 1; dy++) {
+        const neighborKey = `${cx + dx},${cy + dy}`
+        const neighborCell = grid.get(neighborKey)
+        if (!neighborCell) continue
+        for (const neighbor of neighborCell) {
+          if (processed.has(neighbor.id)) continue
+          const dist = Math.sqrt((s.x - neighbor.x) ** 2 + (s.y - neighbor.y) ** 2)
+          if (dist < eps) {
+            cluster.push(neighbor)
+          }
+        }
+      }
+    }
+
+    // If cluster has only one member (no overlap), skip
+    if (cluster.length <= 1) {
+      processed.add(s.id)
+      continue
+    }
+
+    // Mark all cluster members as processed
+    for (const member of cluster) {
+      processed.add(member.id)
+    }
+
+    // Compute centroid of original positions
+    let centroidX = 0,
+      centroidY = 0
+    for (const member of cluster) {
+      centroidX += member.x
+      centroidY += member.y
+    }
+    centroidX /= cluster.length
+    centroidY /= cluster.length
+
+    // Sort cluster deterministically by id for stable layout
+    cluster.sort((a, b) => a.id.localeCompare(b.id))
+
+    // Distribute on a circle around centroid
+    // Radius scales with sqrt(n) so larger clusters spread more
+    const radius = eps * Math.sqrt(cluster.length) * 0.5
+    const angleStep = (2 * Math.PI) / cluster.length
+
+    for (let i = 0; i < cluster.length; i++) {
+      const angle = i * angleStep
+      cluster[i].x = centroidX + radius * Math.cos(angle)
+      cluster[i].y = centroidY + radius * Math.sin(angle)
+    }
+  }
 }
 
 function normalizeScholar(fallbackId: string, raw: RawScholar): Scholar | null {

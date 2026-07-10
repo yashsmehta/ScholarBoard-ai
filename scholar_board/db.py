@@ -89,6 +89,10 @@ def init_db(conn: sqlite3.Connection) -> None:
         ("h_index", "INTEGER"),
         ("scholar_profile_url", "TEXT"),
         ("research_direction", "TEXT"),
+        ("email", "TEXT"),
+        ("email_confidence", "TEXT"),
+        ("email_source_url", "TEXT"),
+        ("email_checked_at", "TEXT"),
     ]:
         try:
             conn.execute(f"ALTER TABLE scholars ADD COLUMN {col} {defn}")
@@ -284,6 +288,29 @@ def upsert_scholar_stats(
     conn.execute(
         f"UPDATE scholars SET {placeholders} WHERE id = ?",
         (*fields.values(), scholar_id),
+    )
+    conn.commit()
+
+
+def upsert_email(
+    conn: sqlite3.Connection,
+    scholar_id: str,
+    email: str | None,
+    confidence: str | None = None,
+    source_url: str | None = None,
+    checked_at: str | None = None,
+) -> None:
+    """Store a fetched contact email for a scholar.
+
+    Always records email_confidence / email_source_url / email_checked_at so a
+    verified "no email found" (email=None, confidence set) is distinguishable
+    from a scholar that was never checked (all NULL). Not shipped to the
+    frontend — kept in the DB + data/pipeline/scholar_emails.json only.
+    """
+    conn.execute(
+        "UPDATE scholars SET email = ?, email_confidence = ?, "
+        "email_source_url = ?, email_checked_at = ? WHERE id = ?",
+        (email, confidence, source_url, checked_at, scholar_id),
     )
     conn.commit()
 

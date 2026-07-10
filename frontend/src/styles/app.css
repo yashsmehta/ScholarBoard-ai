@@ -244,6 +244,7 @@ input {
 
 .method-intro {
   margin: 0 0 32px;
+  max-width: 78ch;
   font-size: 0.95rem;
   line-height: 1.65;
   color: var(--ink-1);
@@ -291,17 +292,17 @@ input {
   color: var(--ink-1);
 }
 
+.method-step code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  font-weight: 500;
+  color: var(--brand-0);
+  white-space: nowrap;
+}
+
 .method-about {
   border-top: 1px solid var(--border-subtle);
   padding-top: 24px;
-}
-
-.method-about:first-child {
-  border-top: none;
-  padding-top: 0;
-  margin-bottom: 28px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border-subtle);
 }
 
 .method-about h3 {
@@ -1866,11 +1867,6 @@ input {
   .method-about p {
     font-size: 0.8rem;
     line-height: 1.55;
-  }
-
-  .method-about:first-child {
-    margin-bottom: 20px;
-    padding-bottom: 16px;
   }
 
   /* Onboarding */

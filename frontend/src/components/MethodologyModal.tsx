@@ -8,126 +8,107 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
       <div className="method-panel" onClick={(e) => e.stopPropagation()}>
         <button className="method-close" onClick={onClose} aria-label="Close">✕</button>
 
-        <div className="method-about">
-          <p>
-            This resource was created by{' '}
-            <a href="https://yashsmehta.com/" target="_blank" rel="noopener noreferrer"><strong>Yash Mehta</strong></a>
-            {' '}and{' '}
-            <a href="https://bonnerlab.org/" target="_blank" rel="noopener noreferrer"><strong>Mick Bonner</strong></a>
-            {' '}at the Department of Cognitive Science, Johns Hopkins University. We built this to help aspiring PhD students, current PhD
-            students, postdocs, and PIs get a bird's-eye view of who's working on what in
-            vision science — and where the field is heading.
-          </p>
-          <p>
-            ScholarBoard is a free resource and still early — we'd love your help making it
-            better! If you spot errors or have ideas for collaboration, reach out
-            at <a href="mailto:ymehta3@jhu.edu">ymehta3@jhu.edu</a>.
-          </p>
-        </div>
-
-        <h2 className="method-title">How this map was made</h2>
+        <h2 className="method-title">Methods and interpretation</h2>
         <p className="method-intro">
-          ScholarBoard.ai arranges vision researchers on a 2D map so that researchers working on
-          similar topics end up near each other — and those in different areas end up farther apart.
-          Here is how it works.
+          ScholarBoard is a neighborhood map of 801 active vision-science PIs. Coordinates encode
+          similarity between text representations of recent work; color encodes an independently
+          assigned VSS topic area. The axes and absolute global distances have no direct meaning.
         </p>
 
         <div className="method-steps">
           <div className="method-step">
-            <div className="method-step__num">1</div>
+            <div className="method-step__num">01</div>
             <div>
-              <h3>The researchers</h3>
+              <h3>Corpus construction and PI inclusion</h3>
               <p>
-                Researchers were drawn from two sources. The first is the Vision Sciences
-                Society (VSS) — we started with roughly 730 presenters and attendees from
-                recent VSS meetings. The second is an AI-powered search: for each of the 21
-                VSS topic areas (e.g., motion, scene perception, eye movements), we asked
-                Gemini AI — with live web search — to find active researchers prominent in
-                that area who weren't already in the VSS list. Both lists were merged and
-                deduplicated, then filtered to principal investigators running their own
-                research programs.
+                The candidate pool contains 920 deduplicated researchers: 709 derived from recent
+                VSS records and 211 added by <code>gemini-3-flash-preview</code> with Google Search grounding across the
+                21 VSS topic areas. Names were normalized and resolved by exact/fuzzy matching;
+                Gemini adjudicated ambiguous matches and PI-status edge cases. The released map
+                retains 801 researchers classified as active, independent PIs.
               </p>
             </div>
           </div>
 
           <div className="method-step">
-            <div className="method-step__num">2</div>
+            <div className="method-step__num">02</div>
             <div>
-              <h3>Finding recent work</h3>
+              <h3>Evidence retrieval and current-work synthesis</h3>
               <p>
-                For each researcher, we used Google's Gemini AI with live web search to collect
-                recent publications. Rather than pulling from a static database, this approach
-                captures current work and is not limited to papers with indexed abstracts.
+                <code>gemini-3-flash-preview</code> with grounded web search assembled structured
+                profiles and recent publication evidence. <code>gemini-3.1-pro-preview</code> with
+                reasoning enabled then distilled each PI's recent papers into the current-research
+                synopsis shown in the profile. These are model-generated summaries of retrieved
+                evidence, not text supplied or endorsed by the researcher.
               </p>
             </div>
           </div>
 
           <div className="method-step">
-            <div className="method-step__num">3</div>
+            <div className="method-step__num">03</div>
             <div>
-              <h3>Research fingerprints</h3>
+              <h3>Representation and embedding</h3>
               <p>
-                The core challenge is quantifying research similarity. We used text embeddings:
-                a neural network reads a researcher's papers and produces a list of ~3,000
-                numbers — a compact fingerprint of their research. Two researchers working on
-                similar problems will have similar fingerprints; those in unrelated areas will not.
+                Each embedding input concatenates the current-research synopsis with recent paper
+                titles and abstracts. <code>gemini-embedding-001</code>, configured with{' '}
+                <code>task_type=CLUSTERING</code>, maps that text to a 3,072-dimensional vector.
+                Cosine geometry in this space defines research similarity for the map.
               </p>
             </div>
           </div>
 
           <div className="method-step">
-            <div className="method-step__num">4</div>
+            <div className="method-step__num">04</div>
             <div>
-              <h3>Projecting onto the map</h3>
+              <h3>Two-dimensional projection</h3>
               <p>
-                These high-dimensional fingerprints can't be plotted on a 2D screen directly.
-                We used UMAP (Uniform Manifold Approximation and Projection) to compress each
-                researcher's vector down to two coordinates — the x and y positions you see.
-                UMAP preserves neighborhood structure: researchers who are similar in the full
-                space will appear close together on the map.
+                UMAP produces the displayed coordinates with <code>n_neighbors=15</code>,{' '}
+                <code>min_dist=0.1</code>, <code>metric=cosine</code>, two output components, and{' '}
+                <code>random_state=42</code>. UMAP is used only for placement: no HDBSCAN or other
+                clustering algorithm defines groups or colors. Interpret local neighborhoods;
+                avoid treating axes, cluster shapes, or long-range distances as quantitative.
               </p>
             </div>
           </div>
 
           <div className="method-step">
-            <div className="method-step__num">5</div>
+            <div className="method-step__num">05</div>
             <div>
-              <h3>Coloring by subfield</h3>
+              <h3>VSS topic assignment</h3>
               <p>
-                Each dot's color reflects its primary research subfield. A Gemini language
-                model reads each researcher's profile and papers and assigns them to one of
-                the 21 Vision Sciences Society (VSS) topic areas. That primary topic area
-                determines the dot color.
+                Independently of UMAP, <code>gemini-3-flash-preview</code> reads the profile,
+                current-work synopsis, and papers and selects one primary plus up to two secondary
+                labels from an enum-constrained set of 21 VSS topic areas. The primary assignment
+                determines dot color; secondary assignments appear as profile tags. Topic labels
+                are language-model classifications, not clusters inferred from the 2D projection.
               </p>
             </div>
           </div>
 
           <div className="method-step">
-            <div className="method-step__num">6</div>
+            <div className="method-step__num">06</div>
             <div>
-              <h3>Subfield tags</h3>
+              <h3>Quality control and limitations</h3>
               <p>
-                Each researcher is tagged with one primary plus up to two secondary topic
-                areas from the 21 VSS categories (e.g., Object Recognition, Eye Movements,
-                Theory & Computation). The same Gemini classifier picks the topics that best
-                capture the center of gravity of their work.
+                Final refinement used targeted source checks, consistency audits, and corrections
+                with agentic tooling, including Claude Code. Coverage, publication retrieval,
+                PI status, summaries, and topic assignments can still be incomplete or wrong.
+                The map is a versioned snapshot and may move as evidence, models, or inclusion
+                decisions change.
               </p>
             </div>
           </div>
+        </div>
 
-          <div className="method-step">
-            <div className="method-step__num">7</div>
-            <div>
-              <h3>AI research directions</h3>
-              <p>
-                For each PI, an AI-generated research idea is provided. The model is given the
-                researcher's recent publications as context — their titles, abstracts, and
-                findings — and asked to propose a novel direction that builds naturally on
-                their existing work. These are generated by Gemini 3.1 Pro (High thinking
-                mode) and are intended as conversation starters, not authoritative predictions.
-              </p>
-            </div>
-          </div>
+        <div className="method-about">
+          <p>
+            Created by{' '}
+            <a href="https://yashsmehta.com/" target="_blank" rel="noopener noreferrer"><strong>Yash Mehta</strong></a>
+            {' '}and{' '}
+            <a href="https://bonnerlab.org/" target="_blank" rel="noopener noreferrer"><strong>Mick Bonner</strong></a>
+            {' '}at the Department of Cognitive Science, Johns Hopkins University. Report errors
+            or discuss collaboration at <a href="mailto:ymehta3@jhu.edu">ymehta3@jhu.edu</a>.
+          </p>
         </div>
 
       </div>

@@ -24,7 +24,7 @@ const steps = [
     image: `${import.meta.env.BASE_URL}onboarding/step3_profile.jpg`,
     headline: 'Dive into each researcher',
     description:
-      'Every profile collects recent papers, a short bio, lab link, subfield tags, and the closest researchers by subject.',
+      'Every profile collects an AI summary of recent research, recent papers, a lab link, subfield tags, and the closest researchers by subject.',
   },
   {
     image: `${import.meta.env.BASE_URL}onboarding/step4_search.jpg`,

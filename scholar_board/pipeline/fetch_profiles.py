@@ -32,7 +32,7 @@ from scholar_board.config import (
     PAPERS_DIR,
     PROFILES_DIR,
 )
-from scholar_board.gemini import get_client, extract_grounding_sources, parse_json_response
+from scholar_board.gemini import get_client, extract_grounding_sources, parse_json_response, FLASH_MODEL
 from scholar_board.prompt_loader import render_prompt
 from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_profile, load_scholars, set_is_pi
 
@@ -94,7 +94,7 @@ def query_gemini(client, scholar_name, institution, scholar_id):
 
     try:
         response = client.models.generate_content(
-            model="gemini-3-flash-preview",
+            model=FLASH_MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
                 system_instruction=PROFILE_SYSTEM_INSTRUCTION,
@@ -140,7 +140,7 @@ def _retry_shorter_bio(client, scholar_name, institution):
 
     try:
         response = client.models.generate_content(
-            model="gemini-3-flash-preview",
+            model=FLASH_MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
                 system_instruction=PROFILE_SYSTEM_INSTRUCTION,
@@ -214,7 +214,7 @@ def classify_pi(client, scholar_name, institution, department, bio, papers):
 
     try:
         response = client.models.generate_content(
-            model="gemini-3-flash-preview",
+            model=FLASH_MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
                 system_instruction=CLASSIFY_SYSTEM_INSTRUCTION,
@@ -242,7 +242,7 @@ def normalize_bio(client, scholar_name, bio):
     prompt = render_prompt("normalize_bio", scholar_name=scholar_name, bio=bio)
     try:
         response = client.models.generate_content(
-            model="gemini-3-flash-preview",
+            model=FLASH_MODEL,
             contents=prompt,
         )
         return response.text

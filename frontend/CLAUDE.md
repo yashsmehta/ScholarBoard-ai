@@ -36,7 +36,7 @@ App.tsx (useReducer)
  │   └── d3MapController — imperative D3 scatter plot (zoom, pan, brush, tooltips)
  ├── ScholarList        — alphabetical directory with avatars (list view)
  ├── MapControls        — reset button, usage hint (map view only)
- ├── Sidebar            — tabbed: Profile | Research Idea
+ ├── Sidebar            — scholar profile
  ├── FieldDirectionsPage — AI-generated research summaries per subfield (modal)
  ├── Onboarding         — 4-step welcome tour for first-time visitors
  ├── BetaBanner         — dismissible beta feedback banner
@@ -66,13 +66,9 @@ App.tsx (useReducer)
 
 ### Sidebar
 
-Two tabs, controlled by `SidebarTab` type (`'profile' | 'idea'`). Defaults to Profile, resets when a new scholar is selected.
-
 **Mobile bottom sheet (< 480px):** When a scholar is selected, a drag handle (pill bar + chevron) appears at the top of the sidebar. Tap or swipe up to expand the sidebar to full screen (`position: fixed; inset: 0`); tap or swipe down to collapse back to half height. The `expanded` state is local to Sidebar, resets on scholar change or close. The handle is hidden on desktop (`display: none` by default, shown via mobile media query). Expanded overlay uses opaque `#faf8f5` background with `env(safe-area-inset-top)` padding for iOS notch. CSS class: `sidebar--expanded`.
 
-**Profile tab:** Avatar (with fallback chain: profile pic → default avatar → initials), name, institution, department, lab link, bio, subfield badges (clickable — triggers subfield filter), recent papers (top 5), education, similar researchers (5 nearest by UMAP distance).
-
-**Research Idea tab:** AI-generated research direction — title, research thread, open question, hypothesis, approach, scientific impact, why now. Shows empty state when no idea exists for a scholar.
+**Profile:** Avatar (with fallback chain: profile pic → default avatar → initials), name, institution, department, lab link, bio, subfield badges (clickable — triggers subfield filter), recent papers (top 5), education, similar researchers (5 nearest by UMAP distance).
 
 ## File Structure
 
@@ -87,7 +83,7 @@ src/
 │   ├── ScholarMap.tsx        — D3 controller lifecycle bridge (map view)
 │   ├── ScholarList.tsx       — Alphabetical scholar directory (list view)
 │   ├── MapControls.tsx       — Reset button + auto-hiding hint
-│   ├── Sidebar.tsx           — Tabbed sidebar (Profile + Research Idea)
+│   ├── Sidebar.tsx           — Scholar profile sidebar
 │   ├── FieldDirectionsPage.tsx — AI field-level research summaries modal
 │   ├── Onboarding.tsx        — 4-step welcome tour carousel
 │   ├── BetaBanner.tsx        — Dismissible beta feedback banner
@@ -105,7 +101,7 @@ src/
 ├── hooks/
 │   └── useClickOutside.ts    — Click-outside detection hook
 ├── types/
-│   └── scholar.ts            — Scholar, RawScholar, Paper, Education, SubfieldTag, ResearchIdea
+│   └── scholar.ts            — Scholar, RawScholar, Paper, Education, SubfieldTag
 └── styles/
     ├── tokens.css            — Design tokens (colors, fonts, radii, shadows, borders)
     └── app.css               — All component styles

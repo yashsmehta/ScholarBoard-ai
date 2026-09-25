@@ -26,7 +26,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from scholar_board.gemini import get_client, parse_json_response
+from scholar_board.gemini import get_client, parse_json_response, FLASH_MODEL
 from scholar_board.prompt_loader import render_prompt
 from google.genai import types
 
@@ -153,7 +153,7 @@ def classify_scholar(scholar: dict, citations_data: dict) -> dict:
     client = get_client()
     try:
         response = client.models.generate_content(
-            model="gemini-3-flash-preview",
+            model=FLASH_MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
                 system_instruction="You are a precise academic classifier.",

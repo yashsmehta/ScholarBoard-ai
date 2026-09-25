@@ -1,7 +1,7 @@
 """
 Generate "Current Research Direction" paragraphs for scholars.
 
-For each PI with papers, uses Gemini 3 Flash Preview to synthesize a concise
+For each PI with papers, uses Gemini 3.1 Pro Preview to synthesize a concise
 paragraph describing the researcher's current research trajectory.
 
 Usage:

@@ -1,4 +1,4 @@
-import type { RawScholar, ResearchIdea, Scholar, ScholarLoadResult, SubfieldTag } from '../types/scholar'
+import type { RawScholar, Scholar, ScholarLoadResult, SubfieldTag } from '../types/scholar'
 import type { FrontendMode } from './appMode'
 import { embeddedSampleSize } from './appMode'
 
@@ -217,7 +217,6 @@ function normalizeScholar(fallbackId: string, raw: RawScholar): Scholar | null {
     subfields: Array.isArray(raw.subfields) ? raw.subfields.filter(isSubfieldLike) : [],
     papers: Array.isArray(raw.papers) ? raw.papers.filter(isPaperLike) : [],
     education: Array.isArray(raw.education) ? raw.education.filter(isObjectLike) : [],
-    suggestedIdea: normalizeResearchIdea(raw.suggested_idea),
   }
 }
 
@@ -238,21 +237,4 @@ function isPaperLike(value: unknown): value is Scholar['papers'][number] {
 
 function isSubfieldLike(value: unknown): value is SubfieldTag {
   return isObjectLike(value) && typeof value.subfield === 'string' && typeof value.score === 'number'
-}
-
-function normalizeResearchIdea(raw: unknown): ResearchIdea | undefined {
-  if (!isObjectLike(raw)) return undefined
-  const r = raw as Record<string, unknown>
-  const title = normalizeString(r.title)
-  const hypothesis = normalizeString(r.hypothesis)
-  if (!title || !hypothesis) return undefined
-  return {
-    researchThread: normalizeString(r.research_thread) ?? '',
-    openQuestion: normalizeString(r.open_question) ?? '',
-    title,
-    hypothesis,
-    approach: normalizeString(r.approach) ?? '',
-    scientificImpact: normalizeString(r.scientific_impact) ?? '',
-    whyNow: normalizeString(r.why_now) ?? '',
-  }
 }

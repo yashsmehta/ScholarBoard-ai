@@ -26,16 +26,6 @@ export interface SubfieldTag {
   score: number
 }
 
-export interface ResearchIdea {
-  researchThread: string
-  openQuestion: string
-  title: string
-  hypothesis: string
-  approach: string
-  scientificImpact: string
-  whyNow: string
-}
-
 export interface RawScholar {
   id?: string
   name?: string
@@ -52,7 +42,6 @@ export interface RawScholar {
   subfields?: SubfieldTag[]
   papers?: ScholarPaper[]
   education?: ScholarEducation[]
-  suggested_idea?: Record<string, unknown>
   profile_pic?: string
   cluster?: number
   umap_projection?: UmapProjection
@@ -75,7 +64,6 @@ export interface Scholar {
   subfields: SubfieldTag[]
   papers: ScholarPaper[]
   education: ScholarEducation[]
-  suggestedIdea?: ResearchIdea
   profilePic?: string
   cluster: number
   x: number

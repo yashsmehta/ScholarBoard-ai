@@ -22,7 +22,7 @@ from google.genai import types
 
 from scholar_board.config import CSV_PATH, EXTRA_RESEARCHERS_PATH
 from scholar_board.db import get_connection, init_db
-from scholar_board.gemini import get_client, parse_json_response
+from scholar_board.gemini import get_client, parse_json_response, FLASH_MODEL
 
 
 def _normalize(name: str) -> str:
@@ -46,7 +46,7 @@ def _gemini_same_person(name1, inst1, name2, inst2) -> bool:
     """Ask Gemini Flash whether two name/institution pairs are the same researcher."""
     try:
         response = get_client().models.generate_content(
-            model="gemini-3-flash-preview",
+            model=FLASH_MODEL,
             contents=(
                 f"Are these two entries the same researcher?\n"
                 f"A: {name1} — {inst1}\n"

@@ -51,7 +51,7 @@ STEPS = [
         "name": "discover",
         "icon": "0",
         "description": "Discover extra researchers via Gemini subfield search",
-        "model": "gemini-3-flash-preview",
+        "model": "gemini-3.8-flash",
         "command": [PYTHON, "-m", "scholar_board.pipeline.fetch_extra_researchers"],
         "check": lambda: 1 if EXTRA_RESEARCHERS_PATH.exists() else 0,
         "total": 1,
@@ -60,7 +60,7 @@ STEPS = [
         "name": "seed",
         "icon": "1",
         "description": "Seed DB with all researchers (VSS + extra)",
-        "model": "gemini-3-flash-preview (dedup only)",
+        "model": "gemini-3.8-flash (dedup only)",
         "command": [PYTHON, "-m", "scholar_board.pipeline.seed"],
         "check": lambda: int(DB_PATH.exists() and __import__('sqlite3').connect(DB_PATH).execute("SELECT COUNT(*) FROM scholars").fetchone()[0]),
         "total": 1091,  # ~725 VSS + ~366 extra
@@ -69,7 +69,7 @@ STEPS = [
         "name": "papers",
         "icon": "2",
         "description": "Fetch papers via Gemini grounded search",
-        "model": "gemini-3-flash-preview",
+        "model": "gemini-3.8-flash",
         "command": [PYTHON, "-m", "scholar_board.pipeline.fetch_papers"],
         "check": lambda: len(list((PIPELINE_DIR / "scholar_papers").glob("*.json"))),
         "total": 730,
@@ -78,7 +78,7 @@ STEPS = [
         "name": "profiles",
         "icon": "3",
         "description": "Fetch researcher profiles + classify PIs",
-        "model": "gemini-3-flash-preview",
+        "model": "gemini-3.8-flash",
         "command": [PYTHON, "-m", "scholar_board.pipeline.fetch_profiles"],
         "check": lambda: len(list((PIPELINE_DIR / "scholar_profiles").glob("*.json"))),
         "total": 730,
@@ -138,17 +138,8 @@ STEPS = [
         "total": 23,
     },
     {
-        "name": "ideas",
-        "icon": "10",
-        "description": "Generate AI research ideas (PI only)",
-        "model": "gemini-3.1-pro-preview (HIGH thinking)",
-        "command": [PYTHON, "-m", "scholar_board.pipeline.ideas"],
-        "check": lambda: len(list((PIPELINE_DIR / "scholar_ideas").glob("*.json"))),
-        "total": 815,
-    },
-    {
         "name": "build",
-        "icon": "11",
+        "icon": "10",
         "description": "Consolidate all data into scholars.json (PI only)",
         "model": "n/a (local)",
         "command": [PYTHON, "-m", "scholar_board.pipeline.build"],
@@ -157,7 +148,7 @@ STEPS = [
     },
     {
         "name": "pics",
-        "icon": "12",
+        "icon": "11",
         "description": "Download profile pictures (PI only)",
         "model": "Serper.dev image search",
         "command": [PYTHON, "-m", "scholar_board.pipeline.pics", "--skip-existing"],
@@ -386,11 +377,10 @@ steps (run in order):
   profiles   Fetch profiles + classify PI status for ALL scholars
   ── PI-only below ──
   stats      Fetch total citations + h-index from Google Scholar (Serper)
-  directions Distill current research directions from papers (Gemini 3 Flash)
+  directions Distill current research directions from papers (Gemini 3.1 Pro)
   embed      Embed research direction + papers for UMAP (Gemini CLUSTERING, 3072 dims)
   umap       UMAP 2D projection — the map layout
   subfields  Assign subfield tags for dot coloring (Gemini SEMANTIC_SIMILARITY)
-  ideas      Generate AI research ideas (Gemini 3.1 Pro, HIGH thinking)
   build        Export scholars.json from DB (PI only)
   pics         Download headshots (Serper.dev image search)
 """,

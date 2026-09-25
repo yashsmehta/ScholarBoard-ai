@@ -1,13 +1,16 @@
 """
 Download scholar profile pictures using Serper.dev Google Image Search API.
 
-Uses image search with face-related queries to find headshot photos.
-Falls back gracefully when no suitable image is found.
+Uses image search with face-related queries to find headshot photos. Each
+candidate is checked by Gemini (single-person portrait, not a campus/group shot)
+and rejected if another scholar already uses the identical image. Falls back to
+the default avatar when no suitable image is found.
 
 Usage:
     uv run -m scholar_board.pipeline.pics --dry-run
     uv run -m scholar_board.pipeline.pics --skip-existing
     uv run -m scholar_board.pipeline.pics --limit 10
+    uv run -m scholar_board.pipeline.pics --ids 0066,0101     # replace specific photos
 """
 
 import argparse
@@ -19,6 +22,7 @@ import requests
 from PIL import Image
 
 from scholar_board.config import PICS_DIR, get_serper_api_key
+from scholar_board.gemini import get_client, is_headshot
 from scholar_board.db import get_connection, init_db, ensure_scholar, upsert_profile_pic, load_scholars
 
 DEFAULT_AVATAR = PICS_DIR / "default_avatar.jpg"
@@ -60,7 +64,8 @@ def search_face_images(name: str, institution: str, api_key: str, num: int = 10)
     ]
 
 
-def download_and_save(url: str, output_path) -> bool:
+def download_and_save(url: str, output_path, taken_md5: set[str] | None = None,
+                      client=None) -> bool:
     """Download image, validate as headshot, resize, and save as JPEG."""
     resp = requests.get(
         url,
@@ -76,7 +81,14 @@ def download_and_save(url: str, output_path) -> bool:
         raise ValueError(f"Too landscape ({w}x{h})")
     if max(img.size) > MAX_DIM:
         img.thumbnail((MAX_DIM, MAX_DIM))
-    img.save(output_path, "JPEG", quality=JPEG_QUALITY, optimize=True)
+    buf = BytesIO()
+    img.save(buf, "JPEG", quality=JPEG_QUALITY, optimize=True)
+    data = buf.getvalue()
+    if taken_md5 is not None and hashlib.md5(data).hexdigest() in taken_md5:
+        raise ValueError("Same image already used by another scholar")
+    if client is not None and not is_headshot(data, client=client):
+        raise ValueError("Not a single-person headshot")
+    output_path.write_bytes(data)
     return True
 
 
@@ -85,6 +97,8 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="Preview without downloading")
     parser.add_argument("--limit", type=int, default=0, help="Max scholars to process")
     parser.add_argument("--test", action="store_true", help="Test with a single known scholar")
+    parser.add_argument("--ids", type=str, default=None,
+                        help="Comma-separated scholar IDs to (re)download, e.g. 0066,0101")
     parser.add_argument("--force", action="store_true",
                         help="Re-download even if a real photo already exists")
     args = parser.parse_args()
@@ -113,7 +127,16 @@ def main():
     scholars = load_scholars(is_pi_only=True)
     default_md5 = file_md5(DEFAULT_AVATAR) if DEFAULT_AVATAR.exists() else ""
 
-    if args.force:
+    if args.ids:
+        wanted = {i.strip() for i in args.ids.split(",")}
+        todo = [s for s in scholars if s["scholar_id"] in wanted]
+        if not args.dry_run:
+            # Explicitly replacing: drop the current photo (any filename) so a failed
+            # search falls back to the default avatar rather than keeping a bad image.
+            for s in todo:
+                for old in PICS_DIR.glob(f"*_{s['scholar_id']}.jpg"):
+                    old.unlink()
+    elif args.force:
         todo = scholars
     else:
         todo = [s for s in scholars if needs_photo(s, default_md5)]
@@ -123,6 +146,14 @@ def main():
     if args.limit:
         todo = todo[: args.limit]
         print(f"  Limited to {args.limit}")
+
+    client = get_client()
+    todo_ids = {s["scholar_id"] for s in todo}
+    # Hashes of photos kept by scholars we're not replacing — never reuse those.
+    taken_md5 = {file_md5(PICS_DIR / pic_filename(s["scholar_name"], s["scholar_id"]))
+                 for s in scholars if s["scholar_id"] not in todo_ids
+                 and (PICS_DIR / pic_filename(s["scholar_name"], s["scholar_id"])).exists()}
+    taken_md5.discard(default_md5)
 
     success, failed, skipped = 0, 0, 0
     for i, scholar in enumerate(todo):
@@ -153,7 +184,8 @@ def main():
         downloaded = False
         for url in urls:
             try:
-                download_and_save(url, output_path)
+                download_and_save(url, output_path, taken_md5, client)
+                taken_md5.add(file_md5(output_path))
                 conn = get_connection()
                 init_db(conn)
                 ensure_scholar(conn, sid, name, inst)
@@ -167,7 +199,12 @@ def main():
                 print(f"  Failed: {e}")
 
         if not downloaded:
-            print("  All URLs failed")
+            print("  All URLs failed — using default avatar")
+            output_path.unlink(missing_ok=True)
+            conn = get_connection()
+            init_db(conn)
+            upsert_profile_pic(conn, sid, None)
+            conn.close()
             failed += 1
 
         time.sleep(0.3)

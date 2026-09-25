@@ -9,7 +9,6 @@ Schema:
     scholars   — one row per researcher (id, name, institution, UMAP coords, ...)
     papers     — one row per paper, FK → scholars
     subfields  — one row per (scholar, subfield) assignment, FK → scholars
-    ideas      — one row per AI-generated research idea, FK → scholars
 """
 
 import sqlite3
@@ -69,16 +68,6 @@ def init_db(conn: sqlite3.Connection) -> None:
         );
         CREATE INDEX IF NOT EXISTS idx_subfields_scholar ON subfields(scholar_id);
 
-        CREATE TABLE IF NOT EXISTS ideas (
-            scholar_id        TEXT PRIMARY KEY REFERENCES scholars(id),
-            research_thread   TEXT,
-            open_question     TEXT,
-            title             TEXT,
-            hypothesis        TEXT,
-            approach          TEXT,
-            scientific_impact TEXT,
-            why_now           TEXT
-        );
     """)
     # Migrations for columns added after initial schema
     for col, defn in [
@@ -227,31 +216,6 @@ def upsert_subfields(
     conn.commit()
 
 
-def upsert_idea(
-    conn: sqlite3.Connection,
-    scholar_id: str,
-    idea: dict,
-) -> None:
-    """Insert or replace a scholar's AI-generated research idea."""
-    conn.execute(
-        "INSERT OR REPLACE INTO ideas "
-        "(scholar_id, research_thread, open_question, title, "
-        "hypothesis, approach, scientific_impact, why_now) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        (
-            scholar_id,
-            idea.get("research_thread"),
-            idea.get("open_question"),
-            idea.get("title"),
-            idea.get("hypothesis"),
-            idea.get("approach"),
-            idea.get("scientific_impact"),
-            idea.get("why_now"),
-        ),
-    )
-    conn.commit()
-
-
 def upsert_cluster(
     conn: sqlite3.Connection,
     scholar_id: str,
@@ -331,7 +295,7 @@ def upsert_research_direction(
 def upsert_profile_pic(
     conn: sqlite3.Connection,
     scholar_id: str,
-    filename: str,
+    filename: str | None,
 ) -> None:
     """Update the profile_pic filename and download timestamp for a scholar."""
     conn.execute(

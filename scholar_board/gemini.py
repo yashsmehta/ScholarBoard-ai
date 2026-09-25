@@ -14,6 +14,9 @@ from google.genai import types
 
 from scholar_board.config import get_gemini_api_key
 
+# Fast/cheap model for bulk tasks: grounded search, classification, dedup.
+FLASH_MODEL = "gemini-3.8-flash"
+
 
 def get_client() -> genai.Client:
     """Create a new Gemini API client. Each thread should call this separately.
@@ -67,7 +70,7 @@ def extract_grounding_sources(response) -> list[dict]:
 
 def generate_text(
     prompt: str,
-    model: str = "gemini-3-flash-preview",
+    model: str = FLASH_MODEL,
     thinking: bool = False,
     system_instruction: str | None = None,
     response_schema: dict | None = None,
@@ -77,7 +80,7 @@ def generate_text(
 
     Args:
         prompt: The prompt to send.
-        model: Model ID (e.g. "gemini-3-flash-preview", "gemini-3.1-pro-preview").
+        model: Model ID (e.g. FLASH_MODEL, "gemini-3.1-pro-preview").
         thinking: Enable thinking/reasoning (only meaningful for Pro models).
         system_instruction: Optional system instruction.
         response_schema: Optional JSON schema (dict) for structured output. When
@@ -111,6 +114,30 @@ def generate_text(
     if response.text is None:
         return None
     return response.text.strip()
+
+
+def is_headshot(image_bytes: bytes, mime_type: str = "image/jpeg",
+                client: "genai.Client | None" = None) -> bool:
+    """Return True if the image is a portrait photo of exactly one person.
+
+    Rejects buildings, campus shots, group photos, logos, and illustrations.
+    """
+    if client is None:
+        client = get_client()
+    response = client.models.generate_content(
+        model=FLASH_MODEL,
+        contents=[
+            types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
+            "Is this a portrait photo (headshot or upper body) of exactly one real person, "
+            "suitable as a researcher's profile picture? Answer with JSON {\"headshot\": true|false}.",
+        ],
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json",
+            response_schema={"type": "object", "properties": {"headshot": {"type": "boolean"}},
+                             "required": ["headshot"]},
+        ),
+    )
+    return bool(response.text and json.loads(response.text).get("headshot"))
 
 
 def generate_image(

@@ -8,7 +8,6 @@ Usage:
     uv run scripts/status.py                      # Full dashboard
     uv run scripts/status.py --pending papers     # List scholars missing papers
     uv run scripts/status.py --pending profiles   # List scholars missing profiles
-    uv run scripts/status.py --pending ideas      # List scholars missing ideas
     uv run scripts/status.py --pending pics       # List scholars missing pics
 """
 
@@ -27,7 +26,6 @@ from scholar_board.config import (
     EXTRA_RESEARCHERS_PATH,
     PAPERS_DIR,
     PROFILES_DIR,
-    IDEAS_DIR,
     EMBEDDINGS_PATH,
     UMAP_MODEL_PATH,
     SUBFIELDS_PATH,
@@ -112,7 +110,6 @@ def query_db(db_path: Path) -> dict | None:
         r["papers_rows"]        = q("SELECT COUNT(*) FROM papers")
         r["papers_scholars"]    = q("SELECT COUNT(DISTINCT scholar_id) FROM papers")
         r["subfields_rows"]     = q("SELECT COUNT(*) FROM subfields")
-        r["ideas_rows"]         = q("SELECT COUNT(*) FROM ideas")
         r["pics_count"]         = q("SELECT COUNT(*) FROM scholars WHERE profile_pic IS NOT NULL")
         r["pics_latest"]        = q("SELECT MAX(pic_downloaded_at) FROM scholars WHERE pic_downloaded_at IS NOT NULL")
         return r
@@ -152,7 +149,6 @@ def show_dashboard():
     # Per-scholar completion sets
     papers_ids   = ids_with_files(PAPERS_DIR,   "*.json", "prefix")
     profiles_ids = ids_with_files(PROFILES_DIR, "*.json", "prefix")
-    ideas_ids    = ids_with_files(IDEAS_DIR,     "*.json", "prefix")
     pics_ids     = ids_with_files(PICS_DIR, "*.jpg", "suffix") | ids_with_files(PICS_DIR, "*.png", "suffix")
 
     # Subfields: per-scholar JSON (keyed by scholar_id)
@@ -224,14 +220,10 @@ def show_dashboard():
         len(subfields_ids), total,
         db["scholars_subfield"] if db else None)
 
-    row("6", "Generate research ideas",
-        len(ideas_ids), total,
-        db["ideas_rows"] if db else None)
-
-    row("7", "Build scholars.json",
+    row("6", "Build scholars.json",
         1 if SCHOLARS_JSON.exists() else 0, 1, None)
 
-    row("8", "Download profile pics",
+    row("7", "Download profile pics",
         len(pics_ids), total, None)
 
     print()
@@ -246,7 +238,6 @@ def show_dashboard():
               f"subfield: {db['scholars_subfield']}, is_pi: {db['scholars_is_pi']}{RESET}")
         print(f"    {'papers':<12}  {db['papers_rows']:>6}  {DIM}across {db['papers_scholars']} scholars{RESET}")
         print(f"    {'subfields':<12}  {db['subfields_rows']:>6}")
-        print(f"    {'ideas':<12}  {db['ideas_rows']:>6}")
         pics_detail = f"{DIM}latest: {db['pics_latest']}{RESET}" if db["pics_latest"] else f"{DIM}none downloaded yet{RESET}"
         print(f"    {'pics':<12}  {db['pics_count']:>6}  {pics_detail}")
     else:
@@ -260,7 +251,6 @@ def show_dashboard():
         "papers":   all_ids - papers_ids,
         "profiles": all_ids - profiles_ids,
         "subfields": all_ids - subfields_ids,
-        "ideas":    all_ids - ideas_ids,
         "pics":     all_ids - pics_ids,
     }
 
@@ -282,7 +272,6 @@ def show_pending(step_name: str):
     PER_SCHOLAR_STEPS = {
         "papers":   (PAPERS_DIR,   "*.json", "prefix"),
         "profiles": (PROFILES_DIR, "*.json", "prefix"),
-        "ideas":    (IDEAS_DIR,    "*.json", "prefix"),
         "pics":     (PICS_DIR,     "*.jpg",  "suffix"),
     }
 
@@ -345,12 +334,11 @@ def main():
 examples:
   uv run scripts/status.py                    show full dashboard
   uv run scripts/status.py --pending papers   list scholars missing papers
-  uv run scripts/status.py --pending ideas    list scholars missing ideas
 """,
     )
     parser.add_argument(
         "--pending", type=str, default=None, metavar="STEP",
-        help="List scholars pending for STEP (papers, profiles, subfields, ideas, pics)",
+        help="List scholars pending for STEP (papers, profiles, subfields, pics)",
     )
     args = parser.parse_args()
 

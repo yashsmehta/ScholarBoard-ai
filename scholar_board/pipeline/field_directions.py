@@ -21,6 +21,8 @@ Usage:
 import json
 import argparse
 import sys
+import threading
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from google.genai import types
@@ -160,6 +162,8 @@ def main():
                         help="Preview without making API calls")
     parser.add_argument("--no-skip", action="store_true",
                         help="Regenerate even if output already exists")
+    parser.add_argument("--workers", type=int, default=7,
+                        help="Subfields to generate in parallel (default: 7)")
     args = parser.parse_args()
 
     subfields = load_subfield_definitions()
@@ -181,14 +185,15 @@ def main():
 
     client = get_client()
     results = dict(existing)
+    lock = threading.Lock()
 
-    for sf in subfields:
+    def process(sf):
         name = sf["name"]
         description = sf["description"]
 
         if name in results and not args.no_skip:
             print(f"[SKIP] {name} (already generated)")
-            continue
+            return
 
         researchers = load_researchers_for_subfield(name)
         n_primary = sum(1 for r in researchers if r.get("is_primary", True))
@@ -200,29 +205,32 @@ def main():
 
         if not researchers:
             print(f"  No researchers found, skipping")
-            continue
+            return
 
         if args.dry_run:
             print(f"  [DRY RUN] Would call Gemini 3.1 Pro HIGH thinking")
             print(f"  Prompt preview: {len(researchers)} researcher directions")
-            continue
+            return
 
-        print(f"  Calling Gemini 3.1 Pro (HIGH thinking)...")
+        print(f"  [{name}] Calling Gemini 3.1 Pro (HIGH thinking)...")
         summary = generate_field_summary(client, name, description, researchers)
 
         if summary:
             summary["subfield"] = name
             summary["n_researchers"] = n_primary  # primary count for display
-            results[name] = summary
-            print(f"  Done — {len(summary.get('active_research_themes', []))} themes, "
-                  f"{len(summary.get('open_questions', []))} questions")
-
-            # Save after each subfield so we can resume on interruption
-            BUILD_DIR.mkdir(parents=True, exist_ok=True)
-            with open(FIELD_DIRECTIONS_PATH, "w", encoding="utf-8") as f:
-                json.dump(results, f, indent=2, ensure_ascii=False)
+            with lock:
+                results[name] = summary
+                print(f"  [{name}] Done — {len(summary.get('active_research_themes', []))} themes, "
+                      f"{len(summary.get('open_questions', []))} questions")
+                # Save after each subfield so we can resume on interruption
+                BUILD_DIR.mkdir(parents=True, exist_ok=True)
+                with open(FIELD_DIRECTIONS_PATH, "w", encoding="utf-8") as f:
+                    json.dump(results, f, indent=2, ensure_ascii=False)
         else:
             print(f"  Failed to generate summary for {name}")
+
+    with ThreadPoolExecutor(max_workers=args.workers) as ex:
+        list(ex.map(process, subfields))
 
     if not args.dry_run:
         print(f"\nSaved {len(results)} field summaries to {FIELD_DIRECTIONS_PATH}")

@@ -20,12 +20,11 @@ from scholar_board.config import (
     PROFILES_DIR,
     PICS_DIR,
     SUBFIELDS_PATH,
-    IDEAS_DIR,
     SCHOLARS_JSON,
     SCHOLARS_DIR,
     BUILD_DIR,
 )
-from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection, ResearchIdea
+from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection
 from scholar_board.db import (
     get_connection,
     init_db,
@@ -34,7 +33,6 @@ from scholar_board.db import (
     upsert_profile,
     upsert_cluster,
     upsert_subfields,
-    upsert_idea,
     upsert_profile_pic,
     load_scholars,
 )
@@ -95,7 +93,7 @@ def _find_profile_pics() -> dict[str, str]:
     for fpath in PICS_DIR.glob("*.jpg"):
         if fpath.name == "default_avatar.jpg":
             continue
-        match = re.search(r"_(\d{4})\.jpg$", fpath.name)
+        match = re.search(r"_([0-9E]\d{3})\.jpg$", fpath.name)
         if match:
             pics[match.group(1)] = fpath.name
     return pics
@@ -106,29 +104,6 @@ def _load_subfield_assignments() -> dict[str, dict]:
         return {}
     with open(SUBFIELDS_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
-
-
-def _load_scholar_ideas() -> dict[str, dict]:
-    ideas = {}
-    if not IDEAS_DIR.exists():
-        return ideas
-    for fpath in IDEAS_DIR.glob("*.json"):
-        try:
-            with open(fpath, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            sid = data.get("scholar_id", "")
-            if not sid:
-                parts = fpath.stem.split("_")
-                if parts[0].isdigit():
-                    sid = parts[0].zfill(4)
-            if not sid:
-                continue
-            sid = sid.zfill(4) if sid.isdigit() else sid
-            if data.get("idea"):
-                ideas[sid] = data["idea"]
-        except (json.JSONDecodeError, KeyError):
-            continue
-    return ideas
 
 
 # ── backfill: seed DB from existing JSON pipeline artifacts ──────────────
@@ -163,11 +138,6 @@ def backfill_db(conn) -> None:
     for sid, assignment in subfields_data.items():
         upsert_subfields(conn, sid, assignment["primary_subfield"], assignment.get("subfields", []))
     print(f"  Subfields: {len(subfields_data)} scholars")
-
-    ideas_data = _load_scholar_ideas()
-    for sid, idea in ideas_data.items():
-        upsert_idea(conn, sid, idea)
-    print(f"  Ideas: {len(ideas_data)} scholars")
 
     pics_data = _find_profile_pics()
     for sid, filename in pics_data.items():
@@ -212,13 +182,11 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
     for row in sf_rows:
         subfields_by_sid.setdefault(row["scholar_id"], []).append(dict(row))
 
-    idea_rows = conn.execute("SELECT * FROM ideas").fetchall()
-    ideas_by_sid = {row["scholar_id"]: dict(row) for row in idea_rows}
-    print(f"  subfields: {len(subfields_by_sid)} scholars  |  ideas: {len(ideas_by_sid)} scholars")
+    print(f"  subfields: {len(subfields_by_sid)} scholars")
 
     print("\nBuilding scholar objects...")
     scholars: list[Scholar] = []
-    stats = {k: 0 for k in ("umap", "papers", "bio", "area", "subfield", "idea", "pic")}
+    stats = {k: 0 for k in ("umap", "papers", "bio", "area", "subfield", "pic")}
 
     for row in scholar_rows:
         sid = row["id"]
@@ -258,22 +226,6 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
             ]
             stats["subfield"] += 1
 
-        if sid in ideas_by_sid:
-            idea = ideas_by_sid[sid]
-            try:
-                d["suggested_idea"] = ResearchIdea(
-                    research_thread=idea["research_thread"] or "",
-                    open_question=idea["open_question"] or "",
-                    title=idea["title"] or "",
-                    hypothesis=idea["hypothesis"] or "",
-                    approach=idea["approach"] or "",
-                    scientific_impact=idea["scientific_impact"] or "",
-                    why_now=idea["why_now"] or "",
-                )
-                stats["idea"] += 1
-            except Exception:
-                pass
-
         if row["bio"]:
             stats["bio"] += 1
         if row["main_research_area"]:
@@ -292,7 +244,6 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
     print(f"  With bio:            {stats['bio']}")
     print(f"  With research area:  {stats['area']}")
     print(f"  With subfield tags:  {stats['subfield']}")
-    print(f"  With research idea:  {stats['idea']}")
     print(f"  With profile pic:    {stats['pic']}")
 
     if write_individual:

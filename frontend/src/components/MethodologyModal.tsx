@@ -10,7 +10,7 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
 
         <h2 className="method-title">Methods and interpretation</h2>
         <p className="method-intro">
-          ScholarBoard is a neighborhood map of 801 active vision-science PIs. Coordinates encode
+          ScholarBoard is a neighborhood map of 793 active vision-science PIs. Coordinates encode
           similarity between text representations of recent work; color encodes an independently
           assigned VSS topic area. The axes and absolute global distances have no direct meaning.
         </p>
@@ -25,7 +25,7 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
                 VSS records and 211 added by <code>gemini-3-flash-preview</code> with Google Search grounding across the
                 21 VSS topic areas. Names were normalized and resolved by exact/fuzzy matching;
                 Gemini adjudicated ambiguous matches and PI-status edge cases. The released map
-                retains 801 researchers classified as active, independent PIs.
+                retains 793 researchers classified as active, independent vision-science PIs.
               </p>
             </div>
           </div>
@@ -35,8 +35,11 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
             <div>
               <h3>Evidence retrieval and current-work synthesis</h3>
               <p>
-                <code>gemini-3-flash-preview</code> with grounded web search assembled structured
-                profiles and recent publication evidence. <code>gemini-3.1-pro-preview</code> with
+                Gemini Flash (<code>gemini-3-flash-preview</code>, with thin profiles refreshed by{' '}
+                <code>gemini-3.8-flash</code>) with grounded web search assembled structured
+                profiles and up to five recent papers per PI: from 2023 onward, with the PI as first
+                or last author, preferring published versions over preprints and excluding
+                conference abstracts. <code>gemini-3.1-pro-preview</code> with
                 reasoning enabled then distilled each PI's recent papers into the current-research
                 synopsis shown in the profile. These are model-generated summaries of retrieved
                 evidence, not text supplied or endorsed by the researcher.
@@ -76,7 +79,7 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
             <div>
               <h3>VSS topic assignment</h3>
               <p>
-                Independently of UMAP, <code>gemini-3-flash-preview</code> reads the profile,
+                Independently of UMAP, <code>gemini-3.8-flash</code> reads the profile,
                 current-work synopsis, and papers and selects one primary plus up to two secondary
                 labels from an enum-constrained set of 21 VSS topic areas. The primary assignment
                 determines dot color; secondary assignments appear as profile tags. Topic labels

@@ -28,7 +28,7 @@ from scholar_board.config import (
     EXTRA_RESEARCHERS_PATH,
     SUBFIELDS_DEF_PATH,
 )
-from scholar_board.gemini import get_client, parse_json_response
+from scholar_board.gemini import get_client, parse_json_response, FLASH_MODEL
 
 RESEARCHERS_PER_SUBFIELD = 20
 
@@ -79,7 +79,7 @@ def fetch_subfield_researchers(client, subfield_name, subfield_description):
 
     try:
         response = client.models.generate_content(
-            model="gemini-3-flash-preview",
+            model=FLASH_MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
                 system_instruction=SYSTEM_INSTRUCTION,

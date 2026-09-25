@@ -19,7 +19,6 @@ The current map covers **~810 vision science researchers** (principal investigat
 - **Explore the map** — pan and zoom to see how the field is organized; clusters naturally form around shared research themes
 - **Click any researcher** — see their bio, recent papers, institutional affiliation, and subfield tags
 - **Find neighbors** — discover who is working on the most similar problems
-- **Read AI-generated ideas** — each researcher has a novel research direction proposed by AI, grounded in their actual publications
 - **Search** — look up researchers by name or describe a topic to find where it lives on the map
 
 ---
@@ -28,20 +27,19 @@ The current map covers **~810 vision science researchers** (principal investigat
 
 All researcher data is collected and processed automatically by an AI pipeline:
 
-1. **Papers** — Gemini searches the web for each researcher's recent publications
+1. **Papers** — Gemini 3.8 Flash searches the web for each researcher's recent papers (January 2023 onward, as first or last author; published versions preferred, preprints allowed, conference abstracts excluded)
 2. **Profiles** — Gemini fetches their bio, institution, department, and lab URL from public academic pages
 3. **Map layout** — each researcher's distilled research direction plus their paper texts are embedded into high-dimensional vectors, then reduced to 2D with UMAP to position them by research similarity
-4. **Subfield tags** — a Gemini 3 Flash classifier reads each researcher's profile and assigns them to one of the 21 Vision Sciences Society (VSS) topic areas (one primary + up to two secondary)
-5. **Research ideas** — Gemini 3.1 Pro (with extended thinking) reads a researcher's papers and proposes a novel next direction
-6. **Photos** — headshots are sourced from public academic pages via image search
+4. **Subfield tags** — a Gemini 3.8 Flash classifier reads each researcher's profile and assigns them to one of the 21 Vision Sciences Society (VSS) topic areas (one primary + up to two secondary)
+5. **Photos** — headshots are sourced from public academic pages via image search
 
 The pipeline is re-run periodically to keep the data fresh.
 
 ---
 
-## The 23 subfields
+## The 21 subfields (VSS topic areas)
 
-> *Neural Coding · Representational Geometry · Brain-AI Alignment · Predictive Dynamics · Object Recognition · Face Perception · Scene Perception · Active Vision · Visuomotor Action · Attention · Visual Working Memory · Ensemble Statistics · Perceptual Learning · Multisensory Integration · Perceptual Decision-Making · Visual Development · Neural Decoding · Comparative Vision · Motion Perception · Color Vision · Visual Search · Reading & Word Recognition · Mid-Level Features*
+> *3D Perception · Perception & Action · Attention · Binocular Vision · Color, Light & Materials · Decision Making · Development · Eye Movements · Face & Body Perception · Motion · Multisensory Processing · Object Recognition · Perceptual Learning & Plasticity · Perceptual Organization · Scene Perception · Social Perception · Spatial Vision · Temporal Processing · Theory & Computation · Visual Memory · Visual Search*
 
 ---
 

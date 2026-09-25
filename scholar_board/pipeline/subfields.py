@@ -1,7 +1,7 @@
 """
 Assign Vision Sciences Society (VSS) topic areas to scholars with an LLM.
 
-For each PI, Gemini 3 Flash reads the researcher's profile (bio, stated research
+For each PI, Gemini 3.8 Flash reads the researcher's profile (bio, stated research
 area, AI-distilled research direction, and recent papers) and picks the single
 best-fitting VSS topic area as `primary`, plus up to two `secondary` areas.
 This replaces the earlier embedding cosine-similarity approach — a language model
@@ -17,21 +17,27 @@ Usage:
     uv run -m scholar_board.pipeline.subfields                      # Run all PIs
     uv run -m scholar_board.pipeline.subfields --limit 5            # First 5
     uv run -m scholar_board.pipeline.subfields --scholar-id 0459    # Single scholar
+    uv run -m scholar_board.pipeline.subfields --ids 0459,E017      # Specific scholars
     uv run -m scholar_board.pipeline.subfields --workers 25         # Parallelism
 """
 
 import json
 import argparse
+import random
 import sys
+import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from scholar_board.config import SUBFIELDS_DEF_PATH, SUBFIELDS_PATH, load_paper_texts
-from scholar_board.gemini import get_client, generate_text, parse_json_response
+from scholar_board.gemini import get_client, generate_text, parse_json_response, FLASH_MODEL
 from scholar_board.prompt_loader import render_prompt
 from scholar_board.db import get_connection, init_db, upsert_subfields
 
 SECONDARY_SCORE = 0.5
+# Retries for transient API errors (e.g. 429 rate limits), with exponential backoff.
+MAX_ATTEMPTS = 5
+RETRY_BASE_SECONDS = 10
 PRIMARY_SCORE = 1.0
 
 
@@ -87,15 +93,19 @@ def classify_scholar(scholar: dict, subfields: list[dict], names: set[str],
         papers_text=papers_text,
     )
 
-    try:
-        text = generate_text(prompt, model="gemini-3-flash-preview",
-                             response_schema=schema, client=client)
-        if not text:
-            return None
-        result = parse_json_response(text)
-    except Exception as e:
-        print(f"  ERROR {sid} {scholar['name']}: {e}")
-        return None
+    for attempt in range(MAX_ATTEMPTS):
+        try:
+            text = generate_text(prompt, model=FLASH_MODEL,
+                                 response_schema=schema, client=client)
+            if not text:
+                return None
+            result = parse_json_response(text)
+            break
+        except Exception as e:
+            if attempt == MAX_ATTEMPTS - 1:
+                print(f"  ERROR {sid} {scholar['name']}: {e}")
+                return None
+            time.sleep(RETRY_BASE_SECONDS * 2 ** attempt + random.uniform(0, 5))
 
     primary = result.get("primary")
     if primary not in names:
@@ -131,6 +141,7 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="Preview without API calls")
     parser.add_argument("--limit", type=int, default=None, help="Only classify the first N scholars")
     parser.add_argument("--scholar-id", type=str, default=None, help="Classify a single scholar by ID")
+    parser.add_argument("--ids", type=str, default=None, help="Comma-separated scholar IDs to classify")
     parser.add_argument("--workers", type=int, default=25, help="Parallel API workers (default: 25)")
     args = parser.parse_args()
 
@@ -146,9 +157,12 @@ def main():
     scholars = load_pi_scholars()
     if args.scholar_id:
         scholars = [s for s in scholars if s["id"] == args.scholar_id]
+    elif args.ids:
+        wanted = {i.strip() for i in args.ids.split(",")}
+        scholars = [s for s in scholars if s["id"] in wanted]
     if args.limit:
         scholars = scholars[: args.limit]
-    print(f"Classifying {len(scholars)} PI scholars (Gemini 3 Flash, {args.workers} workers)")
+    print(f"Classifying {len(scholars)} PI scholars (Gemini 3.8 Flash, {args.workers} workers)")
 
     if not scholars:
         print("No scholars to classify.")
@@ -177,10 +191,17 @@ def main():
             if done % 25 == 0 or done == len(scholars):
                 print(f"  {done}/{len(scholars)} classified ({len(assignments)} ok)")
 
+    # Merge into existing assignments so partial runs (--ids, --scholar-id) don't
+    # discard everyone else's tags.
     SUBFIELDS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    existing = {}
+    if SUBFIELDS_PATH.exists():
+        with open(SUBFIELDS_PATH, "r", encoding="utf-8") as f:
+            existing = json.load(f)
+    existing.update(assignments)
     with open(SUBFIELDS_PATH, "w", encoding="utf-8") as f:
-        json.dump(assignments, f, indent=2, ensure_ascii=False)
-    print(f"\nSaved {len(assignments)} assignments to {SUBFIELDS_PATH}")
+        json.dump(existing, f, indent=2, ensure_ascii=False)
+    print(f"\nSaved {len(assignments)} new assignments ({len(existing)} total) to {SUBFIELDS_PATH}")
 
     conn = get_connection()
     init_db(conn)

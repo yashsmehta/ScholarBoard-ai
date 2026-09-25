@@ -21,6 +21,8 @@
   campus/group shot) and rejected if another scholar already uses the identical image;
   `--ids` replaces specific photos; failed searches fall back to the default avatar.
 - `build`: profile photos for `E`-prefixed scholar IDs are now picked up.
+- `subfields`: manual overrides in `data/source/subfield_overrides.json` are applied on top
+  of the classifier, so hand fixes survive re-runs.
 
 ### Data
 - Topped up the 134 PIs that had fewer than 3 papers (120 via Gemini 3.8 Flash, 14 via
@@ -30,9 +32,11 @@
   793 PIs, re-classified all 793 with Gemini 3.8 Flash (Theory & Computation catch-all
   152 → 105 primaries), and regenerated all 21 field-direction summaries.
 - Replaced 38 stock/campus photos that were shared across multiple scholars.
-- Removed 8 non-vision researchers from the map (`is_pi = 0`, kept in DB):
+- Removed 9 non-vision researchers from the map (`is_pi = 0`, kept in DB):
   Adam Green, Hamid Soltanian-Zadeh, Joseph Pare, Mette Elmose Andersen, Molly Jameson,
-  Myeong-Ho Sohn, Vijay Mittal, Wataru Inoue.
+  Myeong-Ho Sohn, Vijay Mittal, Wataru Inoue, Keiko Tsuchiya. Map now has 792 PIs.
+- Ward van der Tempel relabelled Eye Movements (was 3D Perception) via the new
+  `data/source/subfield_overrides.json`.
 - Fixed name typo "Grabriel Kreiman" → "Gabriel Kreiman".
 - Back-ported earlier manual corrections (names, institutions, lab URLs, de-duplicated paper
   lists) from `scholars.json` into the DB, so rebuilds no longer revert them.

@@ -10,7 +10,7 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
 
         <h2 className="method-title">Methods and interpretation</h2>
         <p className="method-intro">
-          ScholarBoard is a neighborhood map of 793 active vision-science PIs. Coordinates encode
+          ScholarBoard is a neighborhood map of 792 active vision-science PIs. Coordinates encode
           similarity between text representations of recent work; color encodes an independently
           assigned VSS topic area. The axes and absolute global distances have no direct meaning.
         </p>
@@ -25,7 +25,7 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
                 VSS records and 211 added by <code>gemini-3-flash-preview</code> with Google Search grounding across the
                 21 VSS topic areas. Names were normalized and resolved by exact/fuzzy matching;
                 Gemini adjudicated ambiguous matches and PI-status edge cases. The released map
-                retains 793 researchers classified as active, independent vision-science PIs.
+                retains 792 researchers classified as active, independent vision-science PIs.
               </p>
             </div>
           </div>

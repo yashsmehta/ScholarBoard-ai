@@ -4,6 +4,7 @@ Assign Vision Sciences Society (VSS) topic areas to scholars with an LLM.
 For each PI, Gemini 3.8 Flash reads the researcher's profile (bio, stated research
 area, AI-distilled research direction, and recent papers) and picks the single
 best-fitting VSS topic area as `primary`, plus up to two `secondary` areas.
+Manual fixes in data/source/subfield_overrides.json are applied on top.
 This replaces the earlier embedding cosine-similarity approach — a language model
 judges fit directly, which handles the boundary cases (mechanism vs. application,
 computational vs. empirical) far better than nearest-neighbor on embeddings.
@@ -29,7 +30,8 @@ import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from scholar_board.config import SUBFIELDS_DEF_PATH, SUBFIELDS_PATH, load_paper_texts
+from scholar_board.config import (SUBFIELDS_DEF_PATH, SUBFIELDS_PATH, SUBFIELD_OVERRIDES_PATH,
+                                  load_paper_texts)
 from scholar_board.gemini import get_client, generate_text, parse_json_response, FLASH_MODEL
 from scholar_board.prompt_loader import render_prompt
 from scholar_board.db import get_connection, init_db, upsert_subfields
@@ -45,6 +47,26 @@ def load_subfields() -> list[dict]:
     """Load VSS topic-area definitions from data/source/subfields.json."""
     with open(SUBFIELDS_DEF_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def load_overrides(names: set[str]) -> dict[str, dict]:
+    """Manual assignments from data/source/subfield_overrides.json, in assignment shape."""
+    if not SUBFIELD_OVERRIDES_PATH.exists():
+        return {}
+    with open(SUBFIELD_OVERRIDES_PATH, "r", encoding="utf-8") as f:
+        raw = json.load(f)
+    overrides = {}
+    for sid, o in raw.items():
+        tags = [o["primary"]] + [s for s in o.get("secondary", []) if s != o["primary"]][:2]
+        unknown = [t for t in tags if t not in names]
+        if unknown:
+            raise ValueError(f"Override for {sid} uses unknown topic(s): {unknown}")
+        overrides[sid] = {
+            "primary_subfield": o["primary"],
+            "subfields": [{"subfield": o["primary"], "score": PRIMARY_SCORE}]
+                         + [{"subfield": s, "score": SECONDARY_SCORE} for s in tags[1:]],
+        }
+    return overrides
 
 
 def load_pi_scholars() -> list[dict]:
@@ -190,6 +212,12 @@ def main():
                 assignments[s["id"]] = assignment
             if done % 25 == 0 or done == len(scholars):
                 print(f"  {done}/{len(scholars)} classified ({len(assignments)} ok)")
+
+    # Manual overrides always win over the classifier.
+    overrides = load_overrides(names)
+    for sid in assignments.keys() & overrides.keys():
+        assignments[sid] = overrides[sid]
+    print(f"Applied {len(assignments.keys() & overrides.keys())} manual override(s)")
 
     # Merge into existing assignments so partial runs (--ids, --scholar-id) don't
     # discard everyone else's tags.

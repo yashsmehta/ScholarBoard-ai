@@ -51,6 +51,9 @@
   (+ Motion, Eye Movements) instead of Object Recognition via `subfield_overrides.json`.
   His bioRxiv "Object Manifold Alignment" preprint swapped for the published Nature
   Neuroscience 2026 version (checked against his ORCID record). Lab link fixed to ponce.hms.harvard.edu.
+  Bio rewritten to match the lab's summary; the ICLR/OpenReview "Functional segregation"
+  preprint (not on his ORCID) replaced by PNAS 2023 "Macaques recognize features in synthetic
+  images derived from ventral stream neurons".
 - Added Binxu Wang (Kempner Institute, Harvard; E367). Papers hand-picked from her Google
   Scholar/lab site (2025+, first or second author, preprints included) and a hand-written AI
   summary; placed on the map with the saved UMAP model so no other positions moved. Map now

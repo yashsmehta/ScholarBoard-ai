@@ -41,6 +41,12 @@
   Map now has 790 PIs.
 - Emily A. Cooper moved from UC Berkeley to Dartmouth College: institution, department and
   bio updated (private contact email updated too).
+- Added Binxu Wang (Kempner Institute, Harvard; E367). Papers hand-picked from her Google
+  Scholar/lab site (2025+, first or second author, preprints included) and a hand-written AI
+  summary; placed on the map with
+  the saved UMAP model so no other positions moved. Map now has 791 PIs.
+- New `data/source/pi_overrides.json`: manual PI decisions that win over the `profiles`
+  classifier (it had rejected Binxu Wang as a postdoc).
 - Ward van der Tempel relabelled Eye Movements (was 3D Perception) via the new
   `data/source/subfield_overrides.json`.
 - Fixed name typo "Grabriel Kreiman" → "Gabriel Kreiman".

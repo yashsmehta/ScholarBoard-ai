@@ -22,6 +22,7 @@ CSV_PATH = SOURCE_DIR / "vss_data.csv"
 EXTRA_RESEARCHERS_PATH = SOURCE_DIR / "extra_researchers.csv"
 SUBFIELDS_DEF_PATH = SOURCE_DIR / "subfields.json"
 SUBFIELD_OVERRIDES_PATH = SOURCE_DIR / "subfield_overrides.json"  # manual fixes, win over the classifier
+PI_OVERRIDES_PATH = SOURCE_DIR / "pi_overrides.json"  # manual is_pi decisions, win over the classifier
 
 # Pipeline intermediates
 PAPERS_DIR = PIPELINE_DIR / "scholar_papers"

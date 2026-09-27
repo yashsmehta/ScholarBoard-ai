@@ -30,6 +30,7 @@ from google.genai import types
 
 from scholar_board.config import (
     PAPERS_DIR,
+    PI_OVERRIDES_PATH,
     PROFILES_DIR,
 )
 from scholar_board.gemini import get_client, extract_grounding_sources, parse_json_response, FLASH_MODEL
@@ -174,6 +175,14 @@ def _load_papers_for_scholar(scholar_id: str) -> list[dict]:
     return []
 
 
+def load_pi_overrides() -> dict[str, dict]:
+    """Manual PI decisions from data/source/pi_overrides.json, keyed by scholar ID."""
+    if not PI_OVERRIDES_PATH.exists():
+        return {}
+    with open(PI_OVERRIDES_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
 def classify_pi(client, scholar_name, institution, department, bio, papers):
     """Classify whether a researcher is PI-level using the fetched profile data.
 
@@ -308,6 +317,12 @@ def _process_single_scholar(scholar_id, scholar, index, total, client,
     is_pi = classification["is_pi"]
     confidence = classification["confidence"]
     reason = classification["reason"]
+
+    override = load_pi_overrides().get(scholar_id)
+    if override is not None:
+        is_pi = override["is_pi"]
+        confidence = "override"
+        reason = override.get("reason", "Manual override in pi_overrides.json")
 
     # Always write is_pi to DB (true or false)
     conn = get_connection()

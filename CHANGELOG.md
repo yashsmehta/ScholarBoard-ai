@@ -64,8 +64,8 @@
   developmental cluster (Linda Smith, Lisa Oakes, Richard Aslin). Map now has 792 PIs.
 - New `data/source/pi_overrides.json`: manual PI decisions that win over the `profiles`
   classifier (it had rejected Binxu Wang as a postdoc).
-- Michael Bonner: hand-written AI summary (research direction), map position unchanged;
-  new profile photo.
+- Michael Bonner: AI summary (research direction) rewritten to follow the Bonner Lab
+  website (bonnerlab.org), map position unchanged; new profile photo.
 - Ward van der Tempel relabelled Eye Movements (was 3D Perception) via the new
   `data/source/subfield_overrides.json`.
 - Fixed name typo "Grabriel Kreiman" → "Gabriel Kreiman".

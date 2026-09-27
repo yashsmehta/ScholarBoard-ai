@@ -37,6 +37,8 @@
   Myeong-Ho Sohn, Vijay Mittal, Wataru Inoue, Keiko Tsuchiya. Map now has 792 PIs.
 - Removed Daniel Baker (University of York) from the map (`is_pi = 0`, kept in DB) and
   deleted his profile photo. Map now has 791 PIs.
+- Removed Uri Hasson from the map (`is_pi = 0`, kept in DB) and deleted his profile photo.
+  Map now has 790 PIs.
 - Ward van der Tempel relabelled Eye Movements (was 3D Perception) via the new
   `data/source/subfield_overrides.json`.
 - Fixed name typo "Grabriel Kreiman" → "Gabriel Kreiman".
@@ -51,3 +53,4 @@
 - On phones the search box gets its own row, with the filter buttons below it.
 - The profile close button is now a small round button in the card's corner.
 - Thinner, lower-contrast scrollbars throughout.
+- New creator headshot in the top-left header avatar.

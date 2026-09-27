@@ -170,7 +170,9 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
     scholar_rows = conn.execute("SELECT * FROM scholars WHERE is_pi = 1 ORDER BY id").fetchall()
     print(f"  scholars: {len(scholar_rows)}")
 
-    papers_rows = conn.execute("SELECT * FROM papers ORDER BY scholar_id, id").fetchall()
+    papers_rows = conn.execute(
+        "SELECT * FROM papers ORDER BY scholar_id, CAST(year AS INTEGER) DESC, id"
+    ).fetchall()  # newest first; ties keep fetch order
     papers_by_sid: dict[str, list] = {}
     for row in papers_rows:
         papers_by_sid.setdefault(row["scholar_id"], []).append(dict(row))

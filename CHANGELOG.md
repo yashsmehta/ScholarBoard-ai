@@ -58,6 +58,10 @@
   Scholar/lab site (2025+, first or second author, preprints included) and a hand-written AI
   summary; placed on the map with the saved UMAP model so no other positions moved. Map now
   has 791 PIs.
+- Added Bria Long (UC San Diego, Visual Learning Lab; E368). Papers hand-picked from her site
+  (2023+, first or last author, preprints included; CCN abstracts and workshop papers skipped)
+  and a hand-written AI summary; placed on the map with the saved UMAP model, next to the
+  developmental cluster (Linda Smith, Lisa Oakes, Richard Aslin). Map now has 792 PIs.
 - New `data/source/pi_overrides.json`: manual PI decisions that win over the `profiles`
   classifier (it had rejected Binxu Wang as a postdoc).
 - Michael Bonner: hand-written AI summary (research direction), map position unchanged;

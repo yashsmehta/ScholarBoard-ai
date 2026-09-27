@@ -10,7 +10,7 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
 
         <h2 className="method-title">Methods and interpretation</h2>
         <p className="method-intro">
-          ScholarBoard is a neighborhood map of 791 active vision-science PIs. Coordinates encode
+          ScholarBoard is a neighborhood map of 792 active vision-science PIs. Coordinates encode
           similarity between text representations of recent work; color encodes an independently
           assigned VSS topic area. The axes and absolute global distances have no direct meaning.
         </p>
@@ -21,11 +21,10 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
             <div>
               <h3>Corpus construction and PI inclusion</h3>
               <p>
-                The candidate pool contains 920 deduplicated researchers: 709 derived from recent
-                VSS records and 211 added by <code>gemini-3-flash-preview</code> with Google Search grounding across the
-                21 VSS topic areas. Names were normalized and resolved by exact/fuzzy matching;
-                Gemini adjudicated ambiguous matches and PI-status edge cases. The released map
-                retains 791 researchers classified as active, independent vision-science PIs.
+                We started from about 920 researchers: most from recent VSS records, plus others
+                found by <code>gemini-3-flash-preview</code> searching the web across the 21 VSS
+                topic areas. Duplicate names were merged, and the map keeps the 792 who are active,
+                independent vision-science PIs.
               </p>
             </div>
           </div>
@@ -35,14 +34,11 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
             <div>
               <h3>Evidence retrieval and current-work synthesis</h3>
               <p>
-                Gemini Flash (<code>gemini-3-flash-preview</code>, with thin profiles refreshed by{' '}
-                <code>gemini-3.8-flash</code>) with grounded web search assembled structured
-                profiles and up to five recent papers per PI: from 2023 onward, with the PI as first
-                or last author, preferring published versions over preprints and excluding
-                conference abstracts. <code>gemini-3.1-pro-preview</code> with
-                reasoning enabled then distilled each PI's recent papers into the current-research
-                synopsis shown in the profile. These are model-generated summaries of retrieved
-                evidence, not text supplied or endorsed by the researcher.
+                <code>gemini-3.8-flash</code> searched the web to build each PI's profile and find
+                up to five recent papers (2023 onward, with the PI as first or last author).{' '}
+                <code>gemini-3.1-pro-preview</code> then summarized those papers into the
+                current-research synopsis shown in the profile. These summaries are AI-generated,
+                not written or endorsed by the researcher.
               </p>
             </div>
           </div>
@@ -52,10 +48,9 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
             <div>
               <h3>Representation and embedding</h3>
               <p>
-                Each embedding input concatenates the current-research synopsis with recent paper
-                titles and abstracts. <code>gemini-embedding-001</code>, configured with{' '}
-                <code>task_type=CLUSTERING</code>, maps that text to a 3,072-dimensional vector.
-                Cosine geometry in this space defines research similarity for the map.
+                Each PI's current-research synopsis and recent papers are combined into a single
+                text and converted into a numerical embedding with <code>gemini-embedding-001</code>. PIs
+                whose embeddings are close together are treated as doing similar research.
               </p>
             </div>
           </div>
@@ -65,11 +60,10 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
             <div>
               <h3>Two-dimensional projection</h3>
               <p>
-                UMAP produces the displayed coordinates with <code>n_neighbors=15</code>,{' '}
-                <code>min_dist=0.1</code>, <code>metric=cosine</code>, two output components, and{' '}
-                <code>random_state=42</code>. UMAP is used only for placement: no HDBSCAN or other
-                clustering algorithm defines groups or colors. Interpret local neighborhoods;
-                avoid treating axes, cluster shapes, or long-range distances as quantitative.
+                UMAP flattens the embeddings into the 2D map, keeping similar researchers near each
+                other. It only sets positions; colors come from the topic assignment below, not from
+                clustering the map. Read the map by local neighborhoods; the axes, the shapes of
+                groups, and long distances are not meaningful.
               </p>
             </div>
           </div>
@@ -79,11 +73,9 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
             <div>
               <h3>VSS topic assignment</h3>
               <p>
-                Independently of UMAP, <code>gemini-3.8-flash</code> reads the profile,
-                current-work synopsis, and papers and selects one primary plus up to two secondary
-                labels from an enum-constrained set of 21 VSS topic areas. The primary assignment
-                determines dot color; secondary assignments appear as profile tags. Topic labels
-                are language-model classifications, not clusters inferred from the 2D projection.
+                Separately, <code>gemini-3.8-flash</code> reads each PI's profile and papers and
+                assigns one main VSS topic area plus up to two secondary ones. The main topic sets
+                the dot color; the others appear as tags on the profile.
               </p>
             </div>
           </div>
@@ -93,11 +85,9 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
             <div>
               <h3>Quality control and limitations</h3>
               <p>
-                Final refinement used targeted source checks, consistency audits, and corrections
-                with agentic tooling, including Claude Code. Coverage, publication retrieval,
-                PI status, summaries, and topic assignments can still be incomplete or wrong.
-                The map is a versioned snapshot and may move as evidence, models, or inclusion
-                decisions change.
+                We spot-checked and corrected the data with help from Claude Code, but profiles,
+                papers, summaries, and topics can still be incomplete or wrong. The map is a
+                snapshot and will change as it is updated.
               </p>
             </div>
           </div>

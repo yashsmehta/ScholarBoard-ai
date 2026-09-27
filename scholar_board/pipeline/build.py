@@ -23,6 +23,7 @@ from scholar_board.config import (
     SCHOLARS_JSON,
     SCHOLARS_DIR,
     BUILD_DIR,
+    NAME_ALIASES_PATH,
 )
 from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection
 from scholar_board.db import (
@@ -184,6 +185,11 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
 
     print(f"  subfields: {len(subfields_by_sid)} scholars")
 
+    aliases_by_sid: dict[str, list[str]] = {}
+    if NAME_ALIASES_PATH.exists():
+        with open(NAME_ALIASES_PATH, encoding="utf-8") as f:
+            aliases_by_sid = {sid: e["aliases"] for sid, e in json.load(f).items()}
+
     print("\nBuilding scholar objects...")
     scholars: list[Scholar] = []
     stats = {k: 0 for k in ("umap", "papers", "bio", "area", "subfield", "pic")}
@@ -226,6 +232,9 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
             ]
             stats["subfield"] += 1
 
+        if sid in aliases_by_sid:
+            d["aliases"] = aliases_by_sid[sid]
+
         if row["bio"]:
             stats["bio"] += 1
         if row["main_research_area"]:
@@ -260,6 +269,8 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
         data = {k: v for k, v in data.items() if v is not None}
         if not data.get("papers"):
             data.pop("papers", None)
+        if not data.get("aliases"):
+            data.pop("aliases", None)
         consolidated[scholar.id] = data
 
     BUILD_DIR.mkdir(parents=True, exist_ok=True)

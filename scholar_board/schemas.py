@@ -54,3 +54,4 @@ class Scholar(BaseModel):
     cluster: Optional[int] = None
     total_citations: Optional[int] = None
     h_index: Optional[int] = None
+    aliases: list[str] = Field(default_factory=list)

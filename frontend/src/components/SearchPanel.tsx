@@ -34,8 +34,8 @@ export function SearchPanel({
     const words = normalizedQuery.split(/\s+/).filter(Boolean)
     return scholars
       .filter((scholar) => {
-        const name = scholar.name.toLowerCase()
-        return words.every((w) => name.includes(w))
+        const names = [scholar.name, ...scholar.aliases].map((n) => n.toLowerCase())
+        return names.some((name) => words.every((w) => name.includes(w)))
       })
       .slice(0, MAX_RESULTS)
   }, [scholars, normalizedQuery])

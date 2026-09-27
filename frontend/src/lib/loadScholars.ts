@@ -209,6 +209,7 @@ function normalizeScholar(fallbackId: string, raw: RawScholar): Scholar | null {
     researchDirection: normalizeString(raw.research_direction),
     totalCitations: typeof raw.total_citations === 'number' ? raw.total_citations : undefined,
     hIndex: typeof raw.h_index === 'number' ? raw.h_index : undefined,
+    aliases: Array.isArray(raw.aliases) ? raw.aliases.filter((a): a is string => typeof a === 'string') : [],
     profilePic: normalizeString(raw.profile_pic),
     cluster: typeof raw.cluster === 'number' ? raw.cluster : -1,
     x,

@@ -39,6 +39,7 @@ export interface RawScholar {
   primary_subfield?: string
   total_citations?: number
   h_index?: number
+  aliases?: string[]
   subfields?: SubfieldTag[]
   papers?: ScholarPaper[]
   education?: ScholarEducation[]
@@ -61,6 +62,7 @@ export interface Scholar {
   primarySubfield?: string
   totalCitations?: number
   hIndex?: number
+  aliases: string[]
   subfields: SubfieldTag[]
   papers: ScholarPaper[]
   education: ScholarEducation[]

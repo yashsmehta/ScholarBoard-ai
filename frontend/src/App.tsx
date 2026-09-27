@@ -89,7 +89,7 @@ function App() {
     if (state.viewMode === 'list' && q.length >= 1) {
       const words = q.split(/\s+/).filter(Boolean)
       return subfieldFilteredScholars.filter((scholar) => {
-        const text = `${scholar.name} ${scholar.institution ?? ''}`.toLowerCase()
+        const text = `${scholar.name} ${scholar.aliases.join(' ')} ${scholar.institution ?? ''}`.toLowerCase()
         return words.every((w) => text.includes(w))
       })
     }

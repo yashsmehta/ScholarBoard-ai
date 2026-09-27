@@ -5,6 +5,8 @@ interface MapControlsProps {
   onReset: () => void
 }
 
+const isTouch = typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches
+
 export function MapControls({ onReset }: MapControlsProps) {
   const [hintHidden, setHintHidden] = useState(false)
 
@@ -17,7 +19,9 @@ export function MapControls({ onReset }: MapControlsProps) {
     <>
       <div className="map-overlay map-overlay-bottom-left">
         <p className={cx('map-hint', hintHidden && 'map-hint--hidden')}>
-          Scroll to zoom &middot; Drag or arrow keys to pan &middot; Click a dot
+          {isTouch
+            ? <>Pinch to zoom &middot; Drag to pan &middot; Tap a dot</>
+            : <>Scroll to zoom &middot; Drag or arrow keys to pan &middot; Click a dot</>}
         </p>
       </div>
       <div className="map-overlay map-overlay-bottom-right">

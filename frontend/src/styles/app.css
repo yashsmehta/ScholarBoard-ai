@@ -1829,6 +1829,76 @@ input {
     font-size: 0.8rem;
   }
 
+  /* Nothing selected: hide the empty profile card and give the panel the full height */
+  .app-main--empty {
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .app-main--empty .sidebar {
+    display: none;
+  }
+
+  /* List rows: name over institution, badge on the right (truncates if long) */
+  .scholar-list__row {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    column-gap: 10px;
+    row-gap: 1px;
+    padding: 8px 10px;
+  }
+
+  .scholar-list__avatar {
+    grid-row: 1 / span 2;
+  }
+
+  .scholar-list__name {
+    grid-column: 2;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .scholar-list__institution {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .scholar-list__subfield {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
+    max-width: 38vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Larger tap targets */
+  .topbar__creator {
+    width: 32px;
+    height: 32px;
+  }
+
+  .topbar__method-btn {
+    min-height: 34px;
+  }
+
+  /* Extra class: the base .topbar__tour-btn rule sits later in this file */
+  .topbar .topbar__tour-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .icon-button {
+    min-height: 34px;
+    padding: 6px 10px;
+  }
+
+  .beta-close {
+    padding: 6px 8px;
+    margin: -6px -6px -6px 0;
+    font-size: 1rem;
+  }
+
   .sidebar__empty-icon {
     width: 30px;
     height: 30px;

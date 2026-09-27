@@ -54,3 +54,7 @@
 - The profile close button is now a small round button in the card's corner.
 - Thinner, lower-contrast scrollbars throughout.
 - New creator headshot in the top-left header avatar.
+- Phone polish: list rows show the institution under the name (long field badges truncate),
+  the empty profile panel is hidden until a scholar is picked, the map hint says
+  "Pinch to zoom · Drag to pan · Tap a dot" on touch screens, and header/filter buttons are
+  larger tap targets.

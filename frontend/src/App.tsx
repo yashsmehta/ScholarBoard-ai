@@ -172,7 +172,7 @@ function App() {
           </div>
         )
       )}
-      <main className="app-main">
+      <main className={cx('app-main', !selectedScholar && 'app-main--empty')}>
         <section className={cx('map-panel', state.viewMode === 'list' && 'map-panel--list')} aria-label="Scholar map panel">
           <div className="map-overlay map-overlay-left">
             <SearchPanel

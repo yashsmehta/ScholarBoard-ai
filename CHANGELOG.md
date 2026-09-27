@@ -35,9 +35,19 @@
 - Removed 9 non-vision researchers from the map (`is_pi = 0`, kept in DB):
   Adam Green, Hamid Soltanian-Zadeh, Joseph Pare, Mette Elmose Andersen, Molly Jameson,
   Myeong-Ho Sohn, Vijay Mittal, Wataru Inoue, Keiko Tsuchiya. Map now has 792 PIs.
+- Removed Daniel Baker (University of York) from the map (`is_pi = 0`, kept in DB) and
+  deleted his profile photo. Map now has 791 PIs.
 - Ward van der Tempel relabelled Eye Movements (was 3D Perception) via the new
   `data/source/subfield_overrides.json`.
 - Fixed name typo "Grabriel Kreiman" → "Gabriel Kreiman".
 - Back-ported earlier manual corrections (names, institutions, lab URLs, de-duplicated paper
   lists) from `scholars.json` into the DB, so rebuilds no longer revert them.
 - Duplicate-profile audit: no remaining duplicates among the shipped PIs.
+
+### Frontend
+- List view is now the default; the logo returns to it.
+- The single "Filters" dropdown is split into **Institution** and **Field** buttons. Ticking a
+  box filters immediately (no Apply step); Escape or clicking outside closes the menu.
+- On phones the search box gets its own row, with the filter buttons below it.
+- The profile close button is now a small round button in the card's corner.
+- Thinner, lower-contrast scrollbars throughout.

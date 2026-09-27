@@ -4,5 +4,11 @@
     "primary": "Eye Movements",
     "secondary": ["3D Perception"],
     "reason": "Builds eye-tracking hardware for XR (Dual Purkinje Image tracking); classifier kept picking 3D Perception from the '3D sensing' company description."
+  },
+  "0104": {
+    "name": "Carlos Ponce",
+    "primary": "Theory & Computation",
+    "secondary": ["Motion", "Eye Movements"],
+    "reason": "At his request: not tagged Object Recognition; prefers a general 'visual information processing' framing. Motion + Eye Movements from his own lab summary."
   }
 }

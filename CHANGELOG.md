@@ -41,12 +41,23 @@
   Map now has 790 PIs.
 - Emily A. Cooper moved from UC Berkeley to Dartmouth College: institution, department and
   bio updated (private contact email updated too).
+- Giovanni Federico (at his request): bio replaced with his own text, department set to
+  "Department of Education, Psychology and Communication", lab name removed. Research
+  direction trimmed (dropped a stray veterinary-neurology sentence) and main research area
+  set to "cognitive neuroscience of technology". Removed an off-topic paper (anti-NGF therapy
+  in dogs) from his list.
+- Carlos Ponce (at his request): research summary replaced with his lab's own text, main
+  research area set to "visual information processing", and retagged Theory & Computation
+  (+ Motion, Eye Movements) instead of Object Recognition via `subfield_overrides.json`.
+  His bioRxiv "Object Manifold Alignment" preprint swapped for the published Nature
+  Neuroscience 2026 version (checked against his ORCID record).
 - Added Binxu Wang (Kempner Institute, Harvard; E367). Papers hand-picked from her Google
   Scholar/lab site (2025+, first or second author, preprints included) and a hand-written AI
-  summary; placed on the map with
-  the saved UMAP model so no other positions moved. Map now has 791 PIs.
+  summary; placed on the map with the saved UMAP model so no other positions moved. Map now
+  has 791 PIs.
 - New `data/source/pi_overrides.json`: manual PI decisions that win over the `profiles`
   classifier (it had rejected Binxu Wang as a postdoc).
+- Michael Bonner: hand-written AI summary (research direction); map position unchanged.
 - Ward van der Tempel relabelled Eye Movements (was 3D Perception) via the new
   `data/source/subfield_overrides.json`.
 - Fixed name typo "Grabriel Kreiman" → "Gabriel Kreiman".

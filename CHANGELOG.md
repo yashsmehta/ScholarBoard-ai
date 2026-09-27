@@ -50,14 +50,15 @@
   research area set to "visual information processing", and retagged Theory & Computation
   (+ Motion, Eye Movements) instead of Object Recognition via `subfield_overrides.json`.
   His bioRxiv "Object Manifold Alignment" preprint swapped for the published Nature
-  Neuroscience 2026 version (checked against his ORCID record).
+  Neuroscience 2026 version (checked against his ORCID record). Lab link fixed to ponce.hms.harvard.edu.
 - Added Binxu Wang (Kempner Institute, Harvard; E367). Papers hand-picked from her Google
   Scholar/lab site (2025+, first or second author, preprints included) and a hand-written AI
   summary; placed on the map with the saved UMAP model so no other positions moved. Map now
   has 791 PIs.
 - New `data/source/pi_overrides.json`: manual PI decisions that win over the `profiles`
   classifier (it had rejected Binxu Wang as a postdoc).
-- Michael Bonner: hand-written AI summary (research direction); map position unchanged.
+- Michael Bonner: hand-written AI summary (research direction), map position unchanged;
+  new profile photo.
 - Ward van der Tempel relabelled Eye Movements (was 3D Perception) via the new
   `data/source/subfield_overrides.json`.
 - Fixed name typo "Grabriel Kreiman" → "Gabriel Kreiman".

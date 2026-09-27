@@ -39,6 +39,8 @@
   deleted his profile photo. Map now has 791 PIs.
 - Removed Uri Hasson from the map (`is_pi = 0`, kept in DB) and deleted his profile photo.
   Map now has 790 PIs.
+- Emily A. Cooper moved from UC Berkeley to Dartmouth College: institution, department and
+  bio updated (private contact email updated too).
 - Ward van der Tempel relabelled Eye Movements (was 3D Perception) via the new
   `data/source/subfield_overrides.json`.
 - Fixed name typo "Grabriel Kreiman" → "Gabriel Kreiman".

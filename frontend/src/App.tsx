@@ -147,7 +147,7 @@ function App() {
       <Header
         modeLabel={mode === 'embedded' ? 'Embedded' : undefined}
         onLogoClick={() => {
-          if (state.viewMode === 'list') dispatch({ type: 'view_mode_toggled' })
+          if (state.viewMode === 'map') dispatch({ type: 'view_mode_toggled' })
           dispatch({ type: 'map_reset_requested' })
         }}
         onFieldDirectionsClick={() => setShowFieldDirections(true)}

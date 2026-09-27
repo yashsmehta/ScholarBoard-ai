@@ -25,6 +25,32 @@ input {
   font: inherit;
 }
 
+/* Quiet scrollbars: thin, low-contrast thumb, no track */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(21, 24, 34, 0.14) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(21, 24, 34, 0.14);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(21, 24, 34, 0.28);
+}
+
 .app-shell {
   height: 100%;
   display: grid;
@@ -775,53 +801,15 @@ input {
   font-size: 0.75rem;
 }
 
-.filter-panel__tabs {
-  display: flex;
-  gap: 2px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid rgba(21, 24, 34, 0.07);
-}
-
-.filter-panel__tab {
-  flex: 1;
-  padding: 7px 10px;
-  font-size: 0.82rem;
-  font-weight: 600;
+.filter-panel__caret {
+  width: 10px !important;
+  height: 10px !important;
   color: var(--ink-2);
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  cursor: pointer;
-  transition: color 120ms ease, border-color 120ms ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  margin-bottom: -1px;
+  transition: transform 150ms ease;
 }
 
-.filter-panel__tab:hover {
-  color: var(--ink-0);
-}
-
-.filter-panel__tab.is-active {
-  color: var(--brand-0);
-  border-bottom-color: var(--brand-1);
-}
-
-.filter-panel__tab-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 5px;
-  border-radius: 999px;
-  background: var(--brand-tint);
-  color: var(--brand-0);
-  font-size: 0.68rem;
-  font-weight: 700;
+.filter-panel__caret.is-open {
+  transform: rotate(180deg);
 }
 
 .filter-panel__search {
@@ -945,9 +933,14 @@ input {
   transition: color 120ms ease, border-color 120ms ease;
 }
 
-.filter-panel__clear:hover {
+.filter-panel__clear:hover:not(:disabled) {
   color: var(--ink-1);
   border-color: rgba(21, 24, 34, 0.24);
+}
+
+.filter-panel__clear:disabled {
+  opacity: 0.45;
+  cursor: default;
 }
 
 .map-controls {
@@ -1080,27 +1073,41 @@ input {
 }
 
 .sidebar__header {
-  display: flex;
-  justify-content: flex-end;
-  border-bottom: 1px solid var(--border-light);
-  flex-shrink: 0;
+  /* Zero-height row: the close button floats over the profile card's corner */
+  position: relative;
+  height: 0;
+  z-index: 2;
 }
 
 .sidebar__close {
+  position: absolute;
+  top: 22px;
+  right: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  flex-shrink: 0;
-  background: none;
-  border: none;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(21, 24, 34, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 1px 3px rgba(20, 20, 30, 0.06);
   cursor: pointer;
   color: var(--ink-2);
-  transition: color 120ms ease;
+  transition: color 120ms ease, background 120ms ease, border-color 120ms ease;
 }
 
 .sidebar__close:hover {
   color: var(--ink-0);
+  background: #fff;
+  border-color: rgba(21, 24, 34, 0.16);
+}
+
+.sidebar__close:focus-visible {
+  outline: 2px solid var(--brand-1);
+  outline-offset: 2px;
 }
 
 .sidebar__empty {
@@ -1673,15 +1680,37 @@ input {
   }
 
   /* Smaller map overlays */
+  /* Search gets its own full-width row; filters + view toggle sit below it */
   .map-overlay-left {
     top: 8px;
     left: 8px;
-    width: min(180px, calc(100% - 140px));
+    width: calc(100% - 16px);
   }
 
   .map-overlay-right {
-    top: 8px;
+    top: 52px;
     right: 8px;
+  }
+
+  /* Anchor filter menus to the control row so they stay on-screen */
+  .overlay-right-controls {
+    position: relative;
+  }
+
+  .filter-panel {
+    position: static;
+  }
+
+  .filter-panel__menu {
+    width: min(360px, calc(100vw - 16px));
+  }
+
+  .filter-panel__options {
+    max-height: 200px;
+  }
+
+  .scholar-list__spacer {
+    height: 96px;
   }
 
   .map-overlay-bottom-right {
@@ -1784,6 +1813,11 @@ input {
 
   .sidebar__content {
     padding: 10px;
+  }
+
+  .sidebar__close {
+    top: 16px;
+    right: 16px;
   }
 
   .sidebar__empty {

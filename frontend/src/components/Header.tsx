@@ -14,7 +14,7 @@ export function Header({ modeLabel, onLogoClick, onFieldDirectionsClick, onMetho
           <a href="https://yashsmehta.com" className="topbar__creator" title="Yash Mehta — Creator">
             <img src={`${import.meta.env.BASE_URL}creator-avatar.png`} alt="Yash Mehta" className="topbar__creator-img" />
           </a>
-          <button className="topbar__title" onClick={onLogoClick} aria-label="Go to map view">
+          <button className="topbar__title" onClick={onLogoClick} aria-label="Go to home view">
             Scholar<span className="topbar__title-accent">Board</span>
             <span className="topbar__title-dot">.ai</span>
           </button>

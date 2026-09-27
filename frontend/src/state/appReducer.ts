@@ -50,7 +50,7 @@ export const initialAppState: AppState = {
   activeInstitutions: [],
   activeSubfields: [],
   subfieldFilterMode: 'union',
-  viewMode: 'map',
+  viewMode: 'list',
   resetNonce: 0,
   panRequest: null,
 }

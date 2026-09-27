@@ -41,6 +41,12 @@
   Map now has 790 PIs.
 - Emily A. Cooper moved from UC Berkeley to Dartmouth College: institution, department and
   bio updated (private contact email updated too).
+- Kirsten Adam moved from Rice University to UC Davis (Psychology + Center for Mind and
+  Brain): institution, department, bio and lab link updated (Rice lab site is gone).
+  Private contact emails updated for her and Kenneth D. Miller, at their request.
+- Lili Sahakyan (at her request): lab link → cmflab.pages.dev, lab renamed "Control of
+  Memory & Forgetting Lab", AI summary rewritten to follow the new lab site; map position
+  unchanged.
 - Giovanni Federico (at his request): bio replaced with his own text, department set to
   "Department of Education, Psychology and Communication", lab name removed. Research
   direction trimmed (dropped a stray veterinary-neurology sentence) and main research area
@@ -62,6 +68,10 @@
   (2023+, first or last author, preprints included; CCN abstracts and workshop papers skipped)
   and a hand-written AI summary; placed on the map with the saved UMAP model, next to the
   developmental cluster (Linda Smith, Lisa Oakes, Richard Aslin). Map now has 792 PIs.
+- Added Carsen Stringer (HHMI Janelia, Pachitariu + Stringer Lab; E369). Papers hand-picked
+  from mouseland.github.io (2023+, first or last author, published versions only); bio and AI
+  summary written from the lab site; placed with the saved UMAP model, next to Matteo
+  Carandini, Kenneth Harris and Andreas Tolias. Map now has 793 PIs.
 - New `data/source/pi_overrides.json`: manual PI decisions that win over the `profiles`
   classifier (it had rejected Binxu Wang as a postdoc).
 - Michael Bonner: AI summary (research direction) rewritten to follow the Bonner Lab

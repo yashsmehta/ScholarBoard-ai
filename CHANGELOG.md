@@ -72,6 +72,10 @@
   revised text.
 - Removed Frans Verstraten from the map (`is_pi = 0` via `pi_overrides.json`, kept in DB) and
   deleted the profile photo. Map now has 797 PIs.
+- Re-placed 12 PIs whose AI summary or papers were edited after the Sep 25 map fit
+  (Anderson, Ponce, Baker, Dilks, Sperling, Federico, Kar, Mudrik, Sahakyan,
+  Vaziri-Pashkam, Bonner, Spelke): re-embedded from their current summary + papers and
+  projected with the saved UMAP model, so every other dot stays put.
 - Giovanni Federico: his own text now also replaces the AI summary (the sidebar shows only
   the summary, not the bio), lightly reworded to the site's "Dr. Federico studies…" style.
 - Liad Mudrik (on request): AI summary replaced with the text Dr. Mudrik sent, adding theory testing,

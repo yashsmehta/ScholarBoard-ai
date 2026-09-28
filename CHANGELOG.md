@@ -93,6 +93,7 @@
   last author, published versions), bios and AI summaries written from their lab sites,
   headshots from their own pages; placed with the saved UMAP model in the developmental
   cluster next to Spelke. Map now has 795 PIs.
+- Anne B. Sereno: new profile photo (supplied by her).
 - New `data/source/pi_overrides.json`: manual PI decisions that win over the `profiles`
   classifier (it had rejected Binxu Wang as a postdoc).
 - Michael Bonner: AI summary (research direction) rewritten to follow the Bonner Lab

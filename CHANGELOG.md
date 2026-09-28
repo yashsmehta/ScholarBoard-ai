@@ -47,6 +47,8 @@
 - Lili Sahakyan (at her request): lab link → cmflab.pages.dev, lab renamed "Control of
   Memory & Forgetting Lab", AI summary rewritten to follow the new lab site; map position
   unchanged.
+- Daniel D. Dilks (at his request): AI summary replaced with his own revised text; map
+  position unchanged.
 - Giovanni Federico (at his request): bio replaced with his own text, department set to
   "Department of Education, Psychology and Communication", lab name removed. Research
   direction trimmed (dropped a stray veterinary-neurology sentence) and main research area
@@ -77,6 +79,16 @@
   versions; added Reverse predictivity (Nature Machine Intelligence 2026) and MAPS
   (Communications Psychology 2026) in place of the scene-context and memorability preprints.
   AI summary rewritten around the published papers.
+- Elizabeth Spelke (at her request): social-cognition work now attributed to Ashley Thomas;
+  the two infant social-evaluation papers dropped and her AI summary refocused on core knowledge,
+  the open cognitive assessment battery for children in low- and middle-income countries (Open
+  Mind 2026) and randomized evaluations of classroom math games (PsyArXiv 2026). Social
+  Perception tag removed via `subfield_overrides.json`.
+- Added Ashley J. Thomas (Harvard, Thomas Lab; E370) and Moira R. Dillon (NYU, Lab for the
+  Developing Mind; E371), suggested by Elizabeth Spelke. Papers hand-picked (2023+, first or
+  last author, published versions), bios and AI summaries written from their lab sites,
+  headshots from their own pages; placed with the saved UMAP model in the developmental
+  cluster next to Spelke. Map now has 795 PIs.
 - New `data/source/pi_overrides.json`: manual PI decisions that win over the `profiles`
   classifier (it had rejected Binxu Wang as a postdoc).
 - Michael Bonner: AI summary (research direction) rewritten to follow the Bonner Lab

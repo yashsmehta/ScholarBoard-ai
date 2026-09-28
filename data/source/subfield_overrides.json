@@ -10,5 +10,11 @@
     "primary": "Theory & Computation",
     "secondary": ["Motion", "Eye Movements"],
     "reason": "At his request: not tagged Object Recognition; prefers a general 'visual information processing' framing. Motion + Eye Movements from his own lab summary."
+  },
+  "E281": {
+    "name": "Elizabeth Spelke",
+    "primary": "Development",
+    "secondary": ["Object Recognition"],
+    "reason": "At her request: social-cognition work belongs to Ashley Thomas, so no Social Perception tag; current directions are core knowledge, cognitive assessment and math learning."
   }
 }

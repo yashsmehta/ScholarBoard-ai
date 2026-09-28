@@ -92,6 +92,9 @@
   (multisensory signals and expectations in the size-weight illusion and motion sickness);
   the 2025 Perception length-judgement paper swapped for Reuten et al. (2024), "Anticipatory
   cues can mitigate car sickness on the road" (Transp Res F). Map position unchanged.
+- Ipek Oruc (on request): AI summary replaced with the lab profile Dr. Oruc sent (face and
+  object perception, naturalistic vision, AI for ophthalmic imaging); bio pronouns → she/her.
+  Map position unchanged.
 - Curtis L. Baker Jr. (on request): bio and AI summary rewritten from the UBC Vision Cluster
   profile, now led by human psychophysics (neurophysiology wrapping up); magnocellular paper
   updated to its Journal of Vision 2026 version and J Neurosci 2023 paper added. Map position

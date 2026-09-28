@@ -3,7 +3,8 @@ Estimate each PI's sex (female / male / unknown) for aggregate counts.
 
 Gemini 3.8 Flash classifies PIs in batches from their name, institution and bio
 (structured JSON output). Pronouns in the bio win; otherwise the first name decides,
-and ambiguous cases are left "unknown".
+and ambiguous cases are left "unknown". `--resolve-unknown` then looks each "unknown" PI
+up with Google Search grounding for explicit evidence (pronouns on a lab/faculty page).
 
 Private data: results go to the DB (`scholars.sex`) and
 data/pipeline/scholar_sex.json only — never to scholars.json or the frontend.
@@ -17,11 +18,14 @@ Usage:
     uv run -m scholar_board.pipeline.sex             # Classify unclassified PIs
     uv run -m scholar_board.pipeline.sex --all       # Re-classify every PI
     uv run -m scholar_board.pipeline.sex --stats     # Print counts only
+    uv run -m scholar_board.pipeline.sex --resolve-unknown   # Grounded search for "unknown" PIs
 """
 
 import argparse
 import json
+import time
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 
 from scholar_board.config import SEX_OVERRIDES_PATH, SEX_PATH
 from scholar_board.db import get_connection, init_db, upsert_sex
@@ -29,6 +33,7 @@ from scholar_board.gemini import FLASH_MODEL, generate_text, get_client, parse_j
 from scholar_board.prompt_loader import render_prompt
 
 BATCH_SIZE = 50
+RESOLVE_WORKERS = 8  # grounded Flash calls hit Vertex 429s above ~8 parallel workers
 LABELS = ["female", "male", "unknown"]
 
 RESPONSE_SCHEMA = {
@@ -78,6 +83,32 @@ def classify_batch(pis: list[dict], client) -> dict[str, str]:
             if r.get("id") in wanted and r.get("sex") in LABELS}
 
 
+def resolve_one(p: dict, client) -> tuple[str, dict | None]:
+    prompt = render_prompt("resolve_sex", scholar_name=p["name"], institution=p["institution"] or "")
+    for attempt in range(4):
+        try:
+            text = generate_text(prompt, model=FLASH_MODEL, grounded=True, client=client)
+            r = parse_json_response(text) if text else None
+            return p["id"], r if isinstance(r, dict) and r.get("sex") in LABELS else None
+        except Exception as e:
+            if attempt == 3:
+                print(f"  {p['id']} {p['name']}: {e}")
+            time.sleep(2 ** attempt * 5)
+    return p["id"], None
+
+
+def resolve_unknown(pis: list[dict], results: dict[str, str], client) -> None:
+    todo = [p for p in pis if results.get(p["id"]) == "unknown"]
+    print(f"Resolving {len(todo)} unknown PIs with grounded search")
+    with ThreadPoolExecutor(RESOLVE_WORKERS) as pool:
+        for sid, r in pool.map(lambda p: resolve_one(p, client), todo):
+            name = next(p["name"] for p in todo if p["id"] == sid)
+            if r and r["sex"] != "unknown":
+                results[sid] = r["sex"]
+            print(f"  {sid} {name:28s} {r['sex'] if r else 'error':8s} {(r or {}).get('evidence', '')[:90]}")
+    save_results(results)
+
+
 def print_stats(conn) -> None:
     counts = Counter(r["sex"] or "unclassified" for r in load_pis(conn))
     total = sum(counts.values())
@@ -95,6 +126,8 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="List unclassified PIs without API calls")
     parser.add_argument("--all", action="store_true", help="Re-classify every PI")
     parser.add_argument("--stats", action="store_true", help="Print counts and exit")
+    parser.add_argument("--resolve-unknown", action="store_true",
+                        help="Look up PIs classified 'unknown' with grounded search")
     args = parser.parse_args()
 
     conn = get_connection()
@@ -120,6 +153,8 @@ def main():
         results.update(result)
         save_results(results)
         print(f"  batch {start // BATCH_SIZE + 1}: {len(result)}/{len(batch)} classified")
+    if args.resolve_unknown:
+        resolve_unknown(pis, results, client or get_client())
 
     overrides = load_json(SEX_OVERRIDES_PATH)
     for p in pis:

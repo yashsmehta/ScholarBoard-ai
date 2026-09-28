@@ -74,6 +74,7 @@ def generate_text(
     thinking: bool = False,
     system_instruction: str | None = None,
     response_schema: dict | None = None,
+    grounded: bool = False,
     client: "genai.Client | None" = None,
 ) -> str | None:
     """Generate text using a Gemini model.
@@ -86,6 +87,7 @@ def generate_text(
         response_schema: Optional JSON schema (dict) for structured output. When
             provided, response_mime_type is set to application/json and the model
             is constrained to the schema — parse the result with json.loads.
+        grounded: Enable Google Search grounding.
         client: Optional pre-created client (useful in threaded code).
 
     Returns:
@@ -102,6 +104,8 @@ def generate_text(
     if response_schema is not None:
         config_kwargs["response_mime_type"] = "application/json"
         config_kwargs["response_schema"] = response_schema
+    if grounded:
+        config_kwargs["tools"] = [types.Tool(google_search=types.GoogleSearch())]
 
     config = types.GenerateContentConfig(**config_kwargs) if config_kwargs else None
 

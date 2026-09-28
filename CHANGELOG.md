@@ -7,7 +7,10 @@
   Gemini 3.8 Flash estimates each PI's sex from bio pronouns or first name (female / male /
   unknown). Stored only in the DB (`scholars.sex`) and `data/pipeline/scholar_sex.json`, and
   never shipped to the frontend. Hand fixes go in the untracked `data/source/sex_overrides.json`.
-  `--stats` prints aggregate counts (first run: 225 female, 501 male, 71 unknown of 797 PIs).
+  `--stats` prints aggregate counts. `--resolve-unknown` looks up PIs the name-based pass left
+  "unknown" with grounded search for explicit pronouns (Gemini gateway: `generate_text` gains
+  `grounded=True`). First run: 71 unknown by name, reduced to 4 by the search, leaving
+  247 female / 546 male / 4 unknown of 797 PIs (31% female among known).
 - **New `countries` step**: Gemini 3.8 Flash maps each distinct PI institution to its country
   → `data/source/institution_countries.json` (tracked; 329 institutions, 35 countries,
   reviewed by hand and cross-checked against the ROR registry). `build` adds a `country` field to every scholar. Pipeline is now 13 steps.

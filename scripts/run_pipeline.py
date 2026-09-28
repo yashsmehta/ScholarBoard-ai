@@ -27,6 +27,7 @@ from scholar_board.config import (
     BUILD_DIR,
     DB_PATH,
     EXTRA_RESEARCHERS_PATH,
+    INSTITUTION_COUNTRIES_PATH,
 )
 
 # ── ANSI colors ───────────────────────────────────────────────────────────
@@ -138,8 +139,17 @@ STEPS = [
         "total": 23,
     },
     {
-        "name": "build",
+        "name": "countries",
         "icon": "10",
+        "description": "Map PI institutions to countries (data/source/institution_countries.json)",
+        "model": "gemini-3.8-flash",
+        "command": [PYTHON, "-m", "scholar_board.pipeline.countries"],
+        "check": lambda: len(__import__('json').loads(INSTITUTION_COUNTRIES_PATH.read_text())) if INSTITUTION_COUNTRIES_PATH.exists() else 0,
+        "total": 330,  # distinct PI institutions
+    },
+    {
+        "name": "build",
+        "icon": "11",
         "description": "Consolidate all data into scholars.json (PI only)",
         "model": "n/a (local)",
         "command": [PYTHON, "-m", "scholar_board.pipeline.build"],
@@ -148,7 +158,7 @@ STEPS = [
     },
     {
         "name": "pics",
-        "icon": "11",
+        "icon": "12",
         "description": "Download profile pictures (PI only)",
         "model": "Serper.dev image search",
         "command": [PYTHON, "-m", "scholar_board.pipeline.pics", "--skip-existing"],

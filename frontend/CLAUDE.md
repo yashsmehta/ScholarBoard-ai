@@ -31,7 +31,8 @@ Vite proxies `/api`, `/data`, `/images` to `http://localhost:8000` (the data ser
 App.tsx (useReducer)
  ├── Header             — creator avatar, title, "Vision Science" label, nav buttons, tour trigger
  ├── SearchPanel        — live search with keyboard nav
- ├── FilterPanel        — separate Institution + Field filter dropdowns
+ ├── ViewToggle         — segmented List | Map switch, sits beside the search box
+ ├── FilterPanel        — separate Institution + Country + Field filter dropdowns
  ├── ScholarMap         — thin React wrapper around D3 (map view)
  │   └── d3MapController — imperative D3 scatter plot (zoom, pan, brush, tooltips)
  ├── ScholarList        — alphabetical directory with avatars (list view)
@@ -79,7 +80,8 @@ src/
 ├── components/
 │   ├── Header.tsx            — Creator avatar link, title, "Vision Science" domain label, nav buttons
 │   ├── SearchPanel.tsx       — Search input + autocomplete dropdown
-│   ├── FilterPanel.tsx       — Institution + Field dropdowns (ticks apply instantly, Esc closes)
+│   ├── ViewToggle.tsx        — List | Map segmented switch (sliding tinted thumb)
+│   ├── FilterPanel.tsx       — Institution + Country + Field dropdowns (ticks apply instantly, Esc closes)
 │   ├── ScholarMap.tsx        — D3 controller lifecycle bridge (map view)
 │   ├── ScholarList.tsx       — Alphabetical scholar directory (list view)
 │   ├── MapControls.tsx       — Reset button + auto-hiding hint
@@ -109,7 +111,7 @@ src/
 
 ## Key Patterns
 
-**View modes:** `viewMode: 'map' | 'list'` in state, toggled via button next to filters; **list is the default**. Map view renders D3 scatter plot; list view renders `ScholarList` with alphabetical grouping. Both share selection, filters, search, and sidebar state. In list view, the search dropdown is hidden (`hideDropdown`) and the search query filters the list inline instead. Clicking the logo switches back to list view (the default) and resets map zoom.
+**View modes:** `viewMode: 'map' | 'list'` in state, toggled via the segmented List | Map switch (`ViewToggle`) beside the search box; **list is the default**. Map view renders D3 scatter plot; list view renders `ScholarList` with alphabetical grouping. Both share selection, filters, search, and sidebar state. In list view, the search dropdown is hidden (`hideDropdown`) and the search query filters the list inline instead. Clicking the logo switches back to list view (the default) and resets map zoom.
 
 **State management:** Single `useReducer` in App.tsx (discriminated union actions). No external state library. Derived state (visible scholars, institution counts, subfield counts) computed inline.
 

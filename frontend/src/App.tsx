@@ -5,6 +5,7 @@ import { MethodologyModal } from './components/MethodologyModal'
 import { FieldDirectionsPage } from './components/FieldDirectionsPage'
 import type { FieldDirectionsData } from './components/FieldDirectionsPage'
 import { SearchPanel } from './components/SearchPanel'
+import { ViewToggle } from './components/ViewToggle'
 import { FilterPanel } from './components/FilterPanel'
 import { MapControls } from './components/MapControls'
 import { Sidebar } from './components/Sidebar'
@@ -64,14 +65,15 @@ function App() {
     }
   }, [mode])
 
-  const visibleScholars =
-    state.activeInstitutions.length === 0
-      ? state.scholars
-      : state.scholars.filter((scholar) =>
-          state.activeInstitutions.includes(scholar.institution ?? 'Unknown'),
-        )
+  const visibleScholars = state.scholars.filter(
+    (scholar) =>
+      (state.activeInstitutions.length === 0 ||
+        state.activeInstitutions.includes(scholar.institution ?? 'Unknown')) &&
+      (state.activeCountries.length === 0 ||
+        state.activeCountries.includes(scholar.country ?? 'Unknown')),
+  )
 
-  // Apply subfield filter on top of institution-filtered scholars
+  // Apply subfield filter on top of institution- and country-filtered scholars
   const subfieldFilteredScholars = (() => {
     if (state.activeSubfields.length === 0) return visibleScholars
     return visibleScholars.filter((scholar) => {
@@ -102,6 +104,7 @@ function App() {
       : state.scholars.find((scholar) => scholar.id === state.selectedScholarId) ?? null
 
   const institutions = buildCounts(state.scholars, (s) => [s.institution ?? 'Unknown'])
+  const countries = buildCounts(state.scholars, (s) => [s.country ?? 'Unknown'])
   const subfields = buildCounts(state.scholars, (s) => s.subfields.map((sf) => sf.subfield))
   // Ref to suppress pushState when handling popstate (back/forward button)
   const isPopStateRef = useRef(false)
@@ -174,6 +177,7 @@ function App() {
       )}
       <main className={cx('app-main', !selectedScholar && 'app-main--empty')}>
         <section className={cx('map-panel', state.viewMode === 'list' && 'map-panel--list')} aria-label="Scholar map panel">
+          {state.viewMode === 'list' && <div className="map-panel__band" aria-hidden="true" />}
           <div className="map-overlay map-overlay-left">
             <SearchPanel
               scholars={subfieldFilteredScholars}
@@ -182,6 +186,10 @@ function App() {
               onQueryChange={(query) => dispatch({ type: 'search_query_changed', query })}
               onSelectScholar={(scholar) => selectScholar(scholar.id, { pan: true })}
               hideDropdown={state.viewMode === 'list'}
+            />
+            <ViewToggle
+              viewMode={state.viewMode}
+              onChange={() => dispatch({ type: 'view_mode_toggled' })}
             />
           </div>
 
@@ -194,6 +202,12 @@ function App() {
                   dispatch({ type: 'filters_applied', institutions: institutionsToApply })
                 }
                 onClear={() => dispatch({ type: 'filters_cleared' })}
+                countries={countries}
+                activeCountries={state.activeCountries}
+                onCountriesApply={(countriesToApply) =>
+                  dispatch({ type: 'countries_filter_applied', countries: countriesToApply })
+                }
+                onCountriesClear={() => dispatch({ type: 'countries_filter_cleared' })}
                 subfields={subfields}
                 activeSubfields={state.activeSubfields}
                 subfieldFilterMode={state.subfieldFilterMode}
@@ -205,32 +219,6 @@ function App() {
                   dispatch({ type: 'subfield_filter_mode_changed', mode })
                 }
               />
-              <button
-                className="view-toggle icon-button"
-                onClick={() => dispatch({ type: 'view_mode_toggled' })}
-                aria-label={state.viewMode === 'map' ? 'Switch to list view' : 'Switch to map view'}
-                title={state.viewMode === 'map' ? 'List view' : 'Map view'}
-              >
-                {state.viewMode === 'map' ? (
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-                    <rect x="1" y="1" width="6" height="6" rx="1" />
-                    <rect x="9" y="1" width="6" height="6" rx="1" />
-                    <rect x="1" y="9" width="6" height="6" rx="1" />
-                    <rect x="9" y="9" width="6" height="6" rx="1" />
-                  </svg>
-                ) : (
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                    <circle cx="4" cy="4" r="1.5" />
-                    <circle cx="10" cy="3" r="1.5" />
-                    <circle cx="7" cy="8" r="1.5" />
-                    <circle cx="12" cy="7" r="1.5" />
-                    <circle cx="3" cy="11" r="1.5" />
-                    <circle cx="9" cy="12" r="1.5" />
-                    <circle cx="14" cy="11" r="1.5" />
-                  </svg>
-                )}
-                {state.viewMode === 'map' ? 'List' : 'Map'}
-              </button>
             </div>
           </div>
 
@@ -238,6 +226,7 @@ function App() {
             <ScholarMap
               scholars={state.scholars}
               activeInstitutions={state.activeInstitutions}
+              activeCountries={state.activeCountries}
               activeSubfields={state.activeSubfields}
               subfieldFilterMode={state.subfieldFilterMode}
               hoveredScholarId={state.hoveredScholarId}

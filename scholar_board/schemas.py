@@ -40,6 +40,7 @@ class Scholar(BaseModel):
     id: str
     name: str
     institution: Optional[str] = None
+    country: Optional[str] = None
     department: Optional[str] = None
     lab_name: Optional[str] = None
     lab_url: Optional[str] = None

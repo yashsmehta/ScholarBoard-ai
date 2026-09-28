@@ -30,6 +30,7 @@ export interface RawScholar {
   id?: string
   name?: string
   institution?: string
+  country?: string
   department?: string
   lab_name?: string
   lab_url?: string
@@ -53,6 +54,7 @@ export interface Scholar {
   id: string
   name: string
   institution?: string
+  country?: string
   department?: string
   labName?: string
   labUrl?: string

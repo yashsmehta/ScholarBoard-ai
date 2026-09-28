@@ -10,7 +10,7 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
 
         <h2 className="method-title">Methods and interpretation</h2>
         <p className="method-intro">
-          ScholarBoard is a neighborhood map of 793 active vision-science PIs. Coordinates encode
+          ScholarBoard is a neighborhood map of 797 active vision-science PIs. Coordinates encode
           similarity between text representations of recent work; color encodes an independently
           assigned VSS topic area. The axes and absolute global distances have no direct meaning.
         </p>
@@ -23,7 +23,7 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
               <p>
                 We started from about 920 researchers: most from recent VSS records, plus others
                 found by <code>gemini-3-flash-preview</code> searching the web across the 21 VSS
-                topic areas. Duplicate names were merged, and the map keeps the 793 who are active,
+                topic areas. Duplicate names were merged, and the map keeps the 797 who are active,
                 independent vision-science PIs.
               </p>
             </div>
@@ -100,7 +100,7 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
             {' '}and{' '}
             <a href="https://bonnerlab.org/" target="_blank" rel="noopener noreferrer"><strong>Mick Bonner</strong></a>
             {' '}at the Department of Cognitive Science, Johns Hopkins University. Report errors
-            or discuss collaboration at <a href="mailto:ymehta3@jhu.edu">ymehta3@jhu.edu</a>.
+            or discuss collaboration at <a href="mailto:yashsmehta95@gmail.com">yashsmehta95@gmail.com</a>.
           </p>
         </div>
 

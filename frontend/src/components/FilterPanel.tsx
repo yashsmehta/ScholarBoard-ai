@@ -15,6 +15,10 @@ interface FilterPanelProps {
   activeInstitutions: string[]
   onApply: (institutions: string[]) => void
   onClear: () => void
+  countries: NameCount[]
+  activeCountries: string[]
+  onCountriesApply: (countries: string[]) => void
+  onCountriesClear: () => void
   subfields: NameCount[]
   activeSubfields: string[]
   subfieldFilterMode: SubfieldFilterMode
@@ -28,6 +32,10 @@ export function FilterPanel({
   activeInstitutions,
   onApply,
   onClear,
+  countries,
+  activeCountries,
+  onCountriesApply,
+  onCountriesClear,
   subfields,
   activeSubfields,
   subfieldFilterMode,
@@ -47,6 +55,15 @@ export function FilterPanel({
         searchPlaceholder="Search institutions…"
         onApply={onApply}
         onClear={onClear}
+      />
+      <FilterDropdown
+        id="country-filter-menu"
+        label="Country"
+        items={countries.filter((c) => c.name !== 'Unknown')}
+        active={activeCountries}
+        searchPlaceholder="Search countries…"
+        onApply={onCountriesApply}
+        onClear={onCountriesClear}
       />
       <FilterDropdown
         id="field-filter-menu"

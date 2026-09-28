@@ -22,4 +22,13 @@
   --brand-border: rgba(13, 92, 99, 0.15);
   --card-bg: rgba(255, 255, 255, 0.82);
   --card-bg-strong: rgba(255, 255, 255, 0.9);
+
+  /* Map-panel controls (search, List | Map, filters): warm near-white that sits on the page */
+  --control-bg: rgba(251, 249, 245, 0.74);
+  --control-bg-hover: rgba(252, 251, 248, 0.9);
+  --control-border: rgba(21, 24, 34, 0.07);
+  --control-shadow: 0 1px 2px rgba(20, 20, 30, 0.04), 0 4px 14px rgba(20, 20, 30, 0.045);
+  /* Dropdowns (filter menus, search results): same warm tone, opaque so content behind stays hidden */
+  --popover-bg: #f9f7f3;
+  --popover-inset: #fdfcf9;
 }

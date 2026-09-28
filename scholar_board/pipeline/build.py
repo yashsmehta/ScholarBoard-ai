@@ -24,6 +24,7 @@ from scholar_board.config import (
     SCHOLARS_DIR,
     BUILD_DIR,
     NAME_ALIASES_PATH,
+    INSTITUTION_COUNTRIES_PATH,
 )
 from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection
 from scholar_board.db import (
@@ -192,9 +193,15 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
         with open(NAME_ALIASES_PATH, encoding="utf-8") as f:
             aliases_by_sid = {sid: e["aliases"] for sid, e in json.load(f).items()}
 
+    country_by_institution: dict[str, str] = {}
+    if INSTITUTION_COUNTRIES_PATH.exists():
+        with open(INSTITUTION_COUNTRIES_PATH, encoding="utf-8") as f:
+            country_by_institution = json.load(f)
+
     print("\nBuilding scholar objects...")
     scholars: list[Scholar] = []
-    stats = {k: 0 for k in ("umap", "papers", "bio", "area", "subfield", "pic")}
+    stats = {k: 0 for k in ("umap", "papers", "bio", "area", "subfield", "pic", "country")}
+    unmapped_institutions: set[str] = set()
 
     for row in scholar_rows:
         sid = row["id"]
@@ -237,6 +244,12 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
         if sid in aliases_by_sid:
             d["aliases"] = aliases_by_sid[sid]
 
+        if row["institution"] in country_by_institution:
+            d["country"] = country_by_institution[row["institution"]]
+            stats["country"] += 1
+        elif row["institution"]:
+            unmapped_institutions.add(row["institution"])
+
         if row["bio"]:
             stats["bio"] += 1
         if row["main_research_area"]:
@@ -256,6 +269,10 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
     print(f"  With research area:  {stats['area']}")
     print(f"  With subfield tags:  {stats['subfield']}")
     print(f"  With profile pic:    {stats['pic']}")
+    print(f"  With country:        {stats['country']}")
+    if unmapped_institutions:
+        print(f"  Warning: {len(unmapped_institutions)} institutions have no country — "
+              f"run `uv run -m scholar_board.pipeline.countries`: {sorted(unmapped_institutions)}")
 
     if write_individual:
         SCHOLARS_DIR.mkdir(parents=True, exist_ok=True)

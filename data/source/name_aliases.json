@@ -1,6 +1,25 @@
 {
   "0459": {
     "name": "Michael Bonner",
-    "aliases": ["Mick Bonner", "Michael F. Bonner"]
+    "aliases": [
+      "Mick Bonner",
+      "Michael F. Bonner"
+    ]
+  },
+  "E372": {
+    "name": "S. P. Arun",
+    "aliases": [
+      "SP Arun",
+      "Sripati Arun",
+      "Sripati Panditaradhyula Arun",
+      "Arun SP"
+    ]
+  },
+  "E376": {
+    "name": "Sridharan Devarajan",
+    "aliases": [
+      "Devarajan Sridharan",
+      "Sridhar Devarajan"
+    ]
   }
 }

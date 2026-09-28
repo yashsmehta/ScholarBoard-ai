@@ -15,6 +15,7 @@ export interface AppState {
   hoveredScholarId: string | null
   searchQuery: string
   activeInstitutions: string[]
+  activeCountries: string[]
   activeSubfields: string[]
   subfieldFilterMode: SubfieldFilterMode
   viewMode: ViewMode
@@ -32,6 +33,8 @@ export type AppAction =
   | { type: 'sidebar_closed' }
   | { type: 'filters_applied'; institutions: string[] }
   | { type: 'filters_cleared' }
+  | { type: 'countries_filter_applied'; countries: string[] }
+  | { type: 'countries_filter_cleared' }
   | { type: 'subfields_filter_applied'; subfields: string[] }
   | { type: 'subfields_filter_cleared' }
   | { type: 'subfield_filter_mode_changed'; mode: SubfieldFilterMode }
@@ -48,6 +51,7 @@ export const initialAppState: AppState = {
   hoveredScholarId: null,
   searchQuery: '',
   activeInstitutions: [],
+  activeCountries: [],
   activeSubfields: [],
   subfieldFilterMode: 'union',
   viewMode: 'list',
@@ -92,6 +96,13 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       }
     case 'filters_cleared':
       return { ...state, activeInstitutions: [] }
+    case 'countries_filter_applied':
+      return {
+        ...state,
+        activeCountries: [...action.countries].sort((a, b) => a.localeCompare(b)),
+      }
+    case 'countries_filter_cleared':
+      return { ...state, activeCountries: [] }
     case 'subfields_filter_applied':
       return {
         ...state,

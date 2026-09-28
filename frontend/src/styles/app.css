@@ -356,7 +356,10 @@ input {
 }
 
 .map-panel {
+  /* Height of the control bar; the list starts and its letter headers pin just below it */
+  --list-top: 60px;
   position: relative;
+  container-type: inline-size;
   min-height: 0;
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -381,6 +384,19 @@ input {
 
 .map-panel--list {
   background: #f4f1ea;
+}
+
+/* Band behind the control cards (list view) so scrolling rows don't peek between them */
+.map-panel__band {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--list-top) + 12px);
+  z-index: 3;
+  pointer-events: none;
+  /* Solid down to where the (opaque) letter header pins, then a soft edge over it */
+  background: linear-gradient(to bottom, #f4f1ea calc(100% - 12px), rgba(244, 241, 234, 0));
 }
 
 .scholar-map-shell {
@@ -532,7 +548,16 @@ input {
 .map-overlay-left {
   top: 14px;
   left: 14px;
-  width: min(260px, calc(100% - 28px));
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: calc(100% - 28px);
+}
+
+.map-overlay-left .search-panel {
+  width: 260px;
+  flex: 0 1 260px;
+  min-width: 0;
 }
 
 .map-overlay-right {
@@ -629,17 +654,12 @@ input {
 }
 
 .search-panel {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(21, 24, 34, 0.09);
-  border-radius: 12px;
-  box-shadow: var(--shadow-1);
-  backdrop-filter: blur(12px);
-  padding: 7px;
+  position: relative;
 }
 
 .filter-panel__menu {
-  background: #fff;
-  border: 1px solid rgba(21, 24, 34, 0.11);
+  background: var(--popover-bg);
+  border: 1px solid rgba(21, 24, 34, 0.1);
   border-radius: var(--radius-md);
   box-shadow: 0 8px 32px rgba(20, 20, 30, 0.13), 0 1px 4px rgba(20, 20, 30, 0.06);
 }
@@ -650,35 +670,60 @@ input {
 
 .search-panel__icon {
   position: absolute;
-  left: 9px;
+  z-index: 1; /* above the input's frosted surface */
+  left: 12px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--ink-2);
   pointer-events: none;
+  transition: color 160ms ease;
+}
+
+.search-panel__input-wrap:focus-within .search-panel__icon {
+  color: var(--brand-0);
 }
 
 .search-panel__input {
   width: 100%;
-  border: 1px solid rgba(13, 92, 99, 0.2);
-  background: #fff;
-  border-radius: 8px;
-  padding: 7px 10px 7px 30px;
-  font-size: 0.88rem;
+  height: 40px;
+  border: 1px solid var(--control-border);
+  background: var(--control-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 10px;
+  box-shadow: var(--control-shadow);
+  padding: 0 12px 0 36px;
+  font: 500 0.85rem var(--font-sans);
+  color: var(--ink-0);
   outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.search-panel__input::placeholder {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+
+.search-panel__input:hover {
+  background: var(--control-bg-hover);
 }
 
 .search-panel__input:focus {
-  border-color: rgba(13, 92, 99, 0.45);
-  box-shadow: 0 0 0 4px rgba(68, 161, 160, 0.12);
+  background: var(--control-bg-hover);
+  border-color: rgba(13, 92, 99, 0.28);
+  box-shadow: var(--control-shadow), 0 0 0 3px rgba(68, 161, 160, 0.12);
 }
 
 .search-results {
-  margin-top: 7px;
-  max-height: 260px;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: max(100%, 300px);
+  max-height: 300px;
   overflow: auto;
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  background: #fff;
+  border: 1px solid rgba(21, 24, 34, 0.1);
+  border-radius: 10px;
+  background: var(--popover-bg);
+  box-shadow: 0 8px 32px rgba(20, 20, 30, 0.13), 0 1px 4px rgba(20, 20, 30, 0.06);
 }
 
 .search-results__empty {
@@ -722,8 +767,10 @@ input {
 .search-results__title mark {
   background: rgba(255, 209, 102, 0.48);
   color: inherit;
-  border-radius: 4px;
-  padding: 0 2px;
+  border-radius: 3px;
+  /* Pad the highlight without pushing the rest of the word apart */
+  padding: 0 1px;
+  margin: 0 -1px;
 }
 
 .search-results__subtitle {
@@ -755,7 +802,7 @@ input {
   overflow: auto;
   border: 1px solid rgba(21, 24, 34, 0.07);
   border-radius: 12px;
-  background: #fff;
+  background: var(--popover-inset);
 }
 
 .filter-option {
@@ -833,7 +880,7 @@ input {
   border-radius: 8px;
   font-size: 0.83rem;
   font-family: var(--font-sans);
-  background: var(--card-bg);
+  background: var(--popover-inset);
   color: var(--ink-1);
   outline: none;
   box-sizing: border-box;
@@ -846,7 +893,7 @@ input {
 
 .filter-panel__search-input:focus {
   border-color: rgba(13, 92, 99, 0.40);
-  background: #fff;
+  background: var(--popover-inset);
   box-shadow: 0 0 0 3px rgba(68, 161, 160, 0.10);
 }
 
@@ -1419,12 +1466,145 @@ input {
   font-size: 0.72rem;
 }
 
-/* ── Right overlay controls (filter + view toggle) ──── */
+/* ── Control cards: search, List | Map switch, filters ──
+   All three share the same 40px frosted surface so the bar reads as one system. */
 
+.view-toggle,
+.overlay-right-controls {
+  --seg-ease: 240ms cubic-bezier(0.3, 0.7, 0.2, 1);
+  height: 40px;
+  padding: 3px;
+  background: var(--control-bg);
+  border: 1px solid var(--control-border);
+  border-radius: 10px;
+  box-shadow: var(--control-shadow);
+  backdrop-filter: blur(12px);
+}
+
+/* List | Map segmented switch (beside the search box) */
+.view-toggle {
+  position: relative;
+  flex: none;
+  width: 144px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Soft tinted thumb — same language as chips and active filters, not a solid block */
+.view-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border-radius: 7px;
+  background: rgba(13, 92, 99, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(13, 92, 99, 0.14);
+  transition: transform var(--seg-ease);
+}
+
+.view-toggle--map .view-toggle__thumb {
+  transform: translateX(100%);
+}
+
+.view-toggle__option {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 64px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink-2);
+  font: 600 0.78rem/1 var(--font-sans);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  /* Same duration + curve as the thumb, so text and highlight change together */
+  transition: color var(--seg-ease);
+}
+
+.view-toggle__option svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+.view-toggle__option:not(.is-active):hover {
+  color: var(--ink-0);
+}
+
+.view-toggle__option.is-active {
+  color: var(--brand-0);
+  cursor: default;
+}
+
+.view-toggle__option:focus-visible {
+  outline: 2px solid rgba(68, 161, 160, 0.55);
+  outline-offset: 1px;
+}
+
+/* Filters: one card, flat buttons inside, hairline dividers between */
 .overlay-right-controls {
   display: flex;
-  align-items: flex-start;
-  gap: 6px;
+  align-items: stretch;
+  gap: 0;
+}
+
+.overlay-right-controls .filter-panel {
+  display: flex;
+}
+
+.overlay-right-controls .filter-panel + .filter-panel::before {
+  content: '';
+  align-self: center;
+  width: 1px;
+  height: 16px;
+  margin: 0 2px;
+  background: rgba(21, 24, 34, 0.08);
+}
+
+.overlay-right-controls .icon-button {
+  height: 100%;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 7px;
+  font-size: 0.78rem;
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+  color: var(--ink-1);
+  transition: background var(--seg-ease), color var(--seg-ease);
+}
+
+.overlay-right-controls .icon-button:hover,
+.overlay-right-controls .icon-button[aria-expanded='true'] {
+  background: rgba(21, 24, 34, 0.04);
+  color: var(--ink-0);
+  transform: none;
+  box-shadow: none;
+}
+
+.overlay-right-controls .icon-button.is-emphasis {
+  background: rgba(13, 92, 99, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(13, 92, 99, 0.14);
+  color: var(--brand-0);
+}
+
+.overlay-right-controls .filter-panel__menu {
+  top: calc(100% + 9px);
+}
+
+.overlay-right-controls .icon-button:focus {
+  outline: none;
+}
+
+.overlay-right-controls .icon-button:focus-visible {
+  outline: 2px solid rgba(68, 161, 160, 0.55);
+  outline-offset: -2px;
 }
 
 /* ── Scholar list view ───────────────────────────────── */
@@ -1438,7 +1618,7 @@ input {
 }
 
 .scholar-list__spacer {
-  height: 60px;
+  height: calc(var(--list-top) + 4px);
   flex-shrink: 0;
 }
 
@@ -1452,7 +1632,7 @@ input {
 
 .scholar-list__letter {
   position: sticky;
-  top: 58px;
+  top: var(--list-top);
   z-index: 2;
   padding: 10px 4px 5px;
   font-size: 0.65rem;
@@ -1575,6 +1755,29 @@ input {
   font-weight: 500;
 }
 
+/* Panel too narrow for one row: filters drop below search + switch, left-aligned */
+@container (max-width: 780px) {
+  .map-overlay-right {
+    top: 62px;
+    left: 14px;
+    right: auto;
+    /* Match row one exactly: 260px search + 8px gap + 144px switch */
+    width: min(412px, calc(100% - 28px));
+  }
+
+  .overlay-right-controls .filter-panel {
+    flex: 1 1 0;
+  }
+
+  .overlay-right-controls .icon-button {
+    width: 100%;
+  }
+
+  .map-panel > * {
+    --list-top: 108px;
+  }
+}
+
 @media (max-width: 1100px) {
   .topbar__content {
     grid-template-columns: 1fr;
@@ -1600,14 +1803,6 @@ input {
 }
 
 @media (max-width: 700px) {
-  .map-overlay-left {
-    width: min(200px, calc(100% - 180px));
-  }
-
-  .map-overlay-right {
-    top: 14px;
-    right: 14px;
-  }
 
   .map-overlay-bottom-left {
     bottom: 14px;
@@ -1679,17 +1874,33 @@ input {
     border-radius: 14px;
   }
 
-  /* Smaller map overlays */
-  /* Search gets its own full-width row; filters + view toggle sit below it */
+  /* Row 1: search + List | Map switch; row 2: filters card, both full width */
   .map-overlay-left {
     top: 8px;
     left: 8px;
-    width: calc(100% - 16px);
+    right: 8px;
+    max-width: none;
+  }
+
+  .map-overlay-left .search-panel {
+    flex: 1 1 auto;
+    width: auto;
+  }
+
+  .view-toggle {
+    width: auto;
+  }
+
+  .view-toggle__option {
+    min-width: 0;
+    padding: 0 10px;
   }
 
   .map-overlay-right {
-    top: 52px;
+    top: 54px;
+    left: 8px;
     right: 8px;
+    width: auto;
   }
 
   /* Anchor filter menus to the control row so they stay on-screen */
@@ -1697,20 +1908,30 @@ input {
     position: relative;
   }
 
-  .filter-panel {
+  .overlay-right-controls .filter-panel {
     position: static;
+    flex: 1 1 0;
   }
 
-  .filter-panel__menu {
-    width: min(360px, calc(100vw - 16px));
+  .overlay-right-controls .icon-button {
+    width: 100%;
+    padding: 0 6px;
+  }
+
+  .filter-panel__menu,
+  .overlay-right-controls .filter-panel__menu {
+    left: 0;
+    right: 0;
+    width: auto;
   }
 
   .filter-panel__options {
     max-height: 200px;
   }
 
-  .scholar-list__spacer {
-    height: 96px;
+  .map-panel,
+  .map-panel > * {
+    --list-top: 100px;
   }
 
   .map-overlay-bottom-right {
@@ -1729,14 +1950,8 @@ input {
     padding: 5px 8px;
   }
 
-  /* Smaller search panel */
-  .search-panel {
-    padding: 5px;
-  }
-
   .search-panel__input {
-    padding: 6px 8px 6px 28px;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
   }
 
   .search-results {

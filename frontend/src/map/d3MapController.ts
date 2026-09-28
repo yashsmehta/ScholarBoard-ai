@@ -14,6 +14,7 @@ export interface MapInteractionState {
   hoveredScholarId: string | null
   selectedScholarId: string | null
   activeInstitutions: Set<string>
+  activeCountries: Set<string>
   activeSubfields: Set<string>
   subfieldFilterMode: 'union' | 'intersection'
 }
@@ -76,6 +77,7 @@ export function createD3MapController(
     hoveredScholarId: null,
     selectedScholarId: null,
     activeInstitutions: new Set(),
+    activeCountries: new Set(),
     activeSubfields: new Set(),
     subfieldFilterMode: 'union',
   }
@@ -633,6 +635,8 @@ export function createD3MapController(
 function isScholarVisible(scholar: Scholar, state: MapInteractionState): boolean {
   const instActive = state.activeInstitutions.size > 0
   const passesInst = !instActive || state.activeInstitutions.has(scholar.institution ?? 'Unknown')
+  const countryActive = state.activeCountries.size > 0
+  const passesCountry = !countryActive || state.activeCountries.has(scholar.country ?? 'Unknown')
   const sfActive = state.activeSubfields.size > 0
   let passesSf = true
   if (sfActive) {
@@ -644,7 +648,7 @@ function isScholarVisible(scholar: Scholar, state: MapInteractionState): boolean
       passesSf = scholar.subfields.some((sf) => state.activeSubfields.has(sf.subfield))
     }
   }
-  return passesInst && passesSf
+  return passesInst && passesCountry && passesSf
 }
 
 function paddedExtent(extent: [number, number]): [number, number] {

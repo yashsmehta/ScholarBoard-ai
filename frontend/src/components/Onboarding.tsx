@@ -30,7 +30,7 @@ const steps = [
     image: `${import.meta.env.BASE_URL}onboarding/step4_search.jpg`,
     headline: 'Search, filter, switch views',
     description:
-      'Find anyone by name, filter by institution or subfield, and toggle between the map and an alphabetical list view. Open "Field Directions" to see what each community is collectively working on.',
+      'Find anyone by name, filter by institution, country or subfield, and toggle between the map and an alphabetical list view. Open "Field Directions" to see what each community is collectively working on.',
   },
 ]
 

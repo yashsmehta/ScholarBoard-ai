@@ -84,10 +84,10 @@ All API prompts are externalized as markdown templates with `{variable}` substit
 - **`fetch_researcher_info.md`** — reference documentation for profile-fetching prompt
 - **`field_directions.md`** — synthesize collective field-level research patterns per subfield
 
-### Data Pipeline (12 steps)
+### Data Pipeline (13 steps)
 
 ```
-Discover → Seed → Papers → Profiles → Stats → Directions → Embed → UMAP → Subfields → Field Directions → Build → Pics
+Discover → Seed → Papers → Profiles → Stats → Directions → Embed → UMAP → Subfields → Field Directions → Countries → Build → Pics
 ```
 
 All pipeline steps live in `scholar_board/pipeline/` and are invoked by `scripts/run_pipeline.py` as `python -m scholar_board.pipeline.<step>`. The SQLite DB (`data/scholarboard.db`) is the **single source of truth** — all steps load scholars from DB and write back to DB. JSON files are written in parallel as human-readable artifacts.
@@ -106,8 +106,9 @@ All pipeline steps live in `scholar_board/pipeline/` and are invoked by `scripts
 7. **`cluster`** (`umap`) — UMAP(cosine, n_neighbors=15, min_dist=0.1) projects the 3072-dim embeddings to 2D; writes `umap_x/umap_y` to DB and the trained reducer → `data/pipeline/models/umap_model.joblib`. (No HDBSCAN — dot color is driven by the LLM subfield tags, not cluster labels.)
 8. **`subfields`** — Gemini 3.8 Flash reads each PI's profile + papers and classifies them into the 21 VSS topic areas (one primary + up to two secondary), via enum-constrained structured JSON output → `data/pipeline/scholar_subfields.json` + DB. Manual fixes in `data/source/subfield_overrides.json` (tracked in git) always win over the classifier — add one there rather than editing the DB. Supports `--workers 25`.
 9. **`field_directions`** — Gemini 3.1 Pro Preview (thinking=HIGH) synthesizes one field-level summary per subfield (overview, active themes, open questions, methods, emerging directions) → `data/build/field_directions.json`
-10. **`build`** — Reads all data from DB and exports → `data/build/scholars.json` + per-scholar JSONs in `data/build/scholars/`
-11. **`pics`** — Serper.dev Google Image Search with face/headshot queries → `data/build/profile_pics/*.jpg`. Each candidate must pass a Gemini headshot check and must not duplicate another scholar's image. Supports `--ids`, `--force`, `--limit`, `--test`.
+10. **`countries`** — Gemini 3.8 Flash maps each distinct PI institution to its country (batched, structured JSON) → `data/source/institution_countries.json` (tracked in git). Only unmapped institutions are sent, so re-runs are cheap; fix a wrong country by editing the JSON. `build` warns about any institution without a country.
+11. **`build`** — Reads all data from DB (plus `institution_countries.json` for each scholar's `country`) and exports → `data/build/scholars.json` + per-scholar JSONs in `data/build/scholars/`
+12. **`pics`** — Serper.dev Google Image Search with face/headshot queries → `data/build/profile_pics/*.jpg`. Each candidate must pass a Gemini headshot check and must not duplicate another scholar's image. Supports `--ids`, `--force`, `--limit`, `--test`.
 
 **Orchestrator:** `scripts/run_pipeline.py` — no args shows a status dashboard; `--step <name>` runs one step, `--from <name>` runs from a step onward, `--execute` runs all. Step names are the short names above (e.g. `discover`, `papers`, `umap`), not the module filenames.
 
@@ -122,7 +123,7 @@ React 19 + TypeScript + Vite app (3 production deps: react, react-dom, d3):
 - **Field Directions:** AI-generated summaries of research trends per subfield (full-page modal)
 - **Onboarding:** 4-step welcome tour for first-time visitors
 - Sidebar profile: bio, papers, lab link, subfield badges, nearby scholars
-- Live search, institution + subfield filters
+- Live search, institution + country + subfield filters
 - GoatCounter analytics (script in `index.html`)
 - See `frontend/CLAUDE.md` for detailed architecture
 

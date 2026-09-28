@@ -3,6 +3,9 @@
 ## Next release (in progress, 2026-09-25)
 
 ### Pipeline
+- **New `countries` step**: Gemini 3.8 Flash maps each distinct PI institution to its country
+  → `data/source/institution_countries.json` (tracked; 329 institutions, 35 countries,
+  reviewed by hand and cross-checked against the ROR registry). `build` adds a `country` field to every scholar. Pipeline is now 13 steps.
 - **Gemini 3.8 Flash**: all Flash calls (paper/profile grounded search, bio normalization,
   PI classification, dedup, discovery, subfield classification) now use `gemini-3.8-flash`
   via a single `FLASH_MODEL` constant in `scholar_board/gemini.py`. Pro-model steps
@@ -43,6 +46,31 @@
   `data/source/pi_overrides.json`, kept in DB) and deleted their profile photos.
   Map now has 793 PIs.
 - Gi-Yeul Bae: bio title Assistant → Associate Professor; private contact email updated.
+- Fuat Balci (at his request): institution Koc University → University of Manitoba
+  (country Canada); bio, lab link and email already pointed to Manitoba.
+- Added S. P. Arun (Indian Institute of Science, Centre for Neuroscience, Visionlab@IISc; E372),
+  the first PI in India. Papers hand-picked from the lab's publications page (2024+, last
+  author; two 2026 preprints), bio and AI summary written from the lab site; placed with the
+  saved UMAP model next to Frank Tong, Michelle Greene and Katharina Dobs. Search aliases
+  "SP Arun" / "Sripati Arun".
+- Added four more India-based PIs, same process (papers 2023+, first or last author; bios and
+  AI summaries from their lab pages; placed with the saved UMAP model):
+  - Aditya Murthy (IISc Centre for Neuroscience, Movement Control Lab; E373), next to
+    Daniel Wolpert and Samuel McDougle.
+  - Rajiv Soundararajan (IISc Electrical Communication Engineering; E374), perceptual image
+    and video quality, next to Laurent Itti and Krista Ehinger.
+  - Richa Verma (IIT Madras, Sudha Gopalakrishnan Brain Centre; E375), fetal human brain
+    neuroanatomy, next to Lynne Kiorpes and Takao Hensch. Four qualifying papers; no Google
+    Scholar stats (the stats step matched a different Richa Verma, cleared).
+  - Sridharan Devarajan (IISc Centre for Neuroscience, Cognition Lab; E376), next to Anna
+    Nobre and Freek van Ede; search alias "Devarajan Sridharan" (the order he publishes under).
+  Official faculty photos used for Murthy (image search had the wrong person) and Sridharan.
+  Map now has 798 PIs.
+- Maryam Vaziri-Pashkam (at her request): papers replaced with her own picks — J Cogn
+  Neurosci 2024, eLife 2024, J Neurosci 2023, Cerebral Cortex 2023, and the in-press Journal
+  of Vision inversion-effect paper (linked to its preprint). AI summary rewritten around them.
+- Removed Frans Verstraten from the map (`is_pi = 0` via `pi_overrides.json`, kept in DB) and
+  deleted the profile photo. Map now has 797 PIs.
 - Emily A. Cooper moved from UC Berkeley to Dartmouth College: institution, department and
   bio updated (private contact email updated too).
 - Kirsten Adam moved from Rice University to UC Davis (Psychology + Center for Mind and
@@ -96,6 +124,12 @@
 - Anne B. Sereno: new profile photo (supplied by her).
 - Brian A. Anderson (at his request): AI summary rewritten from text on his lab website;
   bio pronoun updated to match. Map position unchanged.
+- Institution clean-up (330 → 327 distinct): merged "SISSA" and "International School for
+  Advanced Studies"; University of Toronto Mississauga / Scarborough folded into "University of
+  Toronto" and Hunter College into "City University of New York" (campus/college kept in the
+  department field); "DEBCOM" typo → DEVCOM. Fixed wrong affiliations: Alessandro Farini
+  (National University, US → CNR-INO, Italy), Philipp Sterzer (Charité → University of Basel,
+  lab link updated), Andrea Benucci (RIKEN → Queen Mary University of London).
 - New `data/source/pi_overrides.json`: manual PI decisions that win over the `profiles`
   classifier (it had rejected Binxu Wang as a postdoc).
 - Michael Bonner: AI summary (research direction) rewritten to follow the Bonner Lab
@@ -108,6 +142,18 @@
 - Duplicate-profile audit: no remaining duplicates among the shipped PIs.
 
 ### Frontend
+- **Control bar regrouped**: the List | Map switch now sits beside the search box as a
+  segmented control (soft tinted thumb that slides, label colour in sync with it); the
+  Institution, Country and Field filters share one card on the right. All three groups use
+  the same compact 40px surface in a warm near-white (translucent, soft shadow) so it sits on
+  the page rather than popping out; filter menus and search results use an opaque version of
+  the same tone. The search is now a single field (no box-in-a-box) with results floating
+  below it. When the panel is too narrow the filters drop to a second
+  row sized to match the first (container query); on phones search + switch share row one and
+  the filters fill row two.
+  In list view a band behind the cards stops scrolling rows from showing between them.
+- **Country filter** next to Institution and Field: multi-select dropdown with counts
+  (United States 411, Canada 67, United Kingdom 54, …); filters both the map and the list view.
 - List view is now the default; the logo returns to it.
 - The single "Filters" dropdown is split into **Institution** and **Field** buttons. Ticking a
   box filters immediately (no Apply step); Escape or clicking outside closes the menu.

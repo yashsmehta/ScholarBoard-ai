@@ -68,9 +68,14 @@
   Map now has 798 PIs.
 - Maryam Vaziri-Pashkam (at her request): papers replaced with her own picks — J Cogn
   Neurosci 2024, eLife 2024, J Neurosci 2023, Cerebral Cortex 2023, and the in-press Journal
-  of Vision inversion-effect paper (linked to its preprint). AI summary rewritten around them.
+  of Vision inversion-effect paper (linked to its preprint). AI summary replaced with her own
+  revised text.
 - Removed Frans Verstraten from the map (`is_pi = 0` via `pi_overrides.json`, kept in DB) and
   deleted the profile photo. Map now has 797 PIs.
+- Curtis L. Baker Jr. (on request): bio and AI summary rewritten from the UBC Vision Cluster
+  profile, now led by human psychophysics (neurophysiology wrapping up); magnocellular paper
+  updated to its Journal of Vision 2026 version and J Neurosci 2023 paper added. Map position
+  unchanged.
 - Emily A. Cooper moved from UC Berkeley to Dartmouth College: institution, department and
   bio updated (private contact email updated too).
 - Kirsten Adam moved from Rice University to UC Davis (Psychology + Center for Mind and

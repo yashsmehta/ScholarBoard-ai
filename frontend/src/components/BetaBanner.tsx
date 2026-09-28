@@ -13,7 +13,7 @@ export function BetaBanner() {
           Reach out to{' '}
           <a href="mailto:yashsmehta95@gmail.com">Yash Mehta</a>{' '}
           <span className="beta-email">(yashsmehta95@gmail.com)</span>{' '}
-          for feedback &amp; collaborations
+          for feedback
         </span>
         <button
           className="beta-close"

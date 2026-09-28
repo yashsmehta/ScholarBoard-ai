@@ -72,6 +72,11 @@
   from mouseland.github.io (2023+, first or last author, published versions only); bio and AI
   summary written from the lab site; placed with the saved UMAP model, next to Matteo
   Carandini, Kenneth Harris and Andreas Tolias. Map now has 793 PIs.
+- Kohitij Kar (at his request): papers updated to published versions. Hierarchical
+  optimization and facial expression preprints swapped for their Nature Communications 2026
+  versions; added Reverse predictivity (Nature Machine Intelligence 2026) and MAPS
+  (Communications Psychology 2026) in place of the scene-context and memorability preprints.
+  AI summary rewritten around the published papers.
 - New `data/source/pi_overrides.json`: manual PI decisions that win over the `profiles`
   classifier (it had rejected Binxu Wang as a postdoc).
 - Michael Bonner: AI summary (research direction) rewritten to follow the Bonner Lab

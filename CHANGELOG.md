@@ -100,6 +100,9 @@
   2024–26 first/last-author papers found via OpenAlex (numerosity adaptation, Vision Res 2026;
   plaid search asymmetry, Perception 2025; spatial summation for motion, Vision Res 2024).
   AI summary and the last sentence of the bio rewritten from these papers. Map position unchanged.
+- Benoit Cottereau (on request): AI summary replaced with the text Dr. Cottereau sent (motion and
+  spatial vision, adaptation to central vision loss in macular degeneration, spiking neural
+  networks for event-based cameras); bio pronoun → his. Map position unchanged.
 - Curtis L. Baker Jr. (on request): bio and AI summary rewritten from the UBC Vision Cluster
   profile, now led by human psychophysics (neurophysiology wrapping up); magnocellular paper
   updated to its Journal of Vision 2026 version and J Neurosci 2023 paper added. Map position

@@ -72,6 +72,10 @@
   revised text.
 - Removed Frans Verstraten from the map (`is_pi = 0` via `pi_overrides.json`, kept in DB) and
   deleted the profile photo. Map now has 797 PIs.
+- Nancy Kanwisher: AI summary rewritten in plain language, opening with the lab's framing
+  and FFA/PPA/EBA before the 2025 work (physics engine, things vs stuff, language); bio
+  pronoun fixed; lab link → web.mit.edu/bcs/nklab (old one was dead). Re-placed on the map
+  from the new text.
 - Re-placed 12 PIs whose AI summary or papers were edited after the Sep 25 map fit
   (Anderson, Ponce, Baker, Dilks, Sperling, Federico, Kar, Mudrik, Sahakyan,
   Vaziri-Pashkam, Bonner, Spelke): re-embedded from their current summary + papers and

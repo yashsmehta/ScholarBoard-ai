@@ -72,6 +72,8 @@
   revised text.
 - Removed Frans Verstraten from the map (`is_pi = 0` via `pi_overrides.json`, kept in DB) and
   deleted the profile photo. Map now has 797 PIs.
+- Giovanni Federico: his own text now also replaces the AI summary (the sidebar shows only
+  the summary, not the bio), lightly reworded to the site's "Dr. Federico studies…" style.
 - Liad Mudrik (on request): AI summary replaced with the text Dr. Mudrik sent, adding theory testing,
   the neural correlates of consciousness and a meta-science database of how theories have
   been tested. Map position unchanged.

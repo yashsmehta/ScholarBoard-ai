@@ -95,6 +95,11 @@
 - Ipek Oruc (on request): AI summary replaced with the lab profile Dr. Oruc sent (face and
   object perception, naturalistic vision, AI for ophthalmic imaging); bio pronouns → she/her.
   Map position unchanged.
+- Joshua A. Solomon (listed as "John A. Solomon", now fixed in DB and `extra_researchers.csv`):
+  dropped the 2024 JoV author response, which an alumnus wrote after leaving the lab. Added three
+  2024–26 first/last-author papers found via OpenAlex (numerosity adaptation, Vision Res 2026;
+  plaid search asymmetry, Perception 2025; spatial summation for motion, Vision Res 2024).
+  AI summary and the last sentence of the bio rewritten from these papers. Map position unchanged.
 - Curtis L. Baker Jr. (on request): bio and AI summary rewritten from the UBC Vision Cluster
   profile, now led by human psychophysics (neurophysiology wrapping up); magnocellular paper
   updated to its Journal of Vision 2026 version and J Neurosci 2023 paper added. Map position

@@ -51965,24 +51965,42 @@
   },
   "E210": {
     "id": "E210",
-    "name": "John A. Solomon",
+    "name": "Joshua A. Solomon",
     "institution": "City, University of London",
     "country": "United Kingdom",
     "department": "Department of Optometry and Visual Science",
     "lab_name": "Centre for Applied Vision Research",
     "lab_url": "http://www.staff.city.ac.uk/~solomon/",
     "main_research_area": "visual psychophysics and perception",
-    "bio": "Joshua A. Solomon is a Professor of Visual Psychophysics at City, University of London, where they investigate the mechanisms of human visual perception through technical psychophysical and computational methods. Solomon’s work focuses on ensemble perception and summary statistics, specifically characterizing how the visual system extracts global features from crowded or noisy stimulus arrays. Their research employs signal detection theory and stochastic observer models to analyze texture segregation, motion detection, and the role of attention in visual sensitivity. Currently, Solomon examines the dynamics of information accrual in change detection and the probabilistic nature of evidence integration in oculomotor control.",
-    "research_direction": "Dr. Solomon's recent research investigates the architecture of sensory evidence integration and the computational mechanisms of visual feature detection. Specifically, they have recently been probing whether perceptual judgments and oculomotor preparation—such as saccadic eye movements—rely on a shared sampling mechanism or parallel, temporally distinct streams of sensory evidence during states of dynamic uncertainty. Alongside this sensorimotor research, their recent work explores the low-level visual channels responsible for detecting spatial modulations in dot density and luminance contrast. By employing a signal-detection framework and measuring psychophysical thresholds, they are working to model how monocular and binocular mechanisms process and integrate these distinct visual signals.",
+    "bio": "Joshua A. Solomon is a Professor of Visual Psychophysics at City, University of London, where they investigate the mechanisms of human visual perception through technical psychophysical and computational methods. Solomon’s work focuses on ensemble perception and summary statistics, specifically characterizing how the visual system extracts global features from crowded or noisy stimulus arrays. Their research employs signal detection theory and stochastic observer models to analyze texture segregation, motion detection, and the role of attention in visual sensitivity. Currently, Solomon examines numerosity and motion adaptation, visual search asymmetries, and spatial summation for motion detection.",
+    "research_direction": "Dr. Solomon's recent research uses psychophysics and computational observer models to identify the basic mechanisms of human spatial and motion vision. Their recent work tests whether numerosity adaptation is truly bidirectional, using a comparison-of-comparisons paradigm that separates perceptual aftereffects from decisional biases, and finds only downward shifts consistent with monotonic neural coding. They also use visual search asymmetries to ask whether plaids carry a basic feature, such as intrinsic two-dimensionality, that is absent from their component gratings, and use spatial summation with velocity noise to model motion detection as sparse sampling by difference-of-Gaussians templates. Alongside this, their work applies a signal-detection framework to show how monocular and binocular mechanisms detect modulations of dot density and dot contrast.",
     "papers": [
       {
-        "title": "Author Response to Brenner & Smeets",
-        "abstract": "In this technical response, the authors address critiques concerning the dissociation between perceptual and oculomotor evidence integration. They maintain that perceptual decisions and motor preparation, specifically saccadic eye movements, utilize temporally distinct streams of sensory evidence. The response clarifies that the observed lack of correlation between perceptual judgments and oculomotor errors in their original tasks supports a parallel-processing architecture rather than a common sequential sampling mechanism for both effectors, particularly under conditions of dynamic sensory uncertainty.",
+        "title": "No consistent bidirectional aftereffect from numerosity adaptation",
+        "abstract": "This study tests whether numerosity adaptation is truly bidirectional, as population coding by tuned channels would predict, or whether earlier reports reflect decisional rather than perceptual biases. Using a comparison-of-comparisons paradigm with a four-quadrant display, observers adapted to dot clouds in the upper quadrants and then judged which lower cloud differed more from each upper reference, a design in which simple response biases cannot masquerade as perceptual shifts. Across adaptor numerosities of 0, 25 and 100 dots, adaptation only ever lowered perceived numerosity, most strongly after dense adaptors, and never raised it. The unidirectional aftereffects are consistent with monotonic neural responses to numerosity and suggest that earlier evidence for bidirectionality was non-perceptual.",
+        "year": "2026",
+        "venue": "Vision Research",
+        "citations": "",
+        "authors": "Kristina Zeljic, Michael J. Morgan, Joshua A. Solomon",
+        "url": "https://doi.org/10.1016/j.visres.2026.108900"
+      },
+      {
+        "title": "A visual search asymmetry for plaids",
+        "abstract": "Using search asymmetry as a test for basic visual features, this study asks whether superimposing two perpendicular Gabor patterns into a plaid creates a new feature. Finding a Gabor among plaids produced large set-size effects on reaction time, whereas finding a 2- or 4-cycle-per-degree plaid among its component Gabors produced much smaller ones, implying that plaids carry a basic feature, possibly intrinsic two-dimensionality, absent from their components. Mixed-frequency plaids did not pop out, suggesting that intrinsically two-dimensional regions such as corners and junctions are separated from one-dimensional edges only after the image is split into spatial-frequency channels.",
+        "year": "2025",
+        "venue": "Perception",
+        "citations": "",
+        "authors": "Joshua A. Solomon, Michael J. Morgan, Charles F. Chubb",
+        "url": "https://doi.org/10.1177/03010066251340285"
+      },
+      {
+        "title": "Spatial summation for motion detection",
+        "abstract": "This study uses the psychophysical summation paradigm to characterize the mechanism that detects motion-defined targets in central vision, measuring velocity thresholds and adding velocity noise to estimate processing efficiency. Disk-shaped targets were defined by brief rightward pixel shifts perturbed by Gaussian motion noise, with field size, target diameter and noise variance varied. Velocity thresholds followed a swoosh-shaped function of target diameter, lowest at about 2 degrees. The data were best fit by a sparse-sampling observer that compares each stimulus with a limited set of sparsely sampled difference-of-Gaussians templates, accounting for the inefficiency of velocity detection relative to an ideal observer.",
         "year": "2024",
-        "venue": "Journal of Vision",
-        "citations": "0",
-        "authors": "Matteo Lisi, Michael J. Morgan, Joshua A. Solomon",
-        "url": "https://doi.org/10.1167/jov.24.9.6"
+        "venue": "Vision Research",
+        "citations": "",
+        "authors": "Joshua A. Solomon, Fintan Nagle, Christopher W. Tyler",
+        "url": "https://doi.org/10.1016/j.visres.2024.108422"
       },
       {
         "title": "Monocular and binocular mechanisms detect modulations of dot density and dot contrast",

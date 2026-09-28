@@ -39,6 +39,10 @@
   deleted his profile photo. Map now has 791 PIs.
 - Removed Uri Hasson from the map (`is_pi = 0`, kept in DB) and deleted his profile photo.
   Map now has 790 PIs.
+- Removed Hannah Block and Hermann Bulf from the map (`is_pi = 0` via
+  `data/source/pi_overrides.json`, kept in DB) and deleted their profile photos.
+  Map now has 793 PIs.
+- Gi-Yeul Bae: bio title Assistant → Associate Professor; private contact email updated.
 - Emily A. Cooper moved from UC Berkeley to Dartmouth College: institution, department and
   bio updated (private contact email updated too).
 - Kirsten Adam moved from Rice University to UC Davis (Psychology + Center for Mind and

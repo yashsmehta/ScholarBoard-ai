@@ -3,5 +3,15 @@
     "name": "Binxu Wang",
     "is_pi": true,
     "reason": "Kempner Institute Research Fellow (independent research program) and incoming Group Leader at Janelia (Dec 2026); classifier treats the fellowship as a postdoc."
+  },
+  "0251": {
+    "name": "Hannah Block",
+    "is_pi": false,
+    "reason": "Removed from the map by request (2026-09-27)."
+  },
+  "0257": {
+    "name": "Hermann Bulf",
+    "is_pi": false,
+    "reason": "Removed from the map by request (2026-09-27)."
   }
 }

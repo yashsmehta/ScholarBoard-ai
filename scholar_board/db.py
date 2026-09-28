@@ -82,6 +82,7 @@ def init_db(conn: sqlite3.Connection) -> None:
         ("email_confidence", "TEXT"),
         ("email_source_url", "TEXT"),
         ("email_checked_at", "TEXT"),
+        ("sex", "TEXT"),
     ]:
         try:
             conn.execute(f"ALTER TABLE scholars ADD COLUMN {col} {defn}")
@@ -276,6 +277,13 @@ def upsert_email(
         "email_source_url = ?, email_checked_at = ? WHERE id = ?",
         (email, confidence, source_url, checked_at, scholar_id),
     )
+    conn.commit()
+
+
+def upsert_sex(conn: sqlite3.Connection, scholar_id: str, sex: str | None) -> None:
+    """Store a scholar's sex ("female" / "male" / "unknown"). Private — never
+    shipped to the frontend; used only for aggregate counts."""
+    conn.execute("UPDATE scholars SET sex = ? WHERE id = ?", (sex, scholar_id))
     conn.commit()
 
 

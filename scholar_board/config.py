@@ -25,6 +25,7 @@ SUBFIELD_OVERRIDES_PATH = SOURCE_DIR / "subfield_overrides.json"  # manual fixes
 PI_OVERRIDES_PATH = SOURCE_DIR / "pi_overrides.json"  # manual is_pi decisions, win over the classifier
 NAME_ALIASES_PATH = SOURCE_DIR / "name_aliases.json"  # nicknames / alternate names matched by frontend search
 INSTITUTION_COUNTRIES_PATH = SOURCE_DIR / "institution_countries.json"  # institution → country, filled by the countries step
+SEX_OVERRIDES_PATH = SOURCE_DIR / "sex_overrides.json"  # manual sex labels (private, untracked), win over the classifier
 
 # Pipeline intermediates
 PAPERS_DIR = PIPELINE_DIR / "scholar_papers"
@@ -32,6 +33,7 @@ PROFILES_DIR = PIPELINE_DIR / "scholar_profiles"
 DIRECTIONS_DIR = PIPELINE_DIR / "scholar_directions"
 EMBEDDINGS_PATH = PIPELINE_DIR / "scholar_embeddings.nc"
 SUBFIELDS_PATH = PIPELINE_DIR / "scholar_subfields.json"
+SEX_PATH = PIPELINE_DIR / "scholar_sex.json"  # private: never shipped to the frontend
 MODELS_DIR = PIPELINE_DIR / "models"
 UMAP_MODEL_PATH = MODELS_DIR / "umap_model.joblib"
 SCALER_PATH = MODELS_DIR / "scaler.joblib"

@@ -3,6 +3,11 @@
 ## Next release (in progress, 2026-09-25)
 
 ### Pipeline
+- **New private `sex` field** (`scholar_board/pipeline/sex.py`, run on demand, not a map step):
+  Gemini 3.8 Flash estimates each PI's sex from bio pronouns or first name (female / male /
+  unknown). Stored only in the DB (`scholars.sex`) and `data/pipeline/scholar_sex.json`, and
+  never shipped to the frontend. Hand fixes go in the untracked `data/source/sex_overrides.json`.
+  `--stats` prints aggregate counts (first run: 225 female, 501 male, 71 unknown of 797 PIs).
 - **New `countries` step**: Gemini 3.8 Flash maps each distinct PI institution to its country
   → `data/source/institution_countries.json` (tracked; 329 institutions, 35 countries,
   reviewed by hand and cross-checked against the ROR registry). `build` adds a `country` field to every scholar. Pipeline is now 13 steps.

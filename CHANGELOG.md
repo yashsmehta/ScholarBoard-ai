@@ -72,6 +72,9 @@
   revised text.
 - Removed Frans Verstraten from the map (`is_pi = 0` via `pi_overrides.json`, kept in DB) and
   deleted the profile photo. Map now has 797 PIs.
+- George Sperling (on request): AI summary rewritten to lead with his lab's new
+  psychophysical methods for measuring the parvocellular and magnocellular pathways (retina to
+  LGN); bio and summary use "he/his lab". Map position unchanged.
 - Curtis L. Baker Jr. (on request): bio and AI summary rewritten from the UBC Vision Cluster
   profile, now led by human psychophysics (neurophysiology wrapping up); magnocellular paper
   updated to its Journal of Vision 2026 version and J Neurosci 2023 paper added. Map position

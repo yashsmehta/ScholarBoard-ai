@@ -49610,7 +49610,7 @@
     "lab_url": "https://research.vu.nl/en/persons/jbj-smeets",
     "main_research_area": "sensorimotor control and visuomotor coordination",
     "bio": "Jeroen Smeets is a Professor of Human Movement Sciences at Vrije Universiteit Amsterdam, specializing in the computational and experimental analysis of sensorimotor control. Their research focuses on the integration of visual information for goal-directed actions, specifically within the domains of interception, prehension, and the influence of perceptual illusions on motor performance. Smeets developed mathematical models of grasping and investigated the distinctions between perceptual and motor processing pathways. Their work examines how humans manage neural delays through continuous online corrections and the flexible use of sensory cues in dynamic environments.",
-    "research_direction": "Dr. Smeets has recently been investigating the mechanisms of online visuomotor control, motor adaptation, and spatial perception. Their recent work explores how the motor system integrates continuous visual feedback during goal-directed actions, using methods like brief visual occlusions and stochastic target perturbations to measure visual processing latencies and the strategic scaling of mid-flight corrective vigor. Beyond real-time movement control, they are studying reward-based motor learning across the lifespan to understand how differing success rates and binary feedback frequencies shape motor adaptation. Additionally, they are examining the multisensory nature of spatial vision by testing how whole-body orientation relative to gravity influences the weighting of egocentric versus allocentric reference frames during visual length judgments.",
+    "research_direction": "Dr. Smeets has recently been investigating the mechanisms of online visuomotor control, motor adaptation, and spatial perception. Their recent work explores how the motor system integrates continuous visual feedback during goal-directed actions, using methods like brief visual occlusions and stochastic target perturbations to measure visual processing latencies and the strategic scaling of mid-flight corrective vigor. Beyond real-time movement control, they are studying reward-based motor learning across the lifespan to understand how differing success rates and binary feedback frequencies shape motor adaptation. Additionally, they are examining the interplay between multisensory signals and expectations in, for instance, the size-weight illusion and motion sickness.",
     "papers": [
       {
         "title": "Intercepting moving targets: does the visuomotor latency depend on whether one taps on the target or slides through it?",
@@ -49649,13 +49649,13 @@
         "url": "https://doi.org/10.1177/03010066251389521"
       },
       {
-        "title": "The influence of body orientation on length judgements",
-        "abstract": "This study explores how whole-body orientation relative to the gravitational vector influences the perception of spatial extents. Utilizing a length-matching paradigm, participants estimated object lengths while positioned in various orientations, such as upright and supine. The data characterize whether spatial judgments are primarily anchored to an egocentric (body-fixed) frame or an allocentric (gravitational) frame. The results reveal systematic biases in perceived length as a function of body tilt, suggesting that multisensory integration of visual, vestibular, and somatosensory cues for size perception involves a complex weighting of reference frames that is sensitive to observer orientation.",
-        "year": "2025",
-        "venue": "Perception",
-        "citations": "0",
-        "authors": "Federica Scarpellini, Jeroen B. J. Smeets",
-        "url": "https://doi.org/10.1177/03010066241308139"
+        "title": "Anticipatory cues can mitigate car sickness on the road",
+        "abstract": "This study asks whether helping car passengers anticipate the vehicle's motion reduces car sickness, building on the idea that drivers suffer less because they can predict the car's movements. Laboratory work had shown that cues announcing one-dimensional sled motions mitigate sickness only slightly, so the authors tested whether the effect generalizes to real driving. Passengers rode on a test track through lane changes, accelerations and decelerations while receiving vibrotactile or auditory cues ahead of each manoeuvre. Vibrotactile cues cut car-sickness symptoms by about 40%, a larger benefit than seen in the lab, whereas auditory cues were less effective. Because automated vehicles can predict their own motion, they could deliver such cues to reduce passenger sickness.",
+        "year": "2024",
+        "venue": "Transportation Research Part F: Traffic Psychology and Behaviour",
+        "citations": "",
+        "authors": "A. J. C. Reuten, I. Yunus, J. E. Bos, M. H. Martens, Jeroen B. J. Smeets",
+        "url": "https://doi.org/10.1016/j.trf.2024.07.006"
       }
     ],
     "primary_subfield": "Perception & Action",

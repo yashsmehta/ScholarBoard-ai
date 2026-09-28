@@ -106,6 +106,11 @@
 - Andreas Hierlemann (on request): AI summary replaced with his edited version, framed around
   the group (HD-MEAs, organ-on-a-chip, E/I balance in cortical circuits, conduction speeds in
   human retinal axons). Map position unchanged.
+- Katharina Dobs (on request): dropped the 2024 proprioception highlight article, which the AI had
+  summarized as the lab's own research. Added the faces-and-bodies integration preprint
+  (bioRxiv 2026) and linked the published version of the feature-tuning paper
+  (J Neurosci 2026). AI summary rewritten to lead with functional specialization in brains
+  and DNNs and face-specific phenomena. Map position unchanged.
 - Curtis L. Baker Jr. (on request): bio and AI summary rewritten from the UBC Vision Cluster
   profile, now led by human psychophysics (neurophysiology wrapping up); magnocellular paper
   updated to its Journal of Vision 2026 version and J Neurosci 2023 paper added. Map position

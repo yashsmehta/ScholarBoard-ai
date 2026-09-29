@@ -221,6 +221,7 @@
 - Richard A. Abrams (on request): photo replaced (the old one was a different person; new one from the WashU Psychological & Brain Sciences faculty page, matching the picture he sent) and lab link → http://rabrams.net/. Map position unchanged.
 - Sami Yousif (on request): affiliation corrected from UNC Chapel Hill to The Ohio State University (Department of Psychology)
 - Stephen Adamo (on request): AI summary replaced with the two paragraphs Dr. Adamo sent (attention and rare/multiple-target search, cancer detection in 2D mammography and 3D tomosynthesis, expertise and AI decision support); photo replaced with the University of Arizona faculty headshot; lab link → ADAMO Lab site. Map position unchanged.
+- Yoshiyuki Ueda (on request): personal/lab link fixed to his IFoHS member page. Map position unchanged.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

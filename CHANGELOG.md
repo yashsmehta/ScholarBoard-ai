@@ -208,6 +208,7 @@
 - Jeremy Wilmer (on request): AI summary replaced with the two-paragraph ISWYM Lab description he sent, research keywords refocused on graph interpretation and data visualization, and the Star Mean preprint title corrected to match its linked OSF record.
 - Kelly Bijanki (on request): AI summary and bio reframed to lead with affective neuroscience, intracranial electrophysiology and neuromodulation (DBS for depression), with facial emotion processing as one component; research area relabelled 'affective neuroscience and neuromodulation'. Papers unchanged. Map position unchanged.
 - Lana M. Trick (on request): removed "Concurrently" from the dual-task sentence of the AI summary. Map position unchanged.
+- Laure Pisella (on request): AI summary replaced with the corrected text Dr. Pisella sent (spatial cueing and pointing hypometria, gaze-contingent masking and attentional field, juggling, Posterior Cortical Atrophy); dyslexia sentence dropped. Map position unchanged.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

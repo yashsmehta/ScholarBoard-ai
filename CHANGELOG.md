@@ -216,6 +216,7 @@
 - Michael Crognale (on request): bio notes retirement as of July 1 and continued consulting
 - Michelle Greene (on request): AI summary and bio rewritten conservatively from her verified papers; unsupported claims (brain-guided CNN goal modeling, scale/viewpoint invariance from 'visual diet', efficient-coding funding) removed.
 - Monica Rosenberg (on request): appended a sentence on her lab's developmental work to the AI summary.
+- Ralf Haefner (on request): removed Csikor et al. (2025, Nat Commun), a paper he is not an author of (Crossref lists Csikor, Meszena, Ocsai, Orban), and the V1/V2 top-down feedback claim built on it; added Liu, Pletenev, Haefner & Snyder (2026, Science) on task learning and V4 redundancy, which the first/last-author filter missed because senior authorship was shared. AI summary updated. Map position unchanged.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

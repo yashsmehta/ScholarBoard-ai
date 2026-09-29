@@ -228,6 +228,7 @@
 - Paul Bays (on request): AI summary now attributes the work to his lab ("Dr Bays' lab has...").
 - Wei Ji Ma (on request): profile rebuilt around common themes (probabilistic population codes and uncertainty in vision, resource-based visual working memory, confidence and attention-dependent uncertainty) rather than a summary of recent papers; the recent list (planning, procrastination, cognitive-science proceedings, representation review) replaced with influential vision-relevant papers plus his recent Nat Neurosci and Sci Adv papers. His suggestion to weight journal impact factor / citations more heavily is recorded as feedback, not an adopted scoring policy. Map position unchanged.
 - C. Shawn Green (on request): removed Pasqualotto et al. (GALA 2025 / LNCS 2026, multidimensional probabilistic DDA), a paper he is not an author of (Crossref: Pasqualotto, Fanourakis, Menestrina, Nahum, Bavelier), and the dropout / dynamic-difficulty claim built on it; added Cochrane, Lu & Green (2024, J Cogn Enhanc) on perceptual learning as a continuous function of time-on-task. AI summary updated. Map position unchanged.
+- Merav Ahissar (on request): AI summary replaced with the three-paragraph description Dr. Ahissar sent (perception as sensory traces plus accumulated knowledge, two-tone discrimination, dyslexia and autism dynamics).
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

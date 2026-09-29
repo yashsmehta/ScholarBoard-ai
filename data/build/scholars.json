@@ -33912,7 +33912,7 @@
     "lab_url": "https://psychology.ku.dk/research/research_groups/copnl/",
     "main_research_area": "neuropsychology of visual recognition",
     "bio": "Randi Starrfelt is a Professor of Neuropsychology who researches the cognitive and neural mechanisms of visual object recognition, focusing on word and face processing. Starrfelt studies acquired and developmental disorders, such as pure alexia and prosopagnosia, to examine how specialized visual functions are organized and dissociated in the brain. Their methodological approach combines experimental psychology, clinical neuropsychology, and brain imaging to assess the effects of brain injury and neurodevelopmental conditions. Their current work explores the relationship between reading and face recognition, along with the qualitative experiences of individuals with face blindness.",
-    "research_direction": "Dr. Starrfelt has recently been investigating the cognitive and neural architecture of high-level visual recognition, with a primary focus on face processing and developmental prosopagnosia (DP). Their recent work explores the methodological complexities of defining and diagnosing DP, scrutinizing how varying psychometric cutoffs, assessment tools, and task demands shape our understanding of the disorder's prevalence and core deficits. To probe the domain-specificity of face recognition within the visual ventral stream, they are systematically assessing how facial processing relates to other complex visual categories. Specifically, they employ carefully matched behavioral paradigms to investigate the degree of functional independence between face recognition and visual word recognition, fine-grained object discrimination, and viewpoint-dependent topographical memory.",
+    "research_direction": "Dr. Starrfelt has recently been investigating the cognitive and neural architecture of high-level visual recognition, with a focus on face and word processing in developmental and acquired disorders. In developmental prosopagnosia (DP), their recent work explores the methodological complexities of defining and diagnosing the condition, scrutinizing how psychometric cutoffs, assessment tools and task demands shape our understanding of its prevalence and core deficits, and they use carefully matched behavioral paradigms to test the degree of functional independence between face recognition, visual word recognition and fine-grained object discrimination. A second strand examines visual perceptual impairments following acquired brain injury: in a large group of patients with posterior cerebral artery stroke, they relate deficits in recognising faces, objects, words and colour to lesion volume, laterality and location, asking whether category-selective deficits are the rule or the exception.",
     "papers": [
       {
         "title": "Disentangling developmental prosopagnosia: A scoping review of terms, tools and topics",
@@ -33933,15 +33933,6 @@
         "url": "https://doi.org/10.1016/j.cortex.2024.04.010"
       },
       {
-        "title": "The relation between face recognition and topographical processing in developmental prosopagnosia",
-        "abstract": "This empirical study investigates the association between face recognition deficits and topographical processing impairments in a sample of 30 individuals with developmental prosopagnosia (DP) and 27 matched controls. Participants were assessed on topographical perception and topographical memory using viewpoint-dependent landscape recognition tasks. While the DP group demonstrated preserved topographical perception, they exhibited significant impairments in topographical memory compared to controls. Utilizing multivariate analysis, the researchers established that face recognition and topographical memory abilities are statistically dissociable within this population. These findings suggest that while these functions frequently co-occur in DP due to the proximity of underlying neural substrates in the posterior cerebral cortex, they rely on distinct cognitive and neural mechanisms rather than a single shared process.",
-        "year": "2024",
-        "venue": "Cortex",
-        "citations": "0",
-        "authors": "Christian Gerlach, Anders Petersen, Randi Starrfelt",
-        "url": "https://doi.org/10.1016/j.cortex.2024.03.010"
-      },
-      {
         "title": "Evidence for a Classical Dissociation between Face and Object Recognition in Developmental Prosopagnosia",
         "abstract": "This research evaluates the domain-specificity of face recognition in developmental prosopagnosia (DP) by controlling for the influence of visual similarity across stimulus categories. Using a simultaneous matching paradigm featuring faces and non-face objects (houses) with systematically manipulated degrees of perceptual similarity, the study compared 21 individuals with DP to 21 age-matched controls. Results demonstrate a classical dissociation at the group level: while DPs showed severe impairments in face recognition, their performance on demanding and sensitive object recognition tasks was within the normal control range. This evidence of selectively preserved object recognition contradicts findings from previous smaller-scale studies and provides strong support for the hypothesis that face recognition relies on specialized mechanisms that can be independently compromised in DP.",
         "year": "2024",
@@ -33951,13 +33942,22 @@
         "url": "https://doi.org/10.3390/brainsci14010107"
       },
       {
-        "title": "Class A, Class B. Is that the only chemistry? A commentary on DeGutis et al. (2023): What is the prevalence of developmental prosopagnosia? An empirical assessment of different diagnostic cutoffs",
-        "abstract": "This commentary critically examines a recent empirical evaluation of diagnostic cutoffs for developmental prosopagnosia (DP) and its implications for prevalence estimates. The authors discuss the theoretical consequences of adopting different clinical thresholds, specifically the 2SD cutoff on the Cambridge Face Memory Test (CFMT), and the use of supplemental diagnostic indicators like subjective self-report questionnaires and famous face tests. They scrutinize how psychometric properties, such as the correlation between different assessment tools, can bias the classification of individuals and the resulting prevalence data. The authors advocate for a more nuanced diagnostic framework that considers the underlying factor structure of face recognition ability and the potential for shared processing resources between faces and other object categories.",
-        "year": "2024",
+        "title": "Systematic evaluation of high-level visual deficits and lesions in posterior cerebral artery stroke",
+        "abstract": "Using behavioural and lesion data from 64 patients with posterior cerebral artery stroke, this study relates performance on faces, objects and written words to lesion volume, laterality and location. Most patients showed general high-level visual deficits or none; category-selective deficits were rare and found only for words. Lesion volume was the strongest predictor of performance, and both hemispheres contributed to processing of faces, words and objects.",
+        "year": "2023",
+        "venue": "Brain Communications",
+        "citations": "12",
+        "authors": "Ro Julia Robotham, Grace E. Rice, Alex P. Leff, Matthew A. Lambon Ralph, Randi Starrfelt",
+        "url": "https://doi.org/10.1093/braincomms/fcad050"
+      },
+      {
+        "title": "Colour perception deficits after posterior stroke: Not so rare after all?",
+        "abstract": "In an unbiased sample of about 63 patients with posterior cerebral artery stroke, colour discrimination was tested and compared to matched controls. Around a fifth of patients showed significant colour difficulties, more often after bilateral lesions, with lesion analyses pointing to left ventral occipitotemporal regions. Colour perception impairments were common and varied in severity, suggesting bilateral processing with left-hemisphere dominance.",
+        "year": "2023",
         "venue": "Cortex",
-        "citations": "0",
-        "authors": "Christian Gerlach, Erling Nørkær, Randi Starrfelt",
-        "url": "https://doi.org/10.1016/j.cortex.2024.03.001"
+        "citations": "7",
+        "authors": "Amalie H. Munk, Elisabeth B. Starup, Matthew A. Lambon Ralph, Alex P. Leff, Randi Starrfelt, Ro J. Robotham",
+        "url": "https://doi.org/10.1016/j.cortex.2022.12.001"
       }
     ],
     "primary_subfield": "Face & Body Perception",

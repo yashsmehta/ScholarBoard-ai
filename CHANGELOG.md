@@ -88,6 +88,9 @@
   (Anderson, Ponce, Baker, Dilks, Sperling, Federico, Kar, Mudrik, Sahakyan,
   Vaziri-Pashkam, Bonner, Spelke): re-embedded from their current summary + papers and
   projected with the saved UMAP model, so every other dot stays put.
+- Re-placed 38 PIs whose AI summary or papers were edited since the last map fit
+  (Schütz, Facoetti, Hierlemann, Afraz, van Kemenade, Duchaine, Olman, Brainard, Merriam, Wiese, Oruc, Bisley, Steeves, Wilmer, Dobs, Bijanki, Trick, Pisella, Rutherford, Hebart, Greene, Rosenberg, Haefner, Starrfelt, Adamo, Manassi, Tadin, Cottereau, Smeets, Crawford, Bays, Ma, Solomon, Green, Ahissar, Angelucci, Feller, Staub): re-embedded from their current summary + papers and projected with the saved
+  UMAP model, so every other dot stays put. Biggest moves: Bisley, Oruc, Ma, Trick, Solomon.
 - Giovanni Federico: his own text now also replaces the AI summary (the sidebar shows only
   the summary, not the bio), lightly reworded to the site's "Dr. Federico studies…" style.
 - Liad Mudrik (on request): AI summary replaced with the text Dr. Mudrik sent, adding theory testing,

@@ -203,6 +203,7 @@
 - David Brainard (on request): lab link fixed to color.psych.upenn.edu (old one was dead); bioRxiv midget-RGC mosaic preprint replaced with its published Journal of Computational Neuroscience 2026 version. Map position unchanged.
 - Elisha Merriam (on request): photo removed (it showed Denis Schluppeck; no verifiable NIMH headshot found), papers rebuilt from verified first/last-author work, bio and AI summary rewritten with the EEG, head-tilt and coordinate-transform claims dropped.
 - Holger Wiese (on request): AI summary replaced with the text Prof. Wiese sent (EEG/ERP stages of face identity processing, N170, N250r and familiarity effects, face learning, individual differences). Map position unchanged.
+- James Bisley (on request): photo removed (it showed someone else; he has no photo online), papers rebuilt from his Google Scholar profile (the five AI-listed papers were not his), bio and AI summary rewritten from verified work and the UCLA profile.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

@@ -17190,53 +17190,35 @@
     "lab_name": "Bisley Lab",
     "lab_url": "https://neurobio.ucla.edu/people/james-bisley-phd/",
     "main_research_area": "visual attention and priority maps",
-    "bio": "James Bisley is a Professor at UCLA whose research explores the neural mechanisms of visual attention, perception, and short-term memory. Their work focuses on the lateral intraparietal area (LIP) and its role as a priority map that integrates bottom-up sensory salience with top-down behavioral goals to guide eye movements. Utilizing single-unit electrophysiology, microstimulation, and reversible inactivation in animal models, Bisley’s laboratory investigates how the brain maintains spatial stability across saccades and how motion information is encoded. Beyond basic neuroscience, Bisley also contributes to translational research involving haptic feedback systems for robotic surgery and prosthetic applications.",
-    "research_direction": "Dr. Bisley has recently been investigating the neural mechanisms of oculomotor control alongside the development of bio-inspired haptics for telerobotic systems. In the visual domain, their recent work explores how the primate brain maintains perceptual stability across eye movements, using single-unit recordings and psychophysics to probe saccadic suppression, corollary discharge, and how the lateral intraparietal (LIP) area differentiates between voluntary saccades and reflexive gaze shifts. Beyond vision, their research extends into artificial tactile systems, combining high-resolution piezoresistive sensors with machine learning to extract complex spatiotemporal features and replicate human touch. Additionally, they are exploring how to integrate bio-inspired models of cutaneous mechanoreceptors into teleoperated surgical and ultrasound robots to restore real-time kinesthetic feedback during remote medical procedures.",
+    "bio": "James W. Bisley is a Professor in the Department of Neurobiology at the David Geffen School of Medicine at UCLA. His research investigates the neural basis of visual attention and spatial processing, focusing on the lateral intraparietal area (LIP), visual working memory and saccadic eye movements in the primate brain. He studies how the brain prioritizes information during visual search and decision-making. He earned his PhD at the University of Melbourne, did postdoctoral work at the University of Rochester and Georgetown University/National Eye Institute, and joined UCLA in 2006.",
+    "research_direction": "Dr. Bisley has recently been investigating how the primate brain prioritizes visual information and plans eye movements. His recent work explores how neurons in the lateral intraparietal area (LIP) remap their responses around saccades, showing that the timing of remapping is consistent with a wave of activity that takes longer for longer saccades. He and his collaborators also study how saccadic decisions are corrected during active visual search, where monkeys often make very short-latency second saccades to the search target, and how the priority-map concept from visual neuroscience relates to attention mechanisms in transformer-based language models.",
     "papers": [
       {
-        "title": "The representation of voluntary and reflexive fast eye movements in the macaque lateral intraparietal area (LIP)",
-        "abstract": "The lateral intraparietal area (LIP) is widely considered a priority map that integrates sensory and cognitive signals to guide goal-directed actions, yet its involvement in reflexive motor control remains controversial. This study investigates whether LIP neurons distinguish between voluntary saccades and reflexive fast eye movements, such as the fast phases of optokinetic nystagmus (OKN). By recording single-neuron activity in macaques, the researchers found that robust perisaccadic responses typical of voluntary eye movements were significantly attenuated or absent during reflexive fast phases. Conversely, LIP activity during OKN slow phases was found to reliably encode gaze position and stimulus motion direction through a generalized linear model (GLM). These results indicate that LIP is specialized for goal-directed sensorimotor integration rather than acting as a general oculomotor controller.",
+        "title": "The timing of LIP remapping is consistent with a wave of activity and brings into question the relevance of the pre-saccadic remapped response",
+        "abstract": "Recording from LIP neurons while animals made saccades of different lengths, the authors found that predictive remapping takes longer for longer saccades, which points to a wave of activity as the underlying mechanism and questions whether pre-saccadic remapped responses are a fundamental feature of remapping.",
         "year": "2026",
-        "venue": "bioRxiv",
+        "venue": "Journal of Neurophysiology",
         "citations": "0",
-        "authors": "Koorosh Mirpour, James Bisley",
-        "url": "https://doi.org/10.1101/2026.02.14.662594"
+        "authors": "Yelda Alkan, Alanna Morris, James W. Bisley",
+        "url": "https://doi.org/10.1152/jn.00022.2026"
       },
       {
-        "title": "A roadmap and case study of haptic-enabled tele-ultrasound systems: From concept to clinical feasibility",
-        "abstract": "Telerobotic ultrasound platforms are increasingly explored to facilitate remote medical diagnostics in underserved areas, yet the absence of kinesthetic feedback remains a significant barrier to diagnostic efficacy. This research presents a comprehensive software and hardware framework utilizing a KUKA LBR iiwa robotic manipulator for haptic-enabled tele-ultrasound. The system implements a low-level control interface that achieves a real-time responsiveness with an average end-to-end latency of 3.6 ms. A bio-inspired haptic feedback model, which simulates the population responses of cutaneous mechanoreceptors, was integrated to provide surgeons with meaningful vibration and force cues. Empirical evaluations involving expert clinicians demonstrated that this bio-inspired feedback loop significantly enhanced the localization of anatomical structures within tissue phantoms compared to standard visual-only control.",
-        "year": "2025",
-        "venue": "IEEE Instrumentation & Measurement Magazine",
+        "title": "A priority map is all you need: Exploring the roots of neural mechanisms underlying transformer-based large language models",
+        "abstract": "Draws an analogy between priority maps in visual neuroscience, which combine bottom-up salience with top-down goals to direct attention, and the attention mechanisms of transformer language models, noting shared features such as parallel processing, layered refinement and inhibition.",
+        "year": "2026",
+        "venue": "Psychological Review",
         "citations": "0",
-        "authors": "Ouyang Qiangqiang, Juan Wu, Songping Sun, Saeid Nahavandi, James Bisley",
-        "url": "https://doi.org/10.1109/MIM.2025.10821111"
+        "authors": "Koorosh Mirpour, James W. Bisley, Nader Pouratian",
+        "url": "https://doi.org/10.1037/rev0000616"
       },
       {
-        "title": "The Relationship Between Saccadic Suppression and Perceptual Stability",
-        "abstract": "The primate visual system maintains a stable perception of space despite the frequent and rapid shifts in retinal input caused by saccadic eye movements. While predictive remapping of receptive fields is a leading candidate for maintaining transsaccadic stability, the mechanism of saccadic suppression—the selective reduction in visual sensitivity—is also integral to the process. This study utilizes single-unit recordings and psychophysical paradigms to investigate how visual signals are integrated with non-visual oculomotor information (corollary discharge) during saccades. The results suggest that the brain actively prevents the decoding of self-generated visual motion by combining afferent signals with internal motor plans, effectively neutralizing the disruptive effects of global retinal shifts and facilitating a continuous, stable percept of the environment.",
-        "year": "2025",
-        "venue": "bioRxiv",
+        "title": "Correction of saccadic decisions during active visual search in the monkey",
+        "abstract": "Monkeys performing active visual search without a pop-out target often make an ultra-short-latency second saccade that corrects an erroneous first saccade, preferentially landing on the search target; the results suggest concurrent processing of saccade goals in visual and oculomotor priority maps.",
+        "year": "2026",
+        "venue": "Journal of Vision",
         "citations": "0",
-        "authors": "Koorosh Mirpour, James Bisley",
-        "url": "https://doi.org/10.1101/2025.08.06.662593"
-      },
-      {
-        "title": "A Teleoperated Robotic System with Haptic Feedback for Soft Tissue Incision",
-        "abstract": "Minimally invasive robotic surgery often lacks haptic feedback, forcing surgeons to rely exclusively on visual cues, which can impair performance during complex procedures like soft tissue incisions. This study describes the design and implementation of a teleoperated system that incorporates a bio-inspired haptic algorithm modeling the firing patterns of cutaneous mechanoreceptors. The control architecture utilizes a master-slave hybrid scheme with a weighted quadratic program to compute inverse kinematics, allowing the system to maintain precision over uneven and delicate surfaces. In trials using phantom tissues, the integration of simulated cutaneous afferent activity improved the localization of underlying structures and the control of incision depth, demonstrating the utility of bio-inspired feedback in enhancing surgical accuracy.",
-        "year": "2024",
-        "venue": "Journal of Control, Automation and Electrical Systems",
-        "citations": "0",
-        "authors": "Facundo Garcia-Cardenas, Joao Fabian, Oscar E. Ramos, Ruth Canahuire, James Bisley",
-        "url": "https://doi.org/10.1007/s40313-024-01117-6"
-      },
-      {
-        "title": "Machine learning-coupled tactile recognition with high spatiotemporal resolution based on cross-striped nanocarbon piezoresistive sensor array",
-        "abstract": "Developing artificial tactile systems with human-like sensitivity and spatiotemporal resolution is essential for the next generation of robotic and prosthetic effectors. This study presents a high-density tactile sensor array fabricated using a cross-striped nanocarbon piezoresistive architecture. The sensor exhibits excellent sensitivity and stability across dynamic range constraints. A deep learning framework was trained on the high-dimensional spatiotemporal data generated by the array to perform complex feature extraction. The integrated system achieved superior performance in identifying subtle surface textures and complex 3D shapes. These findings suggest that the synergy of nanostructured sensing materials and advanced machine learning models can effectively replicate the sophisticated tactile processing found in biological systems.",
-        "year": "2024",
-        "venue": "Biosensors and Bioelectronics",
-        "citations": "0",
-        "authors": "Qiangqiang Ouyang, Chuanjie Yao, Houhua Chen, Liping Song, Tao Zhang, Dapeng Chen, Lidong Yang, Mojun Chen, Hui-jiuan Chen, Zhenwei Peng, James Bisley",
-        "url": "https://doi.org/10.1016/j.bios.2023.115873"
+        "authors": "Anna E. Ipata, James W. Bisley, B. Suresh Krishna",
+        "url": "https://doi.org/10.1167/jov.26.3.10"
       }
     ],
     "primary_subfield": "Attention",

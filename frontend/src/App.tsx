@@ -115,8 +115,8 @@ function App() {
       if (options?.pan) {
         dispatch({ type: 'pan_to_scholar_requested', scholarId })
       }
-      if (!isPopStateRef.current) {
-        history.pushState({ scholarId }, '')
+      if (!isPopStateRef.current && readScholarHash() !== scholarId) {
+        history.pushState({ scholarId }, '', scholarUrl(scholarId))
       }
     },
     [],
@@ -124,16 +124,29 @@ function App() {
 
   const closeSidebar = useCallback(() => {
     dispatch({ type: 'sidebar_closed' })
-    if (!isPopStateRef.current) {
-      history.pushState({ scholarId: null }, '')
+    if (!isPopStateRef.current && readScholarHash() != null) {
+      history.pushState({ scholarId: null }, '', scholarUrl(null))
     }
   }, [])
 
-  // Handle browser back/forward navigation
+  // Deep link: open the scholar named in the URL hash once data has loaded
+  const deepLinkHandledRef = useRef(false)
   useEffect(() => {
-    const handlePopState = (event: PopStateEvent) => {
+    if (state.status !== 'ready' || deepLinkHandledRef.current) return
+    deepLinkHandledRef.current = true
+    const id = readScholarHash()
+    if (id == null || !state.scholars.some((s) => s.id === id)) return
+    if (state.viewMode === 'list') dispatch({ type: 'view_mode_toggled' })
+    isPopStateRef.current = true
+    selectScholar(id, { pan: true })
+    isPopStateRef.current = false
+  }, [state.status, state.scholars, state.viewMode, selectScholar])
+
+  // Handle browser back/forward navigation (the URL hash is the source of truth)
+  useEffect(() => {
+    const handlePopState = () => {
       isPopStateRef.current = true
-      const scholarId = event.state?.scholarId ?? null
+      const scholarId = readScholarHash()
       if (scholarId) {
         selectScholar(scholarId, { pan: true })
       } else {
@@ -142,7 +155,11 @@ function App() {
       isPopStateRef.current = false
     }
     window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
+    window.addEventListener('hashchange', handlePopState)
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+      window.removeEventListener('hashchange', handlePopState)
+    }
   }, [selectScholar])
 
   return (
@@ -280,6 +297,21 @@ function App() {
       </main>
     </div>
   )
+}
+
+function readScholarHash(): string | null {
+  const m = window.location.hash.match(/^#\/scholar\/(.+)$/)
+  if (!m) return null
+  try {
+    return decodeURIComponent(m[1])
+  } catch {
+    return m[1]
+  }
+}
+
+function scholarUrl(scholarId: string | null): string {
+  const base = window.location.pathname + window.location.search
+  return scholarId == null ? base : `${base}#/scholar/${encodeURIComponent(scholarId)}`
 }
 
 function buildCounts(

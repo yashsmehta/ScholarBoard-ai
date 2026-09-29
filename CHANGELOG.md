@@ -235,6 +235,10 @@
 - Adrian Staub (on request): AI summary replaced with the edited version Dr. Staub sent (reading and eye movements, missed text errors, predictability, agreement attraction).
 
 ### Frontend
+- Deep links: selecting a scholar sets `#/scholar/<id>` in the URL and opening such a link selects
+  and centers them (works on the static GitHub Pages build). Map hit targets keep a constant
+  on-screen size when zoomed, so neighbours of a selected scholar can be hovered and clicked.
+  The list view sorts by last name by default, with a first-name toggle.
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a
   segmented control (soft tinted thumb that slides, label colour in sync with it); the
   Institution, Country and Field filters share one card on the right. All three groups use

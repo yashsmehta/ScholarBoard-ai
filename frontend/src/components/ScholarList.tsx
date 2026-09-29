@@ -50,11 +50,26 @@ interface LetterGroup {
   scholars: Scholar[]
 }
 
-function groupByLetter(scholars: Scholar[]): LetterGroup[] {
+type SortMode = 'last' | 'first'
+
+const NAME_SUFFIXES = new Set(['jr', 'jr.', 'sr', 'sr.', 'ii', 'iii', 'iv', 'phd', 'ph.d.', 'md', 'm.d.'])
+
+function lastNameOf(name: string): string {
+  const parts = name.replace(/,.*$/, '').trim().split(/\s+/)
+  while (parts.length > 1 && NAME_SUFFIXES.has(parts[parts.length - 1].toLowerCase())) parts.pop()
+  return parts[parts.length - 1] ?? name
+}
+
+function sortKey(name: string, mode: SortMode): string {
+  return mode === 'last' ? `${lastNameOf(name)} ${name}` : name
+}
+
+function groupByLetter(scholars: Scholar[], mode: SortMode): LetterGroup[] {
   const map = new Map<string, Scholar[]>()
   for (const s of scholars) {
     // Normalize accented characters to their base letter (Á→A, Ö→O, etc.)
-    const raw = (s.name[0] ?? '?').toUpperCase()
+    const src = mode === 'last' ? lastNameOf(s.name) : s.name
+    const raw = (src[0] ?? '?').toUpperCase()
     const letter = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '') || raw
     let group = map.get(letter)
     if (!group) {
@@ -68,11 +83,12 @@ function groupByLetter(scholars: Scholar[]): LetterGroup[] {
 
 export function ScholarList({ scholars, selectedScholarId, onSelectScholar, searchQuery = '' }: ScholarListProps) {
   const q = searchQuery.trim().toLowerCase()
+  const [sortMode, setSortMode] = useState<SortMode>('last')
   const sorted = useMemo(
-    () => [...scholars].sort((a, b) => a.name.localeCompare(b.name)),
-    [scholars],
+    () => [...scholars].sort((a, b) => sortKey(a.name, sortMode).localeCompare(sortKey(b.name, sortMode))),
+    [scholars, sortMode],
   )
-  const groups = useMemo(() => groupByLetter(sorted), [sorted])
+  const groups = useMemo(() => groupByLetter(sorted, sortMode), [sorted, sortMode])
 
   if (scholars.length === 0) {
     return (
@@ -87,6 +103,20 @@ export function ScholarList({ scholars, selectedScholarId, onSelectScholar, sear
   return (
     <div className="scholar-list">
       <div className="scholar-list__spacer" />
+      <div className="scholar-list__sort" role="group" aria-label="Sort order">
+        <span>Sort by</span>
+        {(['last', 'first'] as const).map((m) => (
+          <button
+            key={m}
+            type="button"
+            className={cx('scholar-list__sort-btn', sortMode === m && 'is-active')}
+            aria-pressed={sortMode === m}
+            onClick={() => setSortMode(m)}
+          >
+            {m === 'last' ? 'Last name' : 'First name'}
+          </button>
+        ))}
+      </div>
       {groups.map((group) => (
         <div key={group.letter}>
           <div className="scholar-list__letter">{group.letter}</div>

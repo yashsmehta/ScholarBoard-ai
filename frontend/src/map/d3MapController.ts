@@ -95,7 +95,9 @@ export function createD3MapController(
     .tapDistance(12)
     .scaleExtent([0.3, 20])
     .on('zoom', (event) => {
+      const kChanged = event.transform.k !== currentTransform.k
       currentTransform = event.transform
+      if (kChanged) updateHitRadius()
       root.attr('transform', event.transform.toString())
       if (boxZoomModifierActive && dotCursorActive) {
         setDotCursor(false)
@@ -253,7 +255,7 @@ export function createD3MapController(
           enter
             .append('circle')
             .attr('class', 'scholar-map__dot-hit')
-            .attr('r', DOT_HIT_RADIUS)
+            .attr('r', hitRadius())
             .attr('fill', 'transparent')
             .on('pointerdown', (event, d) => {
               recordPointerDownSnapshot(event, d)
@@ -338,6 +340,16 @@ export function createD3MapController(
     commitSelection(candidate.id)
   }
 
+  // Hit targets live inside the zoomed group, so a fixed local radius grows with zoom
+  // and neighbouring targets swallow each other. Keep the on-screen size constant.
+  function hitRadius() {
+    return Math.max(DOT_RADIUS + 1, DOT_HIT_RADIUS / currentTransform.k)
+  }
+
+  function updateHitRadius() {
+    hitDots.attr('r', hitRadius())
+  }
+
   function refreshDotStyles() {
     dots.each(function applyStyle(datum) {
       const isSelected = interactionState.selectedScholarId === datum.id
@@ -355,7 +367,7 @@ export function createD3MapController(
       const isVisible = isScholarVisible(datum, interactionState)
 
       d3.select(this)
-        .attr('r', DOT_HIT_RADIUS)
+        .attr('r', hitRadius())
         .style('pointer-events', isVisible ? 'auto' : 'none')
     })
   }

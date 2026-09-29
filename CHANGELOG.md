@@ -251,6 +251,7 @@
 - SueYeon Chung (on request): institution New York University → Harvard University (country United States); department cleared until confirmed. Map position unchanged.
 - Ruth Rosenholtz (on request): AI summary no longer ties visual search asymmetries to peripheral vision; real-world applications now also cover perception for driving and peripheral vision for action. Map position unchanged.
 - Shinsuke Shimojo (on request): AI summary replaced with his lightly revised version (adds psychophysics, team flow, and magnetoreception–vision interaction). Map position unchanged.
+- Timothy Vickery (audit): removed a 2017 paper mislabeled as 2024 (fabricated venue and DOI) and added Lebed, Scanlon & Vickery (APP, 2023); AI summary regenerated from the corrected papers. Map position unchanged.
 
 ### Frontend
 - Deep links: selecting a scholar sets `#/scholar/<id>` in the URL and opening such a link selects

@@ -62868,7 +62868,7 @@
     "lab_url": "http://cogneurolab.org/",
     "main_research_area": "Visual cognition and learning",
     "bio": "Timothy Vickery is an Associate Professor at the University of Delaware whose research examines the functional and neural architecture of human visual cognition. Vickery’s work focuses on the interactions between visual perception, selective attention, and memory systems, utilizing behavioral psychophysics and functional magnetic resonance imaging (fMRI). Research topics include visual statistical learning and the distortion of spatial perception by objects and grouping. They also investigate the shared representational mechanisms between working memory and attentional control.",
-    "research_direction": "Dr. Vickery has recently been investigating the cognitive architectures underlying memory, perceptual prioritization, and strategic behavior. In the realm of visual cognition, their recent work explores the interaction between memory systems, using continuous reporting paradigms to test whether retrieving information from long-term memory must draw upon capacity-limited visual working memory resources. They are also examining the mechanisms behind the \"self-prioritization effect\" via shape-label matching tasks and computational modeling to determine whether enhanced performance for self-relevant stimuli is driven by automatic perceptual capture or by downstream associative and decision-making processes. Additionally, expanding into probabilistic reasoning, Dr. Vickery is studying human decision-making in simple zero-sum games to understand how players build internal opponent models and deploy heuristic strategies under uncertainty.",
+    "research_direction": "Dr. Vickery has recently been investigating a diverse range of topics spanning visual cognition, spatial perception, and strategic decision-making. Their recent work explores the structural relationship between memory systems, using continuous reporting paradigms to test whether retrieving information from long-term memory taxes or bypasses the capacity-limited resources of visual working memory. In the realm of spatial vision, they are investigating how the visual system perceptually expands and compresses representations of space both within and beyond the boundaries of objects. Additionally, they are applying computational modeling to behavioral data to examine how humans construct internal opponent models and employ heuristic strategies during competitive zero-sum games.",
     "papers": [
       {
         "title": "Retrieval from long-term memory does not bypass working memory",
@@ -62889,13 +62889,13 @@
         "url": "https://escholarship.org/uc/item/407981t6"
       },
       {
-        "title": "Self-relevance effects and label choice: Strong variations in label-matching performance due to non-self-relevant factors",
-        "abstract": "This investigation critiques the 'self-prioritization effect'—the supposed automatic perceptual enhancement for self-relevant stimuli—by examining whether variations in label-matching performance are driven by non-perceptual factors. Using a shape-label matching paradigm, the study demonstrates that label choices and task-related objectives significantly modulate the observed benefits for self-associated shapes. Computational analysis of information uptake rates reveals that the prioritization is often an associative advantage in decision-making or memory integration rather than an automatic perceptual capture, suggesting that self-relevance effects are highly contingent on the specific cognitive demands of the label-matching task.",
-        "year": "2024",
-        "venue": "Psychonomic Bulletin & Review",
-        "citations": "0",
-        "authors": "Gregory Wade, Timothy J. Vickery",
-        "url": "https://doi.org/10.3758/s13423-024-02534-1"
+        "title": "Expansion and compression of space within and beyond the boundaries of an object",
+        "abstract": null,
+        "year": "2023",
+        "venue": "Attention, Perception, & Psychophysics",
+        "citations": "",
+        "authors": "Angela Lebed, Charlotte Scanlon, Timothy J. Vickery",
+        "url": "https://doi.org/10.3758/s13414-022-02630-z"
       }
     ],
     "primary_subfield": "Visual Memory",

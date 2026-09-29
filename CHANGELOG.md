@@ -206,6 +206,7 @@
 - James Bisley (on request): photo removed (it showed someone else; he has no photo online), papers rebuilt from his Google Scholar profile (the five AI-listed papers were not his), bio and AI summary rewritten from verified work and the UCLA profile.
 - Jennifer Steeves (on request): added four verified TMS papers (Mullin & Steeves 2011 J Cogn Neurosci and 2013 J Neurosci; Solomon-Harris et al. 2016 Brain Res; Stoby et al. 2022 Brain Behav); AI summary broadened to lead with TMS/TMS-fMRI work alongside enucleation plasticity and crossmodal work. Map position unchanged. Last-name sort in the country view not built.
 - Jeremy Wilmer (on request): AI summary replaced with the two-paragraph ISWYM Lab description he sent, research keywords refocused on graph interpretation and data visualization, and the Star Mean preprint title corrected to match its linked OSF record.
+- Kelly Bijanki (on request): AI summary and bio reframed to lead with affective neuroscience, intracranial electrophysiology and neuromodulation (DBS for depression), with facial emotion processing as one component; research area relabelled 'affective neuroscience and neuromodulation'. Papers unchanged. Map position unchanged.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

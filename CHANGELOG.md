@@ -231,6 +231,7 @@
 - Merav Ahissar (on request): AI summary replaced with the three-paragraph description Dr. Ahissar sent (perception as sensory traces plus accumulated knowledge, two-tone discrimination, dyslexia and autism dynamics).
 - Joshua I. Gold (on request): photo replaced (old one was a different person); new one from the Gold Lab people page. Map position unchanged.
 - Alessandra Angelucci (on request): appended a sentence on corticocortical feedback projections to the AI summary.
+- Marla Feller (on request): AI summary now opens with her retinal waves work (cellular mechanisms and role in visual system development) and keeps the direction-selective circuit work. Map position unchanged.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

@@ -250,6 +250,7 @@
 - Adrian Staub (on request): AI summary replaced with the edited version Dr. Staub sent (reading and eye movements, missed text errors, predictability, agreement attraction).
 - SueYeon Chung (on request): institution New York University → Harvard University (country United States); department cleared until confirmed. Map position unchanged.
 - Ruth Rosenholtz (on request): AI summary no longer ties visual search asymmetries to peripheral vision; real-world applications now also cover perception for driving and peripheral vision for action. Map position unchanged.
+- Shinsuke Shimojo (on request): AI summary replaced with his lightly revised version (adds psychophysics, team flow, and magnetoreception–vision interaction). Map position unchanged.
 
 ### Frontend
 - Deep links: selecting a scholar sets `#/scholar/<id>` in the URL and opening such a link selects

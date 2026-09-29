@@ -225,6 +225,7 @@
 - Mauro Manassi (on request): visual crowding added to the AI summary (lead research line, with uncrowding and grouping) and three crowding papers added (Schwetlick et al. 2025 J Vis; Manassi & Whitney 2018 Curr Biol; Manassi, Sayim & Herzog 2013 J Vis). Also fixed the list: dropped the 2025 QJEP 'Faces displaying dominance and trustworthiness...' entry (Crossref lists Sharma, Jalalian, Caughey, Golubickis, Macrae; he is not an author) and its dot-probe summary claim, corrected the Visual Cognition 2024 DOI, and swapped the PsyArXiv trustworthiness preprint for its published BMC Biol 2026 version. Map position unchanged.
 - Duje Tadin (on request): AI summary replaced with the recent-research version Dr. Tadin sent (spatial suppression in MT/V5, autism and schizophrenia, vision restoration after occipital stroke, optical adaptation, VR); previous summary was based on a single paper. Map position unchanged.
 - J. Douglas Crawford (on request): AI summary's recent-work passage replaced with the text Dr. Crawford sent (egocentric/allocentric integration, fMRI + graph theory, transsaccadic constancy, FEF recording scales, and current cortico-cerebellar eye-hand coordination work); opening sentence kept. Map position unchanged.
+- Paul Bays (on request): AI summary now attributes the work to his lab ("Dr Bays' lab has...").
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

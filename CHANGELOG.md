@@ -215,6 +215,7 @@
 - Martin Szinte (on request, via Rolfs): photo replaced with the official INT (Institut de Neurosciences de la Timone) member-page photo; the old one was a different person. Map position unchanged.
 - Michael Crognale (on request): bio notes retirement as of July 1 and continued consulting
 - Michelle Greene (on request): AI summary and bio rewritten conservatively from her verified papers; unsupported claims (brain-guided CNN goal modeling, scale/viewpoint invariance from 'visual diet', efficient-coding funding) removed.
+- Monica Rosenberg (on request): appended a sentence on her lab's developmental work to the AI summary.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

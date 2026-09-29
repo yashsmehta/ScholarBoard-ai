@@ -46955,8 +46955,17 @@
     "lab_url": "https://www.manassilab.com/",
     "main_research_area": "visual stability and organization",
     "bio": "Mauro Manassi is a vision scientist whose research focuses on how the human brain organizes and stabilizes visual information to create a coherent perception of the world. Manassi examines serial dependence and 'continuity fields,' exploring how the visual system biases current perception toward the recent past to maintain temporal stability. Utilizing psychophysical paradigms and visual illusions, their research addresses fundamental mechanisms like visual crowding as well as applied domains such as medical image perception. Their current work investigates the spatiotemporal integration processes that allow the brain to smooth over discontinuous retinal inputs and manage environmental clutter.",
-    "research_direction": "Dr. Manassi's recent work explores how temporal context shapes visual perception, investigating the boundary conditions that determine whether recent visual stimuli produce attractive serial dependence or repulsive negative aftereffects. They are mapping these sequential biases across multiple domains, from testing the integrity of perceptual priors in schizophrenia using low-level orientation adjustment tasks to exploring how adaptation modulates high-level trait impressions like facial trustworthiness and dominance. Beyond temporal context, their research examines the automaticity of social vision, utilizing dot-probe paradigms to ask whether complex facial traits pre-attentively capture visual attention. Finally, Dr. Manassi has recently been investigating the fine-grained temporal dynamics of spatial vision, measuring the precise time course required for recurrent perceptual grouping mechanisms to successfully overcome visual crowding in cluttered scenes.",
+    "research_direction": "Dr. Manassi's work examines how the visual system organizes information over space and time to create a coherent perception of a cluttered world. A long-standing line of research studies visual crowding and its release (uncrowding), showing that crowding depends on how the whole stimulus is grouped and segmented rather than on target-flanker distance alone. Their recent work in this area asks whether surface completion can support uncrowding and measures the fine-grained time course of vision, showing that the recurrent grouping mechanisms that overcome crowding take longer than crowding itself to unfold. A second line explores how temporal context shapes perception, investigating the boundary conditions that determine whether recent visual stimuli produce attractive serial dependence or repulsive negative aftereffects. They map these sequential biases across domains, from testing the integrity of perceptual priors in schizophrenia using low-level orientation adjustment tasks to exploring how adaptation and serial biases modulate high-level trait impressions such as facial trustworthiness.",
     "papers": [
+      {
+        "title": "Time, space and feature similarity determine attractive and repulsive serial biases in trustworthiness impressions",
+        "abstract": "Perceptual processing is modulated by the recent history of visual stimulation through two competing effects: positive serial dependence, which promotes attractive biases toward previous stimuli, and negative aftereffects, which induce repulsive biases away from adapted features. This study mapped the boundary conditions of these biases in the social domain by investigating how first impressions of facial trustworthiness are affected by sequential trial parameters. We manipulated exposure duration to preceding faces, spatial proximity, and feature similarity to determine the direction and magnitude of the resulting biases. Our results indicate that short durations and high stimulus similarity/spatial overlap favor positive serial dependence, facilitating a stable and coherent social experience. In contrast, prolonged exposure and significant feature or spatial divergence favor repulsive negative aftereffects. These data provide a unified framework for understanding how the visual system integrates temporal context to balance perceptual stability with sensitivity during social trait evaluation.",
+        "year": "2026",
+        "venue": "BMC Biology",
+        "citations": "0",
+        "authors": "Fiammetta Marini, Clare Sutherland, Linda Jeffery, Mauro Manassi",
+        "url": "https://doi.org/10.1186/s12915-026-02650-3"
+      },
       {
         "title": "Dynamics of vision: Grouping takes longer than crowding",
         "abstract": "While feedforward models of visual processing characterize feature extraction as an almost instantaneous hierarchical progression, phenomena such as uncrowding suggest that global configuration and recurrent grouping mechanisms play a primary role in target recognition. This study investigated the temporal constraints of grouping by measuring Vernier offset discrimination thresholds across varying flanker configurations (Lines, Rectangles, and Cubes) and stimulus durations. Empirical results and LAMINART neural network simulations revealed that while strong crowding persists at 20-ms stimulus durations across all configurations, uncrowding effects—marked by lower thresholds for Cubes and Rectangles—emerge only at longer (160-ms) durations. Furthermore, a 20-ms preview of grouped flankers, but not isolated lines, successfully released the subsequent Vernier from crowding for time spans up to 1 second. These findings indicate that visual crowding is a dynamic, time-consuming process where grouping mechanisms must evolve over a minimum temporal threshold to dissociate target representations from flanking clutter.",
@@ -46967,22 +46976,13 @@
         "url": "https://doi.org/10.1167/jov.25.12.16"
       },
       {
-        "title": "Time, space and feature similarity determine attractive and repulsive serial biases in trustworthiness impressions",
-        "abstract": "Perceptual processing is modulated by the recent history of visual stimulation through two competing effects: positive serial dependence, which promotes attractive biases toward previous stimuli, and negative aftereffects, which induce repulsive biases away from adapted features. This study mapped the boundary conditions of these biases in the social domain by investigating how first impressions of facial trustworthiness are affected by sequential trial parameters. We manipulated exposure duration to preceding faces, spatial proximity, and feature similarity to determine the direction and magnitude of the resulting biases. Our results indicate that short durations and high stimulus similarity/spatial overlap favor positive serial dependence, facilitating a stable and coherent social experience. In contrast, prolonged exposure and significant feature or spatial divergence favor repulsive negative aftereffects. These data provide a unified framework for understanding how the visual system integrates temporal context to balance perceptual stability with sensitivity during social trait evaluation.",
+        "title": "Does surface completion fail to support uncrowding?",
+        "abstract": "The study asks whether uncrowding, the release from crowding when flankers are grouped with each other, can be produced by completing partially hidden surfaces. Surface completion did not readily produce uncrowding, and the authors discuss what this implies for grouping accounts of crowding.",
         "year": "2025",
-        "venue": "PsyArXiv (Preprint)",
-        "citations": "0",
-        "authors": "Fiammetta Marini, Clare Sutherland, Linda Jeffery, Mauro Manassi",
-        "url": "https://doi.org/10.31234/osf.io/v3u5e"
-      },
-      {
-        "title": "Faces displaying dominance and trustworthiness do not automatically capture attention",
-        "abstract": "While social impressions such as dominance and trustworthiness are formed rapidly from facial cues, the automaticity of their attentional processing remains debated. Paralleling research on emotional expression, we investigated whether faces displaying these fundamental traits automatically capture attentional resources using a series of dot-probe experiments. Across naturalistic and computer-generated face stimuli, we found that neither high dominance nor high trustworthiness faces significantly prioritized attentional capture compared to neutral counterparts. These results suggest that trait-based associations do not exert the same level of pre-attentional influence as primary emotional signals. Our findings support a model where personality-based trait inferences are context-dependent and formed after initial attentional allocation, challenging the viewpoint that character-based impressions are extracted through spontaneous, bottom-up attentional mechanisms.",
-        "year": "2025",
-        "venue": "Quarterly Journal of Experimental Psychology",
-        "citations": "0",
-        "authors": "Fiammetta Marini, Clare A. M. Sutherland, Bārbala Ostrovska, Mauro Manassi",
-        "url": "https://doi.org/10.1177/17470218251334082"
+        "venue": "Journal of Vision",
+        "citations": "3",
+        "authors": "Lisa Schwetlick, Mauro Manassi, Michael H. Herzog, Gregory Francis",
+        "url": "https://doi.org/10.1167/jov.25.3.1"
       },
       {
         "title": "Intact Serial Dependence in Schizophrenia: Evidence from an Orientation Adjustment Task",
@@ -47000,7 +47000,25 @@
         "venue": "Visual Cognition",
         "citations": "0",
         "authors": "Fiammetta Marini, Clare A. M. Sutherland, Linda Jeffery, Sarah D. Maisey, Mauro Manassi",
-        "url": "https://doi.org/10.1080/13506285.2024.2407269"
+        "url": "https://doi.org/10.1080/13506285.2024.2407873"
+      },
+      {
+        "title": "Multi-level Crowding and the Paradox of Object Recognition in Clutter",
+        "abstract": "The paper argues that crowding operates at multiple levels of the visual hierarchy, from low-level features to faces and objects. It resolves the paradox that objects can be recognized in clutter despite crowding by showing that crowding depends on grouping and the level of representation involved.",
+        "year": "2018",
+        "venue": "Current Biology",
+        "citations": "100",
+        "authors": "Mauro Manassi, David Whitney",
+        "url": "https://doi.org/10.1016/j.cub.2017.12.051"
+      },
+      {
+        "title": "When crowding of crowding leads to uncrowding",
+        "abstract": "Adding further flankers around a crowded target can restore its visibility rather than worsen it. The results show that crowding depends on how the whole stimulus configuration is organized and grouped, not only on the distance between target and flankers.",
+        "year": "2013",
+        "venue": "Journal of Vision",
+        "citations": "92",
+        "authors": "Mauro Manassi, Bilge Sayim, Michael H. Herzog",
+        "url": "https://doi.org/10.1167/13.13.10"
       }
     ],
     "primary_subfield": "Temporal Processing",

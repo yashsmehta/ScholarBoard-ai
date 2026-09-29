@@ -1418,7 +1418,7 @@
     "lab_url": "https://www.uni-marburg.de/en/fb04/team-schuetz",
     "main_research_area": "visual perception and eye movements",
     "bio": "Alexander C. Schütz is a Professor of Experimental Psychology at Philipps-Universität Marburg and investigates the bidirectional interaction between visual perception and eye movements. Their research explores how the brain maintains a stable representation of the environment despite frequent saccadic interruptions and sensory gaps like the blind spot. Schütz combines psychophysics, high-speed eye tracking, EEG, and computational modeling to examine the optimization of oculomotor control for task-relevant information gathering. Their work includes studies on trans-saccadic integration, smooth pursuit eye movements, and the integration of salience and value signals in sensorimotor learning.",
-    "research_direction": "Dr. Schütz has recently been investigating how the brain handles sensory uncertainty and missing information, focusing heavily on metacognition and perceptual completion. Their recent work explores how observers assess their own perceptual inferences, probing metacognitive confidence judgments during tasks involving visual modal and amodal occlusion, auditory filling-in, and time-constrained visual search. To understand how the visual system actively samples ambiguous information, they are using behavioral paradigms to determine whether the oculomotor system preferentially directs saccades toward physiological blind spots to resolve uncertainty. Additionally, they are utilizing electroencephalography to characterize the neural correlates of scene processing, specifically examining how the visual system leverages structural priors to estimate object numerosity when targets are partially occluded.",
+    "research_direction": "Dr. Schütz studies the bidirectional interaction between visual perception and eye movements, with an emphasis on how the visual system gathers and uses information to guide behavior. Earlier work showed that smooth pursuit eye movements improve visual sensitivity, that saccade choices dynamically integrate visual salience and reward value, and reviewed how eye movements and perception interact more generally. Their more recent work asks how the brain handles sensory uncertainty and missing information, focusing on metacognition and perceptual completion. Studies probe how observers assess their own perceptual inferences, using confidence judgments in tasks involving visual modal and amodal occlusion, auditory filling-in and time-constrained visual search, whether saccades preferentially target the physiological blind spot, and, with electroencephalography, how the visual system uses structural priors to estimate the number of partially occluded objects.",
     "papers": [
       {
         "title": "Low confidence for perceptual completion of partially occluded objects",
@@ -1464,6 +1464,33 @@
         "citations": "0",
         "authors": "Hui Men, Alexander C. Schütz",
         "url": "https://doi.org/10.1080/13506285.2025.2571626"
+      },
+      {
+        "title": "Dynamic integration of information about salience and value for saccadic eye movements",
+        "abstract": "Participants made saccades toward targets that varied in visual salience and in the reward attached to them. The findings show that saccade choices combine salience and value dynamically, with salience dominating early and value later in the movement planning process.",
+        "year": "2012",
+        "venue": "Proceedings of the National Academy of Sciences",
+        "citations": "92",
+        "authors": "Alexander C. Schütz, Julia Trommershäuser, Karl R. Gegenfurtner",
+        "url": "https://doi.org/10.1073/pnas.1115638109"
+      },
+      {
+        "title": "Eye movements and perception: A selective review",
+        "abstract": "This review surveys how eye movements interact with visual perception, covering saccades, smooth pursuit and fixation, and how vision changes around and during these movements. It also discusses how the visual system maintains stable perception across eye movements.",
+        "year": "2011",
+        "venue": "Journal of Vision",
+        "citations": "312",
+        "authors": "Alexander C. Schütz, Doris I. Braun, Karl R. Gegenfurtner",
+        "url": "https://doi.org/10.1167/11.5.9"
+      },
+      {
+        "title": "Improved visual sensitivity during smooth pursuit eye movements",
+        "abstract": "The study measured contrast sensitivity while observers followed a moving target with smooth pursuit eye movements. Sensitivity for low-spatial-frequency stimuli improved during pursuit compared to fixation, showing that pursuit actively enhances visual processing.",
+        "year": "2008",
+        "venue": "Nature Neuroscience",
+        "citations": "70",
+        "authors": "Alexander C. Schütz, Doris I. Braun, Dirk Kerzel, Karl R. Gegenfurtner",
+        "url": "https://doi.org/10.1038/nn.2194"
       }
     ],
     "primary_subfield": "Eye Movements",

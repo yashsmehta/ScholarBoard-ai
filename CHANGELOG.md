@@ -192,6 +192,7 @@
 - Back-ported earlier manual corrections (names, institutions, lab URLs, de-duplicated paper
   lists) from `scholars.json` into the DB, so rebuilds no longer revert them.
 - Duplicate-profile audit: no remaining duplicates among the shipped PIs.
+- Alex S. Baldwin (on request): photo replaced with the portrait from his own McGill page (old one was a different person). Map position unchanged.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

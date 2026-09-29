@@ -2989,6 +2989,3 @@ input {
   }
 }
 
-.scholar-list__sort { display:flex; align-items:center; gap:6px; padding:4px 16px 8px; font-size:12px; color:#6b6b6b; }
-.scholar-list__sort-btn { border:1px solid #d9d4cc; background:transparent; border-radius:999px; padding:2px 10px; font:inherit; cursor:pointer; color:inherit; }
-.scholar-list__sort-btn.is-active { background:#0d5c63; border-color:#0d5c63; color:#fff; }

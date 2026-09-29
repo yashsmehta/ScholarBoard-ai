@@ -248,6 +248,7 @@
 - Alessandra Angelucci (on request): appended a sentence on corticocortical feedback projections to the AI summary.
 - Marla Feller (on request): AI summary now opens with her retinal waves work (cellular mechanisms and role in visual system development) and keeps the direction-selective circuit work. Map position unchanged.
 - Adrian Staub (on request): AI summary replaced with the edited version Dr. Staub sent (reading and eye movements, missed text errors, predictability, agreement attraction).
+- SueYeon Chung (on request): institution New York University → Harvard University (country United States); department cleared until confirmed. Map position unchanged.
 
 ### Frontend
 - Deep links: selecting a scholar sets `#/scholar/<id>` in the URL and opening such a link selects

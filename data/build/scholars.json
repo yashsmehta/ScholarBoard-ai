@@ -51407,10 +51407,19 @@
     "department": "Department of Psychology and the Center for Neural Science",
     "lab_name": "The Ma Lab",
     "lab_url": "https://www.weijima.org",
-    "main_research_area": "Computational cognitive science",
+    "main_research_area": "Bayesian models of perception and working memory",
     "bio": "Wei Ji Ma is a Professor of Neural Science and Psychology whose research investigates the computational principles underlying human decision-making, perception, and memory. Ma developed Bayesian models of sensory processing and introduced the concept of probabilistic population codes to describe how the brain represents uncertainty. Their current work utilizes human behavioral experiments and mathematical modeling to explore resource rationality in visual working memory and the mechanics of multi-step planning in complex environments. Ma’s methodology integrates computational cognitive science with neuroimaging and electrophysiology to connect algorithmic theories with their biological implementations.",
-    "research_direction": "Dr. Ma's recent work explores the computational and cognitive principles underlying human planning, reward processing, and neural representation. They have recently been investigating the mechanics of goal-directed behavior, using computational process models to understand how humans utilize backward reasoning through subgoal spaces and how environmental uncertainty influences planning effort. Additionally, their research examines the mechanisms of decision-making by assessing how individual temporal discounting rates model real-world procrastination, and by testing whether dopaminergic neurons utilize information-theoretic efficient coding schemes to represent stochastic reward distributions. Finally, their recent theoretical work seeks to establish unifying frameworks to clarify foundational concepts of neural representation, aiming to rigorously map common analytical tools like representational similarity analysis to specific computational dimensions.",
+    "research_direction": "Dr. Ma's work centers on how the brain represents and uses uncertainty, with visual perception and visual working memory as the main testbeds. They introduced probabilistic population codes, a proposal for how neural populations can carry probability distributions so that Bayesian inference is neurally implementable, and have tested Bayesian ideal-observer models against human behavior in tasks such as visual search, and against neural data from visual cortex. A second theme is resource-based accounts of visual working memory, in which variability in encoding precision, rather than a fixed number of slots, limits memory, and, more recently, the neural mechanisms by which limited memory resources are allocated across items. A third theme is confidence and attention-dependent uncertainty, where observers appear to incorporate the reliability of their own sensory evidence into decisions. More recently their group has extended this normative approach to higher-level cognition, including human planning, temporal discounting and procrastination, and to how dopaminergic neurons encode reward.",
     "papers": [
+      {
+        "title": "Neural mechanisms of resource allocation in working memory",
+        "abstract": "Combining fMRI with computational modelling, the study asks how the brain allocates limited working memory resources to visual items of differing priority. Activity in visual and frontoparietal cortex tracked the resources assigned to each item, linking neural population measures to resource-based models of working memory.",
+        "year": "2025",
+        "venue": "Science Advances",
+        "citations": "13",
+        "authors": "Hsin-Hung Li, Thomas C. Sprague, Aspen H. Yoo, Wei Ji Ma, Clayton E. Curtis",
+        "url": "https://doi.org/10.1126/sciadv.adr8015"
+      },
       {
         "title": "Reward prediction error neurons implement an efficient code for reward",
         "abstract": "The study formalizes the efficient coding of reward signals by deriving optimal population-level representations for stochastic reward distributions. Utilizing extracellular recordings from dopaminergic reward prediction error neurons (RPENs) in macaques and mice, the authors demonstrate that neuronal response properties—including the distribution of tuning function midpoints, the relationship between threshold and gain, and the adaptive scaling of slopes—align closely with the predictions of an information-theoretic efficient code. These results provide a unifying framework that links the principles of sensory efficient coding with distributional reinforcement learning in the reward system.",
@@ -51421,40 +51430,58 @@
         "url": "https://doi.org/10.1038/s41593-024-01671-x"
       },
       {
-        "title": "Temporal discounting predicts procrastination in a real-world task",
-        "abstract": "This investigation examines the cognitive drivers of procrastination by tracking the continuous work progress of participants in a naturalistic, long-term reading task. Moving beyond traditional self-report measures and simple completion times, the study utilizes a high-resolution metric of procrastination based on the temporal profile of effort. The findings reveal a significant positive correlation between individual temporal reward discounting rates and the magnitude of task initiation delay, providing quantitative empirical evidence that procrastination can be modeled as a resource-rational trade-off mediated by the hyperbolic or exponential devaluation of future rewards.",
-        "year": "2024",
-        "venue": "Scientific Reports",
-        "citations": "0",
-        "authors": "Pei Yuan Zhang, Wei Ji Ma",
-        "url": "https://doi.org/10.1038/s41598-024-65110-4"
+        "title": "A neural basis of probabilistic computation in visual cortex",
+        "abstract": "Recordings from macaque primary visual cortex were used to test whether neural population activity carries the uncertainty of sensory stimuli in a way that a probabilistic code predicts. The results support a link between trial-by-trial neural variability and behavior consistent with probabilistic computation.",
+        "year": "2019",
+        "venue": "Nature Neuroscience",
+        "citations": "126",
+        "authors": "Edgar Y. Walker, R. James Cotton, Wei Ji Ma, Andreas S. Tolias",
+        "url": "https://doi.org/10.1038/s41593-019-0554-5"
       },
       {
-        "title": "Backward reasoning through AND/OR trees to solve problems",
-        "abstract": "This research explores the computational mechanisms of human subgoaling and backward reasoning in goal-directed problem solving. The authors propose that these cognitive processes are implemented as a search through a subgoal space structured as an AND-OR tree, a architecture derived from early artificial intelligence research. Validated using behavioral data from the Tower of London and Rush Hour tasks, the results show that a single-parameter process model based on AND-OR tree search accurately characterizes human move sequences and subgoaling patterns, outperforming standard heuristic search models in capturing the underlying complexity of discrete planning.",
-        "year": "2024",
-        "venue": "Proceedings of the Annual Meeting of the Cognitive Science Society",
-        "citations": "0",
-        "authors": "Jeroen Olieslagers, Zahy Bnaya, Yichen Li, Wei Ji Ma",
-        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11818247/"
+        "title": "Humans incorporate attention-dependent uncertainty into perceptual decisions and confidence",
+        "abstract": "Human observers judged visual stimuli under varying attention, and the study compared models in which the observer does or does not take attention-dependent uncertainty into account. Behavior and confidence reports were best explained by observers using the uncertainty associated with attention, consistent with Bayesian decision making.",
+        "year": "2018",
+        "venue": "Proceedings of the National Academy of Sciences",
+        "citations": "99",
+        "authors": "Rachel N. Denison, William T. Adler, Marisa Carrasco, Wei Ji Ma",
+        "url": "https://doi.org/10.1073/pnas.1717720115"
       },
       {
-        "title": "Uncertainty affects planning effort, but not plans",
-        "abstract": "This paper investigates how human planning strategies adapt to different forms of environmental stochasticity, specifically reliability, volatility, and controllability. Across multiple experimental conditions, the study finds that increased uncertainty leads to a systematic reduction in planning effort, quantified by shorter initial response times and reduced search depth. Computational process modeling suggests that while human agents dynamically adjust their computational budget in response to the expected utility of planning in noisy environments, the qualitative structure of the resulting plans remains remarkably stable, indicating an adaptive balance between cognitive resource costs and reward maximization.",
-        "year": "2024",
-        "venue": "Proceedings of the Annual Meeting of the Cognitive Science Society",
-        "citations": "0",
-        "authors": "Jordan Lei, Wei Ji Ma",
-        "url": "https://escholarship.org/uc/item/1c18v6nd"
+        "title": "Changing concepts of working memory",
+        "abstract": "This review contrasts the classical view of working memory as a limited number of discrete slots with resource-based models in which a continuous resource is distributed across items, and considers implications for neural mechanisms and for how capacity limits should be understood.",
+        "year": "2014",
+        "venue": "Nature Neuroscience",
+        "citations": "905",
+        "authors": "Wei Ji Ma, Masud Husain, Paul M. Bays",
+        "url": "https://doi.org/10.1038/nn.3655"
       },
       {
-        "title": "Clarifying the conceptual dimensions of representation in neuroscience",
-        "abstract": "The authors propose a formal, information-theoretic framework to unify and clarify the concept of 'representation' in neuroscience. By defining four fundamental conceptual dimensions—sensitivity, specificity, invariance, and functionality—they provide a rigorous basis for evaluating neural coding hypotheses. The work demonstrates how established analytical techniques, including representational similarity analysis (RSA), encoding and decoding models, and causal interventions, can be mapped onto specific information-theoretic quantities. This framework serves as a tool for integrating disparate experimental results across studies and clarifying the evidentiary standards for representational claims.",
-        "year": "2024",
-        "venue": "arXiv / Nature Reviews Neuroscience (in press)",
-        "citations": "0",
-        "authors": "Stephan Pohl, Edgar Y. Walker, David L. Barack, Jennifer Lee, Rachel N. Denison, Ned Block, Florent Meyniel, Wei Ji Ma",
-        "url": "https://doi.org/10.48550/arXiv.2403.14046"
+        "title": "Variability in encoding precision accounts for visual short-term memory limitations",
+        "abstract": "The study shows that limits on visual short-term memory are better explained by variability in the precision with which items are encoded than by a fixed number of slots. Models that allow encoding precision to vary from item to item and trial to trial fit change-detection and recall data better than slot models.",
+        "year": "2012",
+        "venue": "Proceedings of the National Academy of Sciences",
+        "citations": "411",
+        "authors": "Ronald van den Berg, Hongsup Shin, Wen-Chuang Chou, Ryan George, Wei Ji Ma",
+        "url": "https://doi.org/10.1073/pnas.1117465109"
+      },
+      {
+        "title": "Behavior and neural basis of near-optimal visual search",
+        "abstract": "Human visual search behavior is compared to an ideal-observer model that accounts for the uncertainty of each item's sensory measurement. Behavior was close to optimal, and the authors show how a population of neurons could implement the required computations.",
+        "year": "2011",
+        "venue": "Nature Neuroscience",
+        "citations": "88",
+        "authors": "Wei Ji Ma, Vidhya Navalpakkam, Jeffrey M. Beck, Ronald van den Berg, Alexandre Pouget",
+        "url": "https://doi.org/10.1038/nn.2814"
+      },
+      {
+        "title": "Bayesian inference with probabilistic population codes",
+        "abstract": "The paper proposes that populations of neurons with Poisson-like variability naturally encode probability distributions over stimuli, so that Bayesian inference such as cue combination reduces to simple linear operations on neural activity.",
+        "year": "2006",
+        "venue": "Nature Neuroscience",
+        "citations": "1242",
+        "authors": "Wei Ji Ma, Jeffrey M. Beck, Peter E. Latham, Alexandre Pouget",
+        "url": "https://doi.org/10.1038/nn1790"
       }
     ],
     "primary_subfield": "Theory & Computation",

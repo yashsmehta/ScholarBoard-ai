@@ -226,6 +226,7 @@
 - Duje Tadin (on request): AI summary replaced with the recent-research version Dr. Tadin sent (spatial suppression in MT/V5, autism and schizophrenia, vision restoration after occipital stroke, optical adaptation, VR); previous summary was based on a single paper. Map position unchanged.
 - J. Douglas Crawford (on request): AI summary's recent-work passage replaced with the text Dr. Crawford sent (egocentric/allocentric integration, fMRI + graph theory, transsaccadic constancy, FEF recording scales, and current cortico-cerebellar eye-hand coordination work); opening sentence kept. Map position unchanged.
 - Paul Bays (on request): AI summary now attributes the work to his lab ("Dr Bays' lab has...").
+- Wei Ji Ma (on request): profile rebuilt around common themes (probabilistic population codes and uncertainty in vision, resource-based visual working memory, confidence and attention-dependent uncertainty) rather than a summary of recent papers; the recent list (planning, procrastination, cognitive-science proceedings, representation review) replaced with influential vision-relevant papers plus his recent Nat Neurosci and Sci Adv papers. His suggestion to weight journal impact factor / citations more heavily is recorded as feedback, not an adopted scoring policy. Map position unchanged.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

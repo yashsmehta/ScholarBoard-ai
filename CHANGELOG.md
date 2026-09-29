@@ -213,6 +213,7 @@
 - Mel Rutherford (on request): AI summary replaced with the paragraph Dr. Rutherford sent (social perception and cognition across development, autism); pronouns corrected to he/him in bio and summary.
 - Martin N. Hebart (on request): primary institution → Justus Liebig University Giessen (country mapping already present). AI summary broadened beyond the five latest papers to include his most-cited vision work (THINGS database and THINGS-data, behavior-derived object dimensions and their cortical maps, DNN-human alignment); paper list now mixes the influential 2020-24 papers with two 2025 ones. Bianca van Kemenade's photo also corrected (see her entry). Map position unchanged.
 - Martin Szinte (on request, via Rolfs): photo replaced with the official INT (Institut de Neurosciences de la Timone) member-page photo; the old one was a different person. Map position unchanged.
+- Michael Crognale (on request): bio notes retirement as of July 1 and continued consulting
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

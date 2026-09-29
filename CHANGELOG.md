@@ -210,6 +210,7 @@
 - Lana M. Trick (on request): removed "Concurrently" from the dual-task sentence of the AI summary. Map position unchanged.
 - Laure Pisella (on request): AI summary replaced with the corrected text Dr. Pisella sent (spatial cueing and pointing hypometria, gaze-contingent masking and attentional field, juggling, Posterior Cortical Atrophy); dyslexia sentence dropped. Map position unchanged.
 - Laurence Harris (on request): bio notes Professor Emeritus and not taking students or postdocs
+- Mel Rutherford (on request): AI summary replaced with the paragraph Dr. Rutherford sent (social perception and cognition across development, autism); pronouns corrected to he/him in bio and summary.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

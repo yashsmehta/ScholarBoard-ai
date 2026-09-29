@@ -201,6 +201,7 @@
 - Brad Duchaine (on request): AI summary replaced with the text Dr. Duchaine sent (PMO, developmental prosopagnosia, behavioral testing and neuroimaging, neural-network models for DP research). Map position unchanged.
 - Cheryl Olman (on request): removed two papers that were not hers (a Naselaris eLife paper and a bioRxiv item whose DOI belongs to another group), replaced the bioRxiv orientation-tuned surround suppression preprint with the published PNAS version, corrected two DOIs, added two verified papers, and rewrote the last sentence of the AI summary.
 - David Brainard (on request): lab link fixed to color.psych.upenn.edu (old one was dead); bioRxiv midget-RGC mosaic preprint replaced with its published Journal of Computational Neuroscience 2026 version. Map position unchanged.
+- Elisha Merriam (on request): photo removed (it showed Denis Schluppeck; no verifiable NIMH headshot found), papers rebuilt from verified first/last-author work, bio and AI summary rewritten with the EEG, head-tilt and coordinate-transform claims dropped.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

@@ -11895,10 +11895,10 @@
     "country": "United States",
     "department": "Laboratory of Brain and Cognition",
     "lab_name": "Computational Neuroimaging and Perception Team",
-    "lab_url": "https://www.nimh.nih.gov/research/research-conducted-at-nimh/irp/units/lbc",
+    "lab_url": "https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/clinics-and-labs/lbc",
     "main_research_area": "computational neuroimaging and visual perception",
-    "bio": "Elisha P. Merriam heads the Computational Neuroimaging and Perception Team within the Laboratory of Brain and Cognition at the National Institute of Mental Health. Their research program focuses on characterizing how the human brain represents and maintains visual information through high-resolution functional MRI and image-computable encoding models. By applying linear systems analysis and population-level modeling, Merriam investigates the stability of sensory representations in the primary visual cortex and the mechanisms underlying spatial vision. This work includes examining representational drift over long timescales and developing computational frameworks to improve the interpretability of neuroimaging measurements.",
-    "research_direction": "Dr. Merriam has recently been investigating the neural computations and coordinate systems that allow the brain to construct stable visual representations of the world. Their recent work explores spatial perception and motion processing, using EEG head-tilt paradigms to untangle retinocentric from allocentric reference frames, and fMRI to isolate the neural substrates of illusory versus physical trajectories in the double-drift illusion. Additionally, they are examining the nature of top-down modulations in the human early visual cortex, seeking to determine whether these signals are driven by object-specific feedback or generalized task difficulty and arousal. Across multiple methodological approaches, they also investigate the fundamental mechanisms of orientation selectivity, utilizing lesion patient studies to assess the pulvinar's role in V1-independent visual plasticity, and employing image-computable models to probe how population-level orientation maps might emerge in the mouse superior colliculus.",
+    "bio": "Elisha P. Merriam heads the Computational Neuroimaging and Perception Team within the Laboratory of Brain and Cognition at the National Institute of Mental Health. Their research uses fMRI and image-computable encoding models to study how the human visual system represents visual information, with a focus on primary visual cortex, motion perception, and how these representations change over time.",
+    "research_direction": "Dr. Merriam has recently been investigating how visual information is represented in the brain using fMRI and image-computable models. Their recent work has shown that representations in human primary visual cortex drift over months, driven by changes in neural responsivity while the population-level structure of responses stays stable. They have also used fMRI decoding to study the double-drift illusion, finding that area hMT+ carries the illusory motion trajectory. In collaboration with the Gardner lab, they have used population modeling to show that orientation maps reported in mouse superior colliculus can be explained by units with non-orientation-selective, center-surround receptive fields.",
     "papers": [
       {
         "title": "Orientation Maps in Mouse Superior Colliculus Explained by Population Model of Non-Orientation Selective Neurons",
@@ -11910,40 +11910,31 @@
         "url": "https://doi.org/10.1523/JNEUROSCI.1133-25.2025"
       },
       {
-        "title": "Visual representations in the human brain rely on a reference frame that is in between allocentric and retinocentric coordinates",
-        "abstract": "This investigation utilized electroencephalography (EEG) and a 45° head-tilt paradigm to delineate the coordinate systems used by the human brain to represent visual orientation during sensory processing and working memory. By dissociating retinocentric (eye-centered) and allocentric (world-centered) frames, the authors employed multivariate decoding to track the stability of orientation tuning across postural changes. The data revealed that neural representations of orientation were neither purely retinocentric nor purely allocentric throughout the trial duration. Instead, the findings supported a hybrid reference frame where orientation tuning partially shifted with head orientation. These results provide the first human neurophysiological evidence that the brain maintains intermediate spatial coordinates to bridge the gap between initial retinal encoding and stable environmental perception.",
-        "year": "2025",
-        "venue": "bioRxiv",
-        "citations": "0",
-        "authors": "Maria V. Servetnik, Noah J. Steinberg, Zvi N. Roth, Elisha P. Merriam",
-        "url": "https://doi.org/10.1101/2025.10.25.684527"
-      },
-      {
-        "title": "Responses in human early visual cortex are more sensitive to task difficulty than object category",
-        "abstract": "The research re-examines high-level modulation in the early visual cortex (EVC) to determine whether such activity reflects object-specific feedback or generalized task-related responses (TRRs). Using 7T BOLD fMRI and an object discrimination task, the authors demonstrated that EVC signals were highly sensitive to task difficulty and arousal-linked fluctuations but lacked categorical information. While multivariate pattern analysis successfully decoded object category from the lateral occipital complex (LOC), EVC activity remained entrained to task timing and covaried with physiological markers of engagement like pupil size. These findings challenge the prevalent view that V1 activity predominantly encodes category-specific information from downstream areas, suggesting instead that many apparent high-level modulations are driven by the internal state of the observer during task performance.",
-        "year": "2024",
-        "venue": "Journal of Vision",
-        "citations": "0",
-        "authors": "June Hee Kim, Cassie Joynes, Grace Edwards, Chris I. Baker, Elisha P. Merriam",
-        "url": "https://doi.org/10.1167/jov.24.10.1039"
-      },
-      {
-        "title": "Patients with V1 damage exhibit increased orientation decoding in hMT+, but only if pulvinar is intact",
-        "abstract": "This study investigates the neural pathways supporting visual plasticity in patients with chronic cortically induced blindness. Leveraging fMRI-based orientation decoding, the authors assessed selectivity in extrastriate area hMT+ across patients with various primary visual cortex (V1) or thalamic lesions. The results showed that in a patient with extensive V1 damage, the ipsilesional hMT+ could decode orientation information for stimuli presented within the blind field, a property not observed in healthy controls. However, this orientation selectivity was absent in a patient with combined V1 and pulvinar damage, despite hMT+ remaining visually responsive. The findings suggest that orientation tuning in hMT+ can emerge through V1-independent circuits involving the pulvinar, highlighting the critical role of subcortical-extrastriate pathways in supporting residual vision following cortical insult.",
-        "year": "2024",
-        "venue": "Journal of Vision",
-        "citations": "0",
-        "authors": "Bing Li, Tina T. Liu, Matthew R. Cavanaugh, Helena P. Bachmann, Berkeley K. Fahrenthold, Shruti Japee, Krystel R. Huxlin, Elisha P. Merriam",
-        "url": "https://doi.org/10.1167/jov.24.10.397"
-      },
-      {
         "title": "Brain representations of motion and position in the double-drift illusion",
-        "abstract": "The investigation probes the neural mechanisms underlying the double-drift illusion, where internal Gabor motion biases the perceived trajectory of an object. Using fMRI and computational decoding, the authors decoupled the physical retinal path from the perceived spatiotopic path via smooth pursuit eye movements. While signals in early visual cortex (V1–V3) primarily reflected retinotopic coordinates, activity in extrastriate area hMT+ exclusively represented the illusory motion path. This decoding of the illusory trajectory remained robust even when spatial attention was diverted by a secondary task at fixation. These results provide significant evidence that hMT+ integrates retinal and extraretinal signals to encode the perceived spatial location of moving stimuli, serving as a neural substrate for spatiotopic stability in human vision.",
+        "abstract": "Using fMRI and decoding analyses, the authors studied the double-drift illusion, in which internal motion within a moving window shifts its perceived path even when the eyes track the window. Area hMT+ was the only area where the illusory trajectory could be decoded, pointing to a role in combining retinal and eye-movement signals.",
         "year": "2024",
         "venue": "eLife",
         "citations": "0",
-        "authors": "Noah J. Steinberg, Zvi N. Roth, J. Anthony Movshon, Elisha Merriam",
+        "authors": "Noah J. Steinberg, Zvi N. Roth, J. Anthony Movshon, Elisha P. Merriam",
         "url": "https://doi.org/10.7554/eLife.76803"
+      },
+      {
+        "title": "Sensory modeling: Understanding computation in sensory systems through image-computable models",
+        "abstract": "A book chapter reviewing how image-computable models can be used to understand computation in sensory systems and to interpret neuroimaging measurements.",
+        "year": "2024",
+        "venue": "Book chapter (Elsevier)",
+        "citations": "0",
+        "authors": "Zvi N. Roth, Elisha P. Merriam, Tomas H. J. Knapen",
+        "url": "https://doi.org/10.1016/b978-0-443-13480-7.00007-7"
+      },
+      {
+        "title": "Representations in human primary visual cortex drift over time",
+        "abstract": "Analyzing a large longitudinal fMRI dataset of responses to natural scene images, the authors fit an image-computable encoding model and found that its fit degraded cumulatively across sessions over many months, attributable to changes in neural responsivity, while population-level representational dissimilarities stayed stable.",
+        "year": "2023",
+        "venue": "Nature Communications",
+        "citations": "0",
+        "authors": "Zvi N. Roth, Elisha P. Merriam",
+        "url": "https://doi.org/10.1038/s41467-023-40144-w"
       }
     ],
     "primary_subfield": "Spatial Vision",

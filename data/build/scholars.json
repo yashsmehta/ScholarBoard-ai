@@ -4767,16 +4767,52 @@
     "lab_url": "https://bvankemenade.com/",
     "main_research_area": "systems neuroscience of action and perception",
     "bio": "Bianca M. van Kemenade is a neuroscientist who leads the Systems Neuroscience of Action and Perception (SNAP) Lab at Justus Liebig University Giessen. Van Kemenade’s research examines how voluntary actions modulate sensory perception, specifically investigating the neural mechanisms that differentiate between self-generated and externally generated stimuli. They utilize functional MRI (fMRI), transcranial magnetic stimulation (TMS), and psychophysics to examine the roles of predictive coding and multisensory integration in agency and perception. Their work also addresses clinical neuroscience, investigating how disruptions in these predictive mechanisms contribute to altered perception in schizophrenia spectrum disorders.",
-    "research_direction": "Dr. van Kemenade has recently been investigating how voluntary motor actions influence sensory processing and perception in the early visual cortex. Their recent work explores competing theoretical frameworks of action-based prediction, testing whether the visual system anticipates the sensory consequences of movements through mechanisms like sensory suppression, representational sharpening, or neural pre-activation. To evaluate these models, they employ high-resolution fMRI, combining univariate BOLD analysis and multivariate pattern decoding to observe V1 activity during orientation discrimination tasks. By comparing neural responses to visual gratings that are either actively self-generated or passively viewed, Dr. van Kemenade seeks to understand exactly how motor signals modulate visual representations from the preparatory phase through to stimulus onset.",
+    "research_direction": "Dr. van Kemenade studies how our own actions shape what we see and feel, and how this prediction machinery is altered in psychiatric illness. Their recent work uses high-resolution fMRI and multivariate decoding to test whether action-based predictions in early visual cortex work through sensory suppression, sharpening or pre-activation, finding pre-activation and enhanced responses to self-generated gratings. Related studies combine behavior, fMRI and pupillometry to show that action-based predictions affect visual perception and neural processing even when timing is unpredictable, and compare the timing, duration and amplitude of brain responses to self-generated versus externally generated movement feedback. They also extend this framework to clinical populations, examining predictive processing of hand and tool actions in patients with schizophrenia spectrum disorders and the link between schizotypal traits and speech-gesture matching.",
     "papers": [
       {
         "title": "The effects of action-based predictions in early visual cortex",
         "abstract": "This neuroimaging investigation evaluates how voluntary motor activity influences neural processing and perception of contingent sensory outcomes in the primary visual cortex (V1). The study contrasts four theoretical frameworks: the classical forward model (proposing sensory suppression), pre-activation (predictive baseline shifts), sharpening (increased representational precision), and opposing processes (pre-activation followed by distinct interaction mechanisms). Using high-resolution functional MRI combined with both univariate BOLD signal analysis and multivariate pattern decoding, the researchers examined V1 activity during a preparatory window and subsequent orientation discrimination of gratings. Results revealed that the orientation of predicted stimuli could be decoded from early visual areas at levels exceeding chance before stimulus onset, supporting pre-activation across both active and passive conditions. Crucially, self-generated stimuli elicited enhanced BOLD amplitudes compared to passively presented stimuli, a finding that contradicts the neural suppression predicted by standard forward models and supports an additive or enhancement mechanism during self-initiated perception. Decoding precision did not significantly differ between active and passive conditions, providing no evidence for neural sharpening.",
-        "year": "2025",
-        "venue": "bioRxiv",
+        "year": "2026",
+        "venue": "iScience",
         "citations": "0",
         "authors": "Bianca M. van Kemenade, Lars F. Muckli",
-        "url": "https://doi.org/10.1101/2025.08.28.672792"
+        "url": "https://doi.org/10.1016/j.isci.2026.117074"
+      },
+      {
+        "title": "Predictive neural processing of self-generated hand and tool actions in patients with schizophrenia spectrum disorders and healthy individuals",
+        "abstract": "An fMRI and behavioral study of people with schizophrenia spectrum disorders and healthy controls making hand movements with or without a tool and seeing delayed visual or audiovisual feedback. Both groups detected fewer delays for self-generated movements and showed reduced sensory-cortex responses, with group differences emerging in visual regions during tool use and bimodal feedback.",
+        "year": "2025",
+        "venue": "Translational Psychiatry",
+        "citations": "7",
+        "authors": "Christina V. Schmitter, Mareike Pazen, Lukas Uhlmann, Bianca M. van Kemenade, Tilo Kircher, Benjamin Straube",
+        "url": "https://doi.org/10.1038/s41398-025-03306-6"
+      },
+      {
+        "title": "Speech-Gesture Matching and Schizotypal Traits: A Network Approach",
+        "abstract": "In over a thousand mostly healthy adults, judgments of whether gestures matched spoken sentences were related to schizotypal traits. Poorer speech-gesture matching went with higher overall schizotypy, and a network analysis identified which trait facets link most strongly to gesture perception.",
+        "year": "2024",
+        "venue": "Schizophrenia Bulletin",
+        "citations": "1",
+        "authors": "Bertalan Polner, Hamidreza Jamalabadi, Bianca M. van Kemenade, Jutta Billino, Tilo Kircher, Benjamin Straube",
+        "url": "https://doi.org/10.1093/schbul/sbae134"
+      },
+      {
+        "title": "Action-based predictions affect visual perception, neural processing, and pupil size, regardless of temporal predictability",
+        "abstract": "Combines behavior, neuroimaging and pupillometry to test how actions that predict a visual outcome change its perception, its neural processing and pupil size, and whether these effects depend on the outcome being temporally predictable.",
+        "year": "2022",
+        "venue": "NeuroImage",
+        "citations": "27",
+        "authors": "Christina Lubinus, Wolfgang Einhäuser, Florian Schiller, Tilo Kircher, Benjamin Straube, Bianca M. van Kemenade",
+        "url": "https://doi.org/10.1016/j.neuroimage.2022.119601"
+      },
+      {
+        "title": "The effect of self-generated versus externally generated actions on timing, duration, and amplitude of blood oxygen level dependent response for visual feedback processing",
+        "abstract": "Using an fMRI-compatible movement device, compares brain responses to video feedback of active versus passive movements. Self-generated movements gave smaller and earlier, shorter hemodynamic responses in supplementary motor area, cerebellum and visual cortex, supporting predictive processing of one's own actions.",
+        "year": "2022",
+        "venue": "Human Brain Mapping",
+        "citations": "13",
+        "authors": "Eleftherios Kavroulakis, Bianca M. van Kemenade, Belkis Ezgi Arikan, Tilo Kircher, Benjamin Straube",
+        "url": "https://doi.org/10.1002/hbm.26053"
       }
     ],
     "primary_subfield": "Perception & Action",

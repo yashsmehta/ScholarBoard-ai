@@ -197,6 +197,14 @@
 - Andrea Facoetti (on request): AI summary replaced with the lab profile Dr. Facoetti sent (attention and perception in learning and neurodevelopment, dyslexia, autism, AVG training).
 - Arash Afraz (on request): removed the incorrect spatial-frequency sentence from the AI summary, replaced with his wording, and dropped "also".
 - Benjamin Balas (on request): removed from the map, search and profile pics at his request (2026-09-28); recorded as an opt-out so rebuilds and outreach do not re-add him.
+- Added Tyler Bonnen (University of Pennsylvania, Psychology; E377), new lab starting Fall 2026.
+  Five 2023+ first-author papers hand-picked and checked on Crossref/OpenAlex (multi-view 3D
+  shape perception, hippocampal data augmentation, NeurIPS 2024 multiview benchmark, Cognition
+  2025 perirhinal paper, eLife 2023 lesion paper); bio and AI summary written from his Penn
+  faculty page and personal site, headshot from the Penn page; country United States; subfield
+  from the classifier (Theory & Computation, plus Object Recognition and 3D Perception). Placed
+  with the saved UMAP model (no refit, other dots unchanged) beside Kriegeskorte, Layton and
+  Schrimpf. Map now has 797 PIs.
 - Bianca M. van Kemenade (on request; also flagged by Martin Hebart): photo replaced with her own portrait from bvankemenade.com (old one was Elena Azanon). Paper list replaced with the five papers she sent (iScience 2026, Transl Psychiatry 2025, Schizophr Bull 2024, NeuroImage 2022, Hum Brain Mapp 2022; each DOI checked against Crossref/OpenAlex); AI summary broadened to cover all five, including the clinical work. Map position unchanged.
 - Brad Duchaine (on request): AI summary replaced with the text Dr. Duchaine sent (PMO, developmental prosopagnosia, behavioral testing and neuroimaging, neural-network models for DP research). Map position unchanged.
 - Cheryl Olman (on request): removed two papers that were not hers (a Naselaris eLife paper and a bioRxiv item whose DOI belongs to another group), replaced the bioRxiv orientation-tuned surround suppression preprint with the published PNAS version, corrected two DOIs, added two verified papers, and rewrote the last sentence of the AI summary.

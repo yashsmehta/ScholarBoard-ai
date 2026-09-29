@@ -61059,5 +61059,86 @@
       "Devarajan Sridharan",
       "Sridhar Devarajan"
     ]
+  },
+  "E377": {
+    "id": "E377",
+    "name": "Tyler Bonnen",
+    "institution": "University of Pennsylvania",
+    "country": "United States",
+    "department": "Department of Psychology",
+    "lab_url": "https://psychology.sas.upenn.edu/people/tyler-bonnen",
+    "main_research_area": "perception and memory models",
+    "bio": "Tyler Bonnen is an Assistant Professor in the Department of Psychology at the University of Pennsylvania, with a joint appointment in Computer Science. His lab integrates methods from neuroscience, psychology and computer science to develop unified models of perception and memory, two interlocking cognitive functions that are often studied in isolation. Bonnen earned a PhD at Stanford University (2023) with Anthony Wagner and Daniel Yamins and was a UC Presidential Postdoctoral Fellow at UC Berkeley with Alyosha Efros, Angjoo Kanazawa and Jitendra Malik. His work links deep learning models of the ventral visual stream to medial temporal lobe function and human behavior.",
+    "research_direction": "Dr. Bonnen studies how perception and memory work together, building unified perceptual-mnemonic models that connect behavior to neural function in the ventral visual stream and medial temporal lobe. Recent work shows that perirhinal cortex supports object perception by integrating over sequences of glances, and that apparent human-monkey discrepancies in lesion data disappear when a stimulus-computable model of the ventral stream is used to measure perceptual demands. The lab also benchmarks humans against vision models on multiview 3D shape inference, finding that humans outperform models such as DINOv2 and CLIP, and shows that networks trained on a multi-view visual-spatial objective can match human 3D shape accuracy and predict error patterns and reaction times. A further line of work uses data augmentation as a computational framework for hippocampal contributions to generalization.",
+    "papers": [
+      {
+        "title": "Human-level 3D shape perception emerges from multi-view learning",
+        "abstract": "The study builds a modeling framework that predicts human 3D shape judgments for arbitrary objects directly from experimental stimuli. Neural networks are trained with a visual-spatial objective on naturalistic data: given images taken from different locations in a scene, they learn to predict camera location and depth, with no object-specific inductive biases. Evaluated zero-shot on an established 3D perception task, these multi-view models match human accuracy, and independent readouts of their responses predict human error patterns and reaction times, suggesting human-level 3D perception can emerge from a simple, scalable learning objective over visual-spatial data.",
+        "year": "2026",
+        "venue": "arXiv preprint",
+        "citations": "0",
+        "authors": "Tyler Bonnen, Jitendra Malik, Angjoo Kanazawa",
+        "url": "https://doi.org/10.48550/arxiv.2602.17650"
+      },
+      {
+        "title": "Data augmentation as a framework for modeling hippocampal contributions to generalization",
+        "abstract": "This perspective proposes that data augmentation, a machine learning strategy for improving generalization by refactoring prior experience, offers a useful framework for modeling hippocampal function. It distinguishes an offline setting, where refactored training data yield more general representations, from an online setting, where retrieved experiences are flexibly refactored at test time to support zero-shot inference, and maps both onto hippocampal functions. The authors argue these tools can supply formal linking functions between experimental evidence and theory, so one modeling approach can predict diverse hippocampus-dependent behaviors, from navigation to abstract inference.",
+        "year": "2026",
+        "venue": "Current Opinion in Behavioral Sciences",
+        "citations": "0",
+        "authors": "Tyler Bonnen, Andrew K. Lampinen",
+        "url": "https://doi.org/10.1016/j.cobeha.2026.101673"
+      },
+      {
+        "title": "Medial temporal cortex supports object perception by integrating over visuospatial sequences",
+        "abstract": "The study tests whether perirhinal cortex supports object perception by integrating over sequences of glances. Human performance given brief viewing is approximated by a linear readout of macaque ventral temporal cortex, but people far outperform that readout with longer viewing, and brief-viewing deficits resemble those of humans with perirhinal damage. Gaze recordings show participants sequentially sample task-relevant features across saccades, and these reliable attention patterns are necessary for perirhinal-dependent inferences, pointing to complementary roles for ventral temporal and perirhinal cortex.",
+        "year": "2025",
+        "venue": "Cognition",
+        "citations": "3",
+        "authors": "Tyler Bonnen, Anthony D. Wagner, Daniel L. K. Yamins",
+        "url": "https://doi.org/10.1016/j.cognition.2025.106135"
+      },
+      {
+        "title": "Evaluating Multiview Object Consistency in Humans and Image Models",
+        "abstract": "The paper introduces a benchmark for comparing humans and vision models on 3D shape inference: given a set of images, participants judge which show the same or different objects despite large viewpoint changes, using both common objects and procedurally generated abstract shapes. Over 2000 image sets were run with more than 500 participants (about 35K trials, including reaction time and gaze). Humans outperform all tested vision models (e.g., DINOv2, MAE, CLIP) by a wide margin, and although human and model performance correlate, humans spend more time on difficult trials.",
+        "year": "2024",
+        "venue": "Advances in Neural Information Processing Systems 37 (NeurIPS 2024)",
+        "citations": "0",
+        "authors": "Tyler Bonnen, Stephanie Fu, Yutong Bai, Thomas P. O'Connell, Yoni Friedman, Nancy Kanwisher, Joshua B. Tenenbaum, Alexei A. Efros",
+        "url": "https://doi.org/10.52202/079017-1379"
+      },
+      {
+        "title": "Inconsistencies between human and macaque lesion data can be resolved with a stimulus-computable model of the ventral visual stream",
+        "abstract": "Findings on medial temporal lobe involvement in perception seem to conflict between humans with naturally occurring damage and monkeys with surgical perirhinal lesions. Using a stimulus-computable proxy for the primate ventral visual stream, the authors show that a ventral-stream-like model predicts the choices of both intact and lesioned monkeys, so a linear readout of that stream suffices for those tasks. Combined with human results, this indicates the earlier monkey data cannot count as evidence against perirhinal involvement in perception, and that the species discrepancy came from informal accounts of perceptual demands.",
+        "year": "2023",
+        "venue": "eLife",
+        "citations": "4",
+        "authors": "Tyler Bonnen, Mark A. G. Eldridge",
+        "url": "https://doi.org/10.7554/elife.84357"
+      }
+    ],
+    "primary_subfield": "Theory & Computation",
+    "subfields": [
+      {
+        "subfield": "Theory & Computation",
+        "score": 1.0
+      },
+      {
+        "subfield": "Object Recognition",
+        "score": 0.5
+      },
+      {
+        "subfield": "3D Perception",
+        "score": 0.5
+      }
+    ],
+    "profile_pic": "tyler_bonnen_E377.jpg",
+    "umap_projection": {
+      "x": -3.428600311279297,
+      "y": 2.869314193725586
+    },
+    "cluster": 0,
+    "total_citations": 468,
+    "h_index": 9
   }
 }

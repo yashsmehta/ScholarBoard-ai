@@ -52317,17 +52317,8 @@
     "lab_url": "https://greenlab.psych.wisc.edu/",
     "main_research_area": "human learning and cognitive training",
     "bio": "C. Shawn Green is the Mark and Ilene Laufman Family Professor and Chair of the Department of Psychology at the University of Wisconsin–Madison, where they direct the Learning and Transfer Lab. Green’s research investigates the computational and neural mechanisms of human learning, with a focus on how experience with complex environments, such as action video games, can drive improvements in perception and attention. They utilize psychophysical testing, cognitive training paradigms, and modern media to study the factors that determine the rate of learning and the extent to which acquired skills generalize to novel tasks. Green also serves as the Editor-in-Chief of the Journal of Cognitive Enhancement and applies their findings to domains including motor learning and educational practice.",
-    "research_direction": "Dr. Green's recent work explores the mechanisms and optimization of cognitive training, with a particular focus on how video game mechanics influence learning, skill transfer, and executive function. They have recently been investigating the broad cognitive benefits of action video games, questioning how enhanced attentional control might facilitate a generalized ability to extract environmental statistics and learn novel tasks. Additionally, their research critically evaluates the psychometric validity of traditional planning metrics, such as the Tower of London, and tests whether custom-designed mini-games can provide a more cohesive stealth assessment of goal-directed behavior. To address the practical challenge of participant dropout in longitudinal studies, they are also examining how motivational frameworks—such as manipulating performance feedback and deploying multidimensional dynamic difficulty adjustment—can optimize long-term task engagement and skill progression.",
+    "research_direction": "Dr. Green's recent work explores the mechanisms and optimization of cognitive training, with a particular focus on how video game mechanics influence learning, skill transfer, and executive function. They have recently been investigating the broad cognitive benefits of action video games, questioning how enhanced attentional control might facilitate a generalized ability to extract environmental statistics and learn novel tasks. Additionally, their research critically evaluates the psychometric validity of traditional planning metrics, such as the Tower of London, and tests whether custom-designed mini-games can provide a more cohesive stealth assessment of goal-directed behavior. To understand what drives learning over time, they are also applying expectancy-value theory to sustain motivation in cognitive training, and modeling perceptual learning as a continuous function of time-on-task to increase theoretical specificity and statistical power.",
     "papers": [
-      {
-        "title": "Modeling Skill Progression in Children Through Novel Multidimensional Probabilistic DDA",
-        "abstract": "This research introduces a novel methodological architecture for cognitive control training within a video game environment, utilizing a multidimensional probabilistic Dynamic Difficulty Adjustment (DDA) system. Unlike conventional DDA, which typically modulates a single parameter, this framework adapts multiple task features in real-time based on individual player performance to maintain the 'zone of proximal development.' Data from a player cohort demonstrated skill stabilization after approximately 30-45 minutes of gameplay per module, with the system subsequently preserving engagement through controlled difficulty variability—a feature hypothesized to facilitate the transfer of skills to novel situations. The architecture provides a modular, configurable blueprint for developing personalized computerized cognitive training tools.",
-        "year": "2026",
-        "venue": "International Conference on Games and Learning Alliance (GALA 2025)",
-        "citations": "0",
-        "authors": "Angela Pasqualotto, Marios Fanourakis, Zeno Menestrina, Mor Nahum, Daphne Bavelier, C. Shawn Green",
-        "url": "https://doi.org/10.1007/978-3-032-11043-5_25"
-      },
       {
         "title": "Evaluating planning through play: Exploring the use of mini games to assess planning abilities",
         "abstract": "This study evaluates the psychometric utility of custom-designed mini games for the 'stealth assessment' of planning—the cognitive capacity to formulate and execute goal-directed sequences. Addressing the low inter-task reliability observed in traditional planning assessments such as the Tower of London, the research tested four planning-centric mini games alongside a non-planning control and a battery of standard cognitive metrics. Results revealed that the mini-game paradigms demonstrated significantly higher inter-correlations than traditional measures, suggesting they tap into a more cohesive and unified planning construct. Two specific mini games emerged as robust indices of planning proficiency with minimal contamination from processing speed, offering a multifaceted and ecologically valid alternative to conventional laboratory tasks.",
@@ -52363,6 +52354,15 @@
         "citations": "0",
         "authors": "Daphne Bavelier, C. Shawn Green",
         "url": "https://doi.org/10.1177/09637214241287171"
+      },
+      {
+        "title": "Modeling Perceptual Learning as a Continuous Function of Time-on-Task Increases Theoretical Specificity and Statistical Power",
+        "abstract": "The authors argue that perceptual learning is better modelled as a continuous function of time spent on the task than as discrete pre/post comparisons. Their continuous modelling approach makes theoretical claims more specific and increases statistical power for detecting learning effects.",
+        "year": "2024",
+        "venue": "Journal of Cognitive Enhancement",
+        "citations": "9",
+        "authors": "Aaron Cochrane, Zhong-Lin Lu, C. Shawn Green",
+        "url": "https://doi.org/10.1007/s41465-024-00303-3"
       }
     ],
     "primary_subfield": "Perceptual Learning & Plasticity",

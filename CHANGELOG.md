@@ -209,6 +209,7 @@
 - Kelly Bijanki (on request): AI summary and bio reframed to lead with affective neuroscience, intracranial electrophysiology and neuromodulation (DBS for depression), with facial emotion processing as one component; research area relabelled 'affective neuroscience and neuromodulation'. Papers unchanged. Map position unchanged.
 - Lana M. Trick (on request): removed "Concurrently" from the dual-task sentence of the AI summary. Map position unchanged.
 - Laure Pisella (on request): AI summary replaced with the corrected text Dr. Pisella sent (spatial cueing and pointing hypometria, gaze-contingent masking and attentional field, juggling, Posterior Cortical Atrophy); dyslexia sentence dropped. Map position unchanged.
+- Laurence Harris (on request): bio notes Professor Emeritus and not taking students or postdocs
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

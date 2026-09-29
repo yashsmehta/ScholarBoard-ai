@@ -232,6 +232,7 @@
 - Joshua I. Gold (on request): photo replaced (old one was a different person); new one from the Gold Lab people page. Map position unchanged.
 - Alessandra Angelucci (on request): appended a sentence on corticocortical feedback projections to the AI summary.
 - Marla Feller (on request): AI summary now opens with her retinal waves work (cellular mechanisms and role in visual system development) and keeps the direction-selective circuit work. Map position unchanged.
+- Adrian Staub (on request): AI summary replaced with the edited version Dr. Staub sent (reading and eye movements, missed text errors, predictability, agreement attraction).
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

@@ -223,6 +223,7 @@
 - Stephen Adamo (on request): AI summary replaced with the two paragraphs Dr. Adamo sent (attention and rare/multiple-target search, cancer detection in 2D mammography and 3D tomosynthesis, expertise and AI decision support); photo replaced with the University of Arizona faculty headshot; lab link → ADAMO Lab site. Map position unchanged.
 - Yoshiyuki Ueda (on request): personal/lab link fixed to his IFoHS member page. Map position unchanged.
 - Mauro Manassi (on request): visual crowding added to the AI summary (lead research line, with uncrowding and grouping) and three crowding papers added (Schwetlick et al. 2025 J Vis; Manassi & Whitney 2018 Curr Biol; Manassi, Sayim & Herzog 2013 J Vis). Also fixed the list: dropped the 2025 QJEP 'Faces displaying dominance and trustworthiness...' entry (Crossref lists Sharma, Jalalian, Caughey, Golubickis, Macrae; he is not an author) and its dot-probe summary claim, corrected the Visual Cognition 2024 DOI, and swapped the PsyArXiv trustworthiness preprint for its published BMC Biol 2026 version. Map position unchanged.
+- Duje Tadin (on request): AI summary replaced with the recent-research version Dr. Tadin sent (spatial suppression in MT/V5, autism and schizophrenia, vision restoration after occipital stroke, optical adaptation, VR); previous summary was based on a single paper. Map position unchanged.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

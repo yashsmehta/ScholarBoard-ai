@@ -9480,11 +9480,20 @@
     "country": "United States",
     "department": "Department of Psychology",
     "lab_name": "Brainard Lab",
-    "lab_url": "https://brainardlab.psych.upenn.edu/",
+    "lab_url": "https://color.psych.upenn.edu",
     "main_research_area": "Computational vision and color perception",
     "bio": "David Brainard is the RRL Professor of Psychology at the University of Pennsylvania and investigates the computational and neural mechanisms of human visual perception. Their research focuses on color constancy and the process by which the visual system estimates stable object properties from light signals incident on the retina. Brainard utilizes a framework combining psychophysical experiments with image-computable modeling to study early visual encoding and the role of the retinal cone mosaic. Brainard also developed the Psychophysics Toolbox and serves as a co-editor of the Annual Review of Vision Science.",
     "research_direction": "Dr. Brainard has recently been investigating visual processing mechanisms across multiple stages of the visual hierarchy, from retinal circuitry to high-level perception. Their recent work explores spatial and chromatic vision by developing image-computable, anatomically constrained models of the primate retinal ganglion cell mosaic and mapping human color discrimination thresholds using data-efficient, adaptive psychophysical procedures. Beyond early vision, they are also examining how cortical neural populations segregate task-relevant object features from complex visual backgrounds by combining monkey V4 neurophysiology with human psychophysics. Furthermore, their research extends into computational imaging, where they are utilizing diffusion probabilistic models to optimize sampling and reconstruction techniques for high-dimensional natural images.",
     "papers": [
+      {
+        "title": "An image-computable spatio-chromatic receptive field model of the midget retinal ganglion cell mosaic across the retina",
+        "abstract": "This work introduces a novel computational framework that synthesizes image-computable mosaics of linear spatio-chromatic receptive fields (RFs) for ON midget retinal ganglion cells (mRGCs) across the primate retina. The model rigorously incorporates anatomical constraints (cone and mRGC densities), neurophysiological data, and human optical quality measurements (wavefront aberrations). By simulating physiological experiments in both in vivo and in vitro conditions, the authors demonstrate that the model reproduces known spatio-chromatic tuning and spatial contrast sensitivity properties. The framework enables researchers to explore how different RF organization strategies—such as the specific pooling of cone signals into the RF center and surround—affect visual performance across the visual field, serving as a tool for connecting early visual circuitry to psychophysical behavior.",
+        "year": "2026",
+        "venue": "Journal of Computational Neuroscience",
+        "citations": "0",
+        "authors": "Nicolas P. Cottaris, Brian A. Wandell, David H. Brainard",
+        "url": "https://doi.org/10.1007/s10827-026-00930-z"
+      },
       {
         "title": "Temporal dynamics of human color processing measured using a continuous tracking task",
         "abstract": "The authors utilize a continuous tracking paradigm to investigate the temporal latencies inherent in human chromatic processing. Observers tracked chromatic Gabor targets undergoing random-walk trajectories within the LS cone contrast plane, and tracking lag was quantified by determining the peak of the cross-correlation between target and observer velocity vectors. The results demonstrate that tracking lag decreases monotonically with increasing stimulus contrast across diverse chromatic directions. A computational model was developed to link tracking performance with 2-interval forced-choice (2IFC) detection thresholds measured in the same subjects; the model indicates that elliptical isoperformance contours for both tracking and detection exhibit nearly identical orientations and shapes, suggesting that both behaviors are supported by a common underlying representation of chromatic contrast.",
@@ -9520,15 +9529,6 @@
         "citations": "1",
         "authors": "Fangfang Hong, Ruby Bouhassira, Jason Chow, Craig Sanders, Michael Shvartsman, Phillip Guan, Alex H. Williams, David H. Brainard",
         "url": "https://doi.org/10.7554/eLife.108943.1"
-      },
-      {
-        "title": "An image-computable, spatio-chromatic RF model of the midget RGC mosaic across the retina",
-        "abstract": "This work introduces a novel computational framework that synthesizes image-computable mosaics of linear spatio-chromatic receptive fields (RFs) for ON midget retinal ganglion cells (mRGCs) across the primate retina. The model rigorously incorporates anatomical constraints (cone and mRGC densities), neurophysiological data, and human optical quality measurements (wavefront aberrations). By simulating physiological experiments in both in vivo and in vitro conditions, the authors demonstrate that the model reproduces known spatio-chromatic tuning and spatial contrast sensitivity properties. The framework enables researchers to explore how different RF organization strategies—such as the specific pooling of cone signals into the RF center and surround—affect visual performance across the visual field, serving as a tool for connecting early visual circuitry to psychophysical behavior.",
-        "year": "2025",
-        "venue": "bioRxiv",
-        "citations": "0",
-        "authors": "Nicolas P. Cottaris, Brian A. Wandell, David H. Brainard",
-        "url": "https://doi.org/10.1101/2025.10.20.683437"
       }
     ],
     "primary_subfield": "Color, Light & Materials",

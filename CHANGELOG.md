@@ -195,6 +195,7 @@
 - Alex S. Baldwin (on request): photo replaced with the portrait from his own McGill page (old one was a different person). Map position unchanged.
 - Alexander Schütz (on request): profile broadened beyond the five most recent papers; added three representative papers found via Crossref/OpenAlex (Schütz et al. 2008 Nat Neurosci, smooth pursuit sensitivity; Schütz et al. 2012 PNAS, salience and value; Schütz et al. 2011 J Vis, eye movements and perception review). AI summary rewritten to cover the earlier eye-movement work as well as recent metacognition work. Map position unchanged; a larger publication window in the map itself is not implemented.
 - Andrea Facoetti (on request): AI summary replaced with the lab profile Dr. Facoetti sent (attention and perception in learning and neurodevelopment, dyslexia, autism, AVG training).
+- Arash Afraz (on request): removed the incorrect spatial-frequency sentence from the AI summary, replaced with his wording, and dropped "also".
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

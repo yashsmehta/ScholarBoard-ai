@@ -18295,7 +18295,7 @@
     "lab_url": "https://steeveslab.blog.yorku.ca/",
     "main_research_area": "visual neuroscience and neural plasticity",
     "bio": "Jennifer K. E. Steeves is a Professor and the Associate Vice President Research at York University and holds a York Research Chair in Non-Invasive Visual Brain Stimulation. Steeves examines how the human brain reorganizes in response to altered sensory input, such as early monocular enucleation, or to specific cortical lesions like those causing prosopagnosia. By integrating functional magnetic resonance imaging (fMRI) with transcranial magnetic stimulation (TMS) and MR spectroscopy, they investigate the neural mechanisms underlying object, face, and scene perception. Their current work focuses on identifying biomarkers for brain plasticity and developing neuromodulation protocols to treat clinical conditions like visual hallucinations and visual snow syndrome.",
-    "research_direction": "Dr. Steeves has recently been investigating sensory neuroplasticity and the functional consequences of altered perceptual experience across several distinct domains. A major focus of their recent work explores the neural and psychosocial impacts of monocular enucleation, using fMRI population receptive field (pRF) mapping to examine topographic reorganization in early visual cortex, alongside survey-based methods to assess how the developmental timing of eye loss affects vision-related quality of life. Additionally, they are studying crossmodal plasticity by behavioral testing of how long-term musical training influences both social (face-voice) and non-social audiovisual recognition. Furthermore, their methodological research utilizes MRI-guided transcranial magnetic stimulation (TMS) over primary visual cortex to map individual differences in cortical excitability by quantifying the relationship between TMS-induced phosphene size, phosphene thresholds, and modeled electric field strengths.",
+    "research_direction": "Dr. Steeves has investigated how the visual brain reorganizes and how its cortical areas interact, combining brain stimulation, neuroimaging and behavior. Using transcranial magnetic stimulation (TMS), often combined with fMRI, their work has shown how disrupting object-, scene- and face-selective visual cortex changes processing locally and in remote networks, and how theta burst stimulation affects neurochemistry measured by MR spectroscopy. Recent TMS work uses MRI-guided neuronavigation to quantify phosphene size, phosphene thresholds and modeled electric field strengths, to map individual differences in visual cortex excitability. A second major focus is sensory neuroplasticity following early monocular enucleation, using fMRI population receptive field (pRF) mapping to examine topographic reorganization in early visual cortex, alongside survey-based methods to assess how the timing of eye loss affects vision-related quality of life. Additionally, they study crossmodal plasticity through behavioral testing of how long-term musical training influences voice recognition.",
     "papers": [
       {
         "title": "Enhanced voice recognition in musicians",
@@ -18332,6 +18332,42 @@
         "citations": "0",
         "authors": "Remy Cohan, Stefania S. Moro, Jennifer K. E. Steeves",
         "url": "https://doi.org/10.1167/jov.25.9.2652"
+      },
+      {
+        "title": "Continuous and intermittent theta burst stimulation to the visual cortex do not alter GABA and glutamate concentrations measured by magnetic resonance spectroscopy",
+        "abstract": "Using magnetic resonance spectroscopy, the study tested whether continuous or intermittent theta burst TMS applied over visual cortex changes local GABA or glutamate levels. It found no measurable change in either neurotransmitter concentration, which constrains mechanistic accounts of how theta burst stimulation alters visual cortex.",
+        "year": "2022",
+        "venue": "Brain and Behavior",
+        "citations": "21",
+        "authors": "Karlene S. Stoby, Sara A. Rafique, Georg Oeltzschner, Jennifer K. E. Steeves",
+        "url": "https://doi.org/10.1002/brb3.2478"
+      },
+      {
+        "title": "Consecutive TMS-fMRI reveals remote effects of neural noise to the “occipital face area”",
+        "abstract": "TMS to the occipital face area was followed by fMRI to see how disrupting this region changes activity across the face-processing network. Neural noise in the occipital face area produced effects in remote regions, showing that face-selective areas influence one another beyond the stimulated site.",
+        "year": "2016",
+        "venue": "Brain Research",
+        "citations": "24",
+        "authors": "Lily M. Solomon-Harris, Sara A. Rafique, Jennifer K. E. Steeves",
+        "url": "https://doi.org/10.1016/j.brainres.2016.08.043"
+      },
+      {
+        "title": "Consecutive TMS-fMRI Reveals an Inverse Relationship in BOLD Signal between Object and Scene Processing",
+        "abstract": "TMS to object- or scene-selective visual cortex was combined with subsequent fMRI to examine how the two systems interact. The BOLD signal showed an inverse relationship between object and scene processing, indicating competitive interaction between these visual pathways.",
+        "year": "2013",
+        "venue": "The Journal of Neuroscience",
+        "citations": "25",
+        "authors": "Caitlin R. Mullin, Jennifer K. E. Steeves",
+        "url": "https://doi.org/10.1523/jneurosci.2537-13.2013"
+      },
+      {
+        "title": "TMS to the Lateral Occipital Cortex Disrupts Object Processing but Facilitates Scene Processing",
+        "abstract": "TMS was applied to lateral occipital cortex while participants performed object and scene tasks. Stimulation impaired object processing while facilitating scene processing, suggesting that object and scene processing compete within the visual system.",
+        "year": "2011",
+        "venue": "Journal of Cognitive Neuroscience",
+        "citations": "61",
+        "authors": "Caitlin R. Mullin, Jennifer K. E. Steeves",
+        "url": "https://doi.org/10.1162/jocn_a_00095"
       }
     ],
     "primary_subfield": "Perceptual Learning & Plasticity",

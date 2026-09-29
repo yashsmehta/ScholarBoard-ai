@@ -204,6 +204,7 @@
 - Elisha Merriam (on request): photo removed (it showed Denis Schluppeck; no verifiable NIMH headshot found), papers rebuilt from verified first/last-author work, bio and AI summary rewritten with the EEG, head-tilt and coordinate-transform claims dropped.
 - Holger Wiese (on request): AI summary replaced with the text Prof. Wiese sent (EEG/ERP stages of face identity processing, N170, N250r and familiarity effects, face learning, individual differences). Map position unchanged.
 - James Bisley (on request): photo removed (it showed someone else; he has no photo online), papers rebuilt from his Google Scholar profile (the five AI-listed papers were not his), bio and AI summary rewritten from verified work and the UCLA profile.
+- Jennifer Steeves (on request): added four verified TMS papers (Mullin & Steeves 2011 J Cogn Neurosci and 2013 J Neurosci; Solomon-Harris et al. 2016 Brain Res; Stoby et al. 2022 Brain Behav); AI summary broadened to lead with TMS/TMS-fMRI work alongside enucleation plasticity and crossmodal work. Map position unchanged. Last-name sort in the country view not built.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

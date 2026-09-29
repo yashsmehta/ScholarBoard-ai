@@ -6789,25 +6789,25 @@
     "lab_url": "https://oliv.psych.umn.edu/",
     "main_research_area": "high-resolution fMRI and vision",
     "bio": "Cheryl Olman is a researcher at the University of Minnesota specializing in high-resolution functional magnetic resonance imaging (fMRI) and visual neuroscience. Olman utilizes ultra-high-field (7T) imaging and visual psychophysics to investigate how the human brain processes local image features to construct global representations of scenes and objects. Their research explores the laminar organization of the early visual cortex to differentiate between feedforward and feedback computations while examining biophysical links between BOLD signal dynamics and excitatory/inhibitory neural activity. Olman also investigates clinical applications, focusing on how visual perceptual context and neural connectivity are altered in individuals with psychotic disorders.",
-    "research_direction": "Dr. Olman's recent work explores how spatial context and top-down signals shape neural representations within the human visual system. Using ultra-high-resolution 7T fMRI, they have recently been investigating the depth-resolved laminar profiles of contextual modulation in primary visual cortex to disentangle the specific lateral and feedback pathways underlying surround suppression and figure-ground segregation. In parallel, their research examines the mechanistic basis of perceptual deficits in the schizophrenia spectrum, combining psychophysics and neuroimaging to test whether impaired contrast suppression arises from local gain control anomalies in early visual cortex or from disrupted priors in higher-order areas like the lateral occipital complex. Finally, they are investigating the computational relationship between perception and mental imagery, characterizing how stimulus-evoked neural patterns are mathematically transformed and dimensionally compressed during internal visualization.",
+    "research_direction": "Dr. Olman's recent work explores how spatial context and top-down signals shape neural representations within the human visual system. Using ultra-high-resolution 7T fMRI, they have recently been investigating the depth-resolved laminar profiles of contextual modulation in primary visual cortex to disentangle the specific lateral and feedback pathways underlying surround suppression and figure-ground segregation. In parallel, their research examines the mechanistic basis of perceptual deficits in the schizophrenia spectrum, combining psychophysics and neuroimaging to test whether impaired contrast suppression arises from local gain control anomalies in early visual cortex or from disrupted priors in higher-order areas like the lateral occipital complex. Finally, their work with clinical populations extends to reading speed and visual deficits in veterans with mild traumatic brain injury, linking behavioral measures to the integrity of cerebral white matter.",
     "papers": [
       {
-        "title": "A transformation from vision to imagery in the human brain",
-        "abstract": "The relationship between mental imagery and visual perception remains a fundamental question in systems neuroscience. This study proposes that the divergence between stimulus-evoked activity during vision and reinstated activity during imagery can be characterized by an 'imagery transformation' within a hierarchical generative network. Utilizing two high-resolution 7T fMRI datasets, the researchers estimated these transformations across various visual regions. The findings reveal that imagery activity patterns are not merely attenuated versions of visual patterns but represent complex mathematical mappings. In early visual cortex, these transformations effectively halve the dimensionality of the active representation and reorient the principal dimensions. Consequently, while imagery reconstructions share coarse features with vision, they occupy a distinct subspace in the neural activation manifold and explain only a fraction of the variance of visual activity.",
-        "year": "2025",
-        "venue": "eLife",
+        "title": "Orientation-tuned surround suppression exhibits a unique laminar signature in the human primary visual cortex",
+        "abstract": "Visual perception is significantly influenced by spatial context, which modifies the neural code in the primary visual cortex (V1) through feedback and lateral connections. This study employed ultra-high-resolution (0.6 mm) 7T fMRI to investigate the laminar-specific blood-oxygenation-level-dependent (BOLD) profiles of orientation-tuned surround suppression (OTSS) and figure-ground modulation (FGM). By manipulating the relative phase and orientation of annular surrounds, the researchers isolated these contextual effects. Results indicate that FGM elicits robust modulation in both superficial and deep cortical layers. In contrast, OTSS showed a distinct laminar signature characterized by its absence in the deeper layers, suggesting that long-range lateral inhibitions and feedforward-aligned mechanisms drive this suppression differently than top-down figure-ground signals.",
+        "year": "2026",
+        "venue": "Proceedings of the National Academy of Sciences",
         "citations": "0",
-        "authors": "Thomas Naselaris, Cheryl A. Olman",
-        "url": "https://doi.org/10.7554/eLife.103347.1"
+        "authors": "Joseph H. Emerson, Karen T. Navarro, Cheryl A. Olman",
+        "url": "https://doi.org/10.1073/pnas.2502969123"
       },
       {
-        "title": "Orientation-tuned surround suppression exhibits a unique laminar signature in human primary visual cortex",
-        "abstract": "Visual perception is significantly influenced by spatial context, which modifies the neural code in the primary visual cortex (V1) through feedback and lateral connections. This study employed ultra-high-resolution (0.6 mm) 7T fMRI to investigate the laminar-specific blood-oxygenation-level-dependent (BOLD) profiles of orientation-tuned surround suppression (OTSS) and figure-ground modulation (FGM). By manipulating the relative phase and orientation of annular surrounds, the researchers isolated these contextual effects. Results indicate that FGM elicits robust modulation in both superficial and deep cortical layers. In contrast, OTSS showed a distinct laminar signature characterized by its absence in the deeper layers, suggesting that long-range lateral inhibitions and feedforward-aligned mechanisms drive this suppression differently than top-down figure-ground signals.",
-        "year": "2025",
-        "venue": "bioRxiv",
+        "title": "Reading speed, visual deficits, and cerebral white matter integrity in veterans with and without mild traumatic brain injury",
+        "abstract": "This study examined reading speed and visual function in veterans with and without a history of mild traumatic brain injury, and asked how these measures relate to the integrity of cerebral white matter tracts.",
+        "year": "2026",
+        "venue": "Frontiers in Neuroscience",
         "citations": "0",
-        "authors": "Joseph H. Emerson, Karen Navarro, Cheryl A. Olman",
-        "url": "https://doi.org/10.1101/2025.12.01.691341"
+        "authors": "Kori E. Skrypek, Philip C. Burton, Nicholas D. Davenport, Scott R. Sponheim, Cheryl A. Olman",
+        "url": "https://doi.org/10.3389/fnins.2026.1828388"
       },
       {
         "title": "Perceptual deficits in psychosis: The role of higher level visual areas and prior knowledge",
@@ -6815,8 +6815,8 @@
         "year": "2025",
         "venue": "Journal of Vision",
         "citations": "0",
-        "authors": "Anh Pham, Scott R. Sponheim, Cheryl A. Olman",
-        "url": "https://doi.org/10.1167/jov.25.9.2793"
+        "authors": "Anh T. Pham, Scott R. Sponheim, Cheryl A. Olman",
+        "url": "https://doi.org/10.1167/jov.25.9.2794"
       },
       {
         "title": "Orientation-dependent contextual modulation of contrast in schizophrenia",
@@ -6825,16 +6825,16 @@
         "venue": "Schizophrenia Research",
         "citations": "1",
         "authors": "Victor J. Pokorny, Scott R. Sponheim, Cheryl A. Olman",
-        "url": "https://doi.org/10.1016/j.schres.2024.10.024"
+        "url": "https://doi.org/10.1016/j.schres.2024.10.021"
       },
       {
-        "title": "Different contextual modulation mechanisms exhibit distinct laminar profiles in human primary visual cortex",
-        "abstract": "This investigation seeks to clarify the independent contributions of lateral and feedback pathways to the contextual modulation of neural responses in human V1. Using sub-millimeter line-scanning fMRI at 7T, the study measured depth-resolved BOLD activity during tasks requiring the integration of local image features with broad spatial contexts. The researchers found that while both types of connectivity shape V1 representations, feedback-driven signals (such as those during scene segmentation) target the outer and inner-most layers, whereas lateral connections involved in basic feature suppression exhibit a more localized laminar footprint. The results provide non-invasive evidence for the participation of distinct intracortical microcircuits in specific visual contextual phenomena, bridging animal electrophysiology with human functional neuroimaging.",
-        "year": "2024",
-        "venue": "bioRxiv",
+        "title": "Weakened untuned gain control is associated with schizophrenia while atypical orientation-tuned suppression depends on visual acuity",
+        "abstract": "Contrast discrimination with oriented surrounds was compared between people with schizophrenia and controls, separating untuned gain control from orientation-tuned suppression and testing the role of visual acuity.",
+        "year": "2023",
+        "venue": "Journal of Vision",
         "citations": "0",
-        "authors": "Joseph Emerson, Karen Navarro, Cheryl A. Olman",
-        "url": "https://doi.org/10.1101/2024.05.24.595716"
+        "authors": "Victor J. Pokorny, Michael-Paul Schallmo, Scott R. Sponheim, Cheryl A. Olman",
+        "url": "https://doi.org/10.1167/jov.23.2.2"
       }
     ],
     "primary_subfield": "Spatial Vision",

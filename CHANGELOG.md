@@ -199,6 +199,7 @@
 - Benjamin Balas (on request): removed from the map, search and profile pics at his request (2026-09-28); recorded as an opt-out so rebuilds and outreach do not re-add him.
 - Bianca M. van Kemenade (on request; also flagged by Martin Hebart): photo replaced with her own portrait from bvankemenade.com (old one was Elena Azanon). Paper list replaced with the five papers she sent (iScience 2026, Transl Psychiatry 2025, Schizophr Bull 2024, NeuroImage 2022, Hum Brain Mapp 2022; each DOI checked against Crossref/OpenAlex); AI summary broadened to cover all five, including the clinical work. Map position unchanged.
 - Brad Duchaine (on request): AI summary replaced with the text Dr. Duchaine sent (PMO, developmental prosopagnosia, behavioral testing and neuroimaging, neural-network models for DP research). Map position unchanged.
+- Cheryl Olman (on request): removed two papers that were not hers (a Naselaris eLife paper and a bioRxiv item whose DOI belongs to another group), replaced the bioRxiv orientation-tuned surround suppression preprint with the published PNAS version, corrected two DOIs, added two verified papers, and rewrote the last sentence of the AI summary.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

@@ -198,6 +198,7 @@
 - Arash Afraz (on request): removed the incorrect spatial-frequency sentence from the AI summary, replaced with his wording, and dropped "also".
 - Benjamin Balas (on request): removed from the map, search and profile pics at his request (2026-09-28); recorded as an opt-out so rebuilds and outreach do not re-add him.
 - Bianca M. van Kemenade (on request; also flagged by Martin Hebart): photo replaced with her own portrait from bvankemenade.com (old one was Elena Azanon). Paper list replaced with the five papers she sent (iScience 2026, Transl Psychiatry 2025, Schizophr Bull 2024, NeuroImage 2022, Hum Brain Mapp 2022; each DOI checked against Crossref/OpenAlex); AI summary broadened to cover all five, including the clinical work. Map position unchanged.
+- Brad Duchaine (on request): AI summary replaced with the text Dr. Duchaine sent (PMO, developmental prosopagnosia, behavioral testing and neuroimaging, neural-network models for DP research). Map position unchanged.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

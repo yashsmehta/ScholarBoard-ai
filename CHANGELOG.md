@@ -252,6 +252,7 @@
 - Ruth Rosenholtz (on request): AI summary no longer ties visual search asymmetries to peripheral vision; real-world applications now also cover perception for driving and peripheral vision for action. Map position unchanged.
 - Shinsuke Shimojo (on request): AI summary replaced with his lightly revised version (adds psychophysics, team flow, and magnetoreception–vision interaction). Map position unchanged.
 - Timothy Vickery (audit): removed a 2017 paper mislabeled as 2024 (fabricated venue and DOI) and added Lebed, Scanlon & Vickery (APP, 2023); AI summary regenerated from the corrected papers. Map position unchanged.
+- **Profile audit of all PIs** (Crossref DOI check of every paper plus a web check by agents, each fix re-verified by a second agent): 170 fabricated, mislabeled, pre-2023 or conference-abstract papers removed, 98 middle-author papers removed (kept where a profile would otherwise be left with two or fewer), 437 papers corrected (mostly Semantic Scholar links replaced by DOIs, some wrong years/venues), 19 verified papers added. Profile fixes: institution for 5 PIs, 4 name spellings, 3 lab URLs. Hand-edited AI summaries untouched. No PI is without a paper from 2022 or later, so nobody was removed from the map. Map positions unchanged.
 
 ### Frontend
 - Deep links: selecting a scholar sets `#/scholar/<id>` in the URL and opening such a link selects

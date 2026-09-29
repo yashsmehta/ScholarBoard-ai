@@ -211,6 +211,7 @@
 - Laure Pisella (on request): AI summary replaced with the corrected text Dr. Pisella sent (spatial cueing and pointing hypometria, gaze-contingent masking and attentional field, juggling, Posterior Cortical Atrophy); dyslexia sentence dropped. Map position unchanged.
 - Laurence Harris (on request): bio notes Professor Emeritus and not taking students or postdocs
 - Mel Rutherford (on request): AI summary replaced with the paragraph Dr. Rutherford sent (social perception and cognition across development, autism); pronouns corrected to he/him in bio and summary.
+- Martin N. Hebart (on request): primary institution → Justus Liebig University Giessen (country mapping already present). AI summary broadened beyond the five latest papers to include his most-cited vision work (THINGS database and THINGS-data, behavior-derived object dimensions and their cortical maps, DNN-human alignment); paper list now mixes the influential 2020-24 papers with two 2025 ones. Bianca van Kemenade's photo also corrected (see her entry). Map position unchanged.
 
 ### Frontend
 - **Control bar regrouped**: the List | Map switch now sits beside the search box as a

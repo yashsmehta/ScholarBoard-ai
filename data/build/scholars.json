@@ -26435,24 +26435,15 @@
   "0431": {
     "id": "0431",
     "name": "Martin N. Hebart",
-    "institution": "Max Planck Institute for Human Cognitive and Brain Sciences",
+    "institution": "Justus Liebig University Giessen",
     "country": "Germany",
     "department": "Department of Medicine and Independent Research Group Vision and Computational Cognition",
     "lab_name": "Vision and Computational Cognition (ViCCo) Group",
     "lab_url": "https://hebartlab.com/",
     "main_research_area": "computational cognitive neuroscience",
     "bio": "Martin N. Hebart is a computational neuroscientist who researches the latent representational dimensions underlying human object recognition and semantic knowledge. Hebart directs the Vision and Computational Cognition group and participates in the THINGS initiative, utilizing large-scale behavioral and neuroimaging datasets to map multidimensional spaces of visual perception. Their methodology integrates multivariate pattern analysis and representational alignment techniques to compare human neural representations with deep neural networks and artificial intelligence. Hebart’s current research investigates the transformational cascade from low-level visual input to high-level semantic reasoning and how these processes are altered in psychiatric conditions involving visual phenomena.",
-    "research_direction": "Dr. Hebart has recently been exploring the computational and neural architectures underlying human visual object representation and spatial vision. Their recent work investigates the representational alignment between deep neural networks and human behavior, developing high-throughput frameworks to probe the specific semantic and visual dimensions that drive perceived object similarity. In the human brain, they are studying how the ventral visual pathway multiplexes broad categorical domain knowledge with fine-grained, image-specific details across large naturalistic datasets. Additionally, their research investigates the spatial and predictive dynamics of early visual cortex, leveraging geometric deep learning to predict individual functional retinotopy directly from structural MRI and using functional imaging to examine how foveal V1 predictively encodes peripheral targets during saccade preparation.",
+    "research_direction": "Dr. Hebart studies how the human brain and artificial neural networks represent the visual world of objects. Their most influential work built the THINGS initiative, including the THINGS image database and THINGS-data, a multimodal collection of fMRI, MEG and 4.7 million behavioral similarity judgments, and used those judgments to identify the interpretable dimensions underlying human object similarity. Follow-up work maps these behavior-derived dimensions across visual cortex, showing that they explain brain responses better than categories and that category selectivity emerges as a special case of sparse tuning. More recent studies compare human and deep-network representations, showing that humans weight semantic dimensions while networks lean on low-level visual ones, develop high-throughput methods for predicting perceived similarity, and examine the fine-grained image and category information in visual cortex, foveal V1 encoding of saccade targets and individual functional topography predicted from structural MRI.",
     "papers": [
-      {
-        "title": "Predicting functional topography of the human visual cortex from cortical anatomy at scale",
-        "abstract": "The authors developed the deepRetinotopy toolbox, a geometric deep learning framework that predicts individual-specific functional topographic organization of the human visual cortex solely from structural MRI (T1-weighted) scans. Topographic mapping traditionally requires resource-intensive functional neuroimaging, but this model provides an efficient alternative that generates accurate retinotopic predictions (eccentricity and polar angle) across diverse datasets, scanners, and protocols. The utility of the predicted maps was demonstrated by automating individual visual area boundary delineation and by analyzing age-related changes in V1 organization across a sample of 11,060 anatomical scans, showing that large-scale functional organization is predictable from cortical anatomy alone.",
-        "year": "2025",
-        "venue": "bioRxiv",
-        "citations": "0",
-        "authors": "Fernanda L. Ribeiro, Robert Satzger, Felix Hoffstaedter, Christian Bürger, Peer Herholz, David Linhardt, Noah C. Benson, D. Samuel Schwarzkopf, Alexander M. Puckett, Steffen Bollmann, Martin N. Hebart",
-        "url": "https://doi.org/10.1101/2025.11.27.690210"
-      },
       {
         "title": "Dimensions underlying the representational alignment of deep neural networks with humans",
         "abstract": "This study investigates the latent factors determining the representational alignment between deep neural networks (DNNs) and human mental representations using a shared-dimension comparison framework. While global scalar metrics like Representational Similarity Analysis (RSA) quantify alignment levels, they fail to specify the underlying features driving this similarity. By mapping DNN activations and human behavioral judgments onto a 49-dimensional interpretable space, the researchers identified a fundamental divergence in representational strategies: human judgments are predominantly organized by semantic and conceptual dimensions, whereas DNNs exhibit a heavy reliance on low-level visual properties. These findings emphasize that high predictive accuracy in DNNs does not guarantee human-like semantic processing and highlight the necessity for dimension-specific alignment evaluations.",
@@ -26472,22 +26463,31 @@
         "url": "https://doi.org/10.7554/eLife.105394.1"
       },
       {
-        "title": "Decoding peripheral saccade targets from foveal retinotopic cortex",
-        "abstract": "This study provides direct evidence of image-specific foveal prediction signals reaching the primary visual cortex (V1) during saccade preparation. Utilizing a gaze-contingent fMRI paradigm where peripheral saccade targets were removed before fixation, the authors demonstrated that stimulus identity could be decoded from the foveal retinotopic cortex despite the absence of direct foveal stimulation. Decoding sensitivity was specific to stimulus shape but not semantic category, suggesting a low-level feature-based feedback mechanism. Furthermore, fluctuations in foveal decodability covaried with activity in the intraparietal sulcus, identifying it as a candidate source for the feedback. These findings reveal a neural mechanism for trans-saccadic perceptual stability where foveal regions predictively represent upcoming visual inputs.",
-        "year": "2025",
-        "venue": "eLife",
-        "citations": "2",
-        "authors": "Luca Kämmer, Lisa M. Kroell, Tomas Knapen, Martin Rolfs, Martin N. Hebart",
-        "url": "https://doi.org/10.7554/eLife.107053.3"
+        "title": "Distributed representations of behaviour-derived object dimensions in the human visual system",
+        "abstract": "Maps dimensions derived from human similarity judgments onto fMRI responses, showing that behavior-derived dimensions predict visual cortex better than categories and that category selectivity emerges as a special case of sparse tuning across dimensions.",
+        "year": "2024",
+        "venue": "Nature Human Behaviour",
+        "citations": "51",
+        "authors": "Oliver Contier, Chris I. Baker, Martin N. Hebart",
+        "url": "https://doi.org/10.1038/s41562-024-01980-y"
       },
       {
-        "title": "The scope and limits of fine-grained image and category information in the ventral visual pathway",
-        "abstract": "The authors characterize the cortical organization of coarse-scale category versus fine-grained image-specific information in the human ventral visual stream using high-resolution fMRI and the large-scale THINGS database. Applying multivariate pattern analysis (MVPA) to neural responses from 8,000 images, they identified distinct representational structures for semantic categories and individual exemplars. While category-selective regions (e.g., face- or place-selective clusters) exhibit clear domain-specific preferences, the study found they also encode extensive fine-grained information about individual images within and across categories. These results suggest a multidimensional representational architecture in high-level visual cortex where specialized modules are integrated into a broader, continuous representational landscape supporting diverse behavioral goals.",
-        "year": "2025",
-        "venue": "Journal of Neuroscience",
-        "citations": "5",
-        "authors": "Markus W. Badwal, Johanna Bergmann, Johannes H.R. Roth, Christian F. Doeller, Martin N. Hebart",
-        "url": "https://doi.org/10.1523/JNEUROSCI.0936-24.2024"
+        "title": "THINGS-data, a multimodal collection of large-scale datasets for investigating object representations in human brain and behavior",
+        "abstract": "Presents the public THINGS-data release: densely sampled fMRI and MEG recordings plus 4.70 million similarity judgments for photographs covering up to 1,854 object concepts. Analyses show data quality and illustrate several hypothesis- and data-driven uses for studying object representations.",
+        "year": "2023",
+        "venue": "eLife",
+        "citations": "168",
+        "authors": "Martin N. Hebart, Oliver Contier, Lina Teichmann, Adam H. Rockter, Charles Y. Zheng, Alexis Kidder, Anna Corriveau, Maryam Vaziri-Pashkam, Chris I. Baker",
+        "url": "https://doi.org/10.7554/elife.82580"
+      },
+      {
+        "title": "Revealing the multidimensional mental representations of natural objects underlying human similarity judgements",
+        "abstract": "Uses millions of odd-one-out similarity judgments over 1,854 object concepts to derive a set of interpretable dimensions that predict human similarity behavior and reflect both semantic and visual properties of objects.",
+        "year": "2020",
+        "venue": "Nature Human Behaviour",
+        "citations": "328",
+        "authors": "Martin N. Hebart, Charles Y. Zheng, Francisco Pereira, Chris I. Baker",
+        "url": "https://doi.org/10.1038/s41562-020-00951-3"
       }
     ],
     "primary_subfield": "Theory & Computation",

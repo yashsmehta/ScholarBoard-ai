@@ -36,6 +36,11 @@ class SubfieldTag(BaseModel):
     score: float
 
 
+class SimilarScholar(BaseModel):
+    id: str
+    score: float
+
+
 class Scholar(BaseModel):
     id: str
     name: str
@@ -56,3 +61,4 @@ class Scholar(BaseModel):
     total_citations: Optional[int] = None
     h_index: Optional[int] = None
     aliases: list[str] = Field(default_factory=list)
+    similar: list[SimilarScholar] = Field(default_factory=list)

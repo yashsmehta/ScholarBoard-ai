@@ -25,8 +25,9 @@ from scholar_board.config import (
     BUILD_DIR,
     NAME_ALIASES_PATH,
     INSTITUTION_COUNTRIES_PATH,
+    EMBEDDINGS_PATH,
 )
-from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection
+from scholar_board.schemas import Scholar, Paper, SubfieldTag, UMAPProjection, SimilarScholar
 from scholar_board.db import (
     get_connection,
     init_db,
@@ -162,6 +163,40 @@ def backfill_db(conn) -> None:
     print("Backfill complete.\n")
 
 
+SIMILAR_COUNT = 10
+
+
+def compute_similar(scholar_ids: list[str], k: int = SIMILAR_COUNT) -> dict[str, list[dict]]:
+    """Top-k most similar scholars by cosine similarity of the full embeddings.
+
+    Restricted to `scholar_ids` (the PIs being shipped); self excluded.
+    """
+    import numpy as np
+    import xarray as xr
+
+    if not EMBEDDINGS_PATH.exists():
+        print("  Warning: no embeddings file — skipping `similar`")
+        return {}
+    ds = xr.open_dataset(EMBEDDINGS_PATH)
+    emb_ids = [str(x) for x in ds.scholar_id.values]
+    emb = ds.embedding.values.astype("float64")
+    ds.close()
+    index = {sid: i for i, sid in enumerate(emb_ids)}
+    ids = [sid for sid in scholar_ids if sid in index]
+    missing = len(scholar_ids) - len(ids)
+    if missing:
+        print(f"  Warning: {missing} scholars have no embedding — no `similar` list")
+    m = emb[[index[s] for s in ids]]
+    m /= np.linalg.norm(m, axis=1, keepdims=True)
+    sims = m @ m.T
+    np.fill_diagonal(sims, -np.inf)
+    out: dict[str, list[dict]] = {}
+    for r, sid in enumerate(ids):
+        top = np.argsort(-sims[r])[:k]
+        out[sid] = [{"id": ids[j], "score": round(float(sims[r, j]), 4)} for j in top]
+    return out
+
+
 # ── export: SELECT from DB → Scholar objects → JSON ──────────────────────
 
 def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
@@ -262,6 +297,10 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
         except Exception as e:
             print(f"  Warning: skipping {sid} — {e}")
 
+    similar = compute_similar([s.id for s in scholars])
+    for scholar in scholars:
+        scholar.similar = [SimilarScholar(**e) for e in similar.get(scholar.id, [])]
+
     print(f"\nBuilt {len(scholars)} scholars")
     print(f"  With UMAP coords:    {stats['umap']}")
     print(f"  With papers:         {stats['papers']}")
@@ -290,6 +329,8 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
             data.pop("papers", None)
         if not data.get("aliases"):
             data.pop("aliases", None)
+        if not data.get("similar"):
+            data.pop("similar", None)
         consolidated[scholar.id] = data
 
     BUILD_DIR.mkdir(parents=True, exist_ok=True)

@@ -3,6 +3,10 @@
 ## Next release (in progress, 2026-09-25)
 
 ### Pipeline
+- **Similar Researchers now ranked by embedding similarity**: `build` adds a `similar` field to
+  every PI in `scholars.json` (top 10 `{id, score}` by cosine similarity of the full 3072-d
+  embeddings, PIs only, self excluded). The sidebar shows the first 5 (falling back to
+  2D map distance if the field is missing); scores are not shown yet. Methodology text updated.
 - **New private `sex` field** (`scholar_board/pipeline/sex.py`, run on demand, not a map step):
   Gemini 3.8 Flash estimates each PI's sex from bio pronouns or first name (female / male /
   unknown). Stored only in the DB (`scholars.sex`) and `data/pipeline/scholar_sex.json`, and

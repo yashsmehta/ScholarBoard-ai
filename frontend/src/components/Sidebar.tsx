@@ -21,7 +21,7 @@ export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfi
   const [expanded, setExpanded] = useState(false)
   const touchStartY = React.useRef<number | null>(null)
   const nearby = useMemo(
-    () => (scholar ? findNearbyScholars(scholar, allScholars, 5) : []),
+    () => (scholar ? findSimilarScholars(scholar, allScholars, 5) : []),
     [scholar?.id, allScholars],
   )
 
@@ -296,7 +296,21 @@ function splitOpeningSentence(text?: string): { opening: string; remainder: stri
   }
 }
 
-function findNearbyScholars(scholar: Scholar, scholars: Scholar[], count: number): NearbyScholar[] {
+function findSimilarScholars(scholar: Scholar, scholars: Scholar[], count: number): NearbyScholar[] {
+  // Preferred: precomputed cosine similarity of the full embeddings (see build step).
+  if (scholar.similar?.length) {
+    const byId = new Map(scholars.map((item) => [item.id, item]))
+    const ranked: NearbyScholar[] = []
+    for (const entry of scholar.similar) {
+      const match = byId.get(entry.id)
+      if (match && match.id !== scholar.id) {
+        ranked.push({ scholar: match, distance: 1 - entry.score })
+      }
+      if (ranked.length >= count) break
+    }
+    if (ranked.length) return ranked
+  }
+  // Fallback: nearest on the 2D map.
   return scholars
     .filter((item) => item.id !== scholar.id)
     .map((item) => ({

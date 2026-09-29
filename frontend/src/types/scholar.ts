@@ -26,6 +26,11 @@ export interface SubfieldTag {
   score: number
 }
 
+export interface SimilarEntry {
+  id: string
+  score: number
+}
+
 export interface RawScholar {
   id?: string
   name?: string
@@ -41,6 +46,7 @@ export interface RawScholar {
   total_citations?: number
   h_index?: number
   aliases?: string[]
+  similar?: SimilarEntry[]
   subfields?: SubfieldTag[]
   papers?: ScholarPaper[]
   education?: ScholarEducation[]
@@ -65,6 +71,8 @@ export interface Scholar {
   totalCitations?: number
   hIndex?: number
   aliases: string[]
+  /** Top matches by cosine similarity of the full embeddings (most similar first). */
+  similar?: SimilarEntry[]
   subfields: SubfieldTag[]
   papers: ScholarPaper[]
   education: ScholarEducation[]

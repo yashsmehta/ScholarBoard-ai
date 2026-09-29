@@ -50,7 +50,7 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
               <p>
                 Each PI's current-research synopsis and recent papers are combined into a single
                 text and converted into a numerical embedding with <code>gemini-embedding-001</code>. PIs
-                whose embeddings are close together are treated as doing similar research.
+                whose embeddings are close together are treated as doing similar research. The “Similar Researchers” list in each profile ranks other PIs by cosine similarity of these full embeddings, not by distance on the map.
               </p>
             </div>
           </div>

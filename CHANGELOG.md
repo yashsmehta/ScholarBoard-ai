@@ -46,7 +46,8 @@
   high-impact work; DOIs and author positions cross-checked against Crossref). Papers changed for 670 PIs,
   115 photos replaced, 69 affiliations and 209 lab links corrected, 65 Google Scholar links updated.
   AI summaries were regenerated for the 670 PIs whose papers changed; the 54 PIs with hand-edited
-  summaries keep their text. Map positions and similar-researcher lists are unchanged (no re-embed).
+  summaries keep their text. All 796 PIs were re-embedded from the new papers and summaries and the map
+  was re-fit (UMAP), so positions and similar-researcher lists changed.
 - Topped up the 134 PIs that had fewer than 3 papers (120 via Gemini 3.8 Flash, 14 via
   Claude web-search agents after repeated Vertex 429s); new papers were merged with the
   old ones so no valid paper was lost. PIs with < 3 papers: 137 → 37.

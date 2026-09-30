@@ -40,6 +40,13 @@
   of the classifier, so hand fixes survive re-runs.
 
 ### Data
+- **Full PI refresh (papers, photos, affiliations, lab links, summaries)**: one research agent per PI
+  re-checked the profile photo, current affiliation and lab site, and re-selected the 5 most
+  representative 2023+ papers (first/last author, no conference abstracts, weighted toward recent and
+  high-impact work; DOIs and author positions cross-checked against Crossref). Papers changed for 670 PIs,
+  115 photos replaced, 69 affiliations and 209 lab links corrected, 65 Google Scholar links updated.
+  AI summaries were regenerated for the 670 PIs whose papers changed; the 54 PIs with hand-edited
+  summaries keep their text. Map positions and similar-researcher lists are unchanged (no re-embed).
 - Topped up the 134 PIs that had fewer than 3 papers (120 via Gemini 3.8 Flash, 14 via
   Claude web-search agents after repeated Vertex 429s); new papers were merged with the
   old ones so no valid paper was lost. PIs with < 3 papers: 137 → 37.

@@ -2849,6 +2849,10 @@
   "0128": {
    "grade": 1,
    "why": "works on neglect, prism adaptation and dorsal-stream reaching in brain-damaged patients, but nothing on V1 damage or blindsight"
+  },
+  "0386": {
+   "grade": 1,
+   "why": "clinical visuomotor neuropsychology of parietal damage (optic ataxia, PCA) and simulated visual field loss, but not V1 lesions or blindsight"
   }
  },
  "mouse_2p": {
@@ -3217,6 +3221,10 @@
   "E333": {
    "grade": 2,
    "why": "computational color appearance and chromatic adaptation models; no deep learning"
+  },
+  "0323": {
+   "grade": 0,
+   "why": "works on attention and working memory timing, not color constancy, material perception, or deep learning models"
   }
  }
 }

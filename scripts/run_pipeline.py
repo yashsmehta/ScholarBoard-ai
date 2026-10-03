@@ -26,8 +26,6 @@ from scholar_board.config import (
     PIPELINE_DIR,
     BUILD_DIR,
     DB_PATH,
-    EXTRA_RESEARCHERS_PATH,
-    INSTITUTION_COUNTRIES_PATH,
 )
 
 # ── ANSI colors ───────────────────────────────────────────────────────────
@@ -49,63 +47,27 @@ BG_YELLOW = "\033[43m"
 
 STEPS = [
     {
-        "name": "discover",
-        "icon": "0",
-        "description": "Discover extra researchers via Gemini subfield search",
-        "model": "gemini-3.8-flash",
-        "command": [PYTHON, "-m", "scholar_board.pipeline.fetch_extra_researchers"],
-        "check": lambda: 1 if EXTRA_RESEARCHERS_PATH.exists() else 0,
-        "total": 1,
-    },
-    {
         "name": "seed",
         "icon": "1",
-        "description": "Seed DB with all researchers (VSS + extra)",
-        "model": "gemini-3.8-flash (dedup only)",
+        "description": "Seed DB from the VSS list + extra_researchers.csv (one-time bootstrap)",
+        "model": "n/a (local, fuzzy name dedup)",
         "command": [PYTHON, "-m", "scholar_board.pipeline.seed"],
         "check": lambda: int(DB_PATH.exists() and __import__('sqlite3').connect(DB_PATH).execute("SELECT COUNT(*) FROM scholars").fetchone()[0]),
-        "total": 1091,  # ~725 VSS + ~366 extra
-    },
-    {
-        "name": "papers",
-        "icon": "2",
-        "description": "Fetch papers via Gemini grounded search",
-        "model": "gemini-3.8-flash",
-        "command": [PYTHON, "-m", "scholar_board.pipeline.fetch_papers"],
-        "check": lambda: len(list((PIPELINE_DIR / "scholar_papers").glob("*.json"))),
-        "total": 730,
+        "total": 934,
     },
     {
         "name": "profiles",
-        "icon": "3",
-        "description": "Fetch researcher profiles + classify PIs",
-        "model": "gemini-3.8-flash",
-        "command": [PYTHON, "-m", "scholar_board.pipeline.fetch_profiles"],
-        "check": lambda: len(list((PIPELINE_DIR / "scholar_profiles").glob("*.json"))),
-        "total": 730,
-    },
-    {
-        "name": "stats",
-        "icon": "4",
-        "description": "Fetch per-PI citation stats from Google Scholar",
-        "model": "Serper.dev web search",
-        "command": [PYTHON, "-m", "scholar_board.pipeline.stats"],
-        "check": lambda: int(DB_PATH.exists() and __import__('sqlite3').connect(DB_PATH).execute("SELECT COUNT(*) FROM scholars WHERE total_citations IS NOT NULL").fetchone()[0]),
-        "total": 770,  # approximate number of confirmed PIs
-    },
-    {
-        "name": "directions",
-        "icon": "5",
-        "description": "Distill current research directions from papers (PI only)",
-        "model": "gemini-3.1-pro-preview (MEDIUM thinking)",
-        "command": [PYTHON, "-m", "scholar_board.pipeline.directions"],
-        "check": lambda: len(list((PIPELINE_DIR / "scholar_directions").glob("*.json"))),
-        "total": 815,
+        "icon": "2",
+        "description": "Profile agent for scholars not yet profiled: affiliation, photo, stats, papers, summary, topic areas",
+        "model": "claude-sonnet-5-5 (headless Claude Code, subscription)",
+        "command": [PYTHON, "-m", "scholar_board.pipeline.profile_agent", "--pending"],
+        "check": lambda: int(DB_PATH.exists() and __import__('sqlite3').connect(DB_PATH).execute("SELECT COUNT(*) FROM scholars WHERE is_pi IS NOT NULL").fetchone()[0]),
+        "total": 934,
     },
     {
         "name": "embed",
-        "icon": "6",
-        "description": "Embed research direction + papers for clustering (PI only)",
+        "icon": "3",
+        "description": "Embed research direction + papers for the map (PI only; full re-embed)",
         "model": "gemini-embedding-001 (CLUSTERING)",
         "command": [PYTHON, "-m", "scholar_board.pipeline.embed"],
         "check": lambda: 1 if (PIPELINE_DIR / "scholar_embeddings.nc").exists() else 0,
@@ -113,43 +75,25 @@ STEPS = [
     },
     {
         "name": "umap",
-        "icon": "7",
-        "description": "UMAP projection — 2D layout for map (PI only)",
+        "icon": "4",
+        "description": "UMAP projection — 2D layout for map (PI only; full refit)",
         "model": "n/a (local)",
         "command": [PYTHON, "-m", "scholar_board.pipeline.cluster"],
         "check": lambda: int(DB_PATH.exists() and __import__('sqlite3').connect(DB_PATH).execute("SELECT COUNT(*) FROM scholars WHERE umap_x IS NOT NULL").fetchone()[0]),
-        "total": 815,  # confirmed PIs
-    },
-    {
-        "name": "subfields",
-        "icon": "8",
-        "description": "Assign subfield tags via semantic similarity (PI only)",
-        "model": "gemini-embedding-001 (SEMANTIC_SIMILARITY)",
-        "command": [PYTHON, "-m", "scholar_board.pipeline.subfields"],
-        "check": lambda: int(DB_PATH.exists() and __import__('sqlite3').connect(DB_PATH).execute("SELECT COUNT(DISTINCT scholar_id) FROM subfields").fetchone()[0]),
-        "total": 815,
+        "total": 797,
     },
     {
         "name": "field_directions",
-        "icon": "9",
-        "description": "Synthesize field-level research summaries (23 subfields)",
+        "icon": "5",
+        "description": "Synthesize field-level research summaries (21 topic areas)",
         "model": "gemini-3.1-pro-preview (HIGH thinking)",
         "command": [PYTHON, "-m", "scholar_board.pipeline.field_directions"],
         "check": lambda: len(__import__('json').loads((BUILD_DIR / "field_directions.json").read_text())) if (BUILD_DIR / "field_directions.json").exists() else 0,
-        "total": 23,
-    },
-    {
-        "name": "countries",
-        "icon": "10",
-        "description": "Map PI institutions to countries (data/source/institution_countries.json)",
-        "model": "gemini-3.8-flash",
-        "command": [PYTHON, "-m", "scholar_board.pipeline.countries"],
-        "check": lambda: len(__import__('json').loads(INSTITUTION_COUNTRIES_PATH.read_text())) if INSTITUTION_COUNTRIES_PATH.exists() else 0,
-        "total": 330,  # distinct PI institutions
+        "total": 21,
     },
     {
         "name": "build",
-        "icon": "11",
+        "icon": "6",
         "description": "Consolidate all data into scholars.json (PI only)",
         "model": "n/a (local)",
         "command": [PYTHON, "-m", "scholar_board.pipeline.build"],
@@ -157,13 +101,13 @@ STEPS = [
         "total": 1,
     },
     {
-        "name": "pics",
-        "icon": "12",
-        "description": "Download profile pictures (PI only)",
-        "model": "Serper.dev image search",
-        "command": [PYTHON, "-m", "scholar_board.pipeline.pics", "--skip-existing"],
-        "check": lambda: len(list((BUILD_DIR / "profile_pics").glob("*.jpg"))) + len(list((BUILD_DIR / "profile_pics").glob("*.png"))),
-        "total": 815,
+        "name": "search_cards",
+        "icon": "7",
+        "description": "AI Search keywords (up to 10 per PI) for PIs whose profile changed",
+        "model": "gemini-3.8-flash (25 parallel calls)",
+        "command": [PYTHON, "-m", "scholar_board.pipeline.search_cards"],
+        "check": lambda: len(__import__('json').loads((BUILD_DIR / "search_cards.json").read_text())) if (BUILD_DIR / "search_cards.json").exists() else 0,
+        "total": 797,
     },
 ]
 
@@ -381,18 +325,16 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=f"""
 steps (run in order):
-  discover   Discover extra researchers via Gemini subfield search → extra_researchers.csv
-  seed       Seed DB from VSS CSV + extra_researchers.csv (deduplicated)
-  papers     Fetch papers for ALL scholars via Gemini grounded search
-  profiles   Fetch profiles + classify PI status for ALL scholars
-  ── PI-only below ──
-  stats      Fetch total citations + h-index from Google Scholar (Serper)
-  directions Distill current research directions from papers (Gemini 3.1 Pro)
-  embed      Embed research direction + papers for UMAP (Gemini CLUSTERING, 3072 dims)
-  umap       UMAP 2D projection — the map layout
-  subfields  Assign subfield tags for dot coloring (Gemini SEMANTIC_SIMILARITY)
-  build        Export scholars.json from DB (PI only)
-  pics         Download headshots (Serper.dev image search)
+  seed             Seed DB from VSS CSV + extra_researchers.csv (one-time bootstrap)
+  profiles         Profile agent (headless Claude Code) for every scholar not yet profiled
+  embed            Embed research direction + papers for the map (Gemini CLUSTERING, 3072 dims)
+  umap             UMAP 2D projection — the map layout (full refit)
+  field_directions Field-level summaries per topic area (Gemini 3.1 Pro)
+  build            Export scholars.json from DB (PI only)
+  search_cards     AI Search keywords for new/changed PIs (Gemini Flash, 25 in parallel)
+
+Adding a new PI (agent + placement on the existing map + build + search card, in one go):
+  uv run -m scholar_board.pipeline.profile_agent --add "Full Name" --hint "Institution"
 """,
     )
     parser.add_argument("--step", type=str, default=None, metavar="NAME",

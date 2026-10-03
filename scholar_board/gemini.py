@@ -1,7 +1,9 @@
 """Shared Gemini API utilities for ScholarBoard.ai.
 
-Provides a client factory, JSON parsing, grounding source extraction,
-and embedding utilities used across pipeline modules.
+Provides a client factory, JSON parsing, image generation and embedding utilities.
+Gemini covers the map embeddings (embed), the field-level summaries (field_directions)
+and the AI Search keywords (search_cards). Per-PI profiles are built by
+the headless Claude Code agent in scholar_board/pipeline/profile_agent.py.
 """
 
 import json
@@ -14,20 +16,21 @@ from google.genai import types
 
 from scholar_board.config import get_gemini_api_key
 
-# Fast/cheap model for bulk tasks: grounded search, classification, dedup.
+# Fast/cheap model for bulk text tasks (AI Search keywords).
 FLASH_MODEL = "gemini-3.8-flash"
 
-
-def get_client() -> genai.Client:
+def get_client(timeout_s: float | None = None) -> genai.Client:
     """Create a new Gemini API client. Each thread should call this separately.
 
     Uses Vertex AI (GCP credits) when GOOGLE_GENAI_USE_VERTEXAI=True is set in the
     environment, along with GOOGLE_CLOUD_PROJECT and GOOGLE_CLOUD_LOCATION=global.
-    Falls back to AI Studio API key otherwise.
+    Falls back to AI Studio API key otherwise. `timeout_s` bounds each request, so
+    bulk jobs fail a stuck call instead of hanging on it.
     """
+    http = {"http_options": types.HttpOptions(timeout=int(timeout_s * 1000))} if timeout_s else {}
     if os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "").lower() == "true":
-        return genai.Client()  # uses ADC from `gcloud auth application-default login`
-    return genai.Client(api_key=get_gemini_api_key())
+        return genai.Client(**http)  # uses ADC from `gcloud auth application-default login`
+    return genai.Client(api_key=get_gemini_api_key(), **http)
 
 
 def parse_json_response(text: str) -> dict | list:
@@ -51,97 +54,21 @@ def parse_json_response(text: str) -> dict | list:
     raise json.JSONDecodeError("No JSON found in response", text, 0)
 
 
-def extract_grounding_sources(response) -> list[dict]:
-    """Extract grounding metadata (source titles + URLs) from a Gemini response."""
-    sources = []
-    if not response.candidates:
-        return sources
-    candidate = response.candidates[0]
-    if candidate.grounding_metadata:
-        meta = candidate.grounding_metadata
-        if meta.grounding_chunks:
-            for chunk in meta.grounding_chunks:
-                if chunk.web:
-                    sources.append(
-                        {"title": chunk.web.title, "url": chunk.web.uri}
-                    )
-    return sources
-
-
-def generate_text(
+def generate_json(
     prompt: str,
+    response_schema: dict,
     model: str = FLASH_MODEL,
-    thinking: bool = False,
-    system_instruction: str | None = None,
-    response_schema: dict | None = None,
-    grounded: bool = False,
     client: "genai.Client | None" = None,
-) -> str | None:
-    """Generate text using a Gemini model.
-
-    Args:
-        prompt: The prompt to send.
-        model: Model ID (e.g. FLASH_MODEL, "gemini-3.1-pro-preview").
-        thinking: Enable thinking/reasoning (only meaningful for Pro models).
-        system_instruction: Optional system instruction.
-        response_schema: Optional JSON schema (dict) for structured output. When
-            provided, response_mime_type is set to application/json and the model
-            is constrained to the schema — parse the result with json.loads.
-        grounded: Enable Google Search grounding.
-        client: Optional pre-created client (useful in threaded code).
-
-    Returns:
-        The generated text, or None if the response was empty.
-    """
-    if client is None:
-        client = get_client()
-
-    config_kwargs: dict = {}
-    if thinking:
-        config_kwargs["thinking_config"] = types.ThinkingConfig(include_thoughts=True)
-    if system_instruction:
-        config_kwargs["system_instruction"] = system_instruction
-    if response_schema is not None:
-        config_kwargs["response_mime_type"] = "application/json"
-        config_kwargs["response_schema"] = response_schema
-    if grounded:
-        config_kwargs["tools"] = [types.Tool(google_search=types.GoogleSearch())]
-
-    config = types.GenerateContentConfig(**config_kwargs) if config_kwargs else None
-
+) -> dict | list | None:
+    """Structured JSON generation (response constrained to `response_schema`); None if empty."""
+    client = client or get_client()
     response = client.models.generate_content(
         model=model,
         contents=prompt,
-        config=config,
+        config=types.GenerateContentConfig(response_mime_type="application/json",
+                                           response_schema=response_schema),
     )
-
-    if response.text is None:
-        return None
-    return response.text.strip()
-
-
-def is_headshot(image_bytes: bytes, mime_type: str = "image/jpeg",
-                client: "genai.Client | None" = None) -> bool:
-    """Return True if the image is a portrait photo of exactly one person.
-
-    Rejects buildings, campus shots, group photos, logos, and illustrations.
-    """
-    if client is None:
-        client = get_client()
-    response = client.models.generate_content(
-        model=FLASH_MODEL,
-        contents=[
-            types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
-            "Is this a portrait photo (headshot or upper body) of exactly one real person, "
-            "suitable as a researcher's profile picture? Answer with JSON {\"headshot\": true|false}.",
-        ],
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json",
-            response_schema={"type": "object", "properties": {"headshot": {"type": "boolean"}},
-                             "required": ["headshot"]},
-        ),
-    )
-    return bool(response.text and json.loads(response.text).get("headshot"))
+    return json.loads(response.text) if response.text else None
 
 
 def generate_image(

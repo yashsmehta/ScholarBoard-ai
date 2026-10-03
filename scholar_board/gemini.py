@@ -146,7 +146,7 @@ def is_headshot(image_bytes: bytes, mime_type: str = "image/jpeg",
 
 def generate_image(
     prompt: str,
-    model: str = "gemini-3.1-flash-image-preview",
+    model: str = "gemini-3.1-flash-image",
     aspect_ratio: str = "1:1",
     image_size: str = "1K",
     client: "genai.Client | None" = None,
@@ -155,7 +155,7 @@ def generate_image(
 
     Args:
         prompt: The image generation prompt.
-        model: Model ID (default: gemini-3.1-flash-image-preview).
+        model: Model ID (default: gemini-3.1-flash-image).
         aspect_ratio: Aspect ratio — "1:1", "16:9", "4:3", "21:9", etc.
         image_size: Resolution — "512px", "1K", "2K", "4K".
         client: Optional pre-created client.

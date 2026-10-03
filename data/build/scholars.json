@@ -21236,10 +21236,6 @@
         "score": 0.8931
       },
       {
-        "id": "E378",
-        "score": 0.8924
-      },
-      {
         "id": "0073",
         "score": 0.8907
       },
@@ -21266,6 +21262,10 @@
       {
         "id": "0167",
         "score": 0.8847
+      },
+      {
+        "id": "E032",
+        "score": 0.8843
       }
     ]
   },
@@ -22487,6 +22487,10 @@
     "h_index": 50,
     "similar": [
       {
+        "id": "E378",
+        "score": 0.9123
+      },
+      {
         "id": "E037",
         "score": 0.9089
       },
@@ -22521,10 +22525,6 @@
       {
         "id": "0715",
         "score": 0.8966
-      },
-      {
-        "id": "0104",
-        "score": 0.8956
       }
     ]
   },
@@ -25797,7 +25797,7 @@
     "similar": [
       {
         "id": "E378",
-        "score": 0.9228
+        "score": 0.9184
       },
       {
         "id": "E017",
@@ -41865,6 +41865,10 @@
         "score": 0.8938
       },
       {
+        "id": "E378",
+        "score": 0.8933
+      },
+      {
         "id": "0024",
         "score": 0.8918
       },
@@ -41879,10 +41883,6 @@
       {
         "id": "0493",
         "score": 0.8913
-      },
-      {
-        "id": "0067",
-        "score": 0.8898
       }
     ]
   },
@@ -62273,6 +62273,10 @@
         "score": 0.9007
       },
       {
+        "id": "E378",
+        "score": 0.8999
+      },
+      {
         "id": "0653",
         "score": 0.8997
       },
@@ -62287,10 +62291,6 @@
       {
         "id": "0065",
         "score": 0.8991
-      },
-      {
-        "id": "E378",
-        "score": 0.8966
       }
     ]
   },
@@ -64986,8 +64986,8 @@
         "score": 0.9059
       },
       {
-        "id": "E378",
-        "score": 0.9053
+        "id": "0165",
+        "score": 0.9033
       }
     ]
   },
@@ -65991,6 +65991,10 @@
         "score": 0.9062
       },
       {
+        "id": "E378",
+        "score": 0.9037
+      },
+      {
         "id": "0468",
         "score": 0.9033
       },
@@ -66005,10 +66009,6 @@
       {
         "id": "0216",
         "score": 0.8995
-      },
-      {
-        "id": "E378",
-        "score": 0.8989
       },
       {
         "id": "E043",
@@ -68594,12 +68594,12 @@
         "score": 0.9159
       },
       {
-        "id": "E378",
-        "score": 0.9156
-      },
-      {
         "id": "0281",
         "score": 0.9152
+      },
+      {
+        "id": "0421",
+        "score": 0.9143
       }
     ]
   },
@@ -69293,6 +69293,10 @@
         "score": 0.912
       },
       {
+        "id": "E378",
+        "score": 0.912
+      },
+      {
         "id": "0065",
         "score": 0.9119
       },
@@ -69307,10 +69311,6 @@
       {
         "id": "0012",
         "score": 0.9105
-      },
-      {
-        "id": "0356",
-        "score": 0.9103
       }
     ]
   },
@@ -69517,16 +69517,16 @@
     "h_index": 31,
     "similar": [
       {
+        "id": "E378",
+        "score": 0.9222
+      },
+      {
         "id": "E286",
         "score": 0.9191
       },
       {
         "id": "E033",
         "score": 0.9187
-      },
-      {
-        "id": "E378",
-        "score": 0.9173
       },
       {
         "id": "E032",
@@ -69773,6 +69773,10 @@
         "score": 0.8951
       },
       {
+        "id": "E378",
+        "score": 0.8936
+      },
+      {
         "id": "0242",
         "score": 0.8934
       },
@@ -69787,10 +69791,6 @@
       {
         "id": "0510",
         "score": 0.8898
-      },
-      {
-        "id": "0459",
-        "score": 0.889
       }
     ]
   },
@@ -85319,12 +85319,12 @@
         "score": 0.9153
       },
       {
-        "id": "E378",
-        "score": 0.9149
-      },
-      {
         "id": "0416",
         "score": 0.9143
+      },
+      {
+        "id": "0447",
+        "score": 0.9137
       }
     ]
   },
@@ -85431,16 +85431,16 @@
         "score": 0.9046
       },
       {
-        "id": "E378",
-        "score": 0.904
-      },
-      {
         "id": "0510",
         "score": 0.904
       },
       {
         "id": "0287",
         "score": 0.9035
+      },
+      {
+        "id": "0459",
+        "score": 0.9031
       }
     ]
   },
@@ -93263,16 +93263,16 @@
     "lab_url": "https://leilawehbe.com/",
     "main_research_area": "computational cognitive neuroscience",
     "bio": "Leila Wehbe is a computational neuroscientist whose research investigates how the human brain processes and represents complex information during naturalistic vision and language comprehension. Wehbe integrates non-invasive functional neuroimaging, primarily fMRI and MEG, with machine learning architectures to develop predictive voxel-wise encoding models and representation alignment methods. Their work includes developing generative frameworks such as BrainDiVE and BrainSCUBA to discover, synthesize, and interpret visual feature tuning and domain selectivity across the human higher visual cortex. Additionally, their research explores computational parallels and divergences between artificial neural networks and biological brains to advance NeuroAI models of cognitive processing.",
-    "research_direction": "Dr. Wehbe has recently been investigating how the human brain encodes complex naturalistic stimuli across both the visual and language domains. In the visual system, their recent work explores the computational origins of high-level functional tuning—such as specialized responses to food and complex scene geometries—by using vision-language models to generate descriptive captions for individual voxels and by training deep neural networks directly on fMRI data. Beyond vision, they are probing the representational gaps between large language models and human cortical activity during narrative comprehension to understand where artificial semantics diverge from biological processing. To support these wide-ranging inquiries, Dr. Wehbe is developing advanced data-driven methodologies, including stacked regressions and structured variance partitioning, designed to disentangle collinear features and improve the interpretability of voxelwise encoding models.",
+    "research_direction": "Dr. Wehbe has recently been investigating the computational principles underlying both high-level vision and natural language processing in the human brain. Their recent work explores category selectivity in the ventral visual cortex, utilizing massive fMRI datasets to probe whether higher visual areas operate as domain-general statistical filters or domain-specific modules, and to search for novel functional regions dedicated to complex, heterogeneous categories like food. To map these cortical tuning profiles without relying on predefined stimulus labels, they are developing data-driven encoding frameworks that leverage multimodal deep networks and text-conditioned generative models to produce fine-grained natural language captions of individual voxel preferences. Beyond visual processing, they are also investigating how biological language comprehension diverges from artificial networks, using MEG recordings during naturalistic story processing to evaluate how well large language models align with human neural activity across complex semantic domains like social intelligence and physical commonsense.",
     "papers": [
       {
-        "title": "Origins of food selectivity in human visual cortex",
-        "abstract": "Neuroimaging studies have established that human ventral visual cortex exhibits specialized neural populations responsive to distinct ecologically critical visual categories, with recent evidence identifying cortical selectivity for food stimuli. Because food items demonstrate high morphological, textural, and chromatic diversity, understanding the organizational constraints driving food selectivity presents a unique computational challenge. This review synthesizes empirical findings to propose a multi-factor explanatory framework: food selectivity is driven by an intersection of low- and mid-level visual feature statistics (e.g., color distributions and characteristic spatial texture configurations) alongside top-down non-visual behavioral factors, including motor affordances (graspability), metabolic relevance, and reward associations. The authors evaluate anatomical dissociations across ventral and lateral occipitotemporal cortex (OTC), discussing how domain-general sensory statistics interact with downstream action- and value-related neural circuits to sculpt categorical representations.",
-        "year": "2025",
-        "venue": "Trends in Neurosciences",
+        "title": "Higher visual areas act like domain-general filters with strong selectivity and functional specialization",
+        "abstract": "Rather than testing a-priori category hypotheses, this work takes a hypothesis-neutral approach to category selectivity in human higher visual cortex: randomly initialized deep networks are trained end-to-end solely to predict voxel-wise fMRI responses to natural images. Without any category-level supervision, units in the trained encoding models emerge as detectors of semantic concepts such as faces and words, giving data-driven support for categorical selectivity. Selectivity largely persists when networks are trained with all images of the preferred category held out, indicating that it reflects sensitivity to generic visual statistics characteristic of those categories rather than domain-specific machinery. Transfer of the learned representations to perceptual tasks exposes the functional role of the selective responses, and the models recover selectivity only for a small set of previously described categories, suggesting the core categories of ventral visual cortex are already known.",
+        "year": "2026",
+        "venue": "Nature Communications",
         "citations": "0",
-        "authors": "Margaret M. Henderson, Michael J. Tarr, Leila Wehbe",
-        "url": "https://doi.org/10.1016/j.tins.2024.12.001"
+        "authors": "Meenakshi Khosla, Leila Wehbe",
+        "url": "https://doi.org/10.1038/s41467-026-73938-9"
       },
       {
         "title": "Divergences between Language Models and Human Brains",
@@ -93284,15 +93284,6 @@
         "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/938062ec7e5da3c23315a6b09339e8ad-Abstract-Conference.html"
       },
       {
-        "title": "Stacked regressions and structured variance partitioning for interpretable brain maps",
-        "abstract": "Predictive voxelwise encoding models relating BOLD fMRI responses to naturalistic stimulus feature spaces often encounter collinearity confounds, which degrade parameter interpretability and statistical stability across feature spaces such as successive layers of convolutional or transformer neural networks. To address this, the authors introduce a two-stage modeling pipeline comprising stacked regression and structured variance partitioning. Stacked regression learns to predict single-voxel responses via a non-negative linear combination of cross-validated predictions from distinct candidate encoding models, yielding superior or parity held-out prediction accuracy while providing directly interpretable model blending weights. Building on this framework, structured variance partitioning leverages prior structural or hierarchical relations among feature spaces to bound hypothesis spaces and isolate unique versus shared explainable variance. The methodology is validated across synthetic simulations and high-resolution 7T fMRI data from the Natural Scenes Dataset (NSD).",
-        "year": "2024",
-        "venue": "NeuroImage",
-        "citations": "0",
-        "authors": "Ruogu Lin, Thomas Naselaris, Kendrick Kay, Leila Wehbe",
-        "url": "https://doi.org/10.1016/j.neuroimage.2024.120772"
-      },
-      {
         "title": "BrainSCUBA: Fine-Grained Natural Language Captions of Visual Cortex Selectivity",
         "abstract": "Characterizing functional tuning in high-order visual cortex has historically relied on hypothesis-driven testing using curated stimulus subsets, potentially restricting discoveries to predefined category labels. To overcome this limitation, this paper introduces Semantic Captioning Using Brain Alignments (BrainSCUBA), a data-driven framework that generates fine-grained natural language descriptions of the visual and semantic tuning profiles of individual cortical voxels. BrainSCUBA aligns voxel-wise encoding weights with the multimodal embedding space of a contrastive vision-language model (CLIP) and conditions a pretrained large language model to decode interpretable text captions detailing the visual features predicted to drive maximal voxel activation. Text-conditioned diffusion synthesis validates that captions preserve functional specificity by generating high-activating, semantically coherent imagery, revealing nuanced sub-categorical selectivity within body- and person-selective visual areas.",
         "year": "2024",
@@ -93302,13 +93293,22 @@
         "url": "https://openreview.net/forum?id=mQYHXUUTkU"
       },
       {
-        "title": "Brain Dissection: fMRI-trained Networks Reveal Spatial Selectivity in the Processing of Natural Images",
-        "abstract": "Although deep neural networks (DNNs) trained on task objectives offer state-of-the-art quantitative prediction of high-level visual cortex responses, interpreting the emergent feature selectivity of their latent representations remains challenging. This work presents 'brain dissection,' an interpretability framework that optimizes convolutional neural network backbones directly on single-voxel fMRI responses from the Natural Scenes Dataset (NSD) from scratch, and subsequently applies network dissection techniques to identify and spatially localize intermediate geometric and 3D features governing voxel tuning. Evaluating sub-regions across parietal, lateral, and ventral visual streams, the authors uncover systematic functional tunings: ventrolateral regions selectively encode close-range and curved surface contours, medial and parietal cortices prefer planar 3D surfaces and broad depth variations, and scene-selective areas exhibit clear specializations, with retrosplenial cortex (RSC) preferring distant outdoor vistas, whereas the parahippocampal (PPA) and occipital place areas (OPA) favor proximal, vertical, and indoor structural elements.",
+        "title": "Better models of human high-level visual cortex emerge from natural language supervision with a large and diverse dataset",
+        "abstract": "Voxel-wise encoding models built on features from a wide range of deep networks are compared on their ability to predict 7T fMRI responses to natural scenes in high-level human visual cortex (Natural Scenes Dataset). Models trained with natural-language supervision on large, diverse image-text corpora (CLIP) yield the best predictions of high-level visual cortex, outperforming vision-only and label-supervised models. Controlled comparisons that vary training objective, dataset size and dataset diversity show that both language supervision and the scale and diversity of training data contribute to the gain, and variance partitioning and principal-component analyses of the CLIP-based model reveal semantically interpretable dimensions of tuning across category-selective regions.",
         "year": "2023",
-        "venue": "Advances in Neural Information Processing Systems (NeurIPS 2023)",
+        "venue": "Nature Machine Intelligence",
         "citations": "0",
-        "authors": "Gabriel Sarch, Michael J. Tarr, Katerina Fragkiadaki, Leila Wehbe",
-        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/ef0c0a23a1a8219c4fc381614664df3e-Abstract-Conference.html"
+        "authors": "Aria Y. Wang, Kendrick Kay, Thomas Naselaris, Michael J. Tarr, Leila Wehbe",
+        "url": "https://doi.org/10.1038/s42256-023-00753-y"
+      },
+      {
+        "title": "Selectivity for food in human ventral visual cortex",
+        "abstract": "Food is an ecologically critical but visually heterogeneous category, which may explain why earlier studies failed to find dedicated visual selectivity for it. Using natural-image 7T fMRI from all eight participants of the Natural Scenes Dataset together with modern, more sensitive designs and statistical analyses, this study identifies two food-selective regions in human ventral visual cortex, flanking the fusiform face area along medial and lateral bands. The result replicates across independent image sets and multiple analysis approaches, and is confirmed in an independent fMRI localizer using grayscale food images, establishing food alongside faces, bodies, places and words as a domain of functional selectivity in the ventral visual stream.",
+        "year": "2023",
+        "venue": "Communications Biology",
+        "citations": "0",
+        "authors": "Nidhi Jain, Aria Y. Wang, Margaret M. Henderson, Ruogu Lin, Jacob S. Prince, Michael J. Tarr, Leila Wehbe",
+        "url": "https://doi.org/10.1038/s42003-023-04546-2"
       }
     ],
     "primary_subfield": "Theory & Computation",
@@ -93320,60 +93320,56 @@
       {
         "subfield": "Object Recognition",
         "score": 0.5
-      },
-      {
-        "subfield": "Scene Perception",
-        "score": 0.5
       }
     ],
     "profile_pic": "leila_wehbe_E378.jpg",
     "umap_projection": {
-      "x": 5.567471027374268,
-      "y": 7.940697193145752
+      "x": 5.621914386749268,
+      "y": 7.948140621185303
     },
     "cluster": 0,
     "total_citations": 2907,
     "h_index": 23,
     "similar": [
       {
-        "id": "0281",
-        "score": 0.9228
+        "id": "E037",
+        "score": 0.9222
       },
       {
         "id": "E090",
-        "score": 0.918
+        "score": 0.9197
       },
       {
-        "id": "E037",
-        "score": 0.9173
+        "id": "0281",
+        "score": 0.9184
       },
       {
         "id": "E032",
-        "score": 0.9166
-      },
-      {
-        "id": "E017",
-        "score": 0.9156
-      },
-      {
-        "id": "E286",
-        "score": 0.9149
+        "score": 0.9143
       },
       {
         "id": "0653",
-        "score": 0.9113
+        "score": 0.9125
       },
       {
-        "id": "0421",
-        "score": 0.9097
+        "id": "0242",
+        "score": 0.9123
+      },
+      {
+        "id": "E017",
+        "score": 0.912
+      },
+      {
+        "id": "E033",
+        "score": 0.912
+      },
+      {
+        "id": "E286",
+        "score": 0.9094
       },
       {
         "id": "0459",
-        "score": 0.9088
-      },
-      {
-        "id": "0462",
-        "score": 0.906
+        "score": 0.9089
       }
     ]
   }

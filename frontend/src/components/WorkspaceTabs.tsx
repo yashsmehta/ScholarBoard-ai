@@ -2,13 +2,11 @@ import type { KeyboardEvent, ReactElement } from 'react'
 import { cx } from '../lib/cx'
 
 export type WorkspaceTab = 'directory' | 'ai'
-export type AiSearchStatus = 'idle' | 'running' | 'done'
 
 interface WorkspaceTabsProps {
   active: WorkspaceTab
   onChange: (tab: WorkspaceTab) => void
-  aiStatus: AiSearchStatus
-  aiCount: number
+  aiRunning: boolean
 }
 
 const TABS: Array<{ id: WorkspaceTab; label: string; icon: ReactElement }> = [
@@ -28,7 +26,7 @@ const TABS: Array<{ id: WorkspaceTab; label: string; icon: ReactElement }> = [
   },
   {
     id: 'ai',
-    label: 'AI Search',
+    label: 'Agentic Search',
     icon: (
       <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
         <path d="M7 1.5c.35 2.9 1.6 4.15 4.5 4.5-2.9.35-4.15 1.6-4.5 4.5-.35-2.9-1.6-4.15-4.5-4.5 2.9-.35 4.15-1.6 4.5-4.5Z" />
@@ -38,7 +36,7 @@ const TABS: Array<{ id: WorkspaceTab; label: string; icon: ReactElement }> = [
   },
 ]
 
-export function WorkspaceTabs({ active, onChange, aiStatus, aiCount }: WorkspaceTabsProps) {
+export function WorkspaceTabs({ active, onChange, aiRunning }: WorkspaceTabsProps) {
   // Arrow keys move between tabs (WAI-ARIA tabs pattern)
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
@@ -66,11 +64,8 @@ export function WorkspaceTabs({ active, onChange, aiStatus, aiCount }: Workspace
           >
             <span className="ws-tab__icon">{tab.icon}</span>
             <span className="ws-tab__label">{tab.label}</span>
-            {tab.id === 'ai' && aiStatus === 'running' && (
-              <span className="ws-tab__spinner" aria-label="AI search running" />
-            )}
-            {tab.id === 'ai' && aiStatus === 'done' && aiCount > 0 && (
-              <span className="ws-tab__count" aria-label={`${aiCount} results`}>{aiCount}</span>
+            {tab.id === 'ai' && aiRunning && (
+              <span className="ws-tab__spinner" aria-label="Agentic search running" />
             )}
           </button>
         )

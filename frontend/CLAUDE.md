@@ -30,8 +30,8 @@ Vite proxies `/api`, `/data`, `/images` to `http://localhost:8000` (the data ser
 ```
 App.tsx (useReducer)
  ├── Header             — creator avatar, title, "Vision Science" label, nav buttons, tour trigger
- ├── WorkspaceTabs      — browser-style Directory | AI Search tabs above the left pane
- ├── AskPanel           — AI Search: natural-language PI search (the AI Search tab's pane)
+ ├── WorkspaceTabs      — browser-style Directory | Agentic Search tabs above the left pane
+ ├── AskPanel           — Agentic Search: natural-language PI search (the Agentic Search tab's pane)
  ├── SearchPanel        — live search with keyboard nav
  ├── ViewToggle         — segmented List | Map switch, sits beside the search box
  ├── FilterPanel        — separate Institution + Country + Field filter dropdowns
@@ -41,7 +41,7 @@ App.tsx (useReducer)
  ├── MapControls        — reset button, usage hint (map view only)
  ├── Sidebar            — scholar profile
  ├── FieldDirectionsPage — AI-generated research summaries per subfield (modal)
- ├── Onboarding         — 5-step welcome tour for first-time visitors (last step: AI Search)
+ ├── Onboarding         — 5-step welcome tour for first-time visitors (last step: Agentic Search)
  ├── BetaBanner         — dismissible beta feedback banner
  └── MethodologyModal   — methodology explanation modal
 ```
@@ -82,8 +82,9 @@ src/
 ├── components/
 │   ├── Header.tsx            — Creator avatar link, title, "Vision Science" domain label, nav buttons
 │   ├── SearchPanel.tsx       — Search input + autocomplete dropdown
-│   ├── WorkspaceTabs.tsx     — Directory | AI Search tabs (spinner / result-count badge on the AI tab)
-│   ├── AskPanel.tsx          — AI Search: query box, examples, progress, ranked results with 1–2 sentence reasons, engine · seconds · API cost line
+│   ├── WorkspaceTabs.tsx     — Directory | Agentic Search tabs (spinner on the AI tab while a search runs)
+│   ├── AskPanel.tsx          — Agentic Search: one composer card (textarea + hint + muted Search pill with the ⌘↵ shortcut inside), examples (the reviewer one pastes a sample abstract), progress (`AskScan`), ranked results with 1–2 sentence reasons under a small-caps header with a quiet "via engine · seconds · API cost" caption
+│   ├── AskScan.tsx           — Agentic Search waiting view: the live status line (sparkle + verb + seconds) and a quiet "via <engine>" caption in its header, every PI as a dot at their map (UMAP) position coloured by topic area, and every 1.8 s a random PI's dot blooms into a chip: the photo pops out of the dot, then a frosted capsule unrolls beside it (name, institution, topic area in its colour) and later rolls back in; consecutive chips open in different bands so they never overlap (dots stay lit once shown). When results arrive the matches ignite in rank order and the rest fade; AskPanel then flies each match's dot into its avatar in the result list (ghosts on `<body>`, Web Animations). Decorative, not real progress; off under prefers-reduced-motion
 │   ├── ViewToggle.tsx        — List | Map segmented switch (sliding tinted thumb)
 │   ├── FilterPanel.tsx       — Institution + Country + Field dropdowns (ticks apply instantly, Esc closes)
 │   ├── ScholarMap.tsx        — D3 controller lifecycle bridge (map view)
@@ -91,7 +92,7 @@ src/
 │   ├── MapControls.tsx       — Reset button + auto-hiding hint
 │   ├── Sidebar.tsx           — Scholar profile sidebar
 │   ├── FieldDirectionsPage.tsx — AI field-level research summaries modal
-│   ├── Onboarding.tsx        — 5-step welcome tour carousel (step 5: AI Search)
+│   ├── Onboarding.tsx        — 5-step welcome tour carousel (step 5: Agentic Search)
 │   ├── BetaBanner.tsx        — Dismissible beta feedback banner
 │   └── MethodologyModal.tsx  — Methodology explanation modal
 ├── state/
@@ -103,7 +104,7 @@ src/
 │   ├── loadScholars.ts       — Fetch + normalize scholar data
 │   ├── appMode.ts            — Full vs embedded mode detection
 │   ├── scholarMedia.ts       — Profile pic URL resolution
-│   ├── nlSearch.ts           — AI Search API client (POST job + poll); VITE_NL_SEARCH_API
+│   ├── nlSearch.ts           — Agentic Search API client (POST job + poll); VITE_NL_SEARCH_API
 │   └── cx.ts                 — Classname utility
 ├── hooks/
 │   └── useClickOutside.ts    — Click-outside detection hook
@@ -122,7 +123,7 @@ src/
 
 **Nonce pattern:** `resetNonce` and `panRequest.nonce` are incrementing counters that trigger D3 animations via useEffect dependencies. This allows re-triggering the same action (e.g., pan to same scholar twice).
 
-**AI Search:** Deliberately separate from the name search. Browser-style tabs (`WorkspaceTabs`) sit above the left pane: **Directory** (search, List | Map, filters, map/list) and **AI Search** (`AskPanel`); the profile sidebar stays alongside both. The active tab shares the pane's surface (`--surface` from `tokens.css`, which the map, list, AI Search and profile panes all use) and has concave feet that curve into the pane edge. Both panes stay mounted, so a running search survives switching tabs (the AI tab shows a spinner, then the result count). Results are passed to `ScholarMap` as `highlightIds`, which `isScholarVisible()` ANDs with the filters to dim every other dot; on returning to the Directory tab the map view is reset so all matches are in frame. Clicking the logo returns to the Directory tab. Styling is intentionally plain (type, hairline rules, one accent). Hidden entirely when `VITE_NL_SEARCH_API` is empty.
+**Agentic Search:** Deliberately separate from the name search. Browser-style tabs (`WorkspaceTabs`) sit above the left pane: **Directory** (search, List | Map, filters, map/list) and **Agentic Search** (`AskPanel`); the profile sidebar stays alongside both. The active tab shares the pane's surface (`--surface` from `tokens.css`, which the map, list, Agentic Search and profile panes all use) and has concave feet that curve into the pane edge. Both panes stay mounted, so a running search survives switching tabs (the AI tab shows a spinner while it runs; a running search can't be cancelled or replaced — the box and button stay disabled until it finishes). Results are passed to `ScholarMap` as `highlightIds`, which `isScholarVisible()` ANDs with the filters to dim every other dot; on returning to the Directory tab the map view is reset so all matches are in frame. Clicking the logo returns to the Directory tab. Styling is intentionally plain (type, hairline rules, one accent). Hidden entirely when `VITE_NL_SEARCH_API` is empty.
 
 **Click-outside:** Shared `useClickOutside` hook used by SearchPanel and FilterPanel.
 

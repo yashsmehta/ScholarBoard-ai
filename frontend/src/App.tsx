@@ -219,8 +219,7 @@ function App() {
           <WorkspaceTabs
             active={tab}
             onChange={setTab}
-            aiStatus={askRunning ? 'running' : askResults != null ? 'done' : 'idle'}
-            aiCount={askResults?.length ?? 0}
+            aiRunning={askRunning}
           />
         )}
         <div className="workspace__body">

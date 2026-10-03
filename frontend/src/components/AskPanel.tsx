@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import type { Scholar } from '../types/scholar'
 import type { AskEngine, AskOutcome, AskResult } from '../lib/nlSearch'
 import { ENGINE_LABELS, runAskSearch } from '../lib/nlSearch'
 import { SPINNER_VERBS } from '../lib/spinnerVerbs'
 import { ListAvatar } from './ScholarList'
 import { cx } from '../lib/cx'
-import { SUBFIELD_COLORS, subfieldColor } from '../map/colorScale'
+import { AskScan } from './AskScan'
+import type { LandedDot } from './AskScan'
 
 interface AskPanelProps {
   open: boolean
@@ -17,29 +19,28 @@ interface AskPanelProps {
   onSelectScholar: (scholarId: string) => void
 }
 
-const REVIEW_ABSTRACT = 'Artificial neural networks trained on visual tasks develop internal representations resembling those of the primate visual system, a discovery that has guided a decade of computational neuroscience. Research on building brain-aligned models has progressively embraced finer-grained learning objectives, from object classification to contrastive self-supervised objectives that maximize distinctions among individual images. Yet the effect of learning-signal granularity on brain alignment remains largely unexamined. Here we systematically investigate how the granularity of a learning signal shapes representational alignment with human vision. We parametrically vary the number of training classes using a data-driven approach that partitions a set of training images into different numbers of categories via PCA-based splits of pretrained embeddings. We train hundreds of neural networks across convolutional and transformer architectures on these coarse classification tasks and compare their representations with human fMRI responses, macaque electrophysiology recordings, and human behavior. We find that networks trained to distinguish as few as eight broad categories learn representations that match or exceed the neural alignment of models distinguishing 1,000 classes. Even more strikingly, these coarsely trained networks align more closely with human perceptual similarity judgments than all other models evaluated, including networks trained with fine-grained supervision or self-supervision as well as leading large-scale vision models. These results demonstrate that human-like visual representations can emerge from surprisingly simple learning objectives, reframing what learning signals vision may require and opening a path toward building AI systems that are more aligned with human perception.'
+const REVIEW_ABSTRACT = 'A powerful approach to understand the computations carried out by the visual cortex is to build models that predict neural responses to any arbitrary image. Deep neural networks (DNNs) have emerged as the leading predictive models, yet their underlying computations remain buried beneath millions of parameters. Here we challenge the need for models at this scale by seeking predictive and parsimonious DNN models of the primate visual cortex. We first built a highly predictive DNN model of neural responses in macaque visual area V4 by alternating data collection and model training in adaptive closed-loop experiments. We then compressed this large, black-box DNN model, which comprised 60 million parameters, to identify compact models with 5,000 times fewer parameters yet comparable accuracy. This dramatic compression enabled us to investigate the inner workings of the compact models. We discovered a salient computational motif: compact models share similar filters in early processing, but individual models then specialize their feature selectivity by ‘consolidating’ this shared high-dimensional representation in distinct ways. We examined this consolidation step in a dot-detecting model neuron, revealing a computational mechanism that leads to a testable circuit hypothesis for dot-selective V4 neurons. Beyond V4, we found strong model compression for macaque visual areas V1 and IT (inferior temporal cortex), revealing a general computational principle of the visual cortex. Overall, our work challenges the notion that large DNNs are necessary to predict individual neurons and establishes a modelling framework that balances prediction and parsimony.'
 
 // label is what the list shows; text is what a click puts in the box.
 const EXAMPLES = [
-  { label: 'Who would be the best reviewers for this abstract?', text: `Who would be the best reviewers for this abstract?\n\n${REVIEW_ABSTRACT}` },
+  { label: 'Who would be the best reviewers for this abstract?', tag: 'sample abstract', text: `Who would be the best reviewers for this abstract?\n\n${REVIEW_ABSTRACT}` },
   'Labs using layer-resolved 7T fMRI or laminar recordings to separate feedforward from feedback signals in early visual cortex',
   'Labs in the Northeastern U.S. recording intracranially (sEEG/ECoG) from patients during visual recognition tasks',
   'Who studies whether microsaccades and fixational drift actively shape what we see at the fovea?',
-].map((ex) => (typeof ex === 'string' ? { label: ex, text: ex } : ex))
-
-// Searching animation: one dot per PI, grouped by topic area, with a light sweeping across.
-const SCAN_ROWS = 12
-const SCAN_PERIOD_S = 2.6
-const SUBFIELD_ORDER = new Map(Object.keys(SUBFIELD_COLORS).map((name, i) => [name, i]))
+].map((ex) => (typeof ex === 'string' ? { label: ex, text: ex, tag: undefined } : ex))
 
 const MOD_KEY = /Mac|iPhone|iPad/.test(navigator.userAgent) ? '⌘' : 'Ctrl'
 // Claude Code's status-line sparkle cycle (same as aos-ai); the verb changes every VERB_SECONDS.
 const STARS = ['·', '✻', '✽', '✶', '*']
 const VERB_SECONDS = 8
+const FLY_MS = 750
+const FLY_STAGGER_MS = 60
 
 type Phase =
   | { kind: 'idle' }
   | { kind: 'running'; startedAt: number; queuePosition: number; seed: number; engine: AskEngine | null }
+  // Results are in and the scan is lighting up the matches before the list takes over
+  | { kind: 'landing'; startedAt: number; endedAt: number; engine: AskEngine | null; found: AskResult[]; meta: Omit<AskOutcome, 'results'> }
   | { kind: 'error'; message: string }
 
 declare global {
@@ -63,14 +64,12 @@ export function AskPanel({
   const [outcome, setOutcome] = useState<Omit<AskOutcome, 'results'> | null>(null)
   const abortRef = useRef<AbortController | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+  const listRef = useRef<HTMLOListElement | null>(null)
+  const flightsRef = useRef<Map<string, LandedDot> | null>(null)
 
-  const running = phase.kind === 'running'
+  const landing = phase.kind === 'landing'
+  const running = phase.kind === 'running' || landing
   const byId = new Map(scholars.map((s) => [s.id, s]))
-  const scanDots = useMemo(() => scholars
-    .map((s) => s.subfields[0]?.subfield)
-    .sort((a, b) => (SUBFIELD_ORDER.get(a ?? '') ?? 99) - (SUBFIELD_ORDER.get(b ?? '') ?? 99))
-    .map(subfieldColor), [scholars])
-  const scanCols = Math.max(1, Math.ceil(scanDots.length / SCAN_ROWS))
 
   useEffect(() => {
     onRunningChange(running)
@@ -110,19 +109,70 @@ export function AskPanel({
           : prev),
         controller.signal,
       )
-      onResults(found)
-      setOutcome(meta)
-      setPhase({ kind: 'idle' })
+      const animate = open && found.length > 0 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (animate) {
+        setPhase((prev) => prev.kind === 'running'
+          ? { kind: 'landing', startedAt: prev.startedAt, endedAt: Date.now(), engine: meta.engine ?? prev.engine, found, meta }
+          : prev)
+      } else {
+        onResults(found)
+        setOutcome(meta)
+        setPhase({ kind: 'idle' })
+      }
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') return
       setPhase({ kind: 'error', message: error instanceof Error ? error.message : 'Search failed — please try again.' })
     }
   }
 
-  function cancel() {
-    abortRef.current?.abort()
+  // The scan has lit up the matches: hand over to the list, and fly each dot into its avatar
+  function land(dots: Map<string, LandedDot>) {
+    if (phase.kind !== 'landing') return
+    flightsRef.current = dots
+    onResults(phase.found)
+    setOutcome(phase.meta)
     setPhase({ kind: 'idle' })
   }
+
+  useLayoutEffect(() => {
+    const dots = flightsRef.current
+    const list = listRef.current
+    flightsRef.current = null
+    if (!dots || dots.size === 0 || !list) return
+    const ghosts: HTMLElement[] = []
+    list.querySelectorAll<HTMLElement>('li[data-ask-id]').forEach((li, i) => {
+      const dot = dots.get(li.dataset.askId ?? '')
+      const avatar = li.querySelector<HTMLElement>('.scholar-list__avatar')
+      if (!dot || !avatar) return
+      const to = avatar.getBoundingClientRect()
+      const ghost = document.createElement('div')
+      ghost.className = 'ask-ghost'
+      Object.assign(ghost.style, {
+        left: `${to.left}px`, top: `${to.top}px`, width: `${to.width}px`, height: `${to.height}px`, background: dot.color,
+      })
+      const face = avatar.cloneNode(true) as HTMLElement
+      ghost.appendChild(face)
+      document.body.appendChild(ghost)
+      ghosts.push(ghost)
+      avatar.style.visibility = 'hidden'
+
+      const dx = dot.x - (to.left + to.width / 2)
+      const dy = dot.y - (to.top + to.height / 2)
+      const timing = { duration: FLY_MS, delay: i * FLY_STAGGER_MS, easing: 'cubic-bezier(0.65, 0, 0.25, 1)', fill: 'both' as const }
+      // A slight arc: the ghost overshoots sideways at the midpoint, so the ten don't fly in a straight sheet
+      ghost.animate([
+        { transform: `translate(${dx}px, ${dy}px) scale(${(dot.r * 2) / to.width})` },
+        { transform: `translate(${dx * 0.45 - 18}px, ${dy * 0.5}px) scale(0.8)`, offset: 0.5 },
+        { transform: 'none' },
+      ], timing)
+      face.animate([{ opacity: 0 }, { opacity: 0, offset: 0.4 }, { opacity: 1 }], timing).finished
+        .then(() => {
+          avatar.style.visibility = ''
+          ghost.remove()
+        }, () => ghost.remove())
+    })
+    return () => ghosts.forEach((g) => g.remove())
+  }, [results])
 
   function fill(text: string) {
     setQuery(text)
@@ -134,10 +184,13 @@ export function AskPanel({
     })
   }
 
-  const elapsedMs = running ? Math.max(0, now - phase.startedAt) : 0
+  const elapsedMs = phase.kind === 'running' ? Math.max(0, now - phase.startedAt)
+    : landing ? phase.endedAt - phase.startedAt : 0
   const elapsed = Math.floor(elapsedMs / 1000)
-  const star = STARS[Math.floor(elapsedMs / 260) % STARS.length]
-  const verb = running ? SPINNER_VERBS[(phase.seed + Math.floor(elapsed / VERB_SECONDS) * 37) % SPINNER_VERBS.length] : ''
+  const star = landing ? '✓' : STARS[Math.floor(elapsedMs / 260) % STARS.length]
+  const verb = phase.kind === 'running'
+    ? SPINNER_VERBS[(phase.seed + Math.floor(elapsed / VERB_SECONDS) * 37) % SPINNER_VERBS.length] : ''
+  const queuePosition = phase.kind === 'running' ? phase.queuePosition : 0
 
   return (
     <section className={cx('ask', !open && 'ask--hidden')} id="ws-panel-ai" role="tabpanel" aria-labelledby="ws-tab-ai" hidden={!open}>
@@ -146,9 +199,7 @@ export function AskPanel({
           <div>
             <h2 className="ask__title">Find researchers by what they study</h2>
             <p className="ask__lede">
-              Describe a topic or method, or paste an abstract to find reviewers.{' '}
-              {scholars.length ? `All ${scholars.length} PI profiles are read` : 'Every PI profile is read'} and the ten
-              closest matches are ranked.
+              An agent reads every PI profile and ranks the ten closest matches, each with a reason.
             </p>
           </div>
         </header>
@@ -160,30 +211,32 @@ export function AskPanel({
             void submit()
           }}
         >
-          <textarea
-            ref={textareaRef}
-            className="ask__input"
-            value={query}
-            rows={query.length > 160 ? 8 : 3}
-            maxLength={6000}
-            placeholder="e.g. Who studies how attention modulates crowding with EEG?"
-            aria-label="Describe who you are looking for"
-            disabled={running}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-                e.preventDefault()
-                void submit()
-              }
-            }}
-          />
-          <div className="ask__actions">
-            <span className="ask__hint">{MOD_KEY} + Enter</span>
-            {running ? (
-              <button type="button" className="ask__button ask__button--quiet" onClick={cancel}>Cancel</button>
-            ) : (
-              <button type="submit" className="ask__button" disabled={query.trim().length < 3}>Search</button>
-            )}
+          <div className="ask__composer">
+            <textarea
+              ref={textareaRef}
+              className="ask__input"
+              value={query}
+              rows={query.length > 160 ? 8 : query.length > 70 ? 3 : 2}
+              maxLength={6000}
+              placeholder="e.g. Who studies how attention modulates crowding with EEG?"
+              aria-label="Describe who you are looking for"
+              disabled={running}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                  e.preventDefault()
+                  void submit()
+                }
+              }}
+            />
+            <div className="ask__actions">
+              <span className="ask__hint">A topic, a method, or a whole abstract</span>
+              {/* No cancel: the server keeps running a search once started, so a second one would be refused */}
+              <button type="submit" className="ask__button" disabled={running || query.trim().length < 3}>
+                {running ? 'Searching…' : 'Search'}
+                {!running && <kbd className="ask__kbd" aria-hidden="true">{MOD_KEY}↵</kbd>}
+              </button>
+            </div>
           </div>
         </form>
 
@@ -193,7 +246,12 @@ export function AskPanel({
             <ul>
               {EXAMPLES.map((ex) => (
                 <li key={ex.label}>
-                  <button type="button" onClick={() => fill(ex.text)}>{ex.label}</button>
+                  <button type="button" onClick={() => fill(ex.text)}>
+                    <span>
+                      {ex.label}
+                      {ex.tag && <span className="ask__tag">+ {ex.tag}</span>}
+                    </span>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -202,40 +260,20 @@ export function AskPanel({
 
         {running && (
           <div className="ask__status" role="status" aria-live="polite">
-            <p className="ask__spinner">
-              <span className="ask__star" aria-hidden="true">{star}</span>
-              {phase.queuePosition > 0 ? `Waiting for a free slot (#${phase.queuePosition})` : `${verb}…`}
-              <span className="ask__time"> ({elapsed}s)</span>
-            </p>
-            {scanDots.length > 0 && (
-              <div className={cx('ask-scan', phase.queuePosition > 0 && 'is-waiting')}>
-                <p className="ask-scan__head">
-                  <span className="ask-scan__count">{scanDots.length.toLocaleString()}</span>
-                  <span className="ask-scan__unit">PI profiles in the search</span>
-                </p>
-                <div
-                  className="ask-scan__field"
-                  aria-hidden="true"
-                  style={{ gridTemplateRows: `repeat(${SCAN_ROWS}, auto)`, gridTemplateColumns: `repeat(${scanCols}, 1fr)` }}
-                >
-                  {scanDots.map((color, i) => (
-                    <span
-                      key={i}
-                      style={{
-                        backgroundColor: color,
-                        animationDelay: `${(Math.floor(i / SCAN_ROWS) / scanCols - 1) * SCAN_PERIOD_S}s`,
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-            {phase.engine && (
-              <p className="ask__note">
-                {ENGINE_LABELS[phase.engine]} is reading every profile.{' '}
-                {phase.engine === 'claude' ? 'Usually 20–30 seconds.' : 'Usually about a minute.'}
-              </p>
-            )}
+            <AskScan
+              scholars={scholars}
+              engine={phase.engine}
+              waiting={queuePosition > 0}
+              status={(
+                <>
+                  <span className={cx('ask__star', landing && 'is-done')} aria-hidden="true">{star}</span>
+                  {landing ? 'Found them' : queuePosition > 0 ? `Waiting for a free slot (#${queuePosition})` : `${verb}…`}
+                  <span className="ask__time">{elapsed}s</span>
+                </>
+              )}
+              hits={landing ? phase.found.map((r) => r.id) : null}
+              onLanded={land}
+            />
           </div>
         )}
 
@@ -249,27 +287,34 @@ export function AskPanel({
         {results != null && (
           <div className="ask__results">
             <div className="ask__results-head">
-              <p className="ask__label">{results.length ? `${results.length} matches, best first` : 'No close matches'}</p>
-              <button type="button" className="ask__link" onClick={() => { onResults(null); setOutcome(null); fill('') }}>
+              <div>
+                <p className="ask__label">{results.length ? (
+                    <>
+                      {results.length} matches from {scholars.length.toLocaleString()} <span className="ask__keepcase">PIs</span>,
+                      best first
+                    </>
+                  ) : 'No close matches'}</p>
+                {outcome?.engine && (
+                  <p className="ask__meta">
+                    {outcome.cached && 'Saved result · '}
+                    via <b>{ENGINE_LABELS[outcome.engine]}</b>
+                    {outcome.seconds != null && ` · ${Math.round(outcome.seconds)} s`}
+                    {outcome.costUsd != null && ` · $${outcome.costUsd.toFixed(2)} API cost`}
+                  </p>
+                )}
+              </div>
+              <button type="button" className="ask__clear" onClick={() => { onResults(null); setOutcome(null); fill('') }}>
                 Clear
               </button>
             </div>
-            {outcome?.engine && (
-              <p className="ask__meta">
-                {outcome.cached && 'Saved result · '}
-                {ENGINE_LABELS[outcome.engine]}
-                {outcome.seconds != null && ` · ${Math.round(outcome.seconds)} s`}
-                {outcome.costUsd != null && ` · $${outcome.costUsd.toFixed(2)} API cost`}
-              </p>
-            )}
             {results.length === 0 && (
               <p className="ask__note">Nobody in the directory is a plausible fit. Try describing the topic or methods differently.</p>
             )}
-            <ol className="ask__list">
+            <ol className="ask__list" ref={listRef}>
               {results.map((r, i) => {
                 const scholar = byId.get(r.id)
                 return scholar && (
-                  <li key={r.id}>
+                  <li key={r.id} data-ask-id={r.id} style={{ '--i': i } as CSSProperties}>
                     <button
                       type="button"
                       className={cx('ask-row', r.id === selectedScholarId && 'is-selected')}

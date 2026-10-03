@@ -96,9 +96,9 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
           <div className="method-step">
             <div className="method-step__num">06</div>
             <div>
-              <h3>Natural-language AI Search</h3>
+              <h3>Agentic Search</h3>
               <p>
-                AI Search answers free-text requests (a topic, a method, “researchers like X”, or
+                Agentic Search answers free-text requests (a topic, a method, “researchers like X”, or
                 reviewers for an abstract) with an AI agent that works through the directory in
                 tiers. <code>gemini-3.8-flash</code> first condenses each PI's profile into up to ten
                 specific keywords on what they study and how (phenomena, methods, species, paradigms). For each request, the agent (Gemini via

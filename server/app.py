@@ -219,7 +219,7 @@ def create_search(body: SearchRequest, request: Request) -> dict:
         _prune_jobs(now)
         running = _jobs.get(_active_ip.get(ip, ""))
         if running and running["status"] in ("queued", "running"):
-            raise HTTPException(409, "You already have an AI search running — please wait for it to finish.")
+            raise HTTPException(409, "Your previous search is still running — please wait for it to finish.")
         if key in _cache:
             _cache.move_to_end(key)
             _jobs[job_id] = {"status": "done", "created": now, "cached": True, **_cache[key]}

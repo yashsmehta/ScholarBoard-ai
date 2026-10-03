@@ -34,7 +34,7 @@ const steps = [
   },
   {
     image: `${import.meta.env.BASE_URL}onboarding/step5_ai_search.jpg`,
-    headline: 'Ask AI Search',
+    headline: 'Try Agentic Search',
     description:
       'Describe a topic or method in your own words, or paste an abstract to find reviewers. An AI agent reads every profile and returns the ten best-matching PIs, each with a reason, highlighted on the map.',
   },

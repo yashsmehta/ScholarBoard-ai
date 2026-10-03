@@ -1,0 +1,3222 @@
+{
+ "crowding": {
+  "0007": {
+   "grade": 2,
+   "why": "has a recent paper on how crowding zones change during attention shifts, but crowding is one of many topics"
+  },
+  "0019": {
+   "grade": 0,
+   "why": "works on visual search and feature guidance, with no crowding work"
+  },
+  "0024": {
+   "grade": 1,
+   "why": "studies capacity limits on recognizing multiple words, which is adjacent to crowding but not crowding itself"
+  },
+  "0039": {
+   "grade": 0,
+   "why": "works on dyslexia attention and video game interventions, with no crowding work in the profile"
+  },
+  "0049": {
+   "grade": 2,
+   "why": "has a 2023 study linking localization biases to individual crowding, but it is one strand among several"
+  },
+  "0080": {
+   "grade": 1,
+   "why": "studies peripheral vision in driving scenes, not crowding"
+  },
+  "0083": {
+   "grade": 3,
+   "why": "current work is centered on redundancy masking, crowding relief through imagery, and crowding in amblyopia"
+  },
+  "0109": {
+   "grade": 2,
+   "why": "has recent uncrowding and peripheral-organization work testing whether mid-level processes mediate crowding"
+  },
+  "0123": {
+   "grade": 1,
+   "why": "crowding appears only as a factor in applied sport-vision studies"
+  },
+  "0138": {
+   "grade": 2,
+   "why": "has a 2026 Current Biology paper on the neural basis of uncrowding in macaque V1, among broader V1 coding work"
+  },
+  "0150": {
+   "grade": 2,
+   "why": "lists crowding as a main area and has a paper on foveal crowding with microsaccades, but recent work is mostly color and stereo"
+  },
+  "0168": {
+   "grade": 1,
+   "why": "bio mentions crowding, but current work is on serial dependence"
+  },
+  "0170": {
+   "grade": 3,
+   "why": "crowding is the main research area, with large-cohort Bouma law work and tools built for crowding measurement"
+  },
+  "0172": {
+   "grade": 1,
+   "why": "bio mentions crowding, but current work is on stereo recovery in amblyopia"
+  },
+  "0200": {
+   "grade": 1,
+   "why": "bio mentions crowding, but current work is on attention and driving"
+  },
+  "0222": {
+   "grade": 0,
+   "why": "works on deep neural network models of object recognition, not crowding"
+  },
+  "0225": {
+   "grade": 0,
+   "why": "works on recognition dynamics and contrast sensitivity, not crowding"
+  },
+  "0237": {
+   "grade": 0,
+   "why": "works on salience maps and iconic memory, not crowding"
+  },
+  "0244": {
+   "grade": 1,
+   "why": "generates foveated scene metamers, which is only loosely related to peripheral crowding"
+  },
+  "0249": {
+   "grade": 0,
+   "why": "works on reference frames and motion, not crowding"
+  },
+  "0321": {
+   "grade": 3,
+   "why": "current work is centered on crowding in development, albinism, and nystagmus"
+  },
+  "0330": {
+   "grade": 0,
+   "why": "works on fixational eye movements and perceptual geometry, not crowding"
+  },
+  "0331": {
+   "grade": 2,
+   "why": "has a recent paper showing V4 size predicts crowding distance, within broader retinotopy work"
+  },
+  "0346": {
+   "grade": 1,
+   "why": "bio mentions crowding, but current work is on perceptual learning and amblyopia"
+  },
+  "0374": {
+   "grade": 0,
+   "why": "now works on computer vision and LLM reasoning, not crowding"
+  },
+  "0378": {
+   "grade": 1,
+   "why": "studies peripheral vision plasticity after central vision loss, not crowding itself"
+  },
+  "0386": {
+   "grade": 1,
+   "why": "research direction mentions crowding effects on acuity in posterior cortical atrophy, but there are no crowding papers"
+  },
+  "0392": {
+   "grade": 1,
+   "why": "discusses crowding only within a broader peripheral-versus-central vision theory"
+  },
+  "0418": {
+   "grade": 1,
+   "why": "studies visual field asymmetries and attention, not crowding"
+  },
+  "0422": {
+   "grade": 1,
+   "why": "bio mentions crowding training, but current work is on vestibular processing, filling-in, and learning"
+  },
+  "0435": {
+   "grade": 3,
+   "why": "current work directly measures foveal crowding mechanisms (cone-scale critical spacing, drift contributions)"
+  },
+  "0461": {
+   "grade": 3,
+   "why": "crowding is a major focus; recent crowding review and replication study on grouping vs pooling"
+  },
+  "0465": {
+   "grade": 0,
+   "why": "confidence, cue integration and ensemble coding; no crowding work"
+  },
+  "0475": {
+   "grade": 2,
+   "why": "main vision line is crowding in letter strings, but output is limited and partly off-topic"
+  },
+  "0480": {
+   "grade": 1,
+   "why": "low vision, reading and surround suppression; crowding not addressed directly"
+  },
+  "0507": {
+   "grade": 2,
+   "why": "computational crowding paper and learning to overcome peripheral crowding, among broader topics"
+  },
+  "0513": {
+   "grade": 1,
+   "why": "bio mentions crowding, but recent work is typing and font readability"
+  },
+  "0582": {
+   "grade": 2,
+   "why": "pooling/summary-statistic model of peripheral vision that underlies crowding; applied focus"
+  },
+  "0584": {
+   "grade": 1,
+   "why": "redundancy masking in the periphery is related to, but distinct from, crowding"
+  },
+  "0596": {
+   "grade": 3,
+   "why": "crowding development, crowding distance and amblyopia crowding tests are their core work"
+  },
+  "0614": {
+   "grade": 0,
+   "why": "motion and material perception"
+  },
+  "0629": {
+   "grade": 0,
+   "why": "attention and foraging; 'crowded' refers only to display density"
+  },
+  "0637": {
+   "grade": 2,
+   "why": "crowding is one line of work (flicker adaptation reduces crowding) alongside clinical tools"
+  },
+  "0644": {
+   "grade": 1,
+   "why": "low-vision reading and periphery work; no recent crowding studies"
+  },
+  "0658": {
+   "grade": 2,
+   "why": "development of acuity and crowding is one research strand"
+  },
+  "0669": {
+   "grade": 3,
+   "why": "current work is perceptual learning of crowding and pRF changes"
+  },
+  "0678": {
+   "grade": 1,
+   "why": "peripheral face recognition and radial bias; only tangential"
+  },
+  "0698": {
+   "grade": 0,
+   "why": "texture segmentation and ideal-observer search"
+  },
+  "0704": {
+   "grade": 2,
+   "why": "temporal crowding is a core recent line; spatial crowding less central"
+  },
+  "E016": {
+   "grade": 0,
+   "why": "pRF and normalization neuroimaging; no crowding work"
+  },
+  "E046": {
+   "grade": 0,
+   "why": "DNN vs human vision and early noise"
+  },
+  "E062": {
+   "grade": 0,
+   "why": "figure-ground, border-ownership and LGN physiology"
+  },
+  "E063": {
+   "grade": 3,
+   "why": "long-standing crowding/uncrowding program with recent time-course work"
+  },
+  "E076": {
+   "grade": 2,
+   "why": "neural correlates of crowding in macaque V4 is one strand of their shape work"
+  },
+  "E196": {
+   "grade": 1,
+   "why": "ensemble perception of crowded scenes; not crowding per se"
+  },
+  "E197": {
+   "grade": 0,
+   "why": "ensemble perception and applied HCI"
+  },
+  "E202": {
+   "grade": 1,
+   "why": "uses crowding as one paradigm for studying awareness"
+  },
+  "E203": {
+   "grade": 0,
+   "why": "perception of faces under mirror reversal"
+  },
+  "E210": {
+   "grade": 1,
+   "why": "summary statistics and spatial vision; only loosely related to crowding"
+  },
+  "E227": {
+   "grade": 0,
+   "why": "motion-induced blindness dynamics"
+  },
+  "E228": {
+   "grade": 3,
+   "why": "current work squarely on foveal crowding (identity, colour, aging under brief exposure) plus flanker-based spatial interactions"
+  },
+  "E243": {
+   "grade": 2,
+   "why": "a recent color-crowding-as-spatial-integration paper, but the main focus is numerosity and serial dependence"
+  },
+  "E339": {
+   "grade": 1,
+   "why": "studies eccentricity and peripheral attention, which is adjacent to crowding but not about crowding itself"
+  },
+  "E349": {
+   "grade": 1,
+   "why": "parallel word reading and letter processing are only loosely related; no crowding work"
+  },
+  "E372": {
+   "grade": 0,
+   "why": "high-level object vision, visual search and macaque neurophysiology; no crowding"
+  }
+ },
+ "fmri_dnn": {
+  "0012": {
+   "grade": 1,
+   "why": "face recognition with neural decoding and ANN comparisons, but recent work is EEG and behavioral rather than fMRI"
+  },
+  "0022": {
+   "grade": 1,
+   "why": "fMRI of object and semantic knowledge with no DNN modeling"
+  },
+  "0028": {
+   "grade": 1,
+   "why": "DCNN models of faces and bodies, with no current fMRI of ventral cortex"
+  },
+  "0038": {
+   "grade": 0,
+   "why": "working memory and gaze research, not object recognition in ventral cortex"
+  },
+  "0054": {
+   "grade": 0,
+   "why": "current work is on math education"
+  },
+  "0059": {
+   "grade": 1,
+   "why": "causal IT perturbation studies in macaques, not fMRI combined with DNNs"
+  },
+  "0065": {
+   "grade": 2,
+   "why": "large fMRI datasets and DNN-aligned encoding models, focused on scenes, videos and memorability rather than objects"
+  },
+  "0067": {
+   "grade": 1,
+   "why": "ventral temporal face and word processing measured with iEEG, not fMRI"
+  },
+  "0072": {
+   "grade": 1,
+   "why": "TE lesions compared with a DNN in monkeys, but no fMRI"
+  },
+  "0077": {
+   "grade": 1,
+   "why": "fMRI of ventral category selectivity linked to gaze, with no DNN modeling"
+  },
+  "0081": {
+   "grade": 1,
+   "why": "macaque fMRI of IT color and object concepts, with no DNN modeling"
+  },
+  "0091": {
+   "grade": 2,
+   "why": "fMRI of ventral object processing with some DNN model comparisons, though the emphasis is on action"
+  },
+  "0092": {
+   "grade": 1,
+   "why": "face-processing disorders, with only peripheral ANN work"
+  },
+  "0107": {
+   "grade": 1,
+   "why": "scene and memory fMRI, with DNNs used only to model gaze"
+  },
+  "0121": {
+   "grade": 2,
+   "why": "large-scale fMRI and MEG object-recognition datasets, with little DNN modeling"
+  },
+  "0148": {
+   "grade": 2,
+   "why": "fMRI, EEG and DNNs applied to scene vision and aesthetics rather than object recognition"
+  },
+  "0160": {
+   "grade": 1,
+   "why": "connectivity-based prediction of high-level visual areas, with no DNN modeling"
+  },
+  "0165": {
+   "grade": 2,
+   "why": "CNN-based RSA of fMRI in ventral cortex, framed around conscious versus unconscious vision"
+  },
+  "0167": {
+   "grade": 2,
+   "why": "fMRI organization of object representations using THINGS, with data-driven rather than DNN models"
+  },
+  "0174": {
+   "grade": 3,
+   "why": "DNNs guided by ventral-stream fMRI to study the robustness of object recognition"
+  },
+  "0178": {
+   "grade": 1,
+   "why": "fMRI plus VGG for mid-level features and aesthetics, not object recognition"
+  },
+  "0186": {
+   "grade": 1,
+   "why": "general ventral and dorsal theory with mostly behavioral recent work"
+  },
+  "0196": {
+   "grade": 1,
+   "why": "fMRI encoding models of V1 and motion, not the ventral object pathway"
+  },
+  "0222": {
+   "grade": 3,
+   "why": "DNNs aligned with human visual cortex plus fMRI of ventral organization for object recognition"
+  },
+  "0230": {
+   "grade": 3,
+   "why": "DNN-based voxel-wise fMRI encoding of category-selective visual cortex, with a face and person focus"
+  },
+  "0235": {
+   "grade": 1,
+   "why": "DNN models of perceptual phenomena, with no recent fMRI of ventral cortex"
+  },
+  "0242": {
+   "grade": 1,
+   "why": "object recognition studied with intracranial recordings and AI, not fMRI"
+  },
+  "0252": {
+   "grade": 3,
+   "why": "fMRI combined with DNNs to study object space in occipitotemporal cortex"
+  },
+  "0254": {
+   "grade": 1,
+   "why": "RSA methods for model-brain comparison, not an empirical ventral-stream program"
+  },
+  "0263": {
+   "grade": 1,
+   "why": "3D shape DNNs and biological-motion fMRI, only tangential to ventral object recognition"
+  },
+  "0272": {
+   "grade": 1,
+   "why": "models 3D object inference against DNNs, but uses macaque IT recordings and behavior, not fMRI"
+  },
+  "0275": {
+   "grade": 1,
+   "why": "one CNN-to-fMRI object paper (BOLD5000); main focus is retinal AI and face behavior"
+  },
+  "0277": {
+   "grade": 1,
+   "why": "object recognition expertise, but current work is behavioral individual differences with no DNN"
+  },
+  "0281": {
+   "grade": 2,
+   "why": "fMRI encoding models of visual-semantic object tuning, but not DNN-centered or focused on ventral recognition"
+  },
+  "0287": {
+   "grade": 2,
+   "why": "core DNN models of ventral-stream object recognition, but uses electrophysiology rather than fMRI"
+  },
+  "0299": {
+   "grade": 1,
+   "why": "fMRI of ventral color/food regions with no DNN modeling"
+  },
+  "0307": {
+   "grade": 2,
+   "why": "fMRI plus DCNNs, but limited to faces in face-selective regions"
+  },
+  "0327": {
+   "grade": 1,
+   "why": "ventral-stream background, but current work is EEG/behavioral ensemble perception with no DNN"
+  },
+  "0344": {
+   "grade": 1,
+   "why": "EEG plus ANN work on object properties; main focus is attention and saccades, not fMRI"
+  },
+  "0356": {
+   "grade": 3,
+   "why": "task-optimized DNNs plus fMRI to explain category-selective ventral cortex and recognition"
+  },
+  "0370": {
+   "grade": 2,
+   "why": "DNN models of IT object recognition, but uses macaque electrophysiology rather than fMRI"
+  },
+  "0391": {
+   "grade": 1,
+   "why": "fMRI plus DNNs, but for social vision in the lateral pathway"
+  },
+  "0394": {
+   "grade": 1,
+   "why": "MEG and eye movements in face perception; ANN-gaze alignment only"
+  },
+  "0412": {
+   "grade": 2,
+   "why": "deep-network models of IT face/object cells, mostly electrophysiology with some fMRI mapping"
+  },
+  "0416": {
+   "grade": 2,
+   "why": "fMRI, RSA, and DNNs for ventral object representations, though current work is split with prefrontal studies"
+  },
+  "0421": {
+   "grade": 2,
+   "why": "fMRI encoding with DNN features and VWAM, focused on bodies rather than general object recognition"
+  },
+  "0427": {
+   "grade": 2,
+   "why": "fMRI of ventral organization with computational modeling, but no explicit DNN object-recognition modeling"
+  },
+  "0431": {
+   "grade": 3,
+   "why": "THINGS fMRI object representations compared directly with DNNs"
+  },
+  "0440": {
+   "grade": 2,
+   "why": "fMRI object representations across ventral and dorsal streams, with some CNN comparison"
+  },
+  "0441": {
+   "grade": 1,
+   "why": "CNN-human alignment in material perception; no fMRI ventral object work"
+  },
+  "0446": {
+   "grade": 1,
+   "why": "past object recognition modeling; current fMRI work is on words and categorization learning"
+  },
+  "0447": {
+   "grade": 3,
+   "why": "fMRI of higher visual cortex with DNN alignment analyses"
+  },
+  "0459": {
+   "grade": 3,
+   "why": "fMRI plus DNNs on ventral-stream representation and alignment"
+  },
+  "0462": {
+   "grade": 3,
+   "why": "fMRI plus deep and generative models mapping ventral category selectivity"
+  },
+  "0473": {
+   "grade": 1,
+   "why": "CNN models of attention and search, not ventral object recognition with fMRI"
+  },
+  "0491": {
+   "grade": 3,
+   "why": "ANN encoding models of fMRI responses in ventral category-selective regions"
+  },
+  "0493": {
+   "grade": 2,
+   "why": "foundational ventral fMRI and uses DNNs, but recent work centers on physics and localizers"
+  },
+  "0507": {
+   "grade": 1,
+   "why": "fMRI perceptual learning with only a DCNN texture comparison"
+  },
+  "0510": {
+   "grade": 3,
+   "why": "DNN and transformer encoders of fMRI high-level visual cortex for object recognition"
+  },
+  "0521": {
+   "grade": 1,
+   "why": "face perception, mostly behavioral; no DNN modeling"
+  },
+  "0530": {
+   "grade": 1,
+   "why": "fMRI methods with fast object-category decoding, but no DNN modeling"
+  },
+  "0542": {
+   "grade": 2,
+   "why": "fMRI-guided IT object-space recordings, with deep learning as a secondary element"
+  },
+  "0579": {
+   "grade": 1,
+   "why": "fMRI and DNNs applied to perceptual learning and attention, not ventral object recognition"
+  },
+  "0601": {
+   "grade": 1,
+   "why": "DNN-only developmental vision work, no fMRI"
+  },
+  "0606": {
+   "grade": 1,
+   "why": "memory-focused fMRI; DNN alignment is behavioral only"
+  },
+  "0618": {
+   "grade": 2,
+   "why": "macaque fMRI plus task-optimized CNNs for face coding in the ventral face patches"
+  },
+  "0621": {
+   "grade": 1,
+   "why": "VTC object coding via intracranial and single-unit recordings, not fMRI with DNNs"
+  },
+  "0631": {
+   "grade": 3,
+   "why": "fMRI with DNN encoding and topographic models of object representation in occipitotemporal cortex"
+  },
+  "0632": {
+   "grade": 1,
+   "why": "behavioral comparison of children's object recognition with DNNs, no fMRI"
+  },
+  "0653": {
+   "grade": 3,
+   "why": "fMRI plus DNNs explaining category-selective ventral visual cortex"
+  },
+  "0664": {
+   "grade": 1,
+   "why": "EEG decoding of object recognition, no DNN or fMRI focus"
+  },
+  "0667": {
+   "grade": 1,
+   "why": "fMRI of object dimensions using data-driven rather than DNN models"
+  },
+  "0672": {
+   "grade": 2,
+   "why": "fMRI-to-DNN feature decoding, aimed at materials and captioning rather than object recognition"
+  },
+  "0697": {
+   "grade": 1,
+   "why": "memorability research, only loosely related"
+  },
+  "0705": {
+   "grade": 2,
+   "why": "fMRI/EEG with DNNs, but focused on actions, audiovisual processing, and memorability"
+  },
+  "0707": {
+   "grade": 1,
+   "why": "fMRI of object working memory in OTC, with no recent DNN work"
+  },
+  "0715": {
+   "grade": 2,
+   "why": "DNN-based fMRI encoding of natural images, a secondary line next to speech BCI"
+  },
+  "0721": {
+   "grade": 1,
+   "why": "VWFA development studied with fMRI, no DNNs"
+  },
+  "E017": {
+   "grade": 2,
+   "why": "NSD 7T fMRI encoding models of high-level vision, broader than object recognition"
+  },
+  "E024": {
+   "grade": 2,
+   "why": "DNN models of ventral stream topography, with recent work mostly AI"
+  },
+  "E032": {
+   "grade": 2,
+   "why": "fMRI plus DNNs, centered on imagery and concept manifolds"
+  },
+  "E033": {
+   "grade": 2,
+   "why": "NSD fMRI with DNN/LLM models of scene representations"
+  },
+  "E035": {
+   "grade": 2,
+   "why": "DNN models of vision aligned to fMRI, with modeling as the main focus"
+  },
+  "E039": {
+   "grade": 2,
+   "why": "DNN models of the ventral stream benchmarked mostly on electrophysiology, not fMRI"
+  },
+  "E043": {
+   "grade": 2,
+   "why": "fMRI decoding through DNN features, aimed at reconstruction rather than object recognition"
+  },
+  "E056": {
+   "grade": 2,
+   "why": "macaque fMRI plus DNNs on IT coding, alongside other learning topics"
+  },
+  "E060": {
+   "grade": 2,
+   "why": "fMRI decoding with generative models of scenes"
+  },
+  "E089": {
+   "grade": 2,
+   "why": "IT object coding mainly via electrophysiology, with fMRI used to target recordings"
+  },
+  "E090": {
+   "grade": 3,
+   "why": "fMRI/EEG with DNNs on object vision and ventral category selectivity"
+  },
+  "E093": {
+   "grade": 3,
+   "why": "fMRI of ventral temporal cortex plus topographic DNN models of its organization"
+  },
+  "E096": {
+   "grade": 1,
+   "why": "fMRI of distributed object representations in ventral temporal cortex, but current work is hyperalignment and templates with no DNN modeling"
+  },
+  "E112": {
+   "grade": 2,
+   "why": "combines fMRI and DNN benchmarking extensively, but focuses on scenes, videos and affordances rather than object recognition"
+  },
+  "E122": {
+   "grade": 1,
+   "why": "fMRI of objects within scenes in scene and object-selective cortex, but no DNN models"
+  },
+  "E264": {
+   "grade": 1,
+   "why": "uses fMRI with DNN features, but to study prediction errors in early visual cortex, not ventral object recognition"
+  },
+  "E284": {
+   "grade": 1,
+   "why": "fMRI of context-based object representations and attention, without DNN modeling"
+  },
+  "E286": {
+   "grade": 2,
+   "why": "fMRI decoding with deep generative models, including object-category decoding, but aimed at reconstruction and multimodal mapping rather than ventral object recognition"
+  },
+  "E287": {
+   "grade": 2,
+   "why": "DNN encoding and decoding of fMRI and macaque IT, but centered on image reconstruction rather than object recognition mechanisms"
+  },
+  "E289": {
+   "grade": 2,
+   "why": "DNN\u2013brain fMRI benchmarking (Net2Brain) and object recognition, but recent work is mostly AI interpretability"
+  },
+  "E291": {
+   "grade": 1,
+   "why": "IT cortex object memory via macaque electrophysiology; no fMRI or DNN focus"
+  },
+  "E347": {
+   "grade": 2,
+   "why": "fMRI plus neural network models of ventral-stream visual word and shape recognition, a special case of object recognition"
+  },
+  "E367": {
+   "grade": 1,
+   "why": "ventral stream object tuning with generative models, but uses macaque electrophysiology rather than fMRI"
+  },
+  "E368": {
+   "grade": 1,
+   "why": "development of visual object concepts using ML on egocentric video; no neuroimaging"
+  },
+  "E372": {
+   "grade": 2,
+   "why": "object and shape perception using fMRI, IT recordings and deep-network comparisons, though recent work has shifted toward naturalistic and comparative behavior"
+  },
+  "E377": {
+   "grade": 2,
+   "why": "DNN models of the ventral stream for object perception, but relies on macaque neural data and behavior rather than fMRI"
+  }
+ },
+ "review_scenes": {
+  "0022": {
+   "grade": 0,
+   "why": "semantic memory and RSA of concepts; no scene or navigation work"
+  },
+  "0032": {
+   "grade": 1,
+   "why": "relational scene perception psychophysics; not navigation or scene-selective fMRI"
+  },
+  "0043": {
+   "grade": 1,
+   "why": "scene visual search and attention; no affordance or neuroimaging angle"
+  },
+  "0054": {
+   "grade": 0,
+   "why": "now works on algebra education"
+  },
+  "0060": {
+   "grade": 1,
+   "why": "VR navigation in ultra-low vision; clinical, not neural representation"
+  },
+  "0065": {
+   "grade": 2,
+   "why": "large-scale scene/video fMRI with DNN encoding models, though not navigation"
+  },
+  "0067": {
+   "grade": 1,
+   "why": "intracranial high-level vision of faces/words, not scenes"
+  },
+  "0077": {
+   "grade": 1,
+   "why": "gaze and category selectivity in scene viewing; not navigation"
+  },
+  "0091": {
+   "grade": 1,
+   "why": "action affordances and RSA in dorsal stream for objects, not scenes"
+  },
+  "0094": {
+   "grade": 1,
+   "why": "visual control of locomotion behaviorally; no neuroimaging"
+  },
+  "0101": {
+   "grade": 1,
+   "why": "computational scene representation theory; no fMRI or navigation"
+  },
+  "0107": {
+   "grade": 2,
+   "why": "scene-selective cortex fMRI and scene memory; less on affordances"
+  },
+  "0109": {
+   "grade": 1,
+   "why": "mid-level vision and reachability affordances; behavioral only"
+  },
+  "0121": {
+   "grade": 2,
+   "why": "fMRI of category selectivity as behaviorally relevant features; RSA expertise"
+  },
+  "0123": {
+   "grade": 1,
+   "why": "wayfinding gaze behavior; applied sport focus"
+  },
+  "0145": {
+   "grade": 3,
+   "why": "OPA as visually guided navigation system, fMRI of OPA/PPA/RSC"
+  },
+  "0148": {
+   "grade": 2,
+   "why": "naturalistic scene processing with fMRI/EEG and DNNs; not navigation"
+  },
+  "0167": {
+   "grade": 2,
+   "why": "OPA/PPA/RSC scene-network connectivity fMRI; less on affordances"
+  },
+  "0174": {
+   "grade": 2,
+   "why": "scene category fMRI and DNN alignment; not navigation"
+  },
+  "0178": {
+   "grade": 2,
+   "why": "mid-level features in scene fMRI with DNNs, relevant to the feature controls"
+  },
+  "0186": {
+   "grade": 2,
+   "why": "scene layout and dorsal/ventral pathway organization, multivariate fMRI"
+  },
+  "0201": {
+   "grade": 1,
+   "why": "3D scene statistics and depth perception; no scene-selective cortex"
+  },
+  "0207": {
+   "grade": 1,
+   "why": "dorsal/ventral perception-action for objects, not scenes"
+  },
+  "0208": {
+   "grade": 0,
+   "why": "current work on VR nostalgia and robotics"
+  },
+  "0210": {
+   "grade": 1,
+   "why": "landmark-based wayfinding behavior; no visual cortex work"
+  },
+  "0219": {
+   "grade": 0,
+   "why": "scene memory detail retention; unrelated to navigation or neural coding"
+  },
+  "0220": {
+   "grade": 1,
+   "why": "optic flow and self-motion neurophysiology; not scene affordances"
+  },
+  "0222": {
+   "grade": 1,
+   "why": "DNN-cortex alignment in ventral object vision; not scenes"
+  },
+  "0229": {
+   "grade": 1,
+   "why": "steering and optic flow in VR; no neuroimaging"
+  },
+  "0244": {
+   "grade": 1,
+   "why": "computational scene understanding and search; not navigation or fMRI"
+  },
+  "0252": {
+   "grade": 1,
+   "why": "fMRI/DNN representational geometry of object-selective cortex, not scenes or navigation"
+  },
+  "0254": {
+   "grade": 1,
+   "why": "RSA statistics and methods expert, but no scene or navigation research"
+  },
+  "0281": {
+   "grade": 2,
+   "why": "encoding models of cortical networks during naturalistic navigation, though not OPA affordances specifically"
+  },
+  "0287": {
+   "grade": 1,
+   "why": "DNN models of the ventral stream for objects, not scenes"
+  },
+  "0295": {
+   "grade": 1,
+   "why": "behavioral VR spatial navigation, with no scene-selective cortex or modeling work"
+  },
+  "0307": {
+   "grade": 1,
+   "why": "predicts place-selective regions, but focuses on faces"
+  },
+  "0318": {
+   "grade": 1,
+   "why": "dorsal-stream fMRI on visually guided action, not scenes or navigation"
+  },
+  "0327": {
+   "grade": 1,
+   "why": "scene ensemble perception is tangential to affordances and OPA"
+  },
+  "0338": {
+   "grade": 1,
+   "why": "scene anchor objects in visual search, which is tangential"
+  },
+  "0344": {
+   "grade": 1,
+   "why": "scene categorization and EEG-ANN comparisons, but no navigation or OPA"
+  },
+  "0356": {
+   "grade": 2,
+   "why": "DNN plus fMRI study of category-selective areas, including PPA feature tuning"
+  },
+  "0357": {
+   "grade": 1,
+   "why": "natural locomotion and scene statistics, but no neuroimaging of scene cortex"
+  },
+  "0358": {
+   "grade": 1,
+   "why": "behavioral VR path choice and obstacle avoidance, which is affordance-adjacent"
+  },
+  "0370": {
+   "grade": 1,
+   "why": "macaque IT object recognition models, not scenes"
+  },
+  "0374": {
+   "grade": 1,
+   "why": "past scene recognition work; current work is AI reasoning"
+  },
+  "0382": {
+   "grade": 1,
+   "why": "scene context in V1 predictive coding, not scene-selective regions"
+  },
+  "0391": {
+   "grade": 1,
+   "why": "fMRI/DNN social vision; Bonner co-author"
+  },
+  "0396": {
+   "grade": 0,
+   "why": "infant egocentric vision and development, not relevant"
+  },
+  "0400": {
+   "grade": 1,
+   "why": "infant scene viewing linked to fMRI via RSA, which is tangential"
+  },
+  "0416": {
+   "grade": 1,
+   "why": "RSA and DNN ventral-stream expertise, but object-focused"
+  },
+  "0421": {
+   "grade": 2,
+   "why": "voxelwise encoding of 3D scene structure and regions near PPA/RSC with DNNs"
+  },
+  "0427": {
+   "grade": 1,
+   "why": "category-selective organization including places, focused on plasticity"
+  },
+  "0431": {
+   "grade": 1,
+   "why": "DNN-brain alignment for object dimensions, not scenes"
+  },
+  "0436": {
+   "grade": 1,
+   "why": "object and working memory fMRI decoding, loosely related"
+  },
+  "0438": {
+   "grade": 1,
+   "why": "visual control of walking and foothold selection, behavioral only"
+  },
+  "0440": {
+   "grade": 1,
+   "why": "dorsal-stream object affordances for grasping, not navigation"
+  },
+  "0445": {
+   "grade": 1,
+   "why": "navigation in blindness, no visual scene cortex"
+  },
+  "0447": {
+   "grade": 2,
+   "why": "decomposition of higher visual areas including scene areas, plus DNN alignment"
+  },
+  "0457": {
+   "grade": 1,
+   "why": "scene patch and visual pathway development, not affordances"
+  },
+  "0462": {
+   "grade": 2,
+   "why": "DNN-fMRI mapping of category/scene selectivity in high-level visual cortex"
+  },
+  "0471": {
+   "grade": 2,
+   "why": "studies scene affordances and their role in scene categorization, but with EEG and behavior rather than fMRI of OPA/PPA"
+  },
+  "0484": {
+   "grade": 1,
+   "why": "scene semantics and eye movements; no navigation or affordance neuroimaging"
+  },
+  "0491": {
+   "grade": 2,
+   "why": "DNN encoding models of scene-selective PPA; strong on methods but not navigational affordances"
+  },
+  "0493": {
+   "grade": 2,
+   "why": "expert on PPA and scene regions with DNN modeling, but current focus is the physics network"
+  },
+  "0509": {
+   "grade": 1,
+   "why": "scene memory with DNN features; not about scene-selective cortex or navigation"
+  },
+  "0510": {
+   "grade": 2,
+   "why": "developed RSA and builds DNN models of vision; not specific to scenes or navigation"
+  },
+  "0520": {
+   "grade": 1,
+   "why": "optic flow and navigation modeling in the dorsal stream, not scene affordances"
+  },
+  "0540": {
+   "grade": 1,
+   "why": "feature use in brains and DNNs, mostly faces; tangential"
+  },
+  "0542": {
+   "grade": 1,
+   "why": "natural-scene responses in macaque IT; not navigation"
+  },
+  "0543": {
+   "grade": 1,
+   "why": "scene boundary memory and unconscious processing; loosely related"
+  },
+  "0567": {
+   "grade": 1,
+   "why": "depth and self-motion perception in VR; tangential to scene affordances"
+  },
+  "0585": {
+   "grade": 1,
+   "why": "egomotion fMRI in dorsal areas; not scene affordance coding"
+  },
+  "0588": {
+   "grade": 1,
+   "why": "spatial cognition and cognitive maps; tangential (also recent coauthor with Epstein)"
+  },
+  "0595": {
+   "grade": 1,
+   "why": "scene-object semantics in attention; not navigation or fMRI of scene regions"
+  },
+  "0599": {
+   "grade": 1,
+   "why": "optic-flow DNNs of MSTd; only loosely related"
+  },
+  "0606": {
+   "grade": 0,
+   "why": "episodic memory and DNN alignment; no scene or navigation work"
+  },
+  "0607": {
+   "grade": 2,
+   "why": "identified a scene-selective site encoding ego-motion during navigation; fMRI"
+  },
+  "0627": {
+   "grade": 3,
+   "why": "fMRI of navigational affordances, obstacles and paths in PPA/OPA, squarely on the question"
+  },
+  "0631": {
+   "grade": 2,
+   "why": "action affordances in visual cortex using RSA and DNNs, but for objects rather than scenes"
+  },
+  "0653": {
+   "grade": 2,
+   "why": "scene fMRI and DNN-brain alignment; affordances not central"
+  },
+  "0664": {
+   "grade": 1,
+   "why": "EEG decoding of objects; tangential"
+  },
+  "0667": {
+   "grade": 2,
+   "why": "maps connectivity of the OPA/PPA/RSC scene network; not affordances"
+  },
+  "0672": {
+   "grade": 0,
+   "why": "brain decoding of materials and captions; not relevant"
+  },
+  "0695": {
+   "grade": 1,
+   "why": "affordances and locomotion in behavior and VR; no neuroimaging of scene cortex"
+  },
+  "0697": {
+   "grade": 0,
+   "why": "memorability research; not relevant"
+  },
+  "0705": {
+   "grade": 1,
+   "why": "RSA and DNN methods but on memorability and actions, not scenes or navigation"
+  },
+  "0707": {
+   "grade": 0,
+   "why": "working memory in OTC and PPC; not relevant"
+  },
+  "0721": {
+   "grade": 0,
+   "why": "VWFA and language development; not relevant"
+  },
+  "E017": {
+   "grade": 2,
+   "why": "encoding models of natural-scene fMRI (NSD); methods-relevant but not navigation"
+  },
+  "E032": {
+   "grade": 1,
+   "why": "natural-scene encoding models, but current focus is imagery"
+  },
+  "E033": {
+   "grade": 2,
+   "why": "fMRI+RSA and DNN-brain comparisons of natural scenes, but focus is semantics, not navigation"
+  },
+  "E035": {
+   "grade": 2,
+   "why": "DNN models of scene representations aligned with visual cortex; not affordances or scene-selective ROIs"
+  },
+  "E090": {
+   "grade": 2,
+   "why": "RSA/DNN expert probing PPA signatures incl. spatial layout; navigation not central"
+  },
+  "E093": {
+   "grade": 1,
+   "why": "place-selective cortex development and topographic DNNs; not affordances"
+  },
+  "E096": {
+   "grade": 1,
+   "why": "MVPA/hyperalignment methods expert; no scene or navigation focus"
+  },
+  "E107": {
+   "grade": 0,
+   "why": "author of the abstract under review"
+  },
+  "E109": {
+   "grade": 1,
+   "why": "behavioral scene perception and directional navigation; no neuroimaging"
+  },
+  "E110": {
+   "grade": 3,
+   "why": "fMRI/MEG and RSA on navigational affordance coding in OPA"
+  },
+  "E112": {
+   "grade": 3,
+   "why": "locomotive affordances in scene-selective cortex using fMRI and DNN comparisons"
+  },
+  "E113": {
+   "grade": 1,
+   "why": "navigation and hippocampal fMRI; not visual affordances in scene cortex"
+  },
+  "E114": {
+   "grade": 1,
+   "why": "navigation circuits and aging; not scene-selective visual coding"
+  },
+  "E122": {
+   "grade": 2,
+   "why": "RSA of scene-selective regions on large fMRI datasets; objects rather than navigation"
+  },
+  "E129": {
+   "grade": 1,
+   "why": "scene meaning and attention via eye-tracking; not neural affordance coding"
+  },
+  "E147": {
+   "grade": 1,
+   "why": "object/tool affordances with fMRI MVPA; not scenes or navigation"
+  },
+  "E174": {
+   "grade": 1,
+   "why": "embodied AI navigation agents; no human neuroimaging"
+  },
+  "E241": {
+   "grade": 0,
+   "why": "multisensory category learning; unrelated"
+  },
+  "E264": {
+   "grade": 1,
+   "why": "predictive processing of scenes with fMRI/DNNs; not affordances"
+  },
+  "E271": {
+   "grade": 1,
+   "why": "place-preferring networks via precision fMRI; not affordance coding"
+  },
+  "E284": {
+   "grade": 2,
+   "why": "scene perception fMRI/MVPA incl. 3D scene structure; affordances not central"
+  },
+  "E286": {
+   "grade": 1,
+   "why": "encoding/decoding models of naturalistic fMRI; not scene navigation"
+  },
+  "E287": {
+   "grade": 1,
+   "why": "DNN encoding/decoding methods; no scene or navigation focus"
+  },
+  "E289": {
+   "grade": 1,
+   "why": "DNN-brain benchmarking tools; not scene affordances"
+  },
+  "E305": {
+   "grade": 1,
+   "why": "navigation computation in animals and VR; not visual scene cortex"
+  },
+  "E341": {
+   "grade": 1,
+   "why": "scene grammar and scene function behavior/EEG; no fMRI of scene regions"
+  },
+  "E367": {
+   "grade": 0,
+   "why": "macaque ventral stream and diffusion model theory; unrelated"
+  },
+  "E368": {
+   "grade": 0,
+   "why": "visual concept development; unrelated"
+  },
+  "E369": {
+   "grade": 0,
+   "why": "mouse large-scale neural recordings and tools; unrelated"
+  },
+  "E371": {
+   "grade": 1,
+   "why": "place categorization and navigation-based geometry in development; no neuroimaging"
+  },
+  "E372": {
+   "grade": 0,
+   "why": "object/shape vision in monkeys; unrelated to scenes"
+  },
+  "E377": {
+   "grade": 1,
+   "why": "visual-spatial multi-view learning models; not scene-selective cortex"
+  }
+ },
+ "review_serial": {
+  "0001": {
+   "grade": 1,
+   "why": "visual stability across saccades; no serial dependence work"
+  },
+  "0004": {
+   "grade": 0,
+   "why": "volition and consciousness; EEG use alone is not enough"
+  },
+  "0005": {
+   "grade": 2,
+   "why": "reviews attraction/repulsion from prior stimuli in perception and working memory"
+  },
+  "0017": {
+   "grade": 2,
+   "why": "Bayesian observer models of orientation and adaptation history effects; no serial dependence EEG"
+  },
+  "0025": {
+   "grade": 0,
+   "why": "eye movements and metacognition; not serial dependence"
+  },
+  "0033": {
+   "grade": 0,
+   "why": "temporal attention in RSVP; off-topic"
+  },
+  "0038": {
+   "grade": 1,
+   "why": "orientation working memory but not history biases"
+  },
+  "0047": {
+   "grade": 0,
+   "why": "internal/external attention; not serial dependence"
+  },
+  "0053": {
+   "grade": 1,
+   "why": "trial-history effects in rodent decisions; different system and methods"
+  },
+  "0079": {
+   "grade": 1,
+   "why": "perceptual vs post-perceptual distinction methodology only"
+  },
+  "0098": {
+   "grade": 0,
+   "why": "metacognition and imagery; not relevant"
+  },
+  "0111": {
+   "grade": 1,
+   "why": "attraction/repulsion among items in working memory, not across trials"
+  },
+  "0126": {
+   "grade": 3,
+   "why": "MEG decoding of a neural signature of serial dependence, directly on stage question"
+  },
+  "0132": {
+   "grade": 2,
+   "why": "EEG encoding models of orientation with serial dependence bias effects"
+  },
+  "0137": {
+   "grade": 2,
+   "why": "perceptual vs decisional uncertainty in orientation serial dependence; psychophysics only"
+  },
+  "0138": {
+   "grade": 2,
+   "why": "decodes orientation serial dependence in macaque V1/V2"
+  },
+  "0142": {
+   "grade": 1,
+   "why": "serial dependence in interceptive movements"
+  },
+  "0149": {
+   "grade": 0,
+   "why": "contrast noise and schizophrenia; not relevant"
+  },
+  "0158": {
+   "grade": 2,
+   "why": "serial dependence in speed and evaluative judgments"
+  },
+  "0164": {
+   "grade": 2,
+   "why": "EEG predictors of reliance on perceptual history and serial dependence"
+  },
+  "0168": {
+   "grade": 0,
+   "why": "author of the abstract"
+  },
+  "0181": {
+   "grade": 1,
+   "why": "Bayesian perceptual decision modeling, not history biases"
+  },
+  "0182": {
+   "grade": 3,
+   "why": "early visual-evoked EEG predicts serial dependence; perceptual-stage question"
+  },
+  "0191": {
+   "grade": 1,
+   "why": "EEG decoding of orientation in working memory and decisions"
+  },
+  "0198": {
+   "grade": 1,
+   "why": "EEG decoding of temporal integration and working memory"
+  },
+  "0216": {
+   "grade": 0,
+   "why": "perceptual learning and language; not relevant"
+  },
+  "0224": {
+   "grade": 0,
+   "why": "working memory attention and gaze; not serial dependence"
+  },
+  "0239": {
+   "grade": 3,
+   "why": "perceptual vs decisional origins of orientation serial bias plus EEG decoding"
+  },
+  "0247": {
+   "grade": 0,
+   "why": "motion and oculomotor control; not relevant"
+  },
+  "0255": {
+   "grade": 1,
+   "why": "orientation working memory and EEG decoding, but no history biases"
+  },
+  "0256": {
+   "grade": 2,
+   "why": "choice-history biases and choice-motor decoupling bear directly on decisional accounts, though in macaques"
+  },
+  "0264": {
+   "grade": 1,
+   "why": "WM drift, EEG and modeling, but no serial dependence work"
+  },
+  "0270": {
+   "grade": 1,
+   "why": "orientation context illusions in psychophysics, not serial dependence"
+  },
+  "0280": {
+   "grade": 0,
+   "why": "ventral-stream texture and form physiology, unrelated"
+  },
+  "0292": {
+   "grade": 3,
+   "why": "EEG decoding of serial dependence, showing prior reports rather than prior stimuli are reactivated"
+  },
+  "0293": {
+   "grade": 2,
+   "why": "EEG orientation decoding, adaptation and Bayes-optimal modeling, but no serial dependence"
+  },
+  "0326": {
+   "grade": 2,
+   "why": "orientation recall biases from sensory-mnemonic interaction; adjacent to the question"
+  },
+  "0331": {
+   "grade": 1,
+   "why": "visual cortex mapping and memory feedback, tangential"
+  },
+  "0335": {
+   "grade": 0,
+   "why": "oculomotor control focus"
+  },
+  "0344": {
+   "grade": 1,
+   "why": "visual stability and EEG, but trans-saccadic rather than serial dependence"
+  },
+  "0355": {
+   "grade": 1,
+   "why": "WM representations, tangential"
+  },
+  "0357": {
+   "grade": 0,
+   "why": "infant natural vision and continuous psychophysics"
+  },
+  "0361": {
+   "grade": 1,
+   "why": "memory-perception attraction in WM, loosely related"
+  },
+  "0369": {
+   "grade": 1,
+   "why": "WM capacity, with stimulus history mentioned only in passing"
+  },
+  "0383": {
+   "grade": 1,
+   "why": "oscillations and attention, tangential"
+  },
+  "0414": {
+   "grade": 1,
+   "why": "memory-bias modeling, not serial dependence"
+  },
+  "0418": {
+   "grade": 1,
+   "why": "orientation psychophysics and adaptation, not history biases"
+  },
+  "0432": {
+   "grade": 1,
+   "why": "trans-saccadic stability, tangential"
+  },
+  "0442": {
+   "grade": 2,
+   "why": "serial dependence placed downstream of sensory encoding, but in touch and rodents"
+  },
+  "0448": {
+   "grade": 1,
+   "why": "metacognition and uncertainty modeling, tangential"
+  },
+  "0461": {
+   "grade": 1,
+   "why": "psychophysics of crowding and temporal integration, not serial dependence"
+  },
+  "0464": {
+   "grade": 1,
+   "why": "WM and confidence modeling, tangential"
+  },
+  "0465": {
+   "grade": 1,
+   "why": "Bayesian observer modeling, but no serial dependence"
+  },
+  "0479": {
+   "grade": 1,
+   "why": "sensory vs decision stages of attention, loosely related"
+  },
+  "0509": {
+   "grade": 1,
+   "why": "EEG and iconic memory, tangential"
+  },
+  "0517": {
+   "grade": 2,
+   "why": "sensory history effects and attractive/repulsive orientation biases with Bayesian models"
+  },
+  "0524": {
+   "grade": 3,
+   "why": "serial dependence in Gabor orientation with Bayesian modeling; core question and methods"
+  },
+  "0526": {
+   "grade": 1,
+   "why": "visual stability and illusions, not serial dependence"
+  },
+  "0533": {
+   "grade": 2,
+   "why": "priors shaping early sensory representations via MEG decoding; adjacent mechanism"
+  },
+  "0550": {
+   "grade": 1,
+   "why": "temporal-context normalization and adaptation models, tangential"
+  },
+  "0554": {
+   "grade": 1,
+   "why": "Bayesian models of perceptual decision-making, but no serial dependence work"
+  },
+  "0576": {
+   "grade": 2,
+   "why": "EEG and fMRI orientation decoding and working-memory format, but not serial dependence directly"
+  },
+  "0580": {
+   "grade": 1,
+   "why": "probabilistic inference and segmentation, loosely related"
+  },
+  "0584": {
+   "grade": 2,
+   "why": "active serial dependence and attraction/repulsion modeling, but behavioral only with no EEG"
+  },
+  "0588": {
+   "grade": 0,
+   "why": "spatial cognition and topology, not relevant"
+  },
+  "0590": {
+   "grade": 1,
+   "why": "ensemble perception and metacognition, tangential"
+  },
+  "0592": {
+   "grade": 3,
+   "why": "choice-history and decision-consistent biases in orientation estimation, with Bayesian and neural models"
+  },
+  "0609": {
+   "grade": 1,
+   "why": "one study of perceptual-history biases in ensembles; mainly ensemble perception"
+  },
+  "0663": {
+   "grade": 3,
+   "why": "serial dependence in orientation with EEG, testing which representational stage it acts on"
+  },
+  "0664": {
+   "grade": 1,
+   "why": "time-resolved EEG decoding expertise only"
+  },
+  "0665": {
+   "grade": 1,
+   "why": "memory attraction/repulsion biases, not trial history"
+  },
+  "0684": {
+   "grade": 1,
+   "why": "attention and working memory with EEG, loosely related"
+  },
+  "0692": {
+   "grade": 1,
+   "why": "working memory steering perceptual decisions, tangential"
+  },
+  "0698": {
+   "grade": 0,
+   "why": "ideal-observer models of texture and search, not relevant"
+  },
+  "0703": {
+   "grade": 2,
+   "why": "theory of attractive/repulsive biases and identifiability of Bayesian observer models"
+  },
+  "0704": {
+   "grade": 1,
+   "why": "sequential orientation interference, but crowding and masking rather than serial dependence"
+  },
+  "0725": {
+   "grade": 0,
+   "why": "oculomotor neurophysiology, not relevant"
+  },
+  "0728": {
+   "grade": 2,
+   "why": "serial dependence review and perceptual continuity, without EEG or model-based work"
+  },
+  "0730": {
+   "grade": 2,
+   "why": "serial dependence psychophysics in 3D, but not their current central focus"
+  },
+  "E046": {
+   "grade": 1,
+   "why": "separating early vs late noise is conceptually related, but no serial dependence work"
+  },
+  "E056": {
+   "grade": 0,
+   "why": "perceptual learning and task geometry, not relevant"
+  },
+  "E057": {
+   "grade": 0,
+   "why": "author of the abstract"
+  },
+  "E060": {
+   "grade": 0,
+   "why": "current work is AI and fMRI decoding, not relevant"
+  },
+  "E061": {
+   "grade": 1,
+   "why": "bistability and visual memory, tangential"
+  },
+  "E063": {
+   "grade": 0,
+   "why": "author of the abstract"
+  },
+  "E065": {
+   "grade": 2,
+   "why": "serial dependence and perceptual priors, from a psychosis focus"
+  },
+  "E082": {
+   "grade": 0,
+   "why": "plasticity and clinical AI, not relevant"
+  },
+  "E090": {
+   "grade": 1,
+   "why": "EEG time-course methods only"
+  },
+  "E140": {
+   "grade": 2,
+   "why": "serial dependence and visual stability via sensorimotor prediction"
+  },
+  "E178": {
+   "grade": 1,
+   "why": "working memory with EEG; previous-trial bias only peripheral"
+  },
+  "E180": {
+   "grade": 2,
+   "why": "Bayesian/resource models of bias and variability in continuous orientation-style report, but working memory rather than serial dependence per se"
+  },
+  "E181": {
+   "grade": 1,
+   "why": "Bayesian observer modeling pioneer, but current work shifted to planning and decision-making"
+  },
+  "E198": {
+   "grade": 3,
+   "why": "Serial biases (attraction vs repulsion) with normative Bayesian models and psychophysics, plus orientation decoding"
+  },
+  "E202": {
+   "grade": 2,
+   "why": "Separates perceptual from post-perceptual processing with EEG no-report paradigms and continuous reproduction, though not serial dependence"
+  },
+  "E203": {
+   "grade": 0,
+   "why": "Current work on self-face perception under mirror reversal"
+  },
+  "E210": {
+   "grade": 1,
+   "why": "Gabor psychophysics, with one paper separating perceptual from decisional bias in adaptation; not serial dependence"
+  },
+  "E214": {
+   "grade": 1,
+   "why": "Orientation/Gabor modeling, but focused on perceptual learning and attention"
+  },
+  "E225": {
+   "grade": 3,
+   "why": "EEG studies of serial dependence for Gabor orientation, decoding previous-stimulus traces"
+  },
+  "E226": {
+   "grade": 2,
+   "why": "Recency/serial biases with Bayesian models and EEG, arguing for sensory-trace origin; mostly auditory"
+  },
+  "E227": {
+   "grade": 1,
+   "why": "Bio mentions serial dependence, but current research is motion-induced blindness"
+  },
+  "E243": {
+   "grade": 3,
+   "why": "Leading serial-dependence researcher using Bayesian models; tests sensory vs decisional loci directly"
+  },
+  "E247": {
+   "grade": 1,
+   "why": "Perceptual decision-making and evidence accumulation; tangential to serial dependence"
+  },
+  "E253": {
+   "grade": 1,
+   "why": "Decision-making under uncertainty and computation noise; loosely related"
+  },
+  "E254": {
+   "grade": 2,
+   "why": "Choice history biases in perceptual decisions with MEG and modeling; covers the decisional side"
+  },
+  "E255": {
+   "grade": 2,
+   "why": "Choice history biases and evidence accumulation modeling; covers the decisional side"
+  },
+  "E264": {
+   "grade": 1,
+   "why": "Expectations shaping perception with MEG/fMRI; no current serial-dependence focus"
+  },
+  "E283": {
+   "grade": 1,
+   "why": "Orientation decoding in working memory with fMRI; not serial dependence"
+  },
+  "E294": {
+   "grade": 0,
+   "why": "Mouse cortical coding of natural scenes and movement signals"
+  },
+  "E307": {
+   "grade": 1,
+   "why": "Decision-related signals in macaque visual cortex, including previous-trial info; tangential"
+  },
+  "E324": {
+   "grade": 2,
+   "why": "Disentangles serial dependence from central tendency bias in psychophysics; color and length rather than orientation"
+  },
+  "E339": {
+   "grade": 2,
+   "why": "Serial dependence across the visual field plus EEG decoding of memory representations"
+  },
+  "E376": {
+   "grade": 2,
+   "why": "Dissociates perceptual sensitivity from decisional bias with EEG and models; not serial dependence"
+  }
+ },
+ "like_konkle": {
+  "0022": {
+   "grade": 1,
+   "why": "Category-specific object semantics like Konkle, but the infant work is hippocampal memory connectivity, not vision"
+  },
+  "0029": {
+   "grade": 0,
+   "why": "Bilingual language and reading development, not visual development"
+  },
+  "0039": {
+   "grade": 1,
+   "why": "Visual attention in children's reading and dyslexia; tangential to high-level visual development"
+  },
+  "0054": {
+   "grade": 0,
+   "why": "Current work is algebra education"
+  },
+  "0055": {
+   "grade": 2,
+   "why": "Infant and child visual development with SSVEP, but low-level binocular vision rather than object representation"
+  },
+  "0075": {
+   "grade": 0,
+   "why": "Readability and typography, not visual development"
+  },
+  "0077": {
+   "grade": 2,
+   "why": "Category selectivity in ventral cortex plus lifespan gaze development from childhood"
+  },
+  "0084": {
+   "grade": 0,
+   "why": "Current work is optics and macular pigment in adults; infant work only in bio"
+  },
+  "0100": {
+   "grade": 2,
+   "why": "Early visual experience shaping visual and ventral cortex, studied in sight-restored adults rather than infants"
+  },
+  "0117": {
+   "grade": 1,
+   "why": "One infant audiovisual rule-learning study; mostly social and HCI work"
+  },
+  "0121": {
+   "grade": 1,
+   "why": "Konkle-like object representation work, but in adults with no developmental focus"
+  },
+  "0137": {
+   "grade": 1,
+   "why": "One study on gaze-cue development in children; mostly adult psychophysics"
+  },
+  "0145": {
+   "grade": 3,
+   "why": "Pediatric fMRI and modeling of how scene-selective high-level visual cortex develops in young children"
+  },
+  "0153": {
+   "grade": 0,
+   "why": "Video games, learning transfer, and executive function; not visual development"
+  },
+  "0161": {
+   "grade": 1,
+   "why": "Visual cortex development, but in ferrets and tree shrews at the low-level circuit scale"
+  },
+  "0197": {
+   "grade": 1,
+   "why": "Visual word form area reorganization after perinatal stroke; mainly language"
+  },
+  "0209": {
+   "grade": 1,
+   "why": "Attention and memory strategies in young children; loosely visual development"
+  },
+  "0225": {
+   "grade": 1,
+   "why": "One study on contrast sensitivity development in childhood; mostly adult recognition dynamics"
+  },
+  "0252": {
+   "grade": 1,
+   "why": "Konkle-like object space and deep nets, but in adults with no developmental focus"
+  },
+  "0266": {
+   "grade": 1,
+   "why": "Attention and working memory, including one child\u2013adult memory comparison; not visual development"
+  },
+  "0280": {
+   "grade": 1,
+   "why": "Ventral stream shape tuning development, but in macaques rather than children"
+  },
+  "0284": {
+   "grade": 0,
+   "why": "Current work is adult color and contrast psychophysics"
+  },
+  "0303": {
+   "grade": 2,
+   "why": "fMRI in young children on parietal coding of visual numerosity and geometric shape"
+  },
+  "0305": {
+   "grade": 0,
+   "why": "Infant language input, not vision"
+  },
+  "0317": {
+   "grade": 3,
+   "why": "Self-supervised models of object learning from toddler gaze and egocentric experience, close to Konkle's approach in development"
+  },
+  "0321": {
+   "grade": 2,
+   "why": "Development of acuity and crowding in children, plus face-area pRF mapping"
+  },
+  "0325": {
+   "grade": 1,
+   "why": "Review of color perception development; current work is applied sports vision"
+  },
+  "0331": {
+   "grade": 1,
+   "why": "One study comparing child and adult V1 maps; mostly adult spatial vision"
+  },
+  "0348": {
+   "grade": 1,
+   "why": "Number perception and child logical reasoning; tangential to visual development"
+  },
+  "0350": {
+   "grade": 2,
+   "why": "Development of face processing and its neural basis, though recent work leans toward adolescent behavior and autism"
+  },
+  "0353": {
+   "grade": 2,
+   "why": "fMRI of how motor experience shapes visual specialization in children, but centered on letters and handwriting"
+  },
+  "0357": {
+   "grade": 2,
+   "why": "infant head-camera visual statistics and early visual development, more low-level and sensorimotor than high-level"
+  },
+  "0375": {
+   "grade": 1,
+   "why": "functional and motor consequences of childhood amblyopia, not visual representation"
+  },
+  "0377": {
+   "grade": 2,
+   "why": "development of higher visual cortex and ventral shape coding, but in ferrets and primates rather than human infants"
+  },
+  "0390": {
+   "grade": 1,
+   "why": "infant intuitive physics and joint attention, only loosely visual development"
+  },
+  "0396": {
+   "grade": 3,
+   "why": "infant egocentric visual input statistics driving object recognition, linked to machine learning models"
+  },
+  "0400": {
+   "grade": 2,
+   "why": "infant scene attention related to adult cortical RSA, but focused on attention rather than representation"
+  },
+  "0402": {
+   "grade": 3,
+   "why": "experience-driven development of face/object category processing in visual cortex from infancy to childhood"
+  },
+  "0408": {
+   "grade": 1,
+   "why": "infant face perception framed around autism and social cognition"
+  },
+  "0412": {
+   "grade": 2,
+   "why": "IT category organization and effects of early face deprivation, but in macaques"
+  },
+  "0427": {
+   "grade": 2,
+   "why": "category selectivity after pediatric resection and emergence of ventral topography, development only partly central"
+  },
+  "0450": {
+   "grade": 2,
+   "why": "experience-dependent development of infant face perception, narrow behavioral scope"
+  },
+  "0457": {
+   "grade": 3,
+   "why": "functional organization of neonatal visual cortex and experience in forming category domains"
+  },
+  "0500": {
+   "grade": 0,
+   "why": "working memory theory, not visual development"
+  },
+  "0506": {
+   "grade": 0,
+   "why": "infant logical reasoning, not visual development"
+  },
+  "0522": {
+   "grade": 2,
+   "why": "neonatal deprivation effects on ventral occipito-temporal categorical development plus DNNs, mostly adults/blind"
+  },
+  "0529": {
+   "grade": 3,
+   "why": "early visual experience and late sight onset in children, with DNN models of infant maturation and object recognition"
+  },
+  "0548": {
+   "grade": 0,
+   "why": "action and social perception in adults; one minor developmental meta-analysis"
+  },
+  "0588": {
+   "grade": 0,
+   "why": "spatial representation primitives, minimal developmental vision"
+  },
+  "0596": {
+   "grade": 1,
+   "why": "development of acuity and crowding in children, low-level clinical psychophysics"
+  },
+  "0597": {
+   "grade": 1,
+   "why": "DNN-to-child developmental alignment of concepts, not visual development research"
+  },
+  "0601": {
+   "grade": 2,
+   "why": "computational models of innate visual functions and infant-like acuity maturation, no infant data"
+  },
+  "0608": {
+   "grade": 1,
+   "why": "infant visual short-term memory, not high-level visual representation"
+  },
+  "0628": {
+   "grade": 1,
+   "why": "children's white matter and handwriting learning, tangential to visual representation"
+  },
+  "0632": {
+   "grade": 2,
+   "why": "children's robust shape-based object recognition compared with DNNs, within a broader numerical/spatial program"
+  },
+  "0647": {
+   "grade": 1,
+   "why": "pediatric vergence and accommodation, oculomotor rather than high-level vision"
+  },
+  "0658": {
+   "grade": 2,
+   "why": "development of spatial vision and perceptual reorganization in children, plus visual cortex plasticity fMRI"
+  },
+  "0686": {
+   "grade": 1,
+   "why": "things/stuff cortical representation with one infant preprint"
+  },
+  "0687": {
+   "grade": 1,
+   "why": "crossmodal correspondences and emotion perception in children, not visual cortex development"
+  },
+  "0697": {
+   "grade": 0,
+   "why": "object memorability in adults, no developmental focus"
+  },
+  "0702": {
+   "grade": 2,
+   "why": "visual development and face perception with cataract work; recent output mostly adult familiarity and entropy"
+  },
+  "0721": {
+   "grade": 3,
+   "why": "emergence of category-selective ventral visual cortex (VWFA) in young children via precision fMRI"
+  },
+  "E024": {
+   "grade": 1,
+   "why": "computational models of ventral-stream organization, not infant or child development"
+  },
+  "E035": {
+   "grade": 1,
+   "why": "DNNs with a developmental visual diet, but no infant or child data"
+  },
+  "E046": {
+   "grade": 1,
+   "why": "one study of children's object-recognition robustness; mostly adult psychophysics"
+  },
+  "E090": {
+   "grade": 1,
+   "why": "Konkle-like computational vision; childhood development only mentioned in bio"
+  },
+  "E093": {
+   "grade": 3,
+   "why": "infant fMRI/dMRI of category-selective cortex emergence plus topographic DNN modeling"
+  },
+  "E225": {
+   "grade": 2,
+   "why": "infant fMRI of motion-network maturation, alongside unrelated saccade and serial-dependence work"
+  },
+  "E230": {
+   "grade": 1,
+   "why": "sight restoration after congenital cataract; sensorimotor rather than visual representation"
+  },
+  "E238": {
+   "grade": 1,
+   "why": "vision's role in multisensory spatial development, not visual object or category development"
+  },
+  "E266": {
+   "grade": 1,
+   "why": "infant statistical learning and infant neuroimaging methods; little current visual focus"
+  },
+  "E268": {
+   "grade": 1,
+   "why": "marmoset thalamocortical development; mostly prefrontal and pulvinar, not human children"
+  },
+  "E271": {
+   "grade": 1,
+   "why": "earlier infant category-selectivity work; current research is adult social/high-level vision"
+  },
+  "E272": {
+   "grade": 1,
+   "why": "molecular critical-period plasticity in mouse visual cortex; one infant VEP study"
+  },
+  "E274": {
+   "grade": 1,
+   "why": "children's visual working memory and executive control, not visual representation development"
+  },
+  "E275": {
+   "grade": 2,
+   "why": "development of mid-level form and texture vision, but in infant macaques"
+  },
+  "E276": {
+   "grade": 0,
+   "why": "current work is moral development and clinical ML, not vision"
+  },
+  "E281": {
+   "grade": 1,
+   "why": "infant object core knowledge; current focus is math education"
+  },
+  "E308": {
+   "grade": 1,
+   "why": "single infant motion-parallax study; mostly adult depth and biological motion"
+  },
+  "E309": {
+   "grade": 2,
+   "why": "child visual development and amblyopia, but low-level motion and contrast, not high-level"
+  },
+  "E347": {
+   "grade": 1,
+   "why": "VWFA and shape coding mostly in adults; child work is math education"
+  },
+  "E352": {
+   "grade": 2,
+   "why": "VWFA development in children and dyslexia; reading-specific"
+  },
+  "E364": {
+   "grade": 2,
+   "why": "children's visual word-form tuning via classroom EEG; reading-specific"
+  },
+  "E368": {
+   "grade": 3,
+   "why": "visual concept and object representation development, infant egocentric video, computational models"
+  },
+  "E370": {
+   "grade": 0,
+   "why": "infant social-relationship cognition, not visual development"
+  },
+  "E371": {
+   "grade": 2,
+   "why": "infant place-category and scene perception plus infant-vs-machine comparisons"
+  },
+  "E375": {
+   "grade": 1,
+   "why": "fetal brain histology including visual pathways; anatomical, not perceptual"
+  },
+  "0230": {
+   "grade": 1,
+   "why": "Konkle-like DNN and fMRI work on high-level vision, but the developmental side is only computational models of infant-like face learning, with no empirical infant or child studies"
+  },
+  "0391": {
+   "grade": 2,
+   "why": "Konkle-like computational fMRI/DNN approach to high-level vision with a real child-development thread (voxel-wise encoding in young children), but development is secondary and focused on social perception, not infant visual development broadly"
+  }
+ },
+ "eye_europe_early": {
+  "0001": {
+   "grade": 0,
+   "why": "transsaccadic stability work but US-based, violates Europe constraint"
+  },
+  "0013": {
+   "grade": 0,
+   "why": "China-based, mostly multisensory self-motion"
+  },
+  "0018": {
+   "grade": 1,
+   "why": "UK visual search/foraging modeling, not saccade planning; Senior Lecturer"
+  },
+  "0021": {
+   "grade": 1,
+   "why": "strong saccade pRF/perisaccadic work in Italy but h26 suggests mid-career and research is broad"
+  },
+  "0025": {
+   "grade": 0,
+   "why": "eye-movement expert in Germany but full Professor, not early-career"
+  },
+  "0043": {
+   "grade": 0,
+   "why": "US-based senior researcher"
+  },
+  "0056": {
+   "grade": 2,
+   "why": "Italy, squarely on saccadic inhibition and saccade planning, but Associate Professor so seniority is borderline"
+  },
+  "0066": {
+   "grade": 0,
+   "why": "US-based senior, fixational eye movements"
+  },
+  "0077": {
+   "grade": 1,
+   "why": "Germany gaze individual differences, not saccade planning; mid-career Research Professor"
+  },
+  "0078": {
+   "grade": 1,
+   "why": "UK early-career, but eye movements only peripheral to computational vision work"
+  },
+  "0085": {
+   "grade": 0,
+   "why": "Canada-based"
+  },
+  "0109": {
+   "grade": 0,
+   "why": "US-based senior, saccade landing work"
+  },
+  "0122": {
+   "grade": 1,
+   "why": "Germany, low h-index, but current work is alertness/control rather than saccades"
+  },
+  "0123": {
+   "grade": 1,
+   "why": "Swiss Assistant Professor studying gaze in sport/peripheral vision, not saccade planning"
+  },
+  "0140": {
+   "grade": 0,
+   "why": "US-based senior"
+  },
+  "0142": {
+   "grade": 2,
+   "why": "early-career in Spain with eye-tracking and saccade-programming-related fixation work, but focus is mainly interception"
+  },
+  "0164": {
+   "grade": 0,
+   "why": "UAE-based senior"
+  },
+  "0166": {
+   "grade": 2,
+   "why": "UK, relatively early-career eye-movement lab, but focus is mainly smooth pursuit rather than saccade planning"
+  },
+  "0179": {
+   "grade": 0,
+   "why": "full Professor, h45, not early-career"
+  },
+  "0218": {
+   "grade": 1,
+   "why": "Swiss Assistant Professor working on retinal gaze stabilization/OKR, not saccades"
+  },
+  "0220": {
+   "grade": 0,
+   "why": "senior, h48"
+  },
+  "0224": {
+   "grade": 0,
+   "why": "h42 Associate Professor, not early-career; eye movements as readout of memory"
+  },
+  "0229": {
+   "grade": 0,
+   "why": "US-based"
+  },
+  "0244": {
+   "grade": 0,
+   "why": "US-based senior"
+  },
+  "0247": {
+   "grade": 0,
+   "why": "former INT director, senior; mainly pursuit/motion"
+  },
+  "0249": {
+   "grade": 0,
+   "why": "US-based"
+  },
+  "0254": {
+   "grade": 1,
+   "why": "Luxembourg, but current work is RSA methods, not eye movements"
+  },
+  "0270": {
+   "grade": 0,
+   "why": "Japan-based"
+  },
+  "0283": {
+   "grade": 0,
+   "why": "US-based senior"
+  },
+  "0285": {
+   "grade": 0,
+   "why": "US-based senior"
+  },
+  "0286": {
+   "grade": 0,
+   "why": "US-based (Meta); fails Europe constraint"
+  },
+  "0293": {
+   "grade": 0,
+   "why": "Australia and senior (h=92); fails location and seniority"
+  },
+  "0314": {
+   "grade": 0,
+   "why": "Full professor; fails early-career, and focus is interception/optic flow"
+  },
+  "0317": {
+   "grade": 0,
+   "why": "Senior professor (h=44); work is developmental AI, not saccade planning"
+  },
+  "0329": {
+   "grade": 0,
+   "why": "US-based senior scientist; fails Europe constraint"
+  },
+  "0330": {
+   "grade": 0,
+   "why": "US-based senior professor; fails location and seniority"
+  },
+  "0332": {
+   "grade": 0,
+   "why": "US-based; reach tracking rather than saccades"
+  },
+  "0335": {
+   "grade": 0,
+   "why": "US-based; fails Europe constraint"
+  },
+  "0342": {
+   "grade": 0,
+   "why": "US-based; fails Europe constraint"
+  },
+  "0344": {
+   "grade": 0,
+   "why": "US-based full professor; fails location and seniority"
+  },
+  "0349": {
+   "grade": 1,
+   "why": "European associate professor; gaze guidance in VR with a past saccade-plasticity line; mid-career, not saccade-planning focused"
+  },
+  "0354": {
+   "grade": 0,
+   "why": "Senior (h=68); mainly color vision"
+  },
+  "0386": {
+   "grade": 0,
+   "why": "Senior (h=52); focus is parietal visuomotor and attention"
+  },
+  "0388": {
+   "grade": 0,
+   "why": "Full professor and deputy director; saccade adaptation fits but fails early-career"
+  },
+  "0392": {
+   "grade": 0,
+   "why": "Senior department head (h=42); fails early-career"
+  },
+  "0415": {
+   "grade": 0,
+   "why": "Full professor; fixational drift in edge perception, not saccade planning"
+  },
+  "0425": {
+   "grade": 0,
+   "why": "Senior full professor; saccade adaptation fits but fails early-career"
+  },
+  "0432": {
+   "grade": 0,
+   "why": "Senior full professor (h=39); squarely on saccades but fails early-career"
+  },
+  "0433": {
+   "grade": 2,
+   "why": "European CNRS researcher, modest h=16; works on visual stability and remapping across saccades, though currently fMRI and methods rather than saccade planning"
+  },
+  "0435": {
+   "grade": 0,
+   "why": "US-based; fails Europe constraint"
+  },
+  "0438": {
+   "grade": 0,
+   "why": "US-based senior; fails location and seniority"
+  },
+  "0443": {
+   "grade": 1,
+   "why": "Italian associate professor; microsaccades and attention, partially relevant; mid-career"
+  },
+  "0451": {
+   "grade": 0,
+   "why": "US-based; fails Europe constraint"
+  },
+  "0470": {
+   "grade": 0,
+   "why": "US-based; fails Europe constraint"
+  },
+  "0473": {
+   "grade": 0,
+   "why": "US-based senior; fails location and seniority"
+  },
+  "0484": {
+   "grade": 1,
+   "why": "Italian associate professor; eye movements in scene and language cognition, not saccade planning"
+  },
+  "0498": {
+   "grade": 0,
+   "why": "US-based; perisaccadic neurophysiology fits but fails Europe constraint"
+  },
+  "0504": {
+   "grade": 0,
+   "why": "US-based; fails Europe constraint"
+  },
+  "0518": {
+   "grade": 0,
+   "why": "US-based very senior (h=108); fails location and seniority"
+  },
+  "0523": {
+   "grade": 0,
+   "why": "pupillometry and ocular dominance plasticity rather than saccades; established ERC-level PI, not early-career"
+  },
+  "0526": {
+   "grade": 0,
+   "why": "Canada-based senior PI"
+  },
+  "0535": {
+   "grade": 0,
+   "why": "US-based senior PI"
+  },
+  "0536": {
+   "grade": 1,
+   "why": "early-career Swiss PI; gaze guidance by action is only a side strand, not saccade planning"
+  },
+  "0544": {
+   "grade": 0,
+   "why": "US-based senior scientist"
+  },
+  "0564": {
+   "grade": 0,
+   "why": "US-based senior investigator"
+  },
+  "0568": {
+   "grade": 0,
+   "why": "US-based senior PI"
+  },
+  "0569": {
+   "grade": 0,
+   "why": "US-based"
+  },
+  "0571": {
+   "grade": 0,
+   "why": "US-based"
+  },
+  "0600": {
+   "grade": 0,
+   "why": "US-based"
+  },
+  "0617": {
+   "grade": 0,
+   "why": "Israel, not Europe; associate professor"
+  },
+  "0629": {
+   "grade": 0,
+   "why": "senior German professor (h43), not early-career"
+  },
+  "0630": {
+   "grade": 0,
+   "why": "senior Dutch professor (h55), not early-career, despite relevant overt/covert attention work"
+  },
+  "0643": {
+   "grade": 1,
+   "why": "early-career Dutch PI; attention and gaze-bias markers, not eye-movement planning"
+  },
+  "0644": {
+   "grade": 0,
+   "why": "US-based senior PI"
+  },
+  "0648": {
+   "grade": 0,
+   "why": "US industry; AR display work"
+  },
+  "0663": {
+   "grade": 0,
+   "why": "full professor, not early-career, despite trans-saccadic stability and scanpath work"
+  },
+  "0673": {
+   "grade": 0,
+   "why": "senior Swedish professor; clinical gaze stabilization"
+  },
+  "0681": {
+   "grade": 1,
+   "why": "Spain, low h-index but titled Professor; oculomotor search control is a secondary strand to associative learning"
+  },
+  "0725": {
+   "grade": 0,
+   "why": "topic ideal (SC saccade control) but established professor (h36), not early-career"
+  },
+  "0728": {
+   "grade": 0,
+   "why": "senior Icelandic professor; saccades only a minor strand"
+  },
+  "E035": {
+   "grade": 0,
+   "why": "established German professor; computational scanpath and fixation modelling"
+  },
+  "E041": {
+   "grade": 0,
+   "why": "senior PI (h81); saliency modelling and AI"
+  },
+  "E061": {
+   "grade": 0,
+   "why": "US-based"
+  },
+  "E105": {
+   "grade": 0,
+   "why": "Canada-based senior PI"
+  },
+  "E109": {
+   "grade": 0,
+   "why": "Canada-based"
+  },
+  "E125": {
+   "grade": 0,
+   "why": "Canada-based"
+  },
+  "E129": {
+   "grade": 0,
+   "why": "US-based senior PI"
+  },
+  "E131": {
+   "grade": 0,
+   "why": "Canada-based senior PI"
+  },
+  "E136": {
+   "grade": 0,
+   "why": "US-based senior HHMI professor; violates Europe and early-career constraints"
+  },
+  "E140": {
+   "grade": 0,
+   "why": "saccade/visual-stability expert in Germany but a full Professor, not early-career"
+  },
+  "E144": {
+   "grade": 0,
+   "why": "senior researcher (h=58); gaze in locomotion and reaching, not saccade planning"
+  },
+  "E151": {
+   "grade": 0,
+   "why": "US-based, very senior (h=111)"
+  },
+  "E153": {
+   "grade": 0,
+   "why": "Canada-based senior Research Chair; violates location and seniority"
+  },
+  "E157": {
+   "grade": 0,
+   "why": "emeritus professor (h=50); saccade/attention expert but not early-career"
+  },
+  "E174": {
+   "grade": 0,
+   "why": "US-based senior; current work is AI/robotics, not eye movements"
+  },
+  "E191": {
+   "grade": 0,
+   "why": "very senior (h=116); transsaccadic memory is only a side line"
+  },
+  "E225": {
+   "grade": 0,
+   "why": "senior professor (h=75); peri-saccadic perception but not early-career"
+  },
+  "E234": {
+   "grade": 0,
+   "why": "senior chair (h=62); saccade work limited to auditory EMREO effects"
+  },
+  "E243": {
+   "grade": 0,
+   "why": "emeritus (h=97); current focus is numerosity and serial dependence"
+  },
+  "E263": {
+   "grade": 0,
+   "why": "Israel-based senior; gaze in decision-making, not saccade planning"
+  },
+  "E279": {
+   "grade": 0,
+   "why": "US-based; clinical pediatric vision assessment"
+  },
+  "E292": {
+   "grade": 0,
+   "why": "US-based professor; studies rodent gaze shifts"
+  },
+  "E302": {
+   "grade": 0,
+   "why": "US-based; cerebellar saccade work is a side line"
+  },
+  "E307": {
+   "grade": 0,
+   "why": "Canada-based senior; brain stimulation and decision signals"
+  },
+  "E329": {
+   "grade": 0,
+   "why": "Associate Professor (h=34), not early-career; gaze is used for color statistics"
+  },
+  "E339": {
+   "grade": 0,
+   "why": "senior full professor (h=62); attention and eccentricity, not saccade planning"
+  },
+  "E341": {
+   "grade": 0,
+   "why": "established lab head with no early-career evidence; scene grammar is off-core"
+  },
+  "E344": {
+   "grade": 0,
+   "why": "US-based associate professor; saccade timing in search"
+  },
+  "E349": {
+   "grade": 0,
+   "why": "very senior (h=106); reading and word recognition"
+  },
+  "E351": {
+   "grade": 0,
+   "why": "US-based; eye movements in reading"
+  },
+  "E356": {
+   "grade": 0,
+   "why": "Canada-based senior; reading eye-movement corpora"
+  },
+  "E358": {
+   "grade": 0,
+   "why": "Australia-based senior; reading models"
+  },
+  "E359": {
+   "grade": 0,
+   "why": "senior professor (h=63); eye movements in reading"
+  },
+  "E360": {
+   "grade": 0,
+   "why": "US-based; psycholinguistic eye tracking"
+  },
+  "E361": {
+   "grade": 0,
+   "why": "senior full professor (h=59); psycholinguistics, not saccade planning"
+  },
+  "E373": {
+   "grade": 0,
+   "why": "India-based professor; current work is reach and EMG"
+  },
+  "0431": {
+   "grade": 1,
+   "why": "Germany-based, but works mainly on object representations with only one saccade-target paper, and h-index 33 makes early-career status doubtful"
+  }
+ },
+ "nhp_attention_notus": {
+  "0013": {
+   "grade": 1,
+   "why": "China; macaque single-unit work on multisensory self-motion and saccade sequences, not attention"
+  },
+  "0052": {
+   "grade": 0,
+   "why": "US-based; current work is computational modeling, not NHP recording"
+  },
+  "0059": {
+   "grade": 0,
+   "why": "US-based (NIH); IT object recognition"
+  },
+  "0104": {
+   "grade": 0,
+   "why": "US-based; ventral-stream object coding"
+  },
+  "0138": {
+   "grade": 1,
+   "why": "China; macaque two-photon imaging (not electrophysiology) on early vision, not attention"
+  },
+  "0140": {
+   "grade": 0,
+   "why": "US-based; marmoset active vision and vocal communication"
+  },
+  "0162": {
+   "grade": 0,
+   "why": "US-based (NIH); face patches and fMRI-physiology"
+  },
+  "0220": {
+   "grade": 1,
+   "why": "Germany; macaque LIP/VIP recordings on eye movements and space coding, attention not central"
+  },
+  "0234": {
+   "grade": 0,
+   "why": "US-based; recent attention work is human ERP and behavior"
+  },
+  "0244": {
+   "grade": 0,
+   "why": "US-based; mostly computational, with some SC search recordings"
+  },
+  "0247": {
+   "grade": 1,
+   "why": "France; motion and oculomotor work, recent output behavioral or modeling"
+  },
+  "0256": {
+   "grade": 0,
+   "why": "US-based (NIH)"
+  },
+  "0283": {
+   "grade": 0,
+   "why": "US-based; otherwise ideal LIP attention and priority-map lab"
+  },
+  "0285": {
+   "grade": 0,
+   "why": "US-based; SC attention"
+  },
+  "0342": {
+   "grade": 0,
+   "why": "US-based; marmoset attention and active vision"
+  },
+  "0370": {
+   "grade": 1,
+   "why": "Canada; macaque IT electrophysiology on object recognition, not attention"
+  },
+  "0377": {
+   "grade": 0,
+   "why": "US-based; development and shape"
+  },
+  "0412": {
+   "grade": 0,
+   "why": "US-based; IT face and object coding"
+  },
+  "0418": {
+   "grade": 0,
+   "why": "US-based; human psychophysics of attention"
+  },
+  "0498": {
+   "grade": 0,
+   "why": "US-based; perisaccadic V4/MT recordings"
+  },
+  "0518": {
+   "grade": 0,
+   "why": "US-based (NIH); basal ganglia and oculomotor work"
+  },
+  "0554": {
+   "grade": 0,
+   "why": "US-based; computational"
+  },
+  "0564": {
+   "grade": 0,
+   "why": "US-based (NEI); otherwise ideal SC covert-attention lab"
+  },
+  "0568": {
+   "grade": 0,
+   "why": "US-based; otherwise ideal macaque attention electrophysiology lab"
+  },
+  "0571": {
+   "grade": 0,
+   "why": "US-based; SC target selection and attention"
+  },
+  "0579": {
+   "grade": 1,
+   "why": "China; computational and human fMRI, with only reanalyzed monkey data touching attention"
+  },
+  "0580": {
+   "grade": 0,
+   "why": "US-based; computational"
+  },
+  "0621": {
+   "grade": 0,
+   "why": "US-based; mostly human single-neuron work, one macaque attention study"
+  },
+  "0671": {
+   "grade": 0,
+   "why": "US-based; border ownership"
+  },
+  "0699": {
+   "grade": 0,
+   "why": "US-based; current work on facial motor control and social cognition"
+  },
+  "0725": {
+   "grade": 2,
+   "why": "Germany-based macaque SC/V1 electrophysiology on active vision; links microsaccades to attention, but attention is not the core focus"
+  },
+  "E016": {
+   "grade": 1,
+   "why": "Netherlands; mainly human 7T fMRI/MEG, with only a coauthored macaque V1 study and no attention focus"
+  },
+  "E055": {
+   "grade": 3,
+   "why": "Netherlands; macaque electrophysiology on attention, perceptual grouping and feedback in visual cortex"
+  },
+  "E056": {
+   "grade": 1,
+   "why": "Germany; macaque fMRI and human intracranial work on prediction and learning, not NHP attention electrophysiology"
+  },
+  "E062": {
+   "grade": 2,
+   "why": "UK; macaque V1/V4 electrophysiology on figure-ground, with prior laminar attention work, but attention is not the current focus"
+  },
+  "E076": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E083": {
+   "grade": 0,
+   "why": "France; NHP neuroimaging and neuromorphic vision, no electrophysiology or attention"
+  },
+  "E089": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E131": {
+   "grade": 2,
+   "why": "Canada; macaque SC recordings of saliency during free viewing, related to attention, but much of the work is clinical"
+  },
+  "E136": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E150": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E153": {
+   "grade": 1,
+   "why": "Canada; some FEF neurophysiology on gaze control, mostly human visuomotor work, not attention"
+  },
+  "E161": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E167": {
+   "grade": 3,
+   "why": "Germany; macaque MT electrophysiology and optogenetics squarely on top-down visual attention"
+  },
+  "E170": {
+   "grade": 2,
+   "why": "UK; macaque LPFC recordings on attentional selection, but most of the work is human fMRI on cognitive control"
+  },
+  "E175": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E186": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E187": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E246": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E247": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E252": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E275": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E287": {
+   "grade": 1,
+   "why": "Netherlands; decodes images from macaque multi-unit data but runs no attention or electrophysiology lab"
+  },
+  "E295": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E296": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E297": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E301": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E304": {
+   "grade": 0,
+   "why": "US-based, so excluded"
+  },
+  "E307": {
+   "grade": 1,
+   "why": "Canada; macaque MT/V4 electrophysiology on decision signals and brain stimulation, not attention"
+  },
+  "E376": {
+   "grade": 2,
+   "why": "India; attention research including macaque V4 population analyses, though mainly human EEG/TMS"
+  },
+  "0708": {
+   "grade": 1,
+   "why": "non-US attention researcher, but human EEG/fMRI; macaque work is fMRI on biological motion, not NHP electrophysiology on attention"
+  },
+  "0392": {
+   "grade": 1,
+   "why": "Germany-based attention/saliency theorist, but recent work is theory and human psychophysics with no NHP electrophysiology shown"
+  },
+  "0542": {
+   "grade": 1,
+   "why": "non-US macaque Neuropixels recordings, but the focus is object representation in IT, not attention"
+  },
+  "E372": {
+   "grade": 1,
+   "why": "non-US monkey single-unit and wireless recordings on object vision, social and natural behavior; visual search is behavioral, not attention physiology"
+  },
+  "E373": {
+   "grade": 0,
+   "why": "primate FEF neurophysiology is past work; current research is human motor control with EMG and tDCS, with no NHP attention work"
+  }
+ },
+ "blindsight": {
+  "0380": {
+   "grade": 3,
+   "why": "core focus on V1-damage cortical blindness, residual blind-field vision and its retraining"
+  },
+  "E066": {
+   "grade": 2,
+   "why": "co-leads occipital-stroke blind-field training and steering after cortical blindness, though one strand among many"
+  },
+  "0229": {
+   "grade": 2,
+   "why": "studies steering and gaze in cortically blind stroke patients; behavioral rather than residual-vision focus"
+  },
+  "0725": {
+   "grade": 2,
+   "why": "V1 inactivation and chronic-lesion work on visual signals that bypass the geniculostriate pathway"
+  },
+  "0564": {
+   "grade": 1,
+   "why": "SC visual drive after LGN or visual-cortex inactivation bears on blindsight pathways only indirectly"
+  },
+  "E330": {
+   "grade": 1,
+   "why": "V1 lesions in marmosets, but anatomical degeneration rather than residual vision"
+  },
+  "E268": {
+   "grade": 1,
+   "why": "pulvinar and visual-network development; no V1-lesion residual-vision work in profile"
+  },
+  "0216": {
+   "grade": 1,
+   "why": "subcortical amygdala route for invisible fearful faces, blindsight-adjacent"
+  },
+  "E141": {
+   "grade": 1,
+   "why": "perception-action dissociations and subcortical visuomotor circuits, not V1 damage per se"
+  },
+  "0403": {
+   "grade": 1,
+   "why": "brain-based visual impairment (CVI) from early damage, not residual vision after V1 loss"
+  },
+  "E279": {
+   "grade": 1,
+   "why": "visual recovery after pediatric brain injury, measurement focus"
+  },
+  "0630": {
+   "grade": 1,
+   "why": "hemianopia only mentioned in bio; current work is attention and search"
+  },
+  "E105": {
+   "grade": 1,
+   "why": "hemianopic dyslexia in bio; current work is prosopagnosia"
+  },
+  "0298": {
+   "grade": 1,
+   "why": "V1 TMS and lesion-related plasticity, not blindsight"
+  },
+  "0321": {
+   "grade": 1,
+   "why": "tests for cortical visual loss in PCA, tangential"
+  },
+  "0165": {
+   "grade": 1,
+   "why": "unconscious vision in healthy observers only"
+  },
+  "0393": {
+   "grade": 1,
+   "why": "unconscious processing methodology, no V1 damage"
+  },
+  "0543": {
+   "grade": 1,
+   "why": "unconscious processing under interocular suppression in healthy observers"
+  },
+  "E202": {
+   "grade": 1,
+   "why": "limits of visual awareness, no lesion work"
+  },
+  "E125": {
+   "grade": 1,
+   "why": "perception-action dissociations without awareness, healthy observers"
+  },
+  "0362": {
+   "grade": 1,
+   "why": "LGN, subcortical vision and awareness, but no V1 damage"
+  },
+  "E161": {
+   "grade": 1,
+   "why": "pulvinar and attention; focal lesions mentioned only in bio"
+  },
+  "0611": {
+   "grade": 1,
+   "why": "subthreshold awareness research, current work elsewhere"
+  },
+  "0536": {
+   "grade": 1,
+   "why": "visual cortex without retinal input and gaze guidance under CFS, loosely related"
+  },
+  "E055": {
+   "grade": 1,
+   "why": "V1 prostheses for blindness, not residual vision"
+  },
+  "E083": {
+   "grade": 1,
+   "why": "residual vision in macular degeneration, retinal rather than cortical"
+  },
+  "0100": {
+   "grade": 0,
+   "why": "congenital cataract sight restoration, not cortical damage"
+  },
+  "0422": {
+   "grade": 0,
+   "why": "filling-in, vestibular and learning work; not relevant"
+  },
+  "0656": {
+   "grade": 0,
+   "why": "trust judgments of virtual agents"
+  },
+  "0712": {
+   "grade": 0,
+   "why": "diffusion MRI methods and Alzheimer's disease"
+  },
+  "0274": {
+   "grade": 1,
+   "why": "works on blindness plasticity and cortical-prosthesis sight restoration, not blindsight or residual vision after V1 lesions"
+  },
+  "0094": {
+   "grade": 0,
+   "why": "visual control of locomotion in VR; no work on V1 damage or residual vision"
+  },
+  "0184": {
+   "grade": 1,
+   "why": "maps pulvinar-to-cortex pathways (relevant to V1-bypass routes) but no lesion or blindsight work"
+  },
+  "0233": {
+   "grade": 1,
+   "why": "clinical visual-pathway imaging, blindness plasticity and covert consciousness are only loosely related"
+  },
+  "0418": {
+   "grade": 0,
+   "why": "studies attention and visual-field asymmetries in intact vision; occipital TMS is not about residual vision"
+  },
+  "0556": {
+   "grade": 1,
+   "why": "studies visual deficits after posterior cerebral artery stroke, but focuses on high-level recognition, not residual vision after V1 damage"
+  },
+  "0128": {
+   "grade": 1,
+   "why": "works on neglect, prism adaptation and dorsal-stream reaching in brain-damaged patients, but nothing on V1 damage or blindsight"
+  }
+ },
+ "mouse_2p": {
+  "0053": {
+   "grade": 1,
+   "why": "mouse cortex-wide widefield calcium imaging during visual decisions, not two-photon V1 work"
+  },
+  "0138": {
+   "grade": 2,
+   "why": "two-photon population imaging of visual cortex, but in macaque, not mouse"
+  },
+  "0146": {
+   "grade": 1,
+   "why": "mouse V1 population coding, but with Neuropixels electrophysiology rather than calcium imaging"
+  },
+  "0161": {
+   "grade": 2,
+   "why": "two-photon calcium imaging of visual cortex, but in ferret and tree shrew"
+  },
+  "0196": {
+   "grade": 0,
+   "why": "human fMRI and modeling; no imaging of mouse cortex"
+  },
+  "0252": {
+   "grade": 0,
+   "why": "human fMRI object vision"
+  },
+  "0256": {
+   "grade": 0,
+   "why": "macaque electrophysiology; mouse appears only in a review"
+  },
+  "0258": {
+   "grade": 1,
+   "why": "two-photon imaging of zebrafish tectum, not mouse cortex"
+  },
+  "0365": {
+   "grade": 1,
+   "why": "theoretical models of mouse V1 data, no imaging of their own"
+  },
+  "0377": {
+   "grade": 1,
+   "why": "calcium imaging of ferret visual cortex development"
+  },
+  "0426": {
+   "grade": 0,
+   "why": "retina and superior colliculus electrophysiology, spatial cognition"
+  },
+  "0490": {
+   "grade": 0,
+   "why": "computational theory of memory and prefrontal cortex"
+  },
+  "0510": {
+   "grade": 0,
+   "why": "deep-network models of human vision"
+  },
+  "0564": {
+   "grade": 0,
+   "why": "superior colliculus electrophysiology and attention"
+  },
+  "0580": {
+   "grade": 0,
+   "why": "computational modeling of macaque V1 and human segmentation"
+  },
+  "E009": {
+   "grade": 3,
+   "why": "two-photon imaging of mouse V1 population coding and adaptation"
+  },
+  "E010": {
+   "grade": 1,
+   "why": "mouse visual cortex, but with Neuropixels and functional ultrasound rather than two-photon"
+  },
+  "E011": {
+   "grade": 2,
+   "why": "imaged mouse V1 population codes, alongside frontal Neuropixels work"
+  },
+  "E018": {
+   "grade": 2,
+   "why": "mouse V1 circuits with two-photon imaging plus whole-cell recording"
+  },
+  "E040": {
+   "grade": 3,
+   "why": "large-scale two-photon imaging of mouse visual cortex, functional connectomics, digital twins"
+  },
+  "E062": {
+   "grade": 0,
+   "why": "macaque and human feedback and figure-ground work"
+  },
+  "E175": {
+   "grade": 1,
+   "why": "calcium and voltage imaging of macaque V1, not mouse"
+  },
+  "E187": {
+   "grade": 1,
+   "why": "mouse widefield imaging of cognitive networks, not visual cortex"
+  },
+  "E246": {
+   "grade": 1,
+   "why": "two-photon imaging of mouse motor cortex, not visual cortex"
+  },
+  "E272": {
+   "grade": 1,
+   "why": "mouse visual cortex plasticity measured with VEPs and EEG"
+  },
+  "E292": {
+   "grade": 2,
+   "why": "mouse V1 visual processing using two-photon imaging and electrophysiology"
+  },
+  "E294": {
+   "grade": 2,
+   "why": "mouse visual cortex with two-photon and widefield calcium imaging"
+  },
+  "E299": {
+   "grade": 1,
+   "why": "anatomical circuit mapping of mouse V1"
+  },
+  "E300": {
+   "grade": 1,
+   "why": "two-photon imaging of developing mouse retina, not cortex"
+  },
+  "E312": {
+   "grade": 0,
+   "why": "macaque 3D vision electrophysiology"
+  },
+  "E369": {
+   "grade": 3,
+   "why": "core work is two-photon imaging of tens of thousands of mouse V1/HVA neurons, plus Suite2p for calcium imaging analysis"
+  },
+  "E264": {
+   "grade": 1,
+   "why": "mainly human fMRI/MEG predictive coding; mouse visual cortex only via reanalysis of Allen Observatory data, no own two-photon imaging"
+  },
+  "E005": {
+   "grade": 1,
+   "why": "expert in two-photon calcium imaging of the mouse visual system, but works on the retina rather than visual cortex"
+  }
+ },
+ "color_material": {
+  "0007": {
+   "grade": 1,
+   "why": "critiques color constancy metrics but does psychophysics, not computational/DL modeling"
+  },
+  "0017": {
+   "grade": 1,
+   "why": "Bayesian perception models extend to categorical color, not constancy or materials"
+  },
+  "0020": {
+   "grade": 1,
+   "why": "applied color psychophysics; Dress illumination ambiguity probed without computational models"
+  },
+  "0062": {
+   "grade": 2,
+   "why": "models lightness/illumination inference with spatial-scale network accounts, no deep learning"
+  },
+  "0074": {
+   "grade": 3,
+   "why": "material perception modeled with deep generative networks, vision-language models and psychophysics"
+  },
+  "0081": {
+   "grade": 1,
+   "why": "color categories and color neurophysiology, not constancy or materials"
+  },
+  "0099": {
+   "grade": 1,
+   "why": "cloth material percepts from point-light displays, mostly behavioral"
+  },
+  "0101": {
+   "grade": 1,
+   "why": "sparse coding of natural color statistics, not constancy or materials"
+  },
+  "0159": {
+   "grade": 2,
+   "why": "color constancy expert with image-computable models, but current work centers on early encoding and discrimination"
+  },
+  "0169": {
+   "grade": 0,
+   "why": "color naming and categorization, not constancy or material modeling"
+  },
+  "0175": {
+   "grade": 1,
+   "why": "material softness perception studied behaviorally and cross-modally, not computationally"
+  },
+  "0176": {
+   "grade": 0,
+   "why": "generative pathology imaging and scanpath prediction"
+  },
+  "0188": {
+   "grade": 1,
+   "why": "philosophy of perceptual constancy, no computational modeling"
+  },
+  "0193": {
+   "grade": 1,
+   "why": "image statistics and perceptual metrics, not constancy or materials"
+  },
+  "0227": {
+   "grade": 0,
+   "why": "3D depth cue integration and intuitive physics"
+  },
+  "0233": {
+   "grade": 0,
+   "why": "color flicker fMRI and clinical work"
+  },
+  "0235": {
+   "grade": 2,
+   "why": "deep learning account of lightness illusions, adjacent to lightness constancy"
+  },
+  "0272": {
+   "grade": 2,
+   "why": "computational inverse-physics models of cloth material perception compared against DNNs"
+  },
+  "0280": {
+   "grade": 1,
+   "why": "neural coding of naturalistic texture ('stuff'), only loosely material-related"
+  },
+  "0284": {
+   "grade": 0,
+   "why": "color appearance VEPs and contrast sensitivity, not constancy modeling"
+  },
+  "0299": {
+   "grade": 1,
+   "why": "color calibration to environmental statistics, not computational constancy models"
+  },
+  "0325": {
+   "grade": 1,
+   "why": "reviews constancy development; applied color visibility modeling"
+  },
+  "0330": {
+   "grade": 0,
+   "why": "eye movements and perceptual-space geometry"
+  },
+  "0340": {
+   "grade": 0,
+   "why": "S-cone scaling and color filling-in psychophysics"
+  },
+  "0352": {
+   "grade": 0,
+   "why": "color semantics and visualization"
+  },
+  "0354": {
+   "grade": 2,
+   "why": "leading color constancy and object-color work, mainly empirical rather than deep learning models"
+  },
+  "0371": {
+   "grade": 1,
+   "why": "deep-network interpretability; past lightness modeling only"
+  },
+  "0373": {
+   "grade": 1,
+   "why": "color neurophysiology with optical modeling; gloss/transparency mentioned only peripherally"
+  },
+  "0415": {
+   "grade": 1,
+   "why": "lightness/transparency background, but current models target edge sensitivity"
+  },
+  "0441": {
+   "grade": 3,
+   "why": "material perception (Shitsukan) with computational, efficient-coding and CNN models"
+  },
+  "0455": {
+   "grade": 1,
+   "why": "brightness-induction model and chromatic VEPs; no constancy, material or deep-learning focus"
+  },
+  "0456": {
+   "grade": 1,
+   "why": "color adaptation and color-space work; constancy appears only in bio, no current modeling of it"
+  },
+  "0493": {
+   "grade": 1,
+   "why": "fMRI of things vs stuff and DNNs as tools; material perception is peripheral"
+  },
+  "0531": {
+   "grade": 0,
+   "why": "clinical psychophysics tools; not about constancy or material modeling"
+  },
+  "0545": {
+   "grade": 1,
+   "why": "bio mentions constancy and material perception, but current work is rigidity and amblyopia"
+  },
+  "0574": {
+   "grade": 3,
+   "why": "computational material perception: gloss reproduced by tiny CNNs, material dimensions, unsupervised deep learning"
+  },
+  "0584": {
+   "grade": 1,
+   "why": "psychophysics of gloss through transparency; mainly ensemble and memory work, no modeling"
+  },
+  "0613": {
+   "grade": 1,
+   "why": "bio cites shitsukan and color, but recent work is off-topic"
+  },
+  "0614": {
+   "grade": 1,
+   "why": "image-computable neural models and shitsukan background, but current focus is motion"
+  },
+  "0639": {
+   "grade": 1,
+   "why": "divisive-normalization model of chromatic rivalry; not constancy or materials"
+  },
+  "0670": {
+   "grade": 2,
+   "why": "diffusion models inferring shape and material from motion, mirroring human perception; computer-vision oriented"
+  },
+  "0672": {
+   "grade": 2,
+   "why": "DNN-feature brain decoding of material appearance (shitsukan); decoding rather than perceptual models"
+  },
+  "0686": {
+   "grade": 2,
+   "why": "computational, physics-simulation models of material property perception; no deep learning"
+  },
+  "0698": {
+   "grade": 1,
+   "why": "Bayesian texture-segmentation and DNN comparisons; only loosely related to materials or color"
+  },
+  "E040": {
+   "grade": 0,
+   "why": "deep-learning models of neural tuning; no color constancy or material work"
+  },
+  "E075": {
+   "grade": 1,
+   "why": "lightness and transparency background; current work is binocular channels"
+  },
+  "E076": {
+   "grade": 0,
+   "why": "V4 shape and texture physiology; not on topic"
+  },
+  "E294": {
+   "grade": 0,
+   "why": "mouse texture coding and arousal; not on topic"
+  },
+  "E302": {
+   "grade": 1,
+   "why": "V1 color/luminance cells compared to CNN units; not constancy or materials per se"
+  },
+  "E319": {
+   "grade": 2,
+   "why": "leading color constancy and illumination perception work with modeling; no deep learning"
+  },
+  "E321": {
+   "grade": 2,
+   "why": "illuminant estimation from specular highlights, gloss and material perception; co-author on gloss CNN work"
+  },
+  "E322": {
+   "grade": 2,
+   "why": "color constancy expectations and computational matrix models of illumination change"
+  },
+  "E323": {
+   "grade": 2,
+   "why": "color constancy in VR, translucency and optimal-color gamut models; mostly psychophysics"
+  },
+  "E324": {
+   "grade": 1,
+   "why": "constancy and Bayesian modeling in bio; recent work is color ensembles"
+  },
+  "E325": {
+   "grade": 1,
+   "why": "color appearance and CSF modeling; not constancy or materials"
+  },
+  "E328": {
+   "grade": 1,
+   "why": "gloss BRDF measurement and skin color; little computational perception modeling"
+  },
+  "E329": {
+   "grade": 2,
+   "why": "relational color constancy, cone-sampling adaptation and deep-network information models"
+  },
+  "E333": {
+   "grade": 2,
+   "why": "computational color appearance and chromatic adaptation models; no deep learning"
+  }
+ }
+}

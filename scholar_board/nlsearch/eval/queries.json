@@ -1,0 +1,64 @@
+[
+ {
+  "id": "crowding",
+  "type": "broad topic",
+  "query": "Researchers studying visual crowding"
+ },
+ {
+  "id": "fmri_dnn",
+  "type": "topic + method",
+  "query": "Labs using fMRI together with deep neural network models to study object recognition in ventral visual cortex"
+ },
+ {
+  "id": "review_scenes",
+  "type": "reviewer abstract (authors: Bonner, Epstein)",
+  "query": "Who would be the best reviewers for this abstract?\n\nTitle: Scene-selective cortex encodes navigational affordances independently of visual features\nAuthors: Michael F. Bonner, Russell A. Epstein\nAbstract: Humans rapidly perceive where they can move in a scene. We used fMRI and representational similarity analysis to test whether scene-selective regions (OPA, PPA, RSC) encode the paths available for navigation in images of indoor environments. Participants viewed 300 rendered rooms while performing an orthogonal task. Navigational affordance maps, derived from human path annotations, explained unique variance in OPA responses beyond low- and mid-level visual features and beyond a deep convolutional network trained on object recognition. A network trained to predict navigational paths better matched OPA representations. These results suggest that OPA computes affordance-based representations that support visually guided navigation.",
+  "exclude": [
+   "0459",
+   "E107"
+  ]
+ },
+ {
+  "id": "review_serial",
+  "type": "reviewer abstract (authors: Manassi, Whitney, Fischer)",
+  "query": "Who would be the best reviewers for this abstract?\n\nTitle: Serial dependence in orientation judgments arises at a perceptual rather than decisional stage\nAuthors: Mauro Manassi, David Whitney, Jason Fischer\nAbstract: Perceptual judgments are biased toward recently seen stimuli, a phenomenon termed serial dependence. Whether this bias reflects altered perception or post-perceptual decision and memory processes remains debated. Across four psychophysical experiments (N = 120) we measured orientation adjustment errors for Gabor patches while manipulating response requirements, inter-trial intervals, and whether the previous stimulus required a response. We fit a Bayesian observer model with separate perceptual and decisional bias terms and recorded EEG to decode stimulus orientation over time. Attraction toward the previous orientation was present even when no response was made on the prior trial, was reflected in early decoded orientation representations (~120 ms), and was best captured by the perceptual term of the model. These findings indicate that serial dependence alters perceptual representations themselves, supporting a role for continuity fields in stabilizing visual perception.",
+  "exclude": [
+   "E063",
+   "0168",
+   "E057"
+  ]
+ },
+ {
+  "id": "like_konkle",
+  "type": "like X + twist",
+  "query": "Researchers similar to Talia Konkle but focused on visual development in infants and children",
+  "exclude": [
+   "0653"
+  ]
+ },
+ {
+  "id": "eye_europe_early",
+  "type": "geography + seniority constraint",
+  "query": "Early-career PIs in Europe studying eye movements and saccade planning"
+ },
+ {
+  "id": "nhp_attention_notus",
+  "type": "negative constraint",
+  "query": "Labs doing electrophysiology in non-human primates on visual attention, excluding labs in the United States"
+ },
+ {
+  "id": "blindsight",
+  "type": "niche",
+  "query": "Who studies blindsight or residual vision after damage to primary visual cortex?"
+ },
+ {
+  "id": "mouse_2p",
+  "type": "species + technique",
+  "query": "Two-photon calcium imaging of mouse visual cortex"
+ },
+ {
+  "id": "color_material",
+  "type": "multi-criteria",
+  "query": "Computational models of color constancy or material perception, ideally using deep learning"
+ }
+]

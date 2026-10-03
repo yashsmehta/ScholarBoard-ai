@@ -14,6 +14,7 @@ data/*
 data/build/*
 !data/build/scholars.json
 !data/build/field_directions.json
+!data/build/search_cards.json
 !data/build/profile_pics/
 logs/
 frontend/.tmp/

@@ -32,6 +32,7 @@ jobs:
         working-directory: frontend
         env:
           VITE_BASE: /scholarboard/
+          VITE_NL_SEARCH_API: https://scholarboard.yashsmehta.com
         run: |
           npm ci
           npm run build

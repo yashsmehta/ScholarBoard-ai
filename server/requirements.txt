@@ -1,0 +1,6 @@
+# Minimal runtime for the NL-search API (server/app.py). Deliberately excludes the
+# pipeline's heavy deps (torch, umap, ...): the server only reads the corpus and
+# shells out to `headless`.
+fastapi==0.118.0
+uvicorn==0.37.0
+python-dotenv==1.1.1

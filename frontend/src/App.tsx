@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { Header } from './components/Header'
 import { Onboarding } from './components/Onboarding'
 import { MethodologyModal } from './components/MethodologyModal'
@@ -12,6 +12,9 @@ import { Sidebar } from './components/Sidebar'
 import { ScholarMap } from './components/ScholarMap'
 import { ScholarList } from './components/ScholarList'
 import { BetaBanner } from './components/BetaBanner'
+import { AskPanel } from './components/AskPanel'
+import { WorkspaceTabs, type WorkspaceTab } from './components/WorkspaceTabs'
+import { NL_SEARCH_API, type AskResult } from './lib/nlSearch'
 import { loadScholars } from './lib/loadScholars'
 import { detectFrontendMode } from './lib/appMode'
 import { appReducer, initialAppState } from './state/appReducer'
@@ -28,6 +31,23 @@ function App() {
   const [showMethodology, setShowMethodology] = useState(false)
   const [showFieldDirections, setShowFieldDirections] = useState(false)
   const [fieldDirectionsData, setFieldDirectionsData] = useState<FieldDirectionsData | null>(null)
+  const [tab, setTab] = useState<WorkspaceTab>('directory')
+  const askOpen = tab === 'ai'
+  const [askResults, setAskResults] = useState<AskResult[] | null>(null)
+  const [askRunning, setAskRunning] = useState(false)
+  const askHighlightIds = useMemo(() => askResults?.map((r) => r.id) ?? [], [askResults])
+
+  // The map is hidden while AI Search is open; once it is back (and resized), frame all dots
+  // so the highlighted matches are in view.
+  const wasAskOpenRef = useRef(false)
+  useEffect(() => {
+    if (wasAskOpenRef.current && !askOpen) {
+      const frame = requestAnimationFrame(() => requestAnimationFrame(() => dispatch({ type: 'map_reset_requested' })))
+      wasAskOpenRef.current = askOpen
+      return () => cancelAnimationFrame(frame)
+    }
+    wasAskOpenRef.current = askOpen
+  }, [askOpen])
 
   useEffect(() => {
     if (showFieldDirections && fieldDirectionsData == null) {
@@ -167,6 +187,7 @@ function App() {
       <Header
         modeLabel={mode === 'embedded' ? 'Embedded' : undefined}
         onLogoClick={() => {
+          setTab('directory')
           if (state.viewMode === 'map') dispatch({ type: 'view_mode_toggled' })
           dispatch({ type: 'map_reset_requested' })
         }}
@@ -193,7 +214,28 @@ function App() {
         )
       )}
       <main className={cx('app-main', !selectedScholar && 'app-main--empty')}>
-        <section className={cx('map-panel', state.viewMode === 'list' && 'map-panel--list')} aria-label="Scholar map panel">
+        <div className={cx('workspace', `workspace--${askOpen ? 'ai' : state.viewMode}`, NL_SEARCH_API && 'workspace--tabbed')}>
+        {NL_SEARCH_API && (
+          <WorkspaceTabs
+            active={tab}
+            onChange={setTab}
+            aiStatus={askRunning ? 'running' : askResults != null ? 'done' : 'idle'}
+            aiCount={askResults?.length ?? 0}
+          />
+        )}
+        <div className="workspace__body">
+        {NL_SEARCH_API && (
+          <AskPanel
+            open={askOpen}
+            scholars={state.scholars}
+            results={askResults}
+            selectedScholarId={state.selectedScholarId}
+            onResults={setAskResults}
+            onRunningChange={setAskRunning}
+            onSelectScholar={(scholarId) => selectScholar(scholarId)}
+          />
+        )}
+        <section className={cx('map-panel', state.viewMode === 'list' && 'map-panel--list', askOpen && 'map-panel--hidden')} aria-label="Scholar map panel" id="ws-panel-directory" role={NL_SEARCH_API ? 'tabpanel' : undefined} aria-labelledby={NL_SEARCH_API ? 'ws-tab-directory' : undefined}>
           {state.viewMode === 'list' && <div className="map-panel__band" aria-hidden="true" />}
           <div className="map-overlay map-overlay-left">
             <SearchPanel
@@ -246,6 +288,7 @@ function App() {
               activeCountries={state.activeCountries}
               activeSubfields={state.activeSubfields}
               subfieldFilterMode={state.subfieldFilterMode}
+              highlightIds={askHighlightIds}
               hoveredScholarId={state.hoveredScholarId}
               selectedScholarId={state.selectedScholarId}
               resetNonce={state.resetNonce}
@@ -284,6 +327,8 @@ function App() {
             </div>
           )}
         </section>
+        </div>
+        </div>
 
         <Sidebar
           scholar={selectedScholar}

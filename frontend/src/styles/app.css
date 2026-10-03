@@ -363,9 +363,9 @@ input {
   min-height: 0;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  border: 1px solid rgba(13, 92, 99, 0.15);
-  box-shadow: var(--shadow-2);
-  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--surface-shadow);
+  background: var(--surface);
 }
 
 .map-panel::after {
@@ -375,7 +375,7 @@ input {
   pointer-events: none;
   z-index: 2;
   border-radius: inherit;
-  box-shadow: inset 0 0 100px rgba(15, 12, 8, 0.15);
+  box-shadow: inset 0 0 90px rgba(60, 45, 20, 0.06);
 }
 
 .map-panel--list::after {
@@ -383,7 +383,7 @@ input {
 }
 
 .map-panel--list {
-  background: #f4f1ea;
+  background: var(--surface);
 }
 
 /* Band behind the control cards (list view) so scrolling rows don't peek between them */
@@ -396,7 +396,7 @@ input {
   z-index: 3;
   pointer-events: none;
   /* Solid down to where the (opaque) letter header pins, then a soft edge over it */
-  background: linear-gradient(to bottom, #f4f1ea calc(100% - 12px), rgba(244, 241, 234, 0));
+  background: linear-gradient(to bottom, var(--surface) calc(100% - 12px), rgba(250, 248, 244, 0));
 }
 
 .scholar-map-shell {
@@ -416,9 +416,8 @@ input {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle, rgba(13, 92, 99, 0.055) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.88));
-  background-size: 24px 24px, auto;
+    radial-gradient(circle, rgba(13, 92, 99, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
   cursor: grab;
 }
 
@@ -1101,10 +1100,9 @@ input {
 .sidebar {
   min-height: 0;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-light);
-  background: var(--panel);
-  box-shadow: var(--shadow-1);
-  backdrop-filter: blur(8px);
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  box-shadow: var(--surface-shadow);
   display: grid;
   grid-template-rows: auto 1fr;
 }
@@ -1469,8 +1467,7 @@ input {
 /* ── Control cards: search, List | Map switch, filters ──
    All three share the same 40px frosted surface so the bar reads as one system. */
 
-.view-toggle,
-.overlay-right-controls {
+.view-toggle {
   --seg-ease: 240ms cubic-bezier(0.3, 0.7, 0.2, 1);
   height: 40px;
   padding: 3px;
@@ -1547,51 +1544,87 @@ input {
   outline-offset: 1px;
 }
 
-/* Filters: one card, flat buttons inside, hairline dividers between */
+/* Filters: deliberately quiet. No card — muted text buttons that only gain a
+   surface on hover, while open, or when a filter is applied. */
 .overlay-right-controls {
+  --seg-ease: 240ms cubic-bezier(0.3, 0.7, 0.2, 1);
   display: flex;
-  align-items: stretch;
-  gap: 0;
+  align-items: center;
+  gap: 2px;
+  height: 40px;
+}
+
+/* Small sliders glyph marks the row as filters without needing a card */
+.overlay-right-controls::before {
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+  background: var(--ink-2);
+  opacity: 0.45;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M2 4.5h7M12.5 4.5H14M2 11.5h2M7.5 11.5H14'/%3E%3Ccircle cx='10.75' cy='4.5' r='1.75'/%3E%3Ccircle cx='5.75' cy='11.5' r='1.75'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M2 4.5h7M12.5 4.5H14M2 11.5h2M7.5 11.5H14'/%3E%3Ccircle cx='10.75' cy='4.5' r='1.75'/%3E%3Ccircle cx='5.75' cy='11.5' r='1.75'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .overlay-right-controls .filter-panel {
   display: flex;
-}
-
-.overlay-right-controls .filter-panel + .filter-panel::before {
-  content: '';
-  align-self: center;
-  width: 1px;
-  height: 16px;
-  margin: 0 2px;
-  background: rgba(21, 24, 34, 0.08);
+  height: 32px;
 }
 
 .overlay-right-controls .icon-button {
   height: 100%;
-  padding: 0 11px;
+  gap: 5px;
+  padding: 0 10px;
   border: 0;
-  border-radius: 7px;
-  font-size: 0.78rem;
+  border-radius: 8px;
+  font: 500 0.78rem/1 var(--font-sans);
+  letter-spacing: 0.005em;
   background: transparent;
   backdrop-filter: none;
   box-shadow: none;
-  color: var(--ink-1);
-  transition: background var(--seg-ease), color var(--seg-ease);
+  color: var(--ink-2);
+  transition: background var(--seg-ease), color var(--seg-ease), box-shadow var(--seg-ease);
+}
+
+.overlay-right-controls .filter-panel__caret {
+  opacity: 0.55;
+  transition: opacity var(--seg-ease), transform var(--seg-ease);
 }
 
 .overlay-right-controls .icon-button:hover,
 .overlay-right-controls .icon-button[aria-expanded='true'] {
-  background: rgba(21, 24, 34, 0.04);
+  background: rgba(21, 24, 34, 0.045);
   color: var(--ink-0);
   transform: none;
   box-shadow: none;
 }
 
+.overlay-right-controls .icon-button:hover .filter-panel__caret,
+.overlay-right-controls .icon-button[aria-expanded='true'] .filter-panel__caret {
+  opacity: 0.9;
+}
+
+/* Applied: soft teal tint, count as a small mono numeral */
 .overlay-right-controls .icon-button.is-emphasis {
-  background: rgba(13, 92, 99, 0.08);
-  box-shadow: inset 0 0 0 1px rgba(13, 92, 99, 0.14);
+  background: rgba(13, 92, 99, 0.075);
+  box-shadow: none;
   color: var(--brand-0);
+  font-weight: 600;
+}
+
+.overlay-right-controls .icon-button.is-emphasis:hover,
+.overlay-right-controls .icon-button.is-emphasis[aria-expanded='true'] {
+  background: rgba(13, 92, 99, 0.11);
+}
+
+.overlay-right-controls .chip {
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: var(--brand-0);
+  color: #fff;
+  font: 600 0.62rem/1 var(--font-mono);
 }
 
 .overlay-right-controls .filter-panel__menu {
@@ -1641,7 +1674,7 @@ input {
   letter-spacing: 0.08em;
   color: var(--brand-0);
   border-bottom: 1px solid rgba(13, 92, 99, 0.12);
-  background: #f4f1ea;
+  background: var(--surface);
 }
 
 .scholar-list__group {
@@ -1766,11 +1799,7 @@ input {
   }
 
   .overlay-right-controls .filter-panel {
-    flex: 1 1 0;
-  }
-
-  .overlay-right-controls .icon-button {
-    width: 100%;
+    flex: none;
   }
 
   .map-panel > * {
@@ -1910,12 +1939,16 @@ input {
 
   .overlay-right-controls .filter-panel {
     position: static;
-    flex: 1 1 0;
+    flex: none;
+  }
+
+  .overlay-right-controls::before {
+    margin: 0 2px 0 10px;
   }
 
   .overlay-right-controls .icon-button {
-    width: 100%;
-    padding: 0 6px;
+    width: auto;
+    padding: 0 9px;
   }
 
   .filter-panel__menu,
@@ -2017,7 +2050,7 @@ input {
     z-index: 50;
     border-radius: 0;
     border: none;
-    background: #faf8f5;
+    background: var(--surface);
     box-shadow: none;
     animation: sidebar-expand 250ms ease-out;
   }
@@ -2063,7 +2096,7 @@ input {
     padding: 8px 10px;
   }
 
-  .scholar-list__avatar {
+  .scholar-list__row .scholar-list__avatar {
     grid-row: 1 / span 2;
   }
 
@@ -2989,3 +3022,575 @@ input {
   }
 }
 
+
+/* ── Workspace tabs ────────────────────────────────────────
+   Browser-style tabs over the left pane: Directory (map/list) and AI Search.
+   The active tab shares the pane's surface and melts into its top edge. */
+
+.workspace {
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.workspace__body {
+  min-height: 0;
+  display: grid;
+}
+
+.workspace__body > * {
+  grid-area: 1 / 1;
+}
+
+.ws-tabs {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: var(--ws-tabs-h);
+  padding-left: 30px;
+}
+
+.ws-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  margin-bottom: -1px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  background: transparent;
+  color: var(--ink-2);
+  font: 600 0.84rem/1 var(--font-sans);
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.18s;
+}
+
+/* Inactive hover: a floating pill that stops short of the pane, as in Chrome */
+.ws-tab:not(.is-active)::before {
+  content: '';
+  position: absolute;
+  inset: 4px 2px 6px;
+  z-index: -1;
+  border-radius: 9px;
+  background: rgba(13, 92, 99, 0.06);
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+
+.ws-tab:not(.is-active):hover {
+  color: var(--ink-0);
+}
+
+.ws-tab:not(.is-active):hover::before {
+  opacity: 1;
+}
+
+/* Active tab: same surface as the pane, sits over its top border, with
+   concave "feet" that curve into the pane edge like a browser tab. */
+.ws-tab.is-active {
+  z-index: 1;
+  border-color: var(--ws-border);
+  background: var(--ws-surface);
+  color: var(--brand-0);
+  box-shadow: 0 -3px 10px -4px rgba(13, 92, 99, 0.1);
+}
+
+.ws-tab.is-active::before,
+.ws-tab.is-active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+}
+
+.ws-tab.is-active::before {
+  left: -13px;
+  border-bottom-right-radius: 12px;
+  border-right: 1px solid var(--ws-border);
+  border-bottom: 1px solid var(--ws-border);
+  box-shadow: 5px 5px 0 4px var(--ws-surface);
+  clip-path: inset(0 -6px -1px 0);
+}
+
+.ws-tab.is-active::after {
+  right: -13px;
+  border-bottom-left-radius: 12px;
+  border-left: 1px solid var(--ws-border);
+  border-bottom: 1px solid var(--ws-border);
+  box-shadow: -5px 5px 0 4px var(--ws-surface);
+  clip-path: inset(0 0 -1px -6px);
+}
+
+.ws-tab:focus-visible {
+  outline: 2px solid rgba(68, 161, 160, 0.7);
+  outline-offset: -5px;
+}
+
+.ws-tab__icon {
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  opacity: 0.8;
+}
+
+.ws-tab.is-active .ws-tab__icon {
+  opacity: 1;
+}
+
+.ws-tab__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ws-tab__spinner {
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid rgba(13, 92, 99, 0.22);
+  border-top-color: var(--brand-0);
+  border-radius: 50%;
+  animation: ask-spin 0.9s linear infinite;
+}
+
+.ws-tab__count {
+  min-width: 19px;
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: var(--brand-0);
+  color: #fff;
+  font: 600 0.66rem/1 var(--font-mono);
+  text-align: center;
+}
+
+.workspace {
+  --ws-tabs-h: 0px;
+  --ws-border: var(--surface-border);
+  --ws-surface: var(--surface);
+}
+
+.workspace--tabbed {
+  --ws-tabs-h: 46px;
+}
+
+
+
+@media (max-width: 480px) {
+  .workspace--tabbed { --ws-tabs-h: 44px; }
+  .ws-tabs { padding-left: 28px; }
+  .ws-tab { padding: 0 15px; }
+}
+
+/* Pane corner under the tabs is tighter so the first tab's foot lands on a straight edge */
+.workspace--tabbed .map-panel,
+.workspace--tabbed .ask {
+  border-top-left-radius: 16px;
+}
+
+/* Map vignette fades out toward the top so the pane edge matches the active tab */
+.workspace--tabbed .map-panel::after {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 140px);
+  mask-image: linear-gradient(to bottom, transparent, #000 140px);
+}
+
+/* Line the profile card up with the pane, not the tab strip */
+@media (min-width: 1101px) {
+  .app-main:has(.workspace--tabbed) > .sidebar {
+    margin-top: var(--ws-tabs-h-desktop, 46px);
+  }
+}
+
+@keyframes ask-spin {
+  to { transform: rotate(360deg); }
+}
+
+.map-panel--hidden,
+.ask--hidden {
+  display: none;
+}
+
+.ask {
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--surface-shadow);
+}
+
+.ask__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 36px 40px 40px;
+}
+
+.ask__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.ask__title {
+  margin: 0;
+  color: var(--ink-0);
+  font: 700 1.45rem/1.25 var(--font-sans);
+  letter-spacing: -0.02em;
+}
+
+.ask__lede {
+  max-width: 52ch;
+  margin: 8px 0 0;
+  color: var(--ink-2);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.ask__link,
+.ask__error button {
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--brand-0);
+  font: 600 0.8rem var(--font-sans);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(13, 92, 99, 0.3);
+  text-underline-offset: 3px;
+}
+
+.ask__link:hover,
+.ask__error button:hover {
+  text-decoration-color: currentColor;
+}
+
+.ask__form {
+  margin-top: 24px;
+}
+
+.ask__input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 84px;
+  max-height: 360px;
+  padding: 14px 16px;
+  border: 1px solid rgba(21, 24, 34, 0.16);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink-0);
+  font: 500 0.92rem/1.6 var(--font-sans);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.ask__input::placeholder {
+  color: #9097a3;
+}
+
+.ask__input:focus {
+  border-color: var(--brand-0);
+}
+
+.ask__input:disabled {
+  background: #faf9f6;
+  color: var(--ink-2);
+}
+
+.ask__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+/* Engine choice: deliberately quiet text toggle */
+.ask__engine {
+  display: flex;
+  gap: 2px;
+  margin-right: auto;
+}
+
+.ask__engine button {
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #9097a3;
+  font: 500 0.74rem var(--font-sans);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.ask__engine button:hover:not(:disabled) {
+  color: var(--ink-1);
+}
+
+.ask__engine button.is-active {
+  background: rgba(21, 24, 34, 0.05);
+  color: var(--ink-1);
+}
+
+.ask__engine button:disabled {
+  cursor: default;
+}
+
+.ask__hint {
+  color: #9097a3;
+  font-size: 0.74rem;
+}
+
+.ask__button {
+  min-width: 96px;
+  height: 36px;
+  padding: 0 18px;
+  border: 1px solid var(--brand-0);
+  border-radius: 8px;
+  background: var(--brand-0);
+  color: #fff;
+  font: 700 0.82rem/1 var(--font-sans);
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.ask__button:hover:not(:disabled) {
+  background: #0a4a50;
+}
+
+.ask__button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.ask__button--quiet {
+  border-color: rgba(21, 24, 34, 0.18);
+  background: transparent;
+  color: var(--ink-1);
+}
+
+.ask__button--quiet:hover:not(:disabled) {
+  background: rgba(21, 24, 34, 0.04);
+}
+
+.ask__label {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.ask__examples {
+  margin-top: 32px;
+}
+
+.ask__examples ul {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-light);
+}
+
+.ask__examples button {
+  display: block;
+  width: 100%;
+  padding: 11px 0;
+  border: 0;
+  border-bottom: 1px solid var(--border-light);
+  background: none;
+  color: var(--ink-1);
+  font: 500 0.86rem/1.45 var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.ask__examples button:hover {
+  color: var(--brand-0);
+}
+
+.ask__status {
+  margin-top: 32px;
+}
+
+/* Claude-Code-style status line: twinkling sparkle + rotating verb */
+.ask__spinner {
+  margin: 0;
+  color: var(--brand-0);
+  font: 600 0.88rem/1.4 ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+.ask__star {
+  display: inline-block;
+  width: 1.2em;
+}
+
+.ask__time {
+  color: var(--ink-2);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.ask__note {
+  margin: 10px 0 0;
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.ask__error {
+  margin: 28px 0 0;
+  color: #9b3a2c;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.ask__error button {
+  color: inherit;
+  text-decoration-color: rgba(155, 58, 44, 0.35);
+}
+
+.ask__results {
+  margin-top: 32px;
+}
+
+.ask__results-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.ask__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ask-row {
+  display: grid;
+  grid-template-columns: 20px 36px minmax(0, 1fr);
+  align-items: start;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 12px 16px 4px;
+  border: 0;
+  border-bottom: 1px solid var(--border-light);
+  background: none;
+  text-align: left;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ask-row:hover {
+  background: rgba(13, 92, 99, 0.03);
+}
+
+.ask-row.is-selected {
+  background: rgba(13, 92, 99, 0.06);
+  box-shadow: inset 2px 0 0 var(--brand-0);
+}
+
+.ask-row:focus-visible {
+  outline: 2px solid rgba(68, 161, 160, 0.6);
+  outline-offset: -2px;
+}
+
+.ask-row__rank {
+  padding-top: 9px;
+  color: #a3a9b4;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.ask-row .scholar-list__avatar {
+  width: 36px;
+  height: 36px;
+}
+
+.ask-row__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ask-row__name {
+  color: var(--ink-0);
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.ask-row__inst {
+  color: var(--ink-2);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.ask-row__why {
+  margin-top: 6px;
+  color: var(--ink-1);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.ask__foot {
+  margin: 16px 0 0;
+  color: #9097a3;
+  font-size: 0.74rem;
+}
+
+@media (max-width: 700px) {
+  .ask__inner {
+    padding: 22px 18px 28px;
+  }
+
+  .ask__title {
+    font-size: 1.2rem;
+  }
+
+  .ask-row {
+    grid-template-columns: 16px 32px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .ask-row .scholar-list__avatar {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Phones: nav buttons get their own row so none is pushed off-screen */
+  .topbar__content {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  .topbar__right {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+}
+
+@media (pointer: coarse) {
+  .ask__hint {
+    visibility: hidden;
+  }
+}

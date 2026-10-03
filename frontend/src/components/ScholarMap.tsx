@@ -12,6 +12,7 @@ interface ScholarMapProps {
   activeCountries: string[]
   activeSubfields: string[]
   subfieldFilterMode: 'union' | 'intersection'
+  highlightIds: string[]
   hoveredScholarId: string | null
   selectedScholarId: string | null
   resetNonce: number
@@ -26,6 +27,7 @@ export function ScholarMap({
   activeCountries,
   activeSubfields,
   subfieldFilterMode,
+  highlightIds,
   hoveredScholarId,
   selectedScholarId,
   resetNonce,
@@ -46,8 +48,9 @@ export function ScholarMap({
       activeCountries: new Set(activeCountries),
       activeSubfields: new Set(activeSubfields),
       subfieldFilterMode,
+      highlightIds: new Set(highlightIds),
     }),
-    [hoveredScholarId, selectedScholarId, activeInstitutions, activeCountries, activeSubfields, subfieldFilterMode],
+    [hoveredScholarId, selectedScholarId, activeInstitutions, activeCountries, activeSubfields, subfieldFilterMode, highlightIds],
   )
 
   useEffect(() => {

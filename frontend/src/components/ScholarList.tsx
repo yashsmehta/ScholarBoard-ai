@@ -11,7 +11,7 @@ interface ScholarListProps {
   searchQuery?: string
 }
 
-function ListAvatar({ scholar }: { scholar: Scholar }) {
+export function ListAvatar({ scholar }: { scholar: Scholar }) {
   const [src, setSrc] = useState<string | null>(() => scholarAvatarUrl(scholar))
 
   useEffect(() => {

@@ -30,6 +30,8 @@ Vite proxies `/api`, `/data`, `/images` to `http://localhost:8000` (the data ser
 ```
 App.tsx (useReducer)
  ├── Header             — creator avatar, title, "Vision Science" label, nav buttons, tour trigger
+ ├── WorkspaceTabs      — browser-style Directory | AI Search tabs above the left pane
+ ├── AskPanel           — AI Search: natural-language PI search (the AI Search tab's pane)
  ├── SearchPanel        — live search with keyboard nav
  ├── ViewToggle         — segmented List | Map switch, sits beside the search box
  ├── FilterPanel        — separate Institution + Country + Field filter dropdowns
@@ -80,6 +82,8 @@ src/
 ├── components/
 │   ├── Header.tsx            — Creator avatar link, title, "Vision Science" domain label, nav buttons
 │   ├── SearchPanel.tsx       — Search input + autocomplete dropdown
+│   ├── WorkspaceTabs.tsx     — Directory | AI Search tabs (spinner / result-count badge on the AI tab)
+│   ├── AskPanel.tsx          — AI Search: query box, examples, progress, ranked results with 1–2 sentence reasons
 │   ├── ViewToggle.tsx        — List | Map segmented switch (sliding tinted thumb)
 │   ├── FilterPanel.tsx       — Institution + Country + Field dropdowns (ticks apply instantly, Esc closes)
 │   ├── ScholarMap.tsx        — D3 controller lifecycle bridge (map view)
@@ -99,6 +103,7 @@ src/
 │   ├── loadScholars.ts       — Fetch + normalize scholar data
 │   ├── appMode.ts            — Full vs embedded mode detection
 │   ├── scholarMedia.ts       — Profile pic URL resolution
+│   ├── nlSearch.ts           — AI Search API client (POST job + poll); VITE_NL_SEARCH_API
 │   └── cx.ts                 — Classname utility
 ├── hooks/
 │   └── useClickOutside.ts    — Click-outside detection hook
@@ -116,6 +121,8 @@ src/
 **State management:** Single `useReducer` in App.tsx (discriminated union actions). No external state library. Derived state (visible scholars, institution counts, subfield counts) computed inline.
 
 **Nonce pattern:** `resetNonce` and `panRequest.nonce` are incrementing counters that trigger D3 animations via useEffect dependencies. This allows re-triggering the same action (e.g., pan to same scholar twice).
+
+**AI Search:** Deliberately separate from the name search. Browser-style tabs (`WorkspaceTabs`) sit above the left pane: **Directory** (search, List | Map, filters, map/list) and **AI Search** (`AskPanel`); the profile sidebar stays alongside both. The active tab shares the pane's surface (`--surface` from `tokens.css`, which the map, list, AI Search and profile panes all use) and has concave feet that curve into the pane edge. Both panes stay mounted, so a running search survives switching tabs (the AI tab shows a spinner, then the result count). Results are passed to `ScholarMap` as `highlightIds`, which `isScholarVisible()` ANDs with the filters to dim every other dot; on returning to the Directory tab the map view is reset so all matches are in frame. Clicking the logo returns to the Directory tab. Styling is intentionally plain (type, hairline rules, one accent). Hidden entirely when `VITE_NL_SEARCH_API` is empty.
 
 **Click-outside:** Shared `useClickOutside` hook used by SearchPanel and FilterPanel.
 

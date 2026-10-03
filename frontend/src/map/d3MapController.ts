@@ -17,6 +17,8 @@ export interface MapInteractionState {
   activeCountries: Set<string>
   activeSubfields: Set<string>
   subfieldFilterMode: 'union' | 'intersection'
+  /** When non-empty, only these scholars are shown at full opacity (Ask results). */
+  highlightIds: Set<string>
 }
 
 export interface D3MapCallbacks {
@@ -80,6 +82,7 @@ export function createD3MapController(
     activeCountries: new Set(),
     activeSubfields: new Set(),
     subfieldFilterMode: 'union',
+    highlightIds: new Set(),
   }
 
   const zoom = d3
@@ -660,7 +663,8 @@ function isScholarVisible(scholar: Scholar, state: MapInteractionState): boolean
       passesSf = scholar.subfields.some((sf) => state.activeSubfields.has(sf.subfield))
     }
   }
-  return passesInst && passesCountry && passesSf
+  const passesHighlight = state.highlightIds.size === 0 || state.highlightIds.has(scholar.id)
+  return passesInst && passesCountry && passesSf && passesHighlight
 }
 
 function paddedExtent(extent: [number, number]): [number, number] {

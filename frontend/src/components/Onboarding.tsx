@@ -30,7 +30,13 @@ const steps = [
     image: `${import.meta.env.BASE_URL}onboarding/step4_search.jpg`,
     headline: 'Search, filter, switch views',
     description:
-      'Find anyone by name, filter by institution, country or subfield, and toggle between the map and an alphabetical list view. Open "Field Directions" to see what each community is collectively working on.',
+      'In the Directory tab, find anyone by name, filter by institution, country or subfield, and switch between the map and an alphabetical list. Open "Field Directions" to see what each community is collectively working on.',
+  },
+  {
+    image: `${import.meta.env.BASE_URL}onboarding/step5_ai_search.jpg`,
+    headline: 'Ask AI Search',
+    description:
+      'Describe a topic or method in your own words, or paste an abstract to find reviewers. An AI agent reads every profile and returns the ten best-matching PIs, each with a reason, highlighted on the map.',
   },
 ]
 

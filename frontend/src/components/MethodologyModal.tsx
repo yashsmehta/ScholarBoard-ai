@@ -83,6 +83,26 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
           <div className="method-step">
             <div className="method-step__num">06</div>
             <div>
+              <h3>Natural-language AI Search</h3>
+              <p>
+                AI Search answers free-text requests (a topic, a method, “researchers like X”, or
+                reviewers for an abstract) with an AI agent that works through the directory in
+                tiers. <code>gemini-3.8-flash</code> first condenses each PI's profile into one
+                technical line on what they study and how. For each request, the agent (Gemini via
+                Antigravity, or Claude via Claude Code) applies a hard filter only when the request
+                restricts eligibility, such as by country or institution. It then reads every PI's line
+                and shortlists plausible matches, opens their full research summaries and recent
+                paper titles, and ranks the ten best fits, giving a short reason for each. It only
+                reads the directory, through a few read-only tools, and does not search the web.
+                Rankings are a language model's judgment from these public profiles, so they can
+                miss people or misjudge fit.
+              </p>
+            </div>
+          </div>
+
+          <div className="method-step">
+            <div className="method-step__num">07</div>
+            <div>
               <h3>Quality control and limitations</h3>
               <p>
                 We spot-checked and corrected the data with help from Claude Code, but profiles,

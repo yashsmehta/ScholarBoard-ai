@@ -41,7 +41,7 @@ App.tsx (useReducer)
  ├── MapControls        — reset button, usage hint (map view only)
  ├── Sidebar            — scholar profile
  ├── FieldDirectionsPage — AI-generated research summaries per subfield (modal)
- ├── Onboarding         — 4-step welcome tour for first-time visitors
+ ├── Onboarding         — 5-step welcome tour for first-time visitors (last step: AI Search)
  ├── BetaBanner         — dismissible beta feedback banner
  └── MethodologyModal   — methodology explanation modal
 ```
@@ -91,7 +91,7 @@ src/
 │   ├── MapControls.tsx       — Reset button + auto-hiding hint
 │   ├── Sidebar.tsx           — Scholar profile sidebar
 │   ├── FieldDirectionsPage.tsx — AI field-level research summaries modal
-│   ├── Onboarding.tsx        — 4-step welcome tour carousel
+│   ├── Onboarding.tsx        — 5-step welcome tour carousel (step 5: AI Search)
 │   ├── BetaBanner.tsx        — Dismissible beta feedback banner
 │   └── MethodologyModal.tsx  — Methodology explanation modal
 ├── state/

@@ -3316,37 +3316,6 @@ input {
   margin-top: 10px;
 }
 
-/* Engine choice: deliberately quiet text toggle */
-.ask__engine {
-  display: flex;
-  gap: 2px;
-  margin-right: auto;
-}
-
-.ask__engine button {
-  padding: 4px 8px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
-  color: #9097a3;
-  font: 500 0.74rem var(--font-sans);
-  cursor: pointer;
-  transition: color 0.15s, background 0.15s;
-}
-
-.ask__engine button:hover:not(:disabled) {
-  color: var(--ink-1);
-}
-
-.ask__engine button.is-active {
-  background: rgba(21, 24, 34, 0.05);
-  color: var(--ink-1);
-}
-
-.ask__engine button:disabled {
-  cursor: default;
-}
-
 .ask__hint {
   color: #9097a3;
   font-size: 0.74rem;
@@ -3440,6 +3409,67 @@ input {
   color: var(--ink-2);
   font-weight: 400;
   font-variant-numeric: tabular-nums;
+}
+
+/* Searching: one dot per PI, coloured by topic area, a light sweeping left to right */
+.ask-scan {
+  margin-top: 18px;
+  padding: 16px 18px 18px;
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.ask-scan__head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.ask-scan__count {
+  color: var(--ink-0);
+  font: 700 1.9rem/1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+.ask-scan__unit {
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.ask-scan__field {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 3px;
+}
+
+.ask-scan__field span {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0.2;
+  animation: ask-scan 2.6s linear infinite;
+}
+
+.ask-scan.is-waiting .ask-scan__field span {
+  animation-play-state: paused;
+}
+
+@keyframes ask-scan {
+  0% { opacity: 0.2; transform: scale(1); }
+  4% { opacity: 1; transform: scale(1.35); }
+  22% { opacity: 0.2; transform: scale(1); }
+  100% { opacity: 0.2; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ask-scan__field span {
+    animation: none;
+    opacity: 0.55;
+  }
 }
 
 .ask__note {
@@ -3553,6 +3583,13 @@ input {
   margin: 16px 0 0;
   color: #9097a3;
   font-size: 0.74rem;
+}
+
+/* Which engine ran the search, its time and API cost */
+.ask__meta {
+  margin: 4px 0 12px;
+  color: #9097a3;
+  font: 0.72rem var(--font-mono);
 }
 
 @media (max-width: 700px) {

@@ -6,21 +6,36 @@ export interface AskResult {
   reason: string
 }
 
+export type AskEngine = 'agy' | 'claude'
+
+export const ENGINE_LABELS: Record<AskEngine, string> = { agy: 'Antigravity', claude: 'Claude Code' }
+
 interface JobResponse {
   job_id: string
   status: 'queued' | 'running' | 'done' | 'error'
   results?: AskResult[]
   error?: string
   queue_position?: number
+  engine?: AskEngine | null
+  seconds?: number | null
+  cost_usd?: number | null
+  cached?: boolean
 }
-
-export type AskEngine = 'agy' | 'claude'
-
-export const ENGINE_LABELS: Record<AskEngine, string> = { agy: 'Antigravity', claude: 'Claude Code' }
 
 export interface AskProgress {
   status: 'queued' | 'running'
   queuePosition: number
+  /** Chosen by the server when the search starts running. */
+  engine: AskEngine | null
+}
+
+/** A finished search: results plus which engine ran it, how long it took, and its API cost. */
+export interface AskOutcome {
+  results: AskResult[]
+  engine: AskEngine | null
+  seconds: number | null
+  costUsd: number | null
+  cached: boolean
 }
 
 /** API origin; empty string disables the Ask feature. */
@@ -53,36 +68,32 @@ function wait(ms: number, signal: AbortSignal): Promise<void> {
   })
 }
 
-/** Engines the server offers (first is its default); [] if the API is unreachable. */
-export async function fetchEngines(): Promise<AskEngine[]> {
-  try {
-    const health = await (await fetch(`${NL_SEARCH_API}/api/health`)).json()
-    return Array.isArray(health.engines) ? health.engines : []
-  } catch {
-    return []
-  }
-}
-
-/** Start a search and poll until it finishes. Rejects with a user-facing message. */
+/** Start a search and poll until it finishes. Rejects with a user-facing message.
+ *  The server picks the engine (Claude Code while a slot is free, else Antigravity). */
 export async function runAskSearch(
   query: string,
-  engine: AskEngine,
   onProgress: (progress: AskProgress) => void,
   signal: AbortSignal,
-): Promise<AskResult[]> {
+): Promise<AskOutcome> {
   let job = await readJob(
     await fetch(`${NL_SEARCH_API}/api/nl-search`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, engine }),
+      body: JSON.stringify({ query }),
       signal,
     }),
   )
   while (job.status === 'queued' || job.status === 'running') {
-    onProgress({ status: job.status, queuePosition: job.queue_position ?? 0 })
+    onProgress({ status: job.status, queuePosition: job.queue_position ?? 0, engine: job.engine ?? null })
     await wait(POLL_MS, signal)
     job = await readJob(await fetch(`${NL_SEARCH_API}/api/nl-search/${job.job_id}`, { signal }))
   }
   if (job.status === 'error') throw new Error(job.error ?? 'Search failed — please try again.')
-  return job.results ?? []
+  return {
+    results: job.results ?? [],
+    engine: job.engine ?? null,
+    seconds: job.seconds ?? null,
+    costUsd: job.cost_usd ?? null,
+    cached: job.cached ?? false,
+  }
 }

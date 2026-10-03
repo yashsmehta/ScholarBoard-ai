@@ -83,7 +83,7 @@ src/
 │   ├── Header.tsx            — Creator avatar link, title, "Vision Science" domain label, nav buttons
 │   ├── SearchPanel.tsx       — Search input + autocomplete dropdown
 │   ├── WorkspaceTabs.tsx     — Directory | AI Search tabs (spinner / result-count badge on the AI tab)
-│   ├── AskPanel.tsx          — AI Search: query box, examples, progress, ranked results with 1–2 sentence reasons
+│   ├── AskPanel.tsx          — AI Search: query box, examples, progress, ranked results with 1–2 sentence reasons, engine · seconds · API cost line
 │   ├── ViewToggle.tsx        — List | Map segmented switch (sliding tinted thumb)
 │   ├── FilterPanel.tsx       — Institution + Country + Field dropdowns (ticks apply instantly, Esc closes)
 │   ├── ScholarMap.tsx        — D3 controller lifecycle bridge (map view)

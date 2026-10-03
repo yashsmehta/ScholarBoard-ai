@@ -26,6 +26,7 @@ PI_OVERRIDES_PATH = SOURCE_DIR / "pi_overrides.json"  # manual is_pi decisions, 
 NAME_ALIASES_PATH = SOURCE_DIR / "name_aliases.json"  # nicknames / alternate names matched by frontend search
 INSTITUTION_COUNTRIES_PATH = SOURCE_DIR / "institution_countries.json"  # institution → country, filled by the countries step
 SEX_OVERRIDES_PATH = SOURCE_DIR / "sex_overrides.json"  # manual sex labels (private, untracked), win over the classifier
+PROTECTED_PIS_PATH = SOURCE_DIR / "protected_pis.json"  # PIs whose profiles were hand-edited at their request — never overwritten by AI
 
 # Pipeline intermediates
 PAPERS_DIR = PIPELINE_DIR / "scholar_papers"
@@ -34,6 +35,7 @@ DIRECTIONS_DIR = PIPELINE_DIR / "scholar_directions"
 EMBEDDINGS_PATH = PIPELINE_DIR / "scholar_embeddings.nc"
 SUBFIELDS_PATH = PIPELINE_DIR / "scholar_subfields.json"
 SEX_PATH = PIPELINE_DIR / "scholar_sex.json"  # private: never shipped to the frontend
+AGENT_RUNS_DIR = PIPELINE_DIR / "agent_runs"  # one workspace per profile-agent run (prompt, profile.json, photo, transcript stats)
 MODELS_DIR = PIPELINE_DIR / "models"
 UMAP_MODEL_PATH = MODELS_DIR / "umap_model.joblib"
 SCALER_PATH = MODELS_DIR / "scaler.joblib"
@@ -42,6 +44,8 @@ SCALER_PATH = MODELS_DIR / "scaler.joblib"
 SCHOLARS_JSON = BUILD_DIR / "scholars.json"
 SCHOLARS_DIR = BUILD_DIR / "scholars"
 PICS_DIR = BUILD_DIR / "profile_pics"
+SEARCH_CARDS_PATH = BUILD_DIR / "search_cards.json"  # dense per-PI index lines for NL search (tracked)
+SEARCH_CORPUS_DIR = BUILD_DIR / "search_corpus"  # files the NL-search agent reads (regenerated, untracked)
 
 # Consolidated database
 DB_PATH = DATA_DIR / "scholarboard.db"

@@ -16,6 +16,7 @@ Usage:
     uv run -m scholar_board.pipeline.embed --dry-run     # Preview, no API calls
     uv run -m scholar_board.pipeline.embed               # Generate embeddings
     uv run -m scholar_board.pipeline.embed --limit 10    # Process first 10
+    uv run -m scholar_board.pipeline.embed --ids E378    # Embed only these PIs, merged into the existing file
 """
 
 import argparse
@@ -95,6 +96,35 @@ def save_embeddings(scholar_ids: list[str], embeddings: np.ndarray):
     print(f"Saved embeddings to {EMBEDDINGS_PATH}")
 
 
+def embed_ids(ids: list[str]) -> list[str]:
+    """Embed only `ids` and merge them into the existing embeddings file (add or replace rows).
+
+    Used when new PIs are added, so the rest of the matrix (and the map) stays as is.
+    Returns the ids that were embedded.
+    """
+    import xarray as xr
+
+    pairs = [(sid, text) for sid, text in build_embedding_pairs() if sid in set(ids)]
+    if not pairs:
+        print("Nothing to embed (no papers for these ids?)")
+        return []
+    vecs = embed_texts([text for _, text in pairs], task_type="CLUSTERING")
+    if EMBEDDINGS_PATH.exists():
+        ds = xr.open_dataset(EMBEDDINGS_PATH)
+        all_ids, emb = [str(x) for x in ds.scholar_id.values], ds.embedding.values.copy()
+        ds.close()
+    else:
+        all_ids, emb = [], np.zeros((0, vecs.shape[1]))
+    for (sid, _), vec in zip(pairs, vecs):
+        if sid in all_ids:
+            emb[all_ids.index(sid)] = vec
+        else:
+            all_ids.append(sid)
+            emb = np.vstack([emb, vec])
+    save_embeddings(all_ids, emb)
+    return [sid for sid, _ in pairs]
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Create paper-based embeddings for scholars"
@@ -103,7 +133,17 @@ def main():
                         help="Preview without making API calls")
     parser.add_argument("--limit", type=int, default=None,
                         help="Max scholars to process")
+    parser.add_argument("--ids", type=str, default=None,
+                        help="Comma-separated PI ids: embed only these and merge into the existing file")
     args = parser.parse_args()
+
+    if args.ids:
+        ids = [i.strip() for i in args.ids.split(",") if i.strip()]
+        if args.dry_run:
+            print(f"[DRY RUN] Would embed {ids} and merge into {EMBEDDINGS_PATH}")
+            return
+        print(f"Embedded {embed_ids(ids)}")
+        return
 
     print("Building embedding texts...")
     pairs = build_embedding_pairs()

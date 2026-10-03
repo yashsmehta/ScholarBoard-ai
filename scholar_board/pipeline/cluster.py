@@ -10,6 +10,7 @@ not by clustering.
 Usage:
     uv run -m scholar_board.pipeline.cluster --dry-run    # Preview, no changes
     uv run -m scholar_board.pipeline.cluster               # Run full pipeline
+    uv run -m scholar_board.pipeline.cluster --place E378  # Place new PIs with the saved model (no refit)
 """
 
 import argparse
@@ -72,6 +73,23 @@ def write_coords_to_db(scholar_ids, coords):
     print(f"  Wrote UMAP coords for {len(scholar_ids)} scholars to DB")
 
 
+def place_ids(ids: list[str]) -> None:
+    """Project `ids` with the saved UMAP model and write their coordinates.
+
+    No refit, so every other dot on the map keeps its position.
+    """
+    scholar_ids, embeddings = load_embeddings()
+    scholar_ids = [str(s) for s in scholar_ids]
+    rows = [scholar_ids.index(sid) for sid in ids if sid in scholar_ids]
+    missing = [sid for sid in ids if sid not in scholar_ids]
+    if missing:
+        print(f"  No embedding for {missing} — run `embed --ids` first")
+    if not rows:
+        return
+    coords = joblib.load(UMAP_MODEL_PATH).transform(embeddings[rows])
+    write_coords_to_db([scholar_ids[r] for r in rows], coords)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Run UMAP on scholar embeddings"
@@ -82,7 +100,13 @@ def main():
                         help="UMAP n_neighbors (default: 15)")
     parser.add_argument("--min-dist", type=float, default=0.1,
                         help="UMAP min_dist (default: 0.1)")
+    parser.add_argument("--place", type=str, default=None,
+                        help="Comma-separated PI ids: place them with the saved model instead of refitting")
     args = parser.parse_args()
+
+    if args.place:
+        place_ids([i.strip() for i in args.place.split(",") if i.strip()])
+        return
 
     if not EMBEDDINGS_PATH.exists():
         print(f"Error: Embeddings not found at {EMBEDDINGS_PATH}")

@@ -43,5 +43,15 @@
     "name": "Ernst Niebur",
     "is_pi": false,
     "reason": "Removed from the map (2026-10-03)."
+  },
+  "0657": {
+    "name": "Teng Leng Ooi",
+    "is_pi": false,
+    "reason": "Removed from the map by request (2026-09-29)."
+  },
+  "0726": {
+    "name": "Zijiang He",
+    "is_pi": false,
+    "reason": "Removed from the map by request (2026-09-29)."
   }
 }

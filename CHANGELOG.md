@@ -324,3 +324,4 @@
 
 - Janice Chen (E119): added her 2026 Nature Communications "agency" paper (Li et al., last author; DOI 10.1038/s41467-026-73907-2, verified on Crossref) as paper #1; list kept at 5. Protected.
 - Wei Ji Ma (E181, follow-up): paper list replaced with his 2023+ last-author vision papers verified on OpenAlex (fixed-criterion model, point estimate observers, monetary reward in visual working memory, search in visual working memory preprint) plus the Nat Neurosci 2024 paper; planning papers removed from the list. Map position unchanged.
+- 2026-10-04 Joshua Gold: larger photo (400x400) from his Simons Foundation people page (emailed attachment not reachable via Gmail MCP); Richard Abrams: WashU photo downscaled 680->400px.

@@ -1146,6 +1146,10 @@
         "score": 0.9182
       },
       {
+        "id": "E379",
+        "score": 0.9175
+      },
+      {
         "id": "0256",
         "score": 0.9169
       },
@@ -1156,10 +1160,6 @@
       {
         "id": "E301",
         "score": 0.9161
-      },
-      {
-        "id": "0542",
-        "score": 0.9156
       }
     ]
   },
@@ -9040,6 +9040,10 @@
         "score": 0.9232
       },
       {
+        "id": "E379",
+        "score": 0.9203
+      },
+      {
         "id": "0542",
         "score": 0.9175
       },
@@ -9058,10 +9062,6 @@
       {
         "id": "0653",
         "score": 0.9138
-      },
-      {
-        "id": "E089",
-        "score": 0.9129
       }
     ]
   },
@@ -14784,7 +14784,7 @@
         "score": 0.9114
       },
       {
-        "id": "0342",
+        "id": "E379",
         "score": 0.9078
       }
     ]
@@ -20065,6 +20065,10 @@
         "score": 0.9069
       },
       {
+        "id": "E379",
+        "score": 0.9056
+      },
+      {
         "id": "E136",
         "score": 0.9054
       },
@@ -20075,10 +20079,6 @@
       {
         "id": "0394",
         "score": 0.9033
-      },
-      {
-        "id": "0520",
-        "score": 0.9016
       }
     ]
   },
@@ -23639,6 +23639,10 @@
         "score": 0.9169
       },
       {
+        "id": "E379",
+        "score": 0.9164
+      },
+      {
         "id": "0342",
         "score": 0.9133
       },
@@ -23665,10 +23669,6 @@
       {
         "id": "0280",
         "score": 0.9087
-      },
-      {
-        "id": "E076",
-        "score": 0.9069
       }
     ]
   },
@@ -26215,6 +26215,10 @@
     "h_index": 107,
     "similar": [
       {
+        "id": "E379",
+        "score": 0.9029
+      },
+      {
         "id": "E013",
         "score": 0.9024
       },
@@ -26249,10 +26253,6 @@
       {
         "id": "0550",
         "score": 0.8951
-      },
-      {
-        "id": "0370",
-        "score": 0.8946
       }
     ]
   },
@@ -32035,6 +32035,10 @@
         "score": 0.9233
       },
       {
+        "id": "E379",
+        "score": 0.9219
+      },
+      {
         "id": "0280",
         "score": 0.919
       },
@@ -32057,10 +32061,6 @@
       {
         "id": "0256",
         "score": 0.9133
-      },
-      {
-        "id": "0725",
-        "score": 0.9122
       }
     ]
   },
@@ -39599,8 +39599,8 @@
         "score": 0.8861
       },
       {
-        "id": "0101",
-        "score": 0.8854
+        "id": "E379",
+        "score": 0.886
       }
     ]
   },
@@ -46204,6 +46204,10 @@
         "score": 0.9025
       },
       {
+        "id": "E379",
+        "score": 0.9023
+      },
+      {
         "id": "E175",
         "score": 0.9014
       },
@@ -46221,10 +46225,6 @@
       },
       {
         "id": "E136",
-        "score": 0.9006
-      },
-      {
-        "id": "0143",
         "score": 0.9006
       }
     ]
@@ -47940,6 +47940,10 @@
         "score": 0.8947
       },
       {
+        "id": "E379",
+        "score": 0.8936
+      },
+      {
         "id": "E262",
         "score": 0.8918
       },
@@ -47950,10 +47954,6 @@
       {
         "id": "E149",
         "score": 0.8897
-      },
-      {
-        "id": "E153",
-        "score": 0.8895
       }
     ]
   },
@@ -51940,6 +51940,10 @@
         "score": 0.9097
       },
       {
+        "id": "E379",
+        "score": 0.9093
+      },
+      {
         "id": "0256",
         "score": 0.9058
       },
@@ -51958,10 +51962,6 @@
       {
         "id": "0013",
         "score": 0.8962
-      },
-      {
-        "id": "E252",
-        "score": 0.895
       }
     ]
   },
@@ -66841,12 +66841,12 @@
         "score": 0.9122
       },
       {
-        "id": "0013",
-        "score": 0.91
+        "id": "E379",
+        "score": 0.911
       },
       {
-        "id": "0394",
-        "score": 0.9081
+        "id": "0013",
+        "score": 0.91
       }
     ]
   },
@@ -75135,6 +75135,10 @@
         "score": 0.9264
       },
       {
+        "id": "E379",
+        "score": 0.9262
+      },
+      {
         "id": "E296",
         "score": 0.9261
       },
@@ -75160,10 +75164,6 @@
       },
       {
         "id": "E297",
-        "score": 0.9195
-      },
-      {
-        "id": "E312",
         "score": 0.9195
       }
     ]
@@ -82037,8 +82037,8 @@
         "score": 0.9018
       },
       {
-        "id": "E297",
-        "score": 0.9009
+        "id": "E379",
+        "score": 0.9011
       }
     ]
   },
@@ -82501,6 +82501,10 @@
         "score": 0.9149
       },
       {
+        "id": "E379",
+        "score": 0.9102
+      },
+      {
         "id": "E254",
         "score": 0.9101
       },
@@ -82519,10 +82523,6 @@
       {
         "id": "E136",
         "score": 0.9068
-      },
-      {
-        "id": "E297",
-        "score": 0.9044
       }
     ]
   },
@@ -85986,16 +85986,16 @@
         "score": 0.9031
       },
       {
+        "id": "E379",
+        "score": 0.9014
+      },
+      {
         "id": "E040",
         "score": 0.9002
       },
       {
         "id": "0280",
         "score": 0.8998
-      },
-      {
-        "id": "E175",
-        "score": 0.8996
       }
     ]
   },
@@ -86210,6 +86210,10 @@
         "score": 0.9181
       },
       {
+        "id": "E379",
+        "score": 0.9176
+      },
+      {
         "id": "0542",
         "score": 0.915
       },
@@ -86232,10 +86236,6 @@
       {
         "id": "0568",
         "score": 0.908
-      },
-      {
-        "id": "E301",
-        "score": 0.9075
       }
     ]
   },
@@ -86342,6 +86342,10 @@
         "score": 0.9149
       },
       {
+        "id": "E379",
+        "score": 0.9145
+      },
+      {
         "id": "E175",
         "score": 0.9144
       },
@@ -86352,10 +86356,6 @@
       {
         "id": "E161",
         "score": 0.914
-      },
-      {
-        "id": "0104",
-        "score": 0.9109
       }
     ]
   },
@@ -86678,6 +86678,10 @@
         "score": 0.943
       },
       {
+        "id": "E379",
+        "score": 0.9303
+      },
+      {
         "id": "E167",
         "score": 0.927
       },
@@ -86708,10 +86712,6 @@
       {
         "id": "E076",
         "score": 0.9181
-      },
-      {
-        "id": "0571",
-        "score": 0.9178
       }
     ]
   },
@@ -86792,6 +86792,10 @@
         "score": 0.8995
       },
       {
+        "id": "E379",
+        "score": 0.8979
+      },
+      {
         "id": "0287",
         "score": 0.8952
       },
@@ -86810,10 +86814,6 @@
       {
         "id": "0013",
         "score": 0.8902
-      },
-      {
-        "id": "0342",
-        "score": 0.8887
       }
     ]
   },
@@ -86920,6 +86920,10 @@
         "score": 0.9037
       },
       {
+        "id": "E379",
+        "score": 0.9017
+      },
+      {
         "id": "0280",
         "score": 0.9012
       },
@@ -86934,10 +86938,6 @@
       {
         "id": "0220",
         "score": 0.8994
-      },
-      {
-        "id": "0498",
-        "score": 0.8987
       }
     ]
   },
@@ -87148,6 +87148,10 @@
     "h_index": 45,
     "similar": [
       {
+        "id": "E379",
+        "score": 0.907
+      },
+      {
         "id": "0138",
         "score": 0.9065
       },
@@ -87182,10 +87186,6 @@
       {
         "id": "E295",
         "score": 0.9014
-      },
-      {
-        "id": "0542",
-        "score": 0.9012
       }
     ]
   },
@@ -93370,6 +93370,130 @@
       {
         "id": "0459",
         "score": 0.9089
+      }
+    ]
+  },
+  "E379": {
+    "id": "E379",
+    "name": "Matthew A. Smith",
+    "institution": "Carnegie Mellon University",
+    "country": "United States",
+    "department": "Biomedical Engineering; Neuroscience Institute (Center for the Neural Basis of Cognition)",
+    "lab_name": "Smith Laboratory",
+    "lab_url": "https://smithlab.net/",
+    "main_research_area": "Visual cortex population neurophysiology",
+    "bio": "Smith studies how the primate brain processes visual input and turns it into decisions and eye movements, using multi-electrode population recordings in macaques together with computational modeling. Work in the lab covers mid-level visual cortex (V4), the prefrontal cortex, the superior colliculus and the locus coeruleus. Questions include how recent visual experience and internal states such as arousal change neuronal responses, and how working memory is maintained. The lab also builds deep neural network models of visual cortical neurons and uses microstimulation to perturb neural population activity.",
+    "research_direction": "Dr. Smith has recently been investigating how the primate visual system's neuronal populations represent images and how that representation shifts with experience and internal state. Their recent work explores compact deep-network models that predict responses of visual cortical neurons, and recordings in V4 showing how recent experience with an image changes population activity and change-detection performance. They also study how arousal and brain state are embedded in oculomotor circuits such as the superior colliculus and in the locus coeruleus during saccadic perceptual decisions. A further thread uses prefrontal microstimulation during a memory-guided saccade task to ask how working-memory signals withstand perturbation.",
+    "papers": [
+      {
+        "title": "Compact deep neural network models of the visual cortex",
+        "abstract": "The authors train a deep ensemble model that predicts macaque visual cortical responses to arbitrary images and then compress it into compact models with about 5,000 times fewer parameters but comparable accuracy. Compact models for V4 (and also V1 and IT) share similar early filters and differ mainly in how they consolidate that shared representation, so a neuron's stimulus preference is set largely by this consolidation step. Responses to images designed with the compact models verified that they capture real V4 stimulus preferences.",
+        "year": "2026",
+        "venue": "Nature",
+        "citations": "26",
+        "authors": "Benjamin R. Cowley, Patricia L. Stan, Jonathan W. Pillow, Matthew A. Smith",
+        "url": "https://doi.org/10.1038/s41586-026-10150-1"
+      },
+      {
+        "title": "Brain-wide arousal signals are segregated from movement planning in the superior colliculus of the macaque",
+        "abstract": "Spiking in superior colliculus populations was recorded while macaques made memory-guided saccades, revealing slow fluctuations over tens of minutes in some neurons. A low-dimensional activity pattern tracked pupil size and simultaneously recorded prefrontal activity, consistent with arousal. Deep-layer collicular neurons were less coupled to this signal, and the arousal and saccade-tuning dimensions did not overlap with movement-initiation signals in population space.",
+        "year": "2026",
+        "venue": "eLife",
+        "citations": "4",
+        "authors": "Richard Johnston, Matthew A Smith",
+        "url": "https://doi.org/10.7554/elife.99278.4"
+      },
+      {
+        "title": "The Role of the Locus Ceruleus in Eye Movements during Perceptual Decision-Making",
+        "abstract": "Single locus ceruleus neurons were recorded in macaques performing a visual change-detection task with a saccadic report that separates sensory from motor contributions. Most neurons responded in time with the choice saccade, whereas few responded to the visual stimuli. These saccade-locked responses did not depend on outcome, difficulty, reaction time or fluctuations in sensitivity and criterion, pointing to an oculomotor rather than perceptual role.",
+        "year": "2026",
+        "venue": "Journal of Neuroscience",
+        "citations": "0",
+        "authors": "Katerina Acar, Matthew A. Smith",
+        "url": "https://doi.org/10.1523/jneurosci.0385-26.2026"
+      },
+      {
+        "title": "Robustness of Working Memory to Prefrontal Cortex Microstimulation",
+        "abstract": "Patterned microstimulation was applied through multielectrode arrays in dorsolateral prefrontal cortex of macaques performing a memory-guided saccade task. Stimulation altered working-memory-related signals in individual neurons but left task performance largely intact. Population analyses showed that stimulation affected dimensions in which memory signals evolve over time but barely affected dimensions in which they are stable.",
+        "year": "2025",
+        "venue": "Journal of Neuroscience",
+        "citations": "3",
+        "authors": "Joana Soldado-Magraner, Yuki Minai, Byron M. Yu, Matthew A. Smith",
+        "url": "https://doi.org/10.1523/jneurosci.2197-24.2025"
+      },
+      {
+        "title": "Recent Visual Experience Reshapes V4 Neuronal Activity and Improves Perceptual Performance",
+        "abstract": "Populations of V4 neurons were recorded while macaques performed a natural-image change detection task under different amounts of recent experience with an image. More recent experience improved change detection and reduced V4 responses, with the size of the behavioral gain correlating with the size of the suppression. The suppression increased signal separation and lowered shared trial-to-trial variability within the population.",
+        "year": "2024",
+        "venue": "Journal of Neuroscience",
+        "citations": "5",
+        "authors": "Patricia L. Stan, Matthew A. Smith",
+        "url": "https://doi.org/10.1523/jneurosci.1764-23.2024"
+      }
+    ],
+    "primary_subfield": "Theory & Computation",
+    "subfields": [
+      {
+        "subfield": "Theory & Computation",
+        "score": 1.0
+      },
+      {
+        "subfield": "Eye Movements",
+        "score": 0.5
+      },
+      {
+        "subfield": "Decision Making",
+        "score": 0.5
+      }
+    ],
+    "profile_pic": "matthew_a._smith_E379.jpg",
+    "umap_projection": {
+      "x": 4.983667373657227,
+      "y": 5.183396339416504
+    },
+    "cluster": 0,
+    "total_citations": 7701,
+    "h_index": 37,
+    "similar": [
+      {
+        "id": "E301",
+        "score": 0.9303
+      },
+      {
+        "id": "E136",
+        "score": 0.9262
+      },
+      {
+        "id": "0342",
+        "score": 0.9219
+      },
+      {
+        "id": "0104",
+        "score": 0.9203
+      },
+      {
+        "id": "0280",
+        "score": 0.9186
+      },
+      {
+        "id": "E296",
+        "score": 0.9176
+      },
+      {
+        "id": "0013",
+        "score": 0.9175
+      },
+      {
+        "id": "0412",
+        "score": 0.9166
+      },
+      {
+        "id": "0256",
+        "score": 0.9164
+      },
+      {
+        "id": "E297",
+        "score": 0.9145
       }
     ]
   }

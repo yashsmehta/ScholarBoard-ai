@@ -12745,5 +12745,21 @@
    "text-conditioned diffusion synthesis"
   ],
   "card": "voxel-wise encoding models; Natural Scenes Dataset (NSD); 7T fMRI; BrainSCUBA; contrastive vision-language models (CLIP); food selectivity; category selectivity in ventral visual cortex; LLM-brain representational alignment; MEG narrative comprehension; text-conditioned diffusion synthesis"
+ },
+ "E379": {
+  "hash": "37dd62f29fe8c468",
+  "keywords": [
+   "area V4",
+   "superior colliculus",
+   "locus coeruleus",
+   "macaque multi-electrode recordings",
+   "prefrontal microstimulation",
+   "memory-guided saccades",
+   "visual change detection",
+   "compact deep neural network models",
+   "shared trial-to-trial variability",
+   "arousal states"
+  ],
+  "card": "area V4; superior colliculus; locus coeruleus; macaque multi-electrode recordings; prefrontal microstimulation; memory-guided saccades; visual change detection; compact deep neural network models; shared trial-to-trial variability; arousal states"
  }
 }

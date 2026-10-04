@@ -42,7 +42,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from scholar_board.config import SEARCH_CORPUS_DIR
-from scholar_board.nlsearch.rank import ENGINES, MAX_QUERY_CHARS, search
+from scholar_board.nlsearch.rank import ENGINES, MAX_QUERY_CHARS, live_steps, search
 
 logger = logging.getLogger("scholarboard.nlsearch")
 
@@ -80,6 +80,10 @@ _ip_hits: dict[str, deque] = defaultdict(deque)
 _daily = {"day": "", "count": 0}
 _active_ip: dict[str, str] = {}  # ip → its queued/running job id
 _claude_active = 0
+# Recent run times per engine, for the client's "about N s left" (median of the last EXPECT_WINDOW)
+EXPECT_WINDOW = 30
+EXPECT_DEFAULT_S = {"claude": 25.0, "agy": 55.0}
+_durations: dict[str, deque] = defaultdict(lambda: deque(maxlen=EXPECT_WINDOW))
 
 
 class SearchRequest(BaseModel):
@@ -105,6 +109,30 @@ def _log_search(entry: dict) -> None:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
     except OSError as err:
         logger.warning("could not log search: %s", err)
+
+
+def _load_durations() -> None:
+    try:
+        lines = (DATA_DIR / "searches.jsonl").read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return
+    for line in lines:
+        try:
+            e = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if e.get("engine") in ENGINES and e.get("seconds") and not e.get("error") and not e.get("cached"):
+            _durations[e["engine"]].append(float(e["seconds"]))
+
+
+def _expected_seconds(engine: str | None) -> float | None:
+    if engine is None:
+        return None
+    runs = sorted(_durations[engine])
+    return round(runs[len(runs) // 2], 1) if runs else EXPECT_DEFAULT_S.get(engine)
+
+
+_load_durations()
 
 
 def _prune_jobs(now: float) -> None:
@@ -149,9 +177,9 @@ def _release_engine(engine: str) -> None:
 def _run_job(job_id: str, query: str, key: str, ip: str) -> None:
     t0 = time.time()
     engine = _take_engine()
-    with _lock:
-        _jobs[job_id].update(status="running", started=t0, engine=engine)
     trace: dict = {}
+    with _lock:
+        _jobs[job_id].update(status="running", started=t0, engine=engine, trace=trace)
     fallback_from, spent = None, 0.0  # spent: API cost of a failed Claude attempt
     try:
         try:
@@ -182,6 +210,8 @@ def _run_job(job_id: str, query: str, key: str, ip: str) -> None:
     with _lock:
         _jobs[job_id].update(status="done", **payload)
         _active_ip.pop(ip, None)
+        if fallback_from is None:
+            _durations[engine].append(payload["seconds"])
         _cache[key] = payload
         _cache.move_to_end(key)
         while len(_cache) > CACHE_SIZE:
@@ -202,7 +232,10 @@ def _public(job_id: str, job: dict) -> dict:
         ahead = sum(1 for j in _jobs.values()
                     if j["status"] == "queued" and j["created"] < job["created"])
         out.update(queue_position=ahead if job["status"] == "queued" else 0, engine=job.get("engine"),
-                   elapsed=round(time.time() - job.get("started", job["created"])))
+                   elapsed=round(time.time() - job.get("started", job["created"])),
+                   expected_seconds=_expected_seconds(job.get("engine")))
+        if job.get("trace") is not None:
+            out["steps"] = live_steps(job["trace"])
     return out
 
 

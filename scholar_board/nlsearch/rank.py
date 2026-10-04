@@ -203,7 +203,13 @@ def _workspace(corpus_dir: Path):
 def _read_trace(ws: Path) -> dict:
     """Summarize the tools' trace: SQL filters applied, eligible count, shortlist size."""
     path = ws / "work" / "trace.jsonl"
-    events = [json.loads(x) for x in path.read_text(encoding="utf-8").splitlines()] if path.exists() else []
+    events = []
+    if path.exists():
+        for line in path.read_text(encoding="utf-8").splitlines():
+            try:
+                events.append(json.loads(line))
+            except json.JSONDecodeError:  # a line still being written (live reads)
+                pass
     filters = [e for e in events if e["tool"] == "filter"]
     details = [e for e in events if e["tool"] == "details"]
     return {"filter": filters[-1]["sql"] if filters else None,
@@ -230,12 +236,14 @@ def run_agent(query: str, engine: str, corpus_dir: Path, valid: set[str], top_n:
 
     def attempt() -> list[dict]:
         with _workspace(corpus_dir) as ws:
+            trace["workspace"] = ws  # for live_steps() while the agent runs
             try:
                 out = agent(prompt, timeout, ws)
                 for k, v in out["usage"].items():
                     trace["usage"][k] += v
                 return _clean(_parse_json_array(out["text"]), valid, top_n)
             finally:
+                trace.pop("workspace", None)
                 trace.update(_read_trace(ws))
 
     try:
@@ -244,6 +252,15 @@ def run_agent(query: str, engine: str, corpus_dir: Path, valid: set[str], top_n:
         return []
     finally:
         trace["usage"]["cost_usd"] = round(trace["usage"]["cost_usd"], 4)
+
+
+def live_steps(trace: dict) -> dict:
+    """What the agent has done so far in a running search (read from its tools' trace):
+    {"filtered", "eligible", "shortlist"}; safe to call from another thread."""
+    ws = trace.get("workspace")
+    summary = trace if ws is None else _read_trace(ws)
+    return {"filtered": summary.get("filter") is not None, "eligible": summary.get("eligible"),
+            "shortlist": summary.get("shortlist")}
 
 
 def search(query: str, engine: str = "agy", top_n: int = 10, corpus_dir: Path = SEARCH_CORPUS_DIR,

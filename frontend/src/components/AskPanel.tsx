@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import type { Scholar } from '../types/scholar'
-import type { AskEngine, AskOutcome, AskResult } from '../lib/nlSearch'
+import type { AskEngine, AskOutcome, AskResult, AskSteps } from '../lib/nlSearch'
 import { ENGINE_LABELS, runAskSearch } from '../lib/nlSearch'
 import { SPINNER_VERBS } from '../lib/spinnerVerbs'
 import { ListAvatar } from './ScholarList'
 import { cx } from '../lib/cx'
 import { AskScan } from './AskScan'
+import type { AskRun } from './AskScan'
 
 interface AskPanelProps {
   open: boolean
@@ -35,7 +36,7 @@ const VERB_SECONDS = 8
 
 type Phase =
   | { kind: 'idle' }
-  | { kind: 'running'; startedAt: number; queuePosition: number; seed: number; engine: AskEngine | null }
+  | { kind: 'running'; startedAt: number; queuePosition: number; seed: number; engine: AskEngine | null; run: AskRun | null }
   | { kind: 'error'; message: string }
 
 declare global {
@@ -89,7 +90,7 @@ export function AskPanel({
     setOutcome(null)
     setNow(Date.now())
     setPhase({
-      kind: 'running', startedAt: Date.now(), queuePosition: 0, engine: null,
+      kind: 'running', startedAt: Date.now(), queuePosition: 0, engine: null, run: null,
       seed: Math.floor(Math.random() * SPINNER_VERBS.length),
     })
     window.goatcounter?.count({ path: 'ai-search', title: 'AI search', event: true })
@@ -97,7 +98,12 @@ export function AskPanel({
       const { results: found, ...meta } = await runAskSearch(
         q,
         (p) => setPhase((prev) => prev.kind === 'running'
-          ? { ...prev, queuePosition: p.status === 'queued' ? p.queuePosition + 1 : 0, engine: p.engine }
+          ? {
+              ...prev,
+              queuePosition: p.status === 'queued' ? p.queuePosition + 1 : 0,
+              engine: p.engine,
+              run: p.status === 'running' ? nextRun(prev.run, p.expectedSeconds, p.steps) : prev.run,
+            }
           : prev),
         controller.signal,
       )
@@ -199,6 +205,8 @@ export function AskPanel({
               scholars={scholars}
               engine={phase.engine}
               waiting={queuePosition > 0}
+              run={phase.run}
+              now={now}
               status={(
                 <>
                   <span className="ask__star" aria-hidden="true">{star}</span>
@@ -273,4 +281,17 @@ export function AskPanel({
       </div>
     </section>
   )
+}
+
+/** Running-search state: when the run started (client clock) and when each step was first seen. */
+function nextRun(prev: AskRun | null, expectedSeconds: number | null, steps: AskSteps | null): AskRun {
+  const now = Date.now()
+  const run = prev ?? { startedAt: now, expectedSeconds, steps: null, filteredAt: null, shortlistAt: null }
+  return {
+    ...run,
+    expectedSeconds: expectedSeconds ?? run.expectedSeconds,
+    steps: steps ?? run.steps,
+    filteredAt: run.filteredAt ?? (steps?.filtered ? now : null),
+    shortlistAt: run.shortlistAt ?? (steps?.shortlist != null ? now : null),
+  }
 }

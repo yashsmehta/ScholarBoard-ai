@@ -3533,6 +3533,192 @@ input {
 }
 
 
+/* Estimated progress: elapsed time against the engine's recent median run (AskScan progressOf) */
+.ask-scan__progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 16px;
+}
+
+.ask-scan__bar {
+  position: relative;
+  flex: 1;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(13, 92, 99, 0.09);
+}
+
+.ask-scan__bar > span {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--brand-1), var(--brand-0));
+  transform-origin: left center;
+  transition: transform 0.35s linear;
+}
+
+/* A soft highlight travelling along the filled part, so the bar reads as alive between polls */
+.ask-scan__bar > span::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
+  background-size: 40% 100%;
+  background-repeat: no-repeat;
+  animation: ask-bar-shine 1.8s ease-in-out infinite;
+}
+
+@keyframes ask-bar-shine {
+  from { background-position: -60% 0; }
+  to { background-position: 160% 0; }
+}
+
+.ask-scan__left {
+  min-width: 9.5em;
+  color: #9aa1ab;
+  font: 500 0.72rem/1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.ask-scan__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 208px;
+  gap: 14px;
+  align-items: center;
+}
+
+/* The agent's steps, as its tools report them */
+.ask-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ask-steps__item {
+  position: relative;
+  display: flex;
+  gap: 9px;
+  padding-bottom: 11px;
+}
+
+.ask-steps__item:last-child {
+  padding-bottom: 0;
+}
+
+/* The rail between marks */
+.ask-steps__item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 18px;
+  bottom: 2px;
+  width: 1.5px;
+  border-radius: 1px;
+  background: rgba(21, 24, 34, 0.09);
+}
+
+.ask-steps__item.is-done:not(:last-child)::before {
+  background: color-mix(in srgb, var(--brand-1) 55%, transparent);
+}
+
+.ask-steps__mark {
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  width: 15px;
+  height: 15px;
+  margin-top: 1px;
+  border: 1.5px solid rgba(21, 24, 34, 0.16);
+  border-radius: 50%;
+  background: var(--surface);
+}
+
+.is-done > .ask-steps__mark {
+  border-color: var(--brand-0);
+  background: var(--brand-0);
+}
+
+.ask-steps__mark svg {
+  position: absolute;
+  inset: 1.5px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The current step: a ring with a turning arc */
+.is-active > .ask-steps__mark {
+  border-color: color-mix(in srgb, var(--brand-1) 30%, transparent);
+}
+
+.is-active > .ask-steps__mark::after {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border: 1.5px solid transparent;
+  border-top-color: var(--brand-0);
+  border-radius: 50%;
+  animation: ask-spin 0.9s linear infinite;
+}
+
+.is-active > .ask-steps__mark::before {
+  content: '';
+  position: absolute;
+  inset: 3.5px;
+  border-radius: 50%;
+  background: var(--brand-1);
+  animation: ask-step-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes ask-step-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.75); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+.ask-steps__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ask-steps__title {
+  color: var(--ink-1);
+  font: 600 0.72rem/1.35 var(--font-sans);
+}
+
+.is-todo .ask-steps__title {
+  color: #a3a9b4;
+  font-weight: 500;
+}
+
+.is-active .ask-steps__title {
+  color: var(--ink-0);
+}
+
+.ask-steps__note {
+  color: #9aa1ab;
+  font: 500 0.66rem/1.35 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 760px) {
+  .ask-scan__body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .ask-scan__left {
+    min-width: 0;
+  }
+}
+
 .ask-scan__stage {
   position: relative;
   min-height: 200px;

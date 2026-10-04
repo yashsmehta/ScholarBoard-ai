@@ -20,6 +20,17 @@ interface JobResponse {
   seconds?: number | null
   cost_usd?: number | null
   cached?: boolean
+  expected_seconds?: number | null
+  steps?: AskSteps
+}
+
+/** What the agent has done so far, from its tools' trace (server/app.py, rank.live_steps). */
+export interface AskSteps {
+  /** A hard filter (location, institution) was applied; `eligible` PIs remain. */
+  filtered: boolean
+  eligible: number | null
+  /** PIs shortlisted from the index, whose full profiles are now being read and ranked. */
+  shortlist: number | null
 }
 
 export interface AskProgress {
@@ -27,6 +38,9 @@ export interface AskProgress {
   queuePosition: number
   /** Chosen by the server when the search starts running. */
   engine: AskEngine | null
+  /** Median run time of recent searches on this engine. */
+  expectedSeconds: number | null
+  steps: AskSteps | null
 }
 
 /** A finished search: results plus which engine ran it, how long it took, and its API cost. */
@@ -84,7 +98,10 @@ export async function runAskSearch(
     }),
   )
   while (job.status === 'queued' || job.status === 'running') {
-    onProgress({ status: job.status, queuePosition: job.queue_position ?? 0, engine: job.engine ?? null })
+    onProgress({
+      status: job.status, queuePosition: job.queue_position ?? 0, engine: job.engine ?? null,
+      expectedSeconds: job.expected_seconds ?? null, steps: job.steps ?? null,
+    })
     await wait(POLL_MS, signal)
     job = await readJob(await fetch(`${NL_SEARCH_API}/api/nl-search/${job.job_id}`, { signal }))
   }

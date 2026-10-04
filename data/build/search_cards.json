@@ -64,20 +64,20 @@
   "card": "perceptual learning; task-irrelevant learning; stability-plasticity dilemma; attraction and repulsion; gamified cognitive training; Portable Automated Rapid Testing; incidental learning; multisensory integration; cognitive aging; psychophysics"
  },
  "0007": {
-  "hash": "2ae811fded35552c",
+  "hash": "d6ce7ee3b2487fb3",
   "keywords": [
-   "color constancy metrics",
    "Perky effect",
-   "visual mental imagery",
+   "color constancy metrics",
    "peripheral crowding",
-   "target-flanker interactions",
    "normalized contrast energy",
    "phenomenal contrast",
+   "mental imagery",
    "iconic memory",
    "stereoscopic depth",
-   "synesthesia"
+   "synesthesia",
+   "environmental lighting adaptation"
   ],
-  "card": "color constancy metrics; Perky effect; visual mental imagery; peripheral crowding; target-flanker interactions; normalized contrast energy; phenomenal contrast; iconic memory; stereoscopic depth; synesthesia"
+  "card": "Perky effect; color constancy metrics; peripheral crowding; normalized contrast energy; phenomenal contrast; mental imagery; iconic memory; stereoscopic depth; synesthesia; environmental lighting adaptation"
  },
  "0008": {
   "hash": "1193867f4b9c7dde",
@@ -1774,20 +1774,20 @@
   "card": "manual interception; sensorimotor integration; serial dependence; visuomotor adaptation; foveal and peripheral visual processing; virtual reality street-crossing; contrast sensitivity in schizophrenia; saccade planning; velocity judgments; online feedback control"
  },
  "0143": {
-  "hash": "41dd610cd471e933",
+  "hash": "58457308555ace02",
   "keywords": [
-   "contrast modulation",
+   "contrast-modulation stimuli",
    "second-order motion",
+   "envelope motion discrimination",
    "magnocellular pathway",
    "CNN encoding models",
-   "simple and complex cells",
+   "simple and complex cell receptive fields",
    "cortical state fluctuations",
-   "trial-to-trial response variability",
    "dark-dominance",
-   "receptive field estimation",
-   "system identification"
+   "cat areas 17 and 18",
+   "Y-like nonlinearities"
   ],
-  "card": "contrast modulation; second-order motion; magnocellular pathway; CNN encoding models; simple and complex cells; cortical state fluctuations; trial-to-trial response variability; dark-dominance; receptive field estimation; system identification"
+  "card": "contrast-modulation stimuli; second-order motion; envelope motion discrimination; magnocellular pathway; CNN encoding models; simple and complex cell receptive fields; cortical state fluctuations; dark-dominance; cat areas 17 and 18; Y-like nonlinearities"
  },
  "0145": {
   "hash": "c36fb16cf8e8f27b",
@@ -3806,20 +3806,17 @@
   "card": "anomalous trichromacy; putative tetrachromacy; color-biased cortex; steady-state visually evoked potentials (SSVEP); cortical color tuning; environmental color statistics; food selectivity; color qualia; Natural Scenes Dataset (NSD); color vision deficiency"
  },
  "0301": {
-  "hash": "5ff1868faddba5a2",
+  "hash": "56f1474fd8817c68",
   "keywords": [
-   "graph comprehension",
-   "statistical data visualization",
-   "uniformity fallacy",
-   "multiple object tracking (MOT)",
-   "face recognition",
-   "Reading the Mind in the Eyes Test (RMET)",
-   "individual differences in vision",
-   "web-based citizen science testing",
-   "psychometrics",
-   "social perceptual ability"
+   "graph interpretation",
+   "data visualization",
+   "perceptual organization",
+   "decision making",
+   "attention",
+   "spatial thinking",
+   "ensemble processing"
   ],
-  "card": "graph comprehension; statistical data visualization; uniformity fallacy; multiple object tracking (MOT); face recognition; Reading the Mind in the Eyes Test (RMET); individual differences in vision; web-based citizen science testing; psychometrics; social perceptual ability"
+  "card": "graph interpretation; data visualization; perceptual organization; decision making; attention; spatial thinking; ensemble processing"
  },
  "0302": {
   "hash": "12eab0906bab3fec",
@@ -5788,22 +5785,6 @@
    "posterior-cortical networks"
   ],
   "card": "Dementia with Lewy bodies (DLB); minor visual phenomena; pareidolia; visuomotor kinematics; saccadic eye movements; melanopsin retinal ganglion cells; visuospatial processing; quantitative susceptibility mapping (QSM); sulcal morphometry; posterior-cortical networks"
- },
- "0455": {
-  "hash": "b61843c00fa30ac9",
-  "keywords": [
-   "chromatic visual evoked potentials (cVEP)",
-   "tripolar concentric ring electrodes (tEEG)",
-   "brightness induction",
-   "tablet-based color vision testing",
-   "Angular Indication Measurement (AIM)",
-   "Foraging Interactive D-prime (FInD)",
-   "adaptive optics scanning laser ophthalmoscopy (AOSLO)",
-   "electroretinography (ERG)",
-   "isoluminant chromatic stimuli",
-   "disk-annulus paradigm"
-  ],
-  "card": "chromatic visual evoked potentials (cVEP); tripolar concentric ring electrodes (tEEG); brightness induction; tablet-based color vision testing; Angular Indication Measurement (AIM); Foraging Interactive D-prime (FInD); adaptive optics scanning laser ophthalmoscopy (AOSLO); electroretinography (ERG); isoluminant chromatic stimuli; disk-annulus paradigm"
  },
  "0456": {
   "hash": "6007272fde318ce4",
@@ -8012,20 +7993,20 @@
   "card": "visual snow syndrome; binocular rivalry; spatial remapping; central field loss; perceptual adaptation; retinotopic mapping; frequency tagging; cortical plasticity; motion aftereffect; color tuning"
  },
  "0635": {
-  "hash": "3abead9b6d1727bd",
+  "hash": "630e8f1b0aee6177",
   "keywords": [
    "Hering's Law of equal innervation",
-   "independent monocular control",
-   "smooth pursuit",
-   "fixational eye movements",
-   "Hybrid Binocular Control model",
-   "remarkable saccades",
-   "ocular drift",
-   "microsaccades",
-   "asymmetric vergence",
-   "bivariate contour ellipse area"
+   "Hybrid Binocular Control (HBC) model",
+   "Remarkable Saccades",
+   "Independent monocular control",
+   "Asymmetric vergence",
+   "Frontoparallel smooth pursuit",
+   "Fixational eye movements (FEMs)",
+   "Drift disconjugacy",
+   "Bivariate contour ellipse area (BCEA)",
+   "Infrared-pass occluder"
   ],
-  "card": "Hering's Law of equal innervation; independent monocular control; smooth pursuit; fixational eye movements; Hybrid Binocular Control model; remarkable saccades; ocular drift; microsaccades; asymmetric vergence; bivariate contour ellipse area"
+  "card": "Hering's Law of equal innervation; Hybrid Binocular Control (HBC) model; Remarkable Saccades; Independent monocular control; Asymmetric vergence; Frontoparallel smooth pursuit; Fixational eye movements (FEMs); Drift disconjugacy; Bivariate contour ellipse area (BCEA); Infrared-pass occluder"
  },
  "0636": {
   "hash": "662653e9f289f4be",
@@ -10636,20 +10617,20 @@
   "card": "visual working memory; activity-silent states; simultaneous TMS-EEG; double-serial retrocuing; active removal from working memory; beta-band oscillations; orthogonal neural subspaces; recurrent neural network simulations; intraparietal sulcus; working memory and perceptual conflict"
  },
  "E180": {
-  "hash": "b13076387dfdd6a1",
+  "hash": "39c0ae80081556a5",
   "keywords": [
-   "visual working memory (VWM)",
-   "continuous analogue report",
+   "visual working memory",
    "neural resource models",
+   "continuous analogue report tasks",
    "Bayesian efficient coding",
-   "sensory attenuation",
+   "representational noise",
    "feature binding",
-   "neural population coding",
-   "normalization model of resource allocation",
-   "size-weight illusion",
-   "attractor dynamics"
+   "sensory attenuation",
+   "neural population codes",
+   "attractor models",
+   "size-weight illusion"
   ],
-  "card": "visual working memory (VWM); continuous analogue report; neural resource models; Bayesian efficient coding; sensory attenuation; feature binding; neural population coding; normalization model of resource allocation; size-weight illusion; attractor dynamics"
+  "card": "visual working memory; neural resource models; continuous analogue report tasks; Bayesian efficient coding; representational noise; feature binding; sensory attenuation; neural population codes; attractor models; size-weight illusion"
  },
  "E181": {
   "hash": "5db6f6c07e1ca30c",
@@ -12809,5 +12790,21 @@
    "ULV-VFQ"
   ],
   "card": "ultra-low vision (ULV); retinal and cortical visual prostheses; Argus II retinal prosthesis; phosphene mapping; virtual reality performance assessment; thermal and distance-filtered imaging; polytomous Rasch models; latent-variable signal-detection models; visually guided motor performance; ULV-VFQ"
+ },
+ "E388": {
+  "hash": "dee4b74e6da50a24",
+  "keywords": [
+   "multiple object tracking (MOT)",
+   "multiple identity tracking (MIT)",
+   "gaze coherence",
+   "scene memorability",
+   "representational distinctiveness",
+   "scene typicality",
+   "visual free recall",
+   "drawing from memory",
+   "detail retention in visual memory",
+   "resting-state functional connectomics"
+  ],
+  "card": "multiple object tracking (MOT); multiple identity tracking (MIT); gaze coherence; scene memorability; representational distinctiveness; scene typicality; visual free recall; drawing from memory; detail retention in visual memory; resting-state functional connectomics"
  }
 }

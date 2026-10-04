@@ -230,6 +230,13 @@
 - Back-ported earlier manual corrections (names, institutions, lab URLs, de-duplicated paper
   lists) from `scholars.json` into the DB, so rebuilds no longer revert them.
 - Duplicate-profile audit: no remaining duplicates among the shipped PIs.
+- Adam Reeves (on request): bio and AI summary changed to "his"; added that he studies how visual imagery and visual attention affect vision; bio notes he is retired with no lab and cannot take PhD students. Added to protected PIs. Map position unchanged.
+- Stephen Heinen (on request): AI summary now says one eye is behind an infrared-pass occluder (the eye tracker uses infrared light), not just covered. Added to protected PIs. Map position unchanged.
+- Carly Leonard (on request): primary topic area changed from Perceptual Organization to Attention (secondary Eye Movements, Visual Search kept). Added to protected PIs.
+- Paul Bays (on request): AI summary reworded so it no longer uses "they/their" (now "the lab"). Added to protected PIs. Map position unchanged.
+- Michael Crognale: removed from the map by request (`pi_overrides.json`, is_pi=false).
+- Curtis L. Baker (on request): bio lists only Ophthalmology & Visual Sciences as his department (Biomedical Engineering dropped) and adds his Associate Memberships in Physiology and the Integrated Program in Neuroscience. Added to protected PIs.
+- Jeremy Wilmer (on request): bio rewritten around his graph-interpretation work (ISWYM Lab, ShowMyData.org); lab name set; Attention added as a secondary topic area; Agentic Search keywords set by hand (graph interpretation, data visualization, perceptual organization, decision making, attention, spatial thinking, ensemble processing).
 - Alex S. Baldwin (on request): photo replaced with the portrait from his own McGill page (old one was a different person). Map position unchanged.
 - Alexander Schütz (on request): profile broadened beyond the five most recent papers; added three representative papers found via Crossref/OpenAlex (Schütz et al. 2008 Nat Neurosci, smooth pursuit sensitivity; Schütz et al. 2012 PNAS, salience and value; Schütz et al. 2011 J Vis, eye movements and perception review). AI summary rewritten to cover the earlier eye-movement work as well as recent metacognition work. Map position unchanged; a larger publication window in the map itself is not implemented.
 - Andrea Facoetti (on request): AI summary replaced with the lab profile Dr. Facoetti sent (attention and perception in learning and neurodevelopment, dyslexia, autism, AVG training).

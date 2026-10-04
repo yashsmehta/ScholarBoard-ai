@@ -1,4 +1,8 @@
 {
+  "0007": {
+    "name": "Adam Reeves",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); his data is ground truth."
+  },
   "0023": {
     "name": "Alex S. Baldwin",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
@@ -187,6 +191,10 @@
     "name": "Stephen Engel",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
+  "0635": {
+    "name": "Stephen Heinen",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); his data is ground truth."
+  },
   "0660": {
     "name": "Thomas B. Christophel",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
@@ -225,7 +233,7 @@
   },
   "E180": {
     "name": "Paul Bays",
-    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); data is ground truth."
   },
   "E181": {
     "name": "Wei Ji Ma",
@@ -254,6 +262,10 @@
   "E300": {
     "name": "Marla Feller",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
+  "E344": {
+    "name": "Carly Leonard",
+    "reason": "Topic area changed at the PI's request (see CHANGELOG)."
   },
   "E360": {
     "name": "Adrian Staub",

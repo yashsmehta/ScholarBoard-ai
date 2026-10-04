@@ -2,19 +2,44 @@
   "0689": {
     "name": "Ward van der Tempel",
     "primary": "Eye Movements",
-    "secondary": ["3D Perception"],
+    "secondary": [
+      "3D Perception"
+    ],
     "reason": "Builds eye-tracking hardware for XR (Dual Purkinje Image tracking); classifier kept picking 3D Perception from the '3D sensing' company description."
   },
   "0104": {
     "name": "Carlos Ponce",
     "primary": "Theory & Computation",
-    "secondary": ["Motion", "Eye Movements"],
+    "secondary": [
+      "Motion",
+      "Eye Movements"
+    ],
     "reason": "At his request: not tagged Object Recognition; prefers a general 'visual information processing' framing. Motion + Eye Movements from his own lab summary."
   },
   "E281": {
     "name": "Elizabeth Spelke",
     "primary": "Development",
-    "secondary": ["Object Recognition"],
+    "secondary": [
+      "Object Recognition"
+    ],
     "reason": "At her request: social-cognition work belongs to Ashley Thomas, so no Social Perception tag; current directions are core knowledge, cognitive assessment and math learning."
+  },
+  "E344": {
+    "name": "Carly Leonard",
+    "primary": "Attention",
+    "secondary": [
+      "Eye Movements",
+      "Visual Search"
+    ],
+    "reason": "Requested by the PI: Attention replaces Perceptual Organization as primary topic area."
+  },
+  "0301": {
+    "name": "Jeremy B Wilmer",
+    "primary": "Perceptual Organization",
+    "secondary": [
+      "Decision Making",
+      "Attention"
+    ],
+    "reason": "Requested by the PI."
   }
 }

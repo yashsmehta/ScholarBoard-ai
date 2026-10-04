@@ -10684,20 +10684,20 @@
   "card": "visual working memory (VWM); continuous analogue report; neural resource models; Bayesian efficient coding; sensory attenuation; feature binding; neural population coding; normalization model of resource allocation; size-weight illusion; attractor dynamics"
  },
  "E181": {
-  "hash": "ca770adf7d725a29",
+  "hash": "5db6f6c07e1ca30c",
   "keywords": [
    "probabilistic population codes",
+   "variable-precision model",
+   "resource rationality",
    "Bayesian ideal-observer models",
-   "resource-based visual working memory",
-   "encoding precision",
-   "resource-rational planning",
+   "point estimate observers",
+   "sensory uncertainty",
+   "delayed estimation",
    "multi-step planning",
-   "backward reasoning",
-   "sequential decision-making",
    "efficient coding of reward",
-   "visual search"
+   "search in visual working memory"
   ],
-  "card": "probabilistic population codes; Bayesian ideal-observer models; resource-based visual working memory; encoding precision; resource-rational planning; multi-step planning; backward reasoning; sequential decision-making; efficient coding of reward; visual search"
+  "card": "probabilistic population codes; variable-precision model; resource rationality; Bayesian ideal-observer models; point estimate observers; sensory uncertainty; delayed estimation; multi-step planning; efficient coding of reward; search in visual working memory"
  },
  "E186": {
   "hash": "015e71aa7a727b3a",
@@ -12778,22 +12778,6 @@
   ],
   "card": "inattentional blindness; event-based warping; aphantasia; residual visual sensitivity; visual-object vs. spatial imagery; model-based self-simulation; perceived time distortion; cognitive penetration; perception-cognition boundary; visual adaptation"
  },
- "E381": {
-  "hash": "8b29752846ef78d4",
-  "keywords": [
-   "proto-object saliency",
-   "visual selective attention",
-   "saliency-guided object detection",
-   "saliency-informed gating",
-   "eye tracking in decision making",
-   "multi-attribute choice",
-   "leaky competing accumulator",
-   "phase-amplitude coupling",
-   "neural oscillations",
-   "hierarchical dynamical neural networks"
-  ],
-  "card": "proto-object saliency; visual selective attention; saliency-guided object detection; saliency-informed gating; eye tracking in decision making; multi-attribute choice; leaky competing accumulator; phase-amplitude coupling; neural oscillations; hierarchical dynamical neural networks"
- },
  "E382": {
   "hash": "1e05db8b99686740",
   "keywords": [
@@ -12809,22 +12793,6 @@
    "population dynamics"
   ],
   "card": "perceptual decision-making; visual confidence; metacognition; lateral intraparietal area (LIP); evidence accumulation; visual-vestibular integration; heading perception; nonhuman primates (macaques); bounded accumulator models; population dynamics"
- },
- "E383": {
-  "hash": "ca499431eea28ddf",
-  "keywords": [
-   "supplementary eye field",
-   "pre-supplementary motor area",
-   "anterior insular cortex",
-   "awake macaque single-neuron recording",
-   "multi-attribute decision making",
-   "proactive self-control",
-   "time-resolved multivariate decoding",
-   "late positive potential",
-   "mood representation",
-   "larger-later vs smaller-sooner rewards"
-  ],
-  "card": "supplementary eye field; pre-supplementary motor area; anterior insular cortex; awake macaque single-neuron recording; multi-attribute decision making; proactive self-control; time-resolved multivariate decoding; late positive potential; mood representation; larger-later vs smaller-sooner rewards"
  },
  "E384": {
   "hash": "1064a8e1f27974f3",
@@ -12857,22 +12825,6 @@
    "homeostatic synaptic plasticity"
   ],
   "card": "cross-modal plasticity; sliding-threshold metaplasticity; low-intensity focused ultrasound; thalamocortical long-term depression; somatostatin interneurons; two-photon calcium imaging; cFos-TRAP2; visual deprivation; dorsal lateral geniculate nucleus (dLGN); homeostatic synaptic plasticity"
- },
- "E386": {
-  "hash": "4c2e1325d8dc00f2",
-  "keywords": [
-   "ocular dominance plasticity",
-   "monocular deprivation",
-   "excitation-inhibition balance",
-   "synaptic eligibility traces",
-   "GluN2B-containing NMDA receptors",
-   "homeostatic plasticity",
-   "slice electrophysiology",
-   "circadian E/I oscillations",
-   "fast-spiking interneurons",
-   "neuronal pentraxin 2"
-  ],
-  "card": "ocular dominance plasticity; monocular deprivation; excitation-inhibition balance; synaptic eligibility traces; GluN2B-containing NMDA receptors; homeostatic plasticity; slice electrophysiology; circadian E/I oscillations; fast-spiking interneurons; neuronal pentraxin 2"
  },
  "E387": {
   "hash": "26208ccd94406b98",

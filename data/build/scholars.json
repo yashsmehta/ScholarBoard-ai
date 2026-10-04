@@ -45949,8 +45949,8 @@
     ],
     "profile_pic": "nancy_kanwisher_0493.jpg",
     "umap_projection": {
-      "x": 6.386118412017822,
-      "y": 7.385662078857422
+      "x": 6.416323184967041,
+      "y": 7.346538066864014
     },
     "cluster": 0,
     "total_citations": 83449,
@@ -60496,10 +60496,6 @@
         "score": 0.8615
       },
       {
-        "id": "E181",
-        "score": 0.859
-      },
-      {
         "id": "0730",
         "score": 0.8543
       },
@@ -60514,6 +60510,10 @@
       {
         "id": "0282",
         "score": 0.8524
+      },
+      {
+        "id": "0391",
+        "score": 0.8509
       }
     ]
   },
@@ -64744,16 +64744,16 @@
         "score": 0.9072
       },
       {
+        "id": "E181",
+        "score": 0.9068
+      },
+      {
         "id": "0465",
         "score": 0.9068
       },
       {
         "id": "E247",
         "score": 0.9056
-      },
-      {
-        "id": "E026",
-        "score": 0.905
       }
     ]
   },
@@ -78204,6 +78204,10 @@
         "score": 0.9357
       },
       {
+        "id": "E181",
+        "score": 0.9325
+      },
+      {
         "id": "0239",
         "score": 0.9274
       },
@@ -78234,10 +78238,6 @@
       {
         "id": "0465",
         "score": 0.9222
-      },
-      {
-        "id": "0524",
-        "score": 0.9177
       }
     ]
   },
@@ -78254,33 +78254,6 @@
     "research_direction": "Dr. Ma's work centers on how the brain represents and uses uncertainty, with visual perception and visual working memory as the main testbeds. They introduced probabilistic population codes, a proposal for how neural populations can carry probability distributions so that Bayesian inference is neurally implementable, and have tested Bayesian ideal-observer models against human behavior in tasks such as visual search, and against neural data from visual cortex. A second theme is resource-based accounts of visual working memory, in which variability in encoding precision, rather than a fixed number of slots, limits memory, and, more recently, the neural mechanisms by which limited memory resources are allocated across items. A third theme is confidence and attention-dependent uncertainty, where observers appear to incorporate the reliability of their own sensory evidence into decisions. More recently their group has extended this normative approach to higher-level cognition, including human planning, temporal discounting and procrastination, and to how dopaminergic neurons encode reward.",
     "papers": [
       {
-        "title": "Environmental stochasticity reduces human planning effort",
-        "abstract": "Participants planned in tasks where outcomes of actions were either deterministic or partly random. Behavior and modeling showed that when the environment is stochastic, people invest less planning effort, because deep look-ahead is less valuable when the future is uncertain. The results tie resource-rational accounts of planning to the amount of uncertainty in the world.",
-        "year": "2026",
-        "venue": "Nature Communications",
-        "citations": "0",
-        "authors": "Jordan Lei, Jeroen Olieslagers, Nastaran Arfaei, Daisy Xinlei Lin, Wei Ji Ma",
-        "url": "https://doi.org/10.1038/s41467-026-78023-9"
-      },
-      {
-        "title": "A computational model of backward reasoning in human problem solving",
-        "abstract": "The authors model how people solve problems by reasoning backward from a goal, decomposing it into subgoals as in AND/OR trees, rather than only searching forward. The model captures human choices and search patterns in a behavioral task. It extends the lab's work on planning to problem solving and goal pursuit.",
-        "year": "2026",
-        "venue": "Computational Brain & Behavior",
-        "citations": "0",
-        "authors": "Jeroen Olieslagers, Zahy Bnaya, Daisy Xinlei Lin, Wei Ji Ma",
-        "url": "https://doi.org/10.1007/s42113-026-00335-2"
-      },
-      {
-        "title": "Decision reversals in sequential decision-making",
-        "abstract": "The study examines when and why people reverse an earlier decision partway through a sequence of choices. Behavioral experiments and computational models are used to characterize the conditions that produce reversals and what they reveal about how people plan and update. It adds to the lab's account of sequential decision-making beyond single-shot planning.",
-        "year": "2026",
-        "venue": "Communications Psychology",
-        "citations": "0",
-        "authors": "Sherry Dongqi Bao, Dongjae Kim, Qi Xiu Fu, Wei Ji Ma",
-        "url": "https://doi.org/10.1038/s44271-026-00496-7"
-      },
-      {
         "title": "Reward prediction error neurons implement an efficient code for reward",
         "abstract": "The paper proposes that dopamine reward prediction error neurons are tuned to encode reward in an efficient way, with response functions matched to the distribution of rewards the animal experiences. Using this efficient-coding framework, the authors reproduce features of the diversity of dopamine neuron responses and show the account agrees with recorded data. It links a normative theory of neural coding to reinforcement-learning signals.",
         "year": "2024",
@@ -78290,13 +78263,40 @@
         "url": "https://doi.org/10.1038/s41593-024-01671-x"
       },
       {
-        "title": "Expertise increases planning depth in human gameplay",
-        "abstract": "The authors collected a large set of moves from people of different skill levels playing a simple board game (four-in-a-row) and fit a resource-rational planning model to the choices. Stronger players were best explained by a model that searches deeper and considers more candidate moves, while also evaluating positions more accurately. The work gives a mechanistic account of how expertise changes the computations behind multi-step planning.",
+        "title": "Challenging the fixed-criterion model of perceptual decision-making",
+        "abstract": "Argues mathematically that earlier findings taken as evidence for a fixed decision criterion (the account of 'subjective inflation' in the visual periphery or at unattended locations) are equally consistent with a criterion that adjusts to sensory uncertainty. The authors lay out the task properties needed to tell the two apart and conclude that the fixed-criterion account is poorly tenable.",
         "year": "2023",
-        "venue": "Nature",
-        "citations": "61",
-        "authors": "Bas van Opheusden, Ionatan Kuperwajs, Gianni Galbiati, Zahy Bnaya, Yunqi Li, Wei Ji Ma",
-        "url": "https://doi.org/10.1038/s41586-023-06124-2"
+        "venue": "Neuroscience of Consciousness",
+        "citations": "12",
+        "authors": "Jennifer Laura Lee, Rachel N. Denison, Wei Ji Ma",
+        "url": "https://doi.org/10.1093/nc/niad010"
+      },
+      {
+        "title": "Point estimate observers: A new class of models for perceptual decision making",
+        "abstract": "Introduces observer models that evaluate only a single best estimate of the world state per response category, instead of full Bayesian posteriors. Compared against human decisions in five perceptual categorization tasks, the point estimate observer beats the Bayesian observer in two, ties in two and loses in one, and is competitive with sampling observers.",
+        "year": "2023",
+        "venue": "Psychological Review",
+        "citations": "1",
+        "authors": "Heiko H. Schütt, Aspen H. Yoo, Joshua Michael Calder-Travis, Wei Ji Ma",
+        "url": "https://doi.org/10.1037/rev0000402"
+      },
+      {
+        "title": "No effect of monetary reward in a visual working memory task",
+        "abstract": "Tests whether people can raise the total visual working memory resource they devote to a task when paid more. In three delayed-estimation experiments with bonus payments of $0 to $10, between and within subjects, neither performance nor intrinsic motivation depended on reward, with implications for resource-rational theories of visual working memory.",
+        "year": "2023",
+        "venue": "PLoS ONE",
+        "citations": "13",
+        "authors": "Ronald van den Berg, Qijia Zou, Yuhang Li, Wei Ji Ma",
+        "url": "https://doi.org/10.1371/journal.pone.0280257"
+      },
+      {
+        "title": "A Computational Approach to Search in Visual Working Memory",
+        "abstract": "Asks whether process models from visual working memory and visual search also explain search in memory. In a two-alternative color localization task varying set size and color similarity, a variable-precision model with a Bayesian decision stage fit well and an item limit did not help; a resource-rational model did not beat it. Search in working memory resembles search in perception.",
+        "year": "2023",
+        "venue": "PsyArXiv (preprint)",
+        "citations": "0",
+        "authors": "Aditi Singh, Andra Mihali, Wen-Chuang Chou, Wei Ji Ma",
+        "url": "https://doi.org/10.31234/osf.io/jqthb"
       }
     ],
     "primary_subfield": "Theory & Computation",
@@ -78316,8 +78316,8 @@
     ],
     "profile_pic": "wei_ji_ma_E181.jpg",
     "umap_projection": {
-      "x": 8.316288948059082,
-      "y": 5.789738178253174
+      "x": 8.389781951904297,
+      "y": 5.898800849914551
     },
     "cluster": 0,
     "total_citations": 17785,
@@ -78325,43 +78325,43 @@
     "similar": [
       {
         "id": "E180",
-        "score": 0.9106
-      },
-      {
-        "id": "E247",
-        "score": 0.9089
-      },
-      {
-        "id": "E253",
-        "score": 0.9019
-      },
-      {
-        "id": "0017",
-        "score": 0.8971
-      },
-      {
-        "id": "E198",
-        "score": 0.896
-      },
-      {
-        "id": "0703",
-        "score": 0.895
+        "score": 0.9325
       },
       {
         "id": "0524",
-        "score": 0.8946
+        "score": 0.9182
       },
       {
-        "id": "E251",
-        "score": 0.891
+        "id": "E247",
+        "score": 0.9154
+      },
+      {
+        "id": "0592",
+        "score": 0.9151
+      },
+      {
+        "id": "E198",
+        "score": 0.9107
+      },
+      {
+        "id": "0017",
+        "score": 0.9083
+      },
+      {
+        "id": "0703",
+        "score": 0.9068
+      },
+      {
+        "id": "0465",
+        "score": 0.9066
+      },
+      {
+        "id": "0239",
+        "score": 0.9056
       },
       {
         "id": "0264",
-        "score": 0.8904
-      },
-      {
-        "id": "0554",
-        "score": 0.8878
+        "score": 0.9047
       }
     ]
   },
@@ -79072,12 +79072,12 @@
         "score": 0.9121
       },
       {
-        "id": "E247",
-        "score": 0.9106
+        "id": "E181",
+        "score": 0.9107
       },
       {
-        "id": "0362",
-        "score": 0.9103
+        "id": "E247",
+        "score": 0.9106
       }
     ]
   },
@@ -82133,6 +82133,10 @@
         "score": 0.916
       },
       {
+        "id": "E181",
+        "score": 0.9154
+      },
+      {
         "id": "0465",
         "score": 0.9138
       },
@@ -82151,10 +82155,6 @@
       {
         "id": "0181",
         "score": 0.909
-      },
-      {
-        "id": "E181",
-        "score": 0.9089
       },
       {
         "id": "0451",
@@ -82381,6 +82381,10 @@
         "score": 0.8951
       },
       {
+        "id": "E181",
+        "score": 0.895
+      },
+      {
         "id": "E180",
         "score": 0.8943
       },
@@ -82395,10 +82399,6 @@
       {
         "id": "0101",
         "score": 0.8912
-      },
-      {
-        "id": "E181",
-        "score": 0.891
       },
       {
         "id": "0580",
@@ -82605,10 +82605,6 @@
     "h_index": 32,
     "similar": [
       {
-        "id": "E181",
-        "score": 0.9019
-      },
-      {
         "id": "E180",
         "score": 0.901
       },
@@ -82631,6 +82627,10 @@
       {
         "id": "E255",
         "score": 0.8888
+      },
+      {
+        "id": "E181",
+        "score": 0.886
       },
       {
         "id": "E158",

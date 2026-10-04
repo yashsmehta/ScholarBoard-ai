@@ -30253,12 +30253,12 @@
         "score": 0.8889
       },
       {
-        "id": "E381",
-        "score": 0.8879
-      },
-      {
         "id": "0344",
         "score": 0.8874
+      },
+      {
+        "id": "0394",
+        "score": 0.886
       }
     ]
   },
@@ -93617,130 +93617,6 @@
       {
         "id": "0535",
         "score": 0.8754
-      }
-    ]
-  },
-  "E381": {
-    "id": "E381",
-    "name": "Ernst Niebur",
-    "institution": "Johns Hopkins University",
-    "country": "United States",
-    "department": "Department of Neuroscience (School of Medicine); Department of Psychological and Brain Sciences (Krieger School of Arts and Sciences); Zanvyl Krieger Mind/Brain Institute",
-    "lab_name": "Computational Neuroscience Laboratory",
-    "lab_url": "https://sites.krieger.jhu.edu/cns/",
-    "main_research_area": "Computational models of visual attention",
-    "bio": "Niebur builds quantitative models of neural systems that are grounded in neurophysiology, anatomy and behavior, with a focus on visual selective attention. Their work includes saliency models based on proto-objects, and the use of such models to guide computation in artificial vision systems. They also study how overt attention, measured through eye movements, shapes the formation of preferences in multi-attribute decisions, and develop methods for analyzing neural oscillations and models of hierarchical neural network dynamics.",
-    "research_direction": "Dr. Niebur has recently been studying how attention can be modeled and used, both in people and in artificial vision systems. Their recent work explores how eye movements reveal which options and attributes people attend to while forming preferences between complex lotteries, and compares decision models that take the gaze sequence as input. In parallel, they investigate whether a biologically motivated proto-object saliency model can steer object detectors and gate or prune convolutional networks to reduce computation. They have also been developing a measure of phase-amplitude coupling for neural recordings and a theoretical hierarchical, modular dynamical neural network model.",
-    "papers": [
-      {
-        "title": "Salient Region Proposals for Object Detection",
-        "abstract": "Two-stage object detectors evaluate a very large number of candidate anchors across the image. This work uses a proto-object-based saliency model to choose which anchors a Faster R-CNN evaluates, so computation concentrates on likely informative regions. On MS COCO and PASCAL VOC the saliency-guided selection halves the anchor count with little accuracy loss and stays competitive even when about 95% of anchors are removed.",
-        "year": "2026",
-        "venue": "Proceedings of the International Conference on Neuromorphic Systems",
-        "citations": "1",
-        "authors": "Kenneth San, Akwasi Akwaboah, Aaron Sampson, Shira Goldhaber-Gordon, Ralph Etienne-Cummings, Andreas Andreou, Stefan Mihalas, Ernst Niebur",
-        "url": "https://doi.org/10.1145/3822454.3822480"
-      },
-      {
-        "title": "Saliency-Informed Sparsity For Gating Deep Convolutional Feature Space",
-        "abstract": "The paper replaces random dropout in convolutional networks with a saliency-informed dropout that gates feature maps in a retinotopic, hierarchical fashion, and combines it with iterative magnitude pruning. Variants differ in how the saliency map is used for dropping, whether dropout is applied in all layers or only early ones, and whether it is also applied at inference. Results on a ResNet trained on Imagenette are compared with standard random dropout to find where dynamic and static sparsity interact best.",
-        "year": "2026",
-        "venue": "Proceedings of the International Conference on Neuromorphic Systems",
-        "citations": "1",
-        "authors": "Shira Goldhaber-Gordon, Akwasi Akwaboah, Aaron Sampson, Ralph Etienne-Cummings, Andreas Andreou, Stefan Mihalas, Ernst Niebur",
-        "url": "https://doi.org/10.1145/3822454.3822479"
-      },
-      {
-        "title": "Relaxing in Warped Spaces: Generalized Hierarchical and Modular Dynamical Neural Network",
-        "abstract": "A hierarchical, modular dynamical network is derived from an energy function involving two neuron types with very different time constants. In a learning mode, periodic inputs resembling neuronal bursting shape mappings between subspaces, in the manner of Lissajous curves. In an association mode, state variables relax within warped spaces, and the analysis suggests a trade-off between how well an input trajectory and an output trajectory can each be specified.",
-        "year": "2026",
-        "venue": "arXiv",
-        "citations": "0",
-        "authors": "Kazuyoshi TSUTSUMI, Ernst Niebur",
-        "url": "https://doi.org/10.48550/arxiv.2604.10606"
-      },
-      {
-        "title": "Overt Visual Attention in the Formation of Preference Between Complex Lottery Options",
-        "abstract": "The study asks how people form preferences between multi-attribute lottery options, using eye tracking to determine which information is attended and when. Individual participants' choices were compared against several decision models of varying complexity that take the observed gaze sequence as input. A two-layer leaky competing accumulator based on prospect theory best explained simple tasks, while a new operations-research-based model did best for complex ones. The results point to attention-guided pairwise comparisons within attributes as the main route to preference in complex choices.",
-        "year": "2025",
-        "venue": "Computational Brain & Behavior",
-        "citations": "1",
-        "authors": "Xinhao Fan, Jacob Elsey, Aurelien Wyngaard, Aaron L. Sampson, You-Ping Yang, Erik E. Emeric, Moshe Glickman, Marius Usher, Dino Levy, Veit Stuphorn, Ernst Niebur",
-        "url": "https://doi.org/10.1007/s42113-025-00239-7"
-      },
-      {
-        "title": "Quantifying Phase- Amplitude Modulation in Neural Data",
-        "abstract": "Phase-amplitude coupling, where the phase of a slow oscillation modulates the amplitude of faster activity, is widely reported in neural recordings. Existing measures test deviation from a uniform amplitude distribution and are not tuned to the sinusoidal modulation pattern commonly seen. The authors develop a measure with higher sensitivity to that pattern.",
-        "year": "2023",
-        "venue": "2023 57th Annual Conference on Information Sciences and Systems (CISS)",
-        "citations": "0",
-        "authors": "Victoria Subritzky-Katz, Aaron L. Sampson, Erik Emeric, Witold Lipski, Sophia Moreira-González, Jorge González-Martínez, Sridevi Sarma, Veit Stuphorn, Ernst Niebur",
-        "url": "https://doi.org/10.1109/ciss56502.2023.10089691"
-      }
-    ],
-    "primary_subfield": "Attention",
-    "subfields": [
-      {
-        "subfield": "Attention",
-        "score": 1.0
-      },
-      {
-        "subfield": "Decision Making",
-        "score": 0.5
-      },
-      {
-        "subfield": "Theory & Computation",
-        "score": 0.5
-      }
-    ],
-    "profile_pic": "ernst_niebur_E381.jpg",
-    "umap_projection": {
-      "x": 4.485706329345703,
-      "y": 7.695446968078613
-    },
-    "cluster": 0,
-    "total_citations": 27444,
-    "h_index": 44,
-    "similar": [
-      {
-        "id": "E013",
-        "score": 0.8974
-      },
-      {
-        "id": "E064",
-        "score": 0.8948
-      },
-      {
-        "id": "0473",
-        "score": 0.8944
-      },
-      {
-        "id": "E044",
-        "score": 0.8903
-      },
-      {
-        "id": "0235",
-        "score": 0.8882
-      },
-      {
-        "id": "0324",
-        "score": 0.8879
-      },
-      {
-        "id": "0101",
-        "score": 0.8863
-      },
-      {
-        "id": "0285",
-        "score": 0.885
-      },
-      {
-        "id": "0510",
-        "score": 0.8845
-      },
-      {
-        "id": "0244",
-        "score": 0.8828
       }
     ]
   },

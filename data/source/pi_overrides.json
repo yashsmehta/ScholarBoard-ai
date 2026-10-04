@@ -38,5 +38,10 @@
     "name": "Alfredo Kirkwood",
     "is_pi": false,
     "reason": "Removed from the map (2026-10-03): research mainly outside vision science."
+  },
+  "E381": {
+    "name": "Ernst Niebur",
+    "is_pi": false,
+    "reason": "Removed from the map (2026-10-03)."
   }
 }

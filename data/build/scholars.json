@@ -84151,8 +84151,8 @@
         "score": 0.8827
       },
       {
-        "id": "E386",
-        "score": 0.8826
+        "id": "0529",
+        "score": 0.8808
       }
     ]
   },
@@ -93868,126 +93868,6 @@
       }
     ]
   },
-  "E383": {
-    "id": "E383",
-    "name": "Veit Stuphorn",
-    "institution": "Johns Hopkins University",
-    "country": "United States",
-    "department": "Department of Psychological & Brain Sciences; Zanvyl Krieger Mind/Brain Institute; Neuroscience (School of Medicine)",
-    "lab_name": "Veit Stuphorn Laboratory",
-    "lab_url": "https://www.hopkinsmedicine.org/research/labs/v/veit-stuphorn-laboratory",
-    "main_research_area": "Neural basis of decision making",
-    "bio": "Stuphorn studies the neural mechanisms of value-based decision making and self-control, mainly by recording single neurons in awake macaques and comparing the results with human behavior and EEG. Their work centers on medial frontal areas, including the supplementary eye field and pre-supplementary motor area, and on anterior insular cortex. Questions include how attention to options and attributes shapes the accumulation of value information, how proactive control signals predict yielding to temptation, and how the brain represents mood after gains and losses. Methods combine neurophysiology, behavioral modeling, and human EEG with time-resolved decoding.",
-    "research_direction": "Dr. Stuphorn has recently been investigating how the primate brain turns options into choices and how it resists temptation. Their recent work explores how attention to individual options and attributes modulates value-related activity in frontal cortex during complex, multi-attribute decisions, using single-neuron recordings in monkeys. They are also studying self-control, asking whether supplementary eye field neurons and pre-choice human EEG signals predict whether someone yields to a smaller-sooner reward, and whether those states are set before the first choice. A further thread asks how experiences of gains and losses are integrated into a mood signal in anterior insular cortex, using a model fit to human happiness reports and applied to monkey neurons. They have also written commentary on neural mechanisms of timing in cooperative action.",
-    "papers": [
-      {
-        "title": "Neural Dynamics of Self-Control: Pre-Choice EEG Signals Predict Yielding to Temptation",
-        "abstract": "Twenty-six participants performed an effort-based task with larger-later and smaller-sooner rewards, in which they could keep or switch their initial commitment, while 32-channel EEG was recorded. Switching toward the smaller-sooner option was frequent. The late positive potential before the first choice distinguished stay from switch trials, and time-resolved multivariate decoding separated them from about 300 ms after option onset. The authors conclude that a bias toward yielding is set before the initial choice, and that the EEG activity preceding switches reflects reward anticipation rather than a self-control signal.",
-        "year": "2026",
-        "venue": "bioRxiv",
-        "citations": "0",
-        "authors": "Alisa Weng Leong, Veit Stuphorn",
-        "url": "https://doi.org/10.64898/2026.09.15.751887"
-      },
-      {
-        "title": "Decide when to cooperate",
-        "abstract": "A preview commentary in Neuron on a study showing that activity in dorsomedial frontal cortex accumulates socially relevant visual information to guide the timing of actions coordinated with a partner. It frames this as a mechanism for synchronizing actions in social cooperation.",
-        "year": "2026",
-        "venue": "Neuron",
-        "citations": "0",
-        "authors": "Veit Stuphorn",
-        "url": "https://doi.org/10.1016/j.neuron.2026.06.009"
-      },
-      {
-        "title": "The role of attention in multi attribute decision making",
-        "abstract": "Monkeys made choices among options that each carried several value-relevant attributes while their attention was tracked, and the authors recorded neurons in pre-supplementary motor area. Attention raised the activity of neurons representing the option currently being sampled, regardless of its value, without abolishing the representation of the other options. It also increased the gain with which incoming value information is integrated into the attended option's evolving value estimate. The data argue against an account in which only the attended option is represented, and favor parallel accumulation and competition whose input strength is modulated by attention.",
-        "year": "2025",
-        "venue": "Nature Communications",
-        "citations": "6",
-        "authors": "Aaron L. Sampson, You-Ping Yang, Marius Usher, Dino J. Levy, Ernst Niebur, Veit Stuphorn",
-        "url": "https://doi.org/10.1038/s41467-025-66579-x"
-      },
-      {
-        "title": "The representation of mood in primate anterior insular cortex",
-        "abstract": "The authors built a mood model that predicts fluctuations in human self-reported happiness across wins and losses in a gambling task. They then applied the same operationalization to two monkeys performing the same task. Persistent responses of units in anterior insular cortex matched the model's signatures, including its timescale of integration over events, whereas dorsolateral prefrontal cortex reflected them only weakly. The results fit a recurrent excitatory-inhibitory network that integrates experiences into mood.",
-        "year": "2025",
-        "venue": "bioRxiv",
-        "citations": "3",
-        "authors": "Nicole C Rust, You-Ping C Yang, Catrina M Hacker, Veit Stuphorn",
-        "url": "https://doi.org/10.1101/2025.04.22.650010"
-      },
-      {
-        "title": "Neural basis of self-control",
-        "abstract": "Using a task for monkeys designed to separate states of high and low self-control from ordinary value-based choice, the study recorded from the supplementary eye field. Neurons there carried signals related to self-control and predicted whether, and when, the animals gave in to temptation. This activity appeared early in the trial, even before the choice options were shown. The authors interpret this as supplementary eye field contributing to a circuit for proactive self-control that supports pursuit of costly long-term goals.",
-        "year": "2024",
-        "venue": "bioRxiv",
-        "citations": "0",
-        "authors": "Ka Eun Lee, Jacob Elsey, Jaewon Hwang, Erik E. Emeric, Veit Stuphorn",
-        "url": "https://doi.org/10.1101/2024.02.07.578652"
-      }
-    ],
-    "primary_subfield": "Decision Making",
-    "subfields": [
-      {
-        "subfield": "Decision Making",
-        "score": 1.0
-      },
-      {
-        "subfield": "Attention",
-        "score": 0.5
-      }
-    ],
-    "profile_pic": "veit_stuphorn_E383.jpg",
-    "umap_projection": {
-      "x": 5.263861179351807,
-      "y": 4.915292739868164
-    },
-    "cluster": 0,
-    "total_citations": 5617,
-    "h_index": 33,
-    "similar": [
-      {
-        "id": "E252",
-        "score": 0.8845
-      },
-      {
-        "id": "E246",
-        "score": 0.8784
-      },
-      {
-        "id": "E167",
-        "score": 0.8756
-      },
-      {
-        "id": "E187",
-        "score": 0.8742
-      },
-      {
-        "id": "0629",
-        "score": 0.8699
-      },
-      {
-        "id": "E262",
-        "score": 0.8673
-      },
-      {
-        "id": "0568",
-        "score": 0.8654
-      },
-      {
-        "id": "E296",
-        "score": 0.8653
-      },
-      {
-        "id": "E136",
-        "score": 0.8652
-      },
-      {
-        "id": "E382",
-        "score": 0.8648
-      }
-    ]
-  },
   "E384": {
     "id": "E384",
     "name": "Marina Bedny",
@@ -94207,10 +94087,6 @@
         "score": 0.9055
       },
       {
-        "id": "E386",
-        "score": 0.9018
-      },
-      {
         "id": "0100",
         "score": 0.9016
       },
@@ -94229,130 +94105,10 @@
       {
         "id": "0583",
         "score": 0.8968
-      }
-    ]
-  },
-  "E386": {
-    "id": "E386",
-    "name": "Alfredo Kirkwood",
-    "institution": "Johns Hopkins University",
-    "country": "United States",
-    "department": "Zanvyl Krieger Mind/Brain Institute; Solomon H. Snyder Department of Neuroscience (School of Medicine)",
-    "lab_name": "Alfredo Kirkwood Laboratory",
-    "lab_url": "https://www.hopkinsmedicine.org/research/labs/a/alfredo-kirkwood-laboratory",
-    "main_research_area": "Visual cortical synaptic plasticity",
-    "bio": "Kirkwood studies the synaptic mechanisms that allow sensory experience to modify cortical circuits, with a focus on the visual cortex. Their work uses brain-slice electrophysiology and in vivo recordings to examine long-term potentiation and depression, homeostatic plasticity, and ocular dominance plasticity after monocular deprivation. A central theme is how inhibition, the excitation/inhibition balance, and neuromodulators gate when and how synapses change. The lab also studies daily oscillations of excitation and inhibition, and how these mechanisms are altered in aging and in disease models.",
-    "research_direction": "Dr. Kirkwood has recently been studying how synaptic plasticity is regulated in cortical and hippocampal circuits. Their recent work explores how inhibition and the balance of excitation to inhibition set when synapses can potentiate or depress, including how this balance oscillates across the day, reverses with age, and is altered in autism-related mouse models and aged rats. In the visual cortex, they have examined the role of GluN2B-containing NMDA receptors in the changes in synaptic strength that follow monocular deprivation during ocular dominance plasticity. They have also been examining eligibility traces, slowly decaying synaptic tags that link neuromodulator-dependent potentiation and depression to delayed reward, and what they imply for learning rules. Methods centre on slice electrophysiology, in vivo recordings and viral manipulation of interneuron-related proteins.",
-    "papers": [
-      {
-        "title": "Circadian Changes in CA1 LTP Are Driven by Shifts in Excitation–Inhibition Balance and Reverse Direction after Puberty in Mice",
-        "abstract": "Using slice recordings at the CA3-to-CA1 synapse in mice, the study finds that the capacity for LTP does not differ between light and dark phases. Instead, theta-burst LTP tracks daily changes in the synaptic excitation/inhibition ratio, and blocking inhibition or using pairing-induced LTP removes the day-night difference. The oscillation is absent in an Alzheimer's disease model, and it reverses direction between 2 and 8 months of age, higher in the dark phase in young mice and higher in the light phase in older mice.",
-        "year": "2026",
-        "venue": "The Journal of Neuroscience",
-        "citations": "3",
-        "authors": "Gonzalo Valdivia, Cristian Moreno, Kaiwen He, Darwin Contreras, Trinh Tran, Anthony D. Ramnaugh, William Xu, Altagracia Contreras, Diego C. Fernandez, Daniel Severin, Samer Hattar, Michela Gallagher, Alfredo Kirkwood",
-        "url": "https://doi.org/10.1523/jneurosci.2244-25.2026"
       },
       {
-        "title": "Eligibility traces as a synaptic substrate for learning",
-        "abstract": "This review addresses how neural circuits bridge the delay between an action or stimulus and a later reward. It surveys recent experimental evidence for synaptic eligibility traces, slowly decaying synaptic tags that depend on neuromodulators or plateau potentials and can drive plasticity once reward arrives. The authors argue that having both potentiation and depression traces creates a synaptic stopping rule that keeps synapses from saturating and losing selectivity. They also discuss candidate mechanisms and the functional and theoretical implications.",
-        "year": "2025",
-        "venue": "Current Opinion in Neurobiology",
-        "citations": "16",
-        "authors": "Harel Z. Shouval, Alfredo Kirkwood",
-        "url": "https://doi.org/10.1016/j.conb.2025.102978"
-      },
-      {
-        "title": "NPTX2 transfection improves synaptic E/I balance and performance in learning impaired aged rats",
-        "abstract": "In aged rats, learning impairment is linked to weak feedforward inhibition of dentate granule cells driven by lateral entorhinal inputs. Overexpressing neuronal pentraxin 2 (NPTX2) in the lateral entorhinal cortex, which stabilizes excitatory input onto fast-spiking interneurons, strengthens this feedforward inhibition and improves spatial memory in impaired animals. Fast-spiking interneurons in unimpaired aged rats also receive stronger excitatory drive than those in young rats, consistent with a compensatory mechanism that preserves memory performance.",
-        "year": "2025",
-        "venue": "Progress in Neurobiology",
-        "citations": "4",
-        "authors": "Daniel Severin, Ming Teng Koh, Cristian Moreno, Darwin Contreras, Altagracia Contreras, Christian Wesselborg, Michelle Bridi, Jala Atufa, Audrey Branch, Paul Worley, Michela Gallagher, Alfredo Kirkwood",
-        "url": "https://doi.org/10.1016/j.pneurobio.2025.102746"
-      },
-      {
-        "title": "Daily oscillation of the excitation/inhibition ratio is disrupted in two mouse models of autism",
-        "abstract": "Because the cortical excitation/inhibition ratio normally oscillates across the 24-hour day, the authors tested whether its regulation, rather than its average level, is disrupted in Fmr1 KO and BTBR mice. The oscillation is lost in Fmr1 KO mice and reversed in BTBR mice. Both phenotypes coincide with altered timing of excitatory and inhibitory transmission and endocannabinoid signaling, but not with altered sleep, which suggests a mismatch between E/I state and behavioral state.",
-        "year": "2024",
-        "venue": "iScience",
-        "citations": "7",
-        "authors": "Michelle C.D. Bridi, Nancy Luo, Grace Kim, Benjamin J. Menarchek, Rachel A. Lee, Bryan Rodriguez, Daniel Severin, Cristian Moreno, Altagracia Contreras, Christian Wesselborg, Caroline O’Ferrall, Ruchit Patel, Sarah Bertrand, Sujatha Kannan, Alfredo Kirkwood",
-        "url": "https://doi.org/10.1016/j.isci.2024.111494"
-      },
-      {
-        "title": "Blockade of GluN2B-Containing NMDA Receptors Prevents Potentiation and Depression of Responses during Ocular Dominance Plasticity",
-        "abstract": "After monocular deprivation, juvenile mouse visual cortex first loses deprived-eye responses through LTD and later shows a homeostatic increase whose mechanism is debated (synaptic scaling versus a sliding LTP threshold). Selectively blocking GluN2B-containing NMDA receptors prevented the later rise in mEPSC amplitude in slices and in visually evoked responses in vivo, and also blocked the initial decrease. The results favor a role for GluN2B first in LTD and then in sliding the plasticity threshold toward LTP.",
-        "year": "2024",
-        "venue": "The Journal of Neuroscience",
-        "citations": "1",
-        "authors": "Michelle C. D. Bridi, Su Hong, Daniel Severin, Cristian Moreno, Altagracia Contreras, Alfredo Kirkwood",
-        "url": "https://doi.org/10.1523/jneurosci.0021-23.2024"
-      }
-    ],
-    "primary_subfield": "Perceptual Learning & Plasticity",
-    "subfields": [
-      {
-        "subfield": "Perceptual Learning & Plasticity",
-        "score": 1.0
-      },
-      {
-        "subfield": "Development",
-        "score": 0.5
-      },
-      {
-        "subfield": "Theory & Computation",
-        "score": 0.5
-      }
-    ],
-    "profile_pic": "alfredo_kirkwood_E386.jpg",
-    "umap_projection": {
-      "x": 4.629388332366943,
-      "y": 6.339599609375
-    },
-    "cluster": 0,
-    "total_citations": 16272,
-    "h_index": 57,
-    "similar": [
-      {
-        "id": "E385",
-        "score": 0.9018
-      },
-      {
-        "id": "E272",
-        "score": 0.8826
-      },
-      {
-        "id": "E018",
-        "score": 0.8819
-      },
-      {
-        "id": "0053",
-        "score": 0.8803
-      },
-      {
-        "id": "0161",
-        "score": 0.88
-      },
-      {
-        "id": "0717",
-        "score": 0.8776
-      },
-      {
-        "id": "E082",
-        "score": 0.8771
-      },
-      {
-        "id": "0523",
-        "score": 0.8748
-      },
-      {
-        "id": "0603",
-        "score": 0.8677
-      },
-      {
-        "id": "0515",
-        "score": 0.8661
+        "id": "0669",
+        "score": 0.8965
       }
     ]
   },

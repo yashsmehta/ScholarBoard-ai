@@ -5324,6 +5324,10 @@
     "h_index": 6,
     "similar": [
       {
+        "id": "E387",
+        "score": 0.937
+      },
+      {
         "id": "0709",
         "score": 0.9011
       },
@@ -5358,10 +5362,6 @@
       {
         "id": "0634",
         "score": 0.8417
-      },
-      {
-        "id": "0066",
-        "score": 0.8411
       }
     ]
   },
@@ -8692,11 +8692,11 @@
         "score": 0.9157
       },
       {
-        "id": "0378",
-        "score": 0.9152
+        "id": "E384",
+        "score": 0.9153
       },
       {
-        "id": "0331",
+        "id": "0378",
         "score": 0.9152
       }
     ]
@@ -14664,8 +14664,8 @@
         "score": 0.901
       },
       {
-        "id": "0457",
-        "score": 0.8987
+        "id": "E385",
+        "score": 0.8998
       }
     ]
   },
@@ -17349,6 +17349,10 @@
     "h_index": 14,
     "similar": [
       {
+        "id": "E380",
+        "score": 0.8989
+      },
+      {
         "id": "0410",
         "score": 0.8844
       },
@@ -17383,10 +17387,6 @@
       {
         "id": "E081",
         "score": 0.8513
-      },
-      {
-        "id": "0079",
-        "score": 0.8508
       }
     ]
   },
@@ -18293,6 +18293,10 @@
     "h_index": 19,
     "similar": [
       {
+        "id": "E384",
+        "score": 0.9126
+      },
+      {
         "id": "0100",
         "score": 0.9122
       },
@@ -18317,20 +18321,16 @@
         "score": 0.8958
       },
       {
+        "id": "E385",
+        "score": 0.8932
+      },
+      {
         "id": "0298",
         "score": 0.8915
       },
       {
         "id": "0658",
         "score": 0.8866
-      },
-      {
-        "id": "0607",
-        "score": 0.8843
-      },
-      {
-        "id": "0669",
-        "score": 0.8835
       }
     ]
   },
@@ -19705,6 +19705,10 @@
         "score": 0.8405
       },
       {
+        "id": "E387",
+        "score": 0.8278
+      },
+      {
         "id": "0596",
         "score": 0.8244
       },
@@ -19731,10 +19735,6 @@
       {
         "id": "0084",
         "score": 0.819
-      },
-      {
-        "id": "0380",
-        "score": 0.8184
       }
     ]
   },
@@ -30253,12 +30253,12 @@
         "score": 0.8889
       },
       {
-        "id": "0344",
-        "score": 0.8874
+        "id": "E381",
+        "score": 0.8879
       },
       {
-        "id": "0394",
-        "score": 0.886
+        "id": "0344",
+        "score": 0.8874
       }
     ]
   },
@@ -31298,6 +31298,10 @@
     "h_index": 16,
     "similar": [
       {
+        "id": "E380",
+        "score": 0.8954
+      },
+      {
         "id": "E202",
         "score": 0.8899
       },
@@ -31332,10 +31336,6 @@
       {
         "id": "0099",
         "score": 0.8768
-      },
-      {
-        "id": "0448",
-        "score": 0.8754
       }
     ]
   },
@@ -35340,16 +35340,16 @@
         "score": 0.9034
       },
       {
+        "id": "E385",
+        "score": 0.901
+      },
+      {
         "id": "0651",
         "score": 0.9005
       },
       {
         "id": "0587",
         "score": 0.9002
-      },
-      {
-        "id": "0445",
-        "score": 0.8999
       }
     ]
   },
@@ -36858,16 +36858,16 @@
         "score": 0.8782
       },
       {
+        "id": "E380",
+        "score": 0.8782
+      },
+      {
         "id": "0562",
         "score": 0.8746
       },
       {
         "id": "0444",
         "score": 0.8732
-      },
-      {
-        "id": "0448",
-        "score": 0.8724
       }
     ]
   },
@@ -41757,8 +41757,8 @@
         "score": 0.8912
       },
       {
-        "id": "0658",
-        "score": 0.89
+        "id": "E385",
+        "score": 0.8906
       }
     ]
   },
@@ -48273,6 +48273,10 @@
         "score": 0.9144
       },
       {
+        "id": "E384",
+        "score": 0.9102
+      },
+      {
         "id": "0199",
         "score": 0.9093
       },
@@ -48299,10 +48303,6 @@
       {
         "id": "0536",
         "score": 0.9005
-      },
-      {
-        "id": "E232",
-        "score": 0.9002
       }
     ]
   },
@@ -48413,16 +48413,16 @@
         "score": 0.9175
       },
       {
+        "id": "E385",
+        "score": 0.917
+      },
+      {
         "id": "0378",
         "score": 0.9164
       },
       {
         "id": "0587",
         "score": 0.9146
-      },
-      {
-        "id": "0138",
-        "score": 0.914
       }
     ]
   },
@@ -49542,6 +49542,10 @@
         "score": 0.876
       },
       {
+        "id": "E380",
+        "score": 0.8754
+      },
+      {
         "id": "0708",
         "score": 0.8747
       },
@@ -49572,10 +49576,6 @@
       {
         "id": "0477",
         "score": 0.8685
-      },
-      {
-        "id": "0004",
-        "score": 0.8682
       }
     ]
   },
@@ -53928,6 +53928,10 @@
         "score": 0.9076
       },
       {
+        "id": "E385",
+        "score": 0.8968
+      },
+      {
         "id": "0523",
         "score": 0.8957
       },
@@ -53958,10 +53962,6 @@
       {
         "id": "0138",
         "score": 0.8857
-      },
-      {
-        "id": "E307",
-        "score": 0.8848
       }
     ]
   },
@@ -65401,6 +65401,10 @@
         "score": 0.9011
       },
       {
+        "id": "E387",
+        "score": 0.8686
+      },
+      {
         "id": "0229",
         "score": 0.8581
       },
@@ -65427,10 +65431,6 @@
       {
         "id": "0657",
         "score": 0.8443
-      },
-      {
-        "id": "0541",
-        "score": 0.844
       }
     ]
   },
@@ -65504,6 +65504,10 @@
     "h_index": 29,
     "similar": [
       {
+        "id": "E387",
+        "score": 0.8568
+      },
+      {
         "id": "0217",
         "score": 0.8531
       },
@@ -65538,10 +65542,6 @@
       {
         "id": "0066",
         "score": 0.7843
-      },
-      {
-        "id": "E331",
-        "score": 0.7835
       }
     ]
   },
@@ -72536,12 +72536,12 @@
         "score": 0.8903
       },
       {
-        "id": "E056",
-        "score": 0.8893
+        "id": "E385",
+        "score": 0.8894
       },
       {
-        "id": "0603",
-        "score": 0.8892
+        "id": "E056",
+        "score": 0.8893
       }
     ]
   },
@@ -82013,6 +82013,10 @@
         "score": 0.9158
       },
       {
+        "id": "E382",
+        "score": 0.9057
+      },
+      {
         "id": "E136",
         "score": 0.9055
       },
@@ -82035,10 +82039,6 @@
       {
         "id": "E301",
         "score": 0.9018
-      },
-      {
-        "id": "E379",
-        "score": 0.9011
       }
     ]
   },
@@ -82501,6 +82501,10 @@
         "score": 0.9149
       },
       {
+        "id": "E382",
+        "score": 0.9123
+      },
+      {
         "id": "E379",
         "score": 0.9102
       },
@@ -82519,10 +82523,6 @@
       {
         "id": "0518",
         "score": 0.9075
-      },
-      {
-        "id": "E136",
-        "score": 0.9068
       }
     ]
   },
@@ -84119,6 +84119,10 @@
         "score": 0.9117
       },
       {
+        "id": "E385",
+        "score": 0.9111
+      },
+      {
         "id": "0377",
         "score": 0.8966
       },
@@ -84147,12 +84151,8 @@
         "score": 0.8827
       },
       {
-        "id": "0529",
-        "score": 0.8808
-      },
-      {
-        "id": "E018",
-        "score": 0.8776
+        "id": "E386",
+        "score": 0.8826
       }
     ]
   },
@@ -93494,6 +93494,989 @@
       {
         "id": "E297",
         "score": 0.9145
+      }
+    ]
+  },
+  "E380": {
+    "id": "E380",
+    "name": "Ian Phillips",
+    "institution": "Johns Hopkins University",
+    "country": "United States",
+    "department": "William H. Miller III Department of Philosophy; Department of Psychological and Brain Sciences",
+    "lab_url": "https://www.ianbphillips.com/",
+    "main_research_area": "Perception, awareness and cognition",
+    "bio": "Phillips works at the intersection of philosophy and the mind/brain sciences, studying the nature and contents of perception and its relations to memory, imagination and belief. Their experimental work uses large online samples to ask what visual information remains available to observers who report seeing nothing, as in inattentional blindness. They also study how time is represented in perception, including distortions of perceived time within events marked by sound or silence. A further strand concerns mental imagery, in particular the distinction between visual-object and spatial imagery in aphantasia, and the metacognitive knowledge that people draw on when simulating their own decision-making.",
+    "research_direction": "Dr. Phillips has recently been studying what observers can and cannot perceive, and how the mind represents experience, by combining philosophical analysis with large online behavioral experiments. Their recent work tests whether people who deny noticing a stimulus in inattentional blindness still carry above-chance information about its location, color and shape, and whether their reports reflect response bias. They also ask whether events structure perceived time in the way objects structure perceived space, using sound- and silence-defined events. In addition, they explore the purpose of perception and the border between perception and cognition, the structure of mental imagery in aphantasia, and the metacognitive self-models people draw on when pretending not to know something.",
+    "papers": [
+      {
+        "title": "Pretending Not to Know Reveals a Capacity for Model-Based Self-Simulation",
+        "abstract": "Adults (N = 1,001) saw the solution to a game (Battleship or Hangman) and then tried to play as if they did not know it, so that their simulated play could be compared with genuine play. Pretenders matched the number of guesses needed and subtler patterns such as how decision time tracks uncertainty, and other people could not detect the pretense. Statistics and computational modeling nonetheless showed signs of overacting, pointing to a simplified internal model of one's own decision-making.",
+        "year": "2026",
+        "venue": "Psychological Science",
+        "citations": "4",
+        "authors": "Matan Mazor, Chaz Firestone, Ian Phillips",
+        "url": "https://doi.org/10.1177/09567976251409747"
+      },
+      {
+        "title": "Sensitivity to visual features in inattentional blindness",
+        "abstract": "Inattentional blindness is usually inferred from observers saying they noticed nothing unusual, a measure open to response bias. In the largest set of such studies to date, observers who denied noticing a stimulus still reported its location, color and shape better than chance. Adding trials with no stimulus showed that observers as a group are biased toward saying they saw nothing. The results indicate residual visual sensitivity in inattentional blindness and weaken its use as evidence that awareness requires attention.",
+        "year": "2025",
+        "venue": "eLife",
+        "citations": "15",
+        "authors": "Makaela Nartker, Chaz Firestone, Howard Egeth, Ian Phillips",
+        "url": "https://doi.org/10.7554/elife.100337.3"
+      },
+      {
+        "title": "Aphantasia reimagined",
+        "abstract": "People who report no visual imagery often perform normally on tasks that seem to need it, which has been explained by reporting quirks, faulty introspection, unconscious imagery or alternative strategies. The paper argues that the puzzle comes from treating imagery variation as a single vividness scale. It proposes separating visual-object imagery from spatial imagery, so that aphantasia reflects loss of the former with spatial imagery spared and unreported on vividness questionnaires. Aphantasia is then treated like agnosia, a label for several imagery deficits with different sparing.",
+        "year": "2025",
+        "venue": "Noûs",
+        "citations": "19",
+        "authors": "Ian Phillips",
+        "url": "https://doi.org/10.1111/nous.12551"
+      },
+      {
+        "title": "Event-based warping: A relative distortion of time within events.",
+        "abstract": "Objects are known to warp perceived space, so that points inside an object look farther apart than points in empty space. Five experiments (N = 500) show an analogous effect in time: stimuli presented within an event seem further apart in time. The effect arises for events defined by sound and by silence, is not explained by surprise, distraction or attentional cueing, and also appears across modalities from audition to vision. The authors propose that structured representations in both space and time produce similar relative perceptual distortions.",
+        "year": "2025",
+        "venue": "Journal of Experimental Psychology: General",
+        "citations": "5",
+        "authors": "Rui Zhe Goh, Hanbei Zhou, Chaz Firestone, Ian Phillips",
+        "url": "https://doi.org/10.1037/xge0001798"
+      },
+      {
+        "title": "Visual adaptation and the purpose of perception",
+        "abstract": "Examines Ned Block's attempt to separate perception from cognition by appealing to what perception is for. The authors critically assess these proposals, using visual adaptation as a test case. More broadly, they look at how vision science explains perceptual mechanisms by their evolved purpose, as in two-visual-systems theories and debates over cognitive penetration, and at the strengths and pitfalls of asking what perception is for.",
+        "year": "2023",
+        "venue": "Analysis",
+        "citations": "25",
+        "authors": "Ian Phillips, Chaz Firestone",
+        "url": "https://doi.org/10.1093/analys/anac060"
+      }
+    ],
+    "primary_subfield": "Attention",
+    "subfields": [
+      {
+        "subfield": "Attention",
+        "score": 1.0
+      },
+      {
+        "subfield": "Temporal Processing",
+        "score": 0.5
+      },
+      {
+        "subfield": "Decision Making",
+        "score": 0.5
+      }
+    ],
+    "profile_pic": "ian_phillips_E380.jpg",
+    "umap_projection": {
+      "x": 10.066583633422852,
+      "y": 4.3737473487854
+    },
+    "cluster": 0,
+    "total_citations": 2656,
+    "h_index": 28,
+    "similar": [
+      {
+        "id": "0188",
+        "score": 0.8989
+      },
+      {
+        "id": "0334",
+        "score": 0.8954
+      },
+      {
+        "id": "E202",
+        "score": 0.8952
+      },
+      {
+        "id": "0410",
+        "score": 0.8891
+      },
+      {
+        "id": "0099",
+        "score": 0.8786
+      },
+      {
+        "id": "0393",
+        "score": 0.8782
+      },
+      {
+        "id": "E057",
+        "score": 0.8776
+      },
+      {
+        "id": "0007",
+        "score": 0.8775
+      },
+      {
+        "id": "0079",
+        "score": 0.8761
+      },
+      {
+        "id": "0535",
+        "score": 0.8754
+      }
+    ]
+  },
+  "E381": {
+    "id": "E381",
+    "name": "Ernst Niebur",
+    "institution": "Johns Hopkins University",
+    "country": "United States",
+    "department": "Department of Neuroscience (School of Medicine); Department of Psychological and Brain Sciences (Krieger School of Arts and Sciences); Zanvyl Krieger Mind/Brain Institute",
+    "lab_name": "Computational Neuroscience Laboratory",
+    "lab_url": "https://sites.krieger.jhu.edu/cns/",
+    "main_research_area": "Computational models of visual attention",
+    "bio": "Niebur builds quantitative models of neural systems that are grounded in neurophysiology, anatomy and behavior, with a focus on visual selective attention. Their work includes saliency models based on proto-objects, and the use of such models to guide computation in artificial vision systems. They also study how overt attention, measured through eye movements, shapes the formation of preferences in multi-attribute decisions, and develop methods for analyzing neural oscillations and models of hierarchical neural network dynamics.",
+    "research_direction": "Dr. Niebur has recently been studying how attention can be modeled and used, both in people and in artificial vision systems. Their recent work explores how eye movements reveal which options and attributes people attend to while forming preferences between complex lotteries, and compares decision models that take the gaze sequence as input. In parallel, they investigate whether a biologically motivated proto-object saliency model can steer object detectors and gate or prune convolutional networks to reduce computation. They have also been developing a measure of phase-amplitude coupling for neural recordings and a theoretical hierarchical, modular dynamical neural network model.",
+    "papers": [
+      {
+        "title": "Salient Region Proposals for Object Detection",
+        "abstract": "Two-stage object detectors evaluate a very large number of candidate anchors across the image. This work uses a proto-object-based saliency model to choose which anchors a Faster R-CNN evaluates, so computation concentrates on likely informative regions. On MS COCO and PASCAL VOC the saliency-guided selection halves the anchor count with little accuracy loss and stays competitive even when about 95% of anchors are removed.",
+        "year": "2026",
+        "venue": "Proceedings of the International Conference on Neuromorphic Systems",
+        "citations": "1",
+        "authors": "Kenneth San, Akwasi Akwaboah, Aaron Sampson, Shira Goldhaber-Gordon, Ralph Etienne-Cummings, Andreas Andreou, Stefan Mihalas, Ernst Niebur",
+        "url": "https://doi.org/10.1145/3822454.3822480"
+      },
+      {
+        "title": "Saliency-Informed Sparsity For Gating Deep Convolutional Feature Space",
+        "abstract": "The paper replaces random dropout in convolutional networks with a saliency-informed dropout that gates feature maps in a retinotopic, hierarchical fashion, and combines it with iterative magnitude pruning. Variants differ in how the saliency map is used for dropping, whether dropout is applied in all layers or only early ones, and whether it is also applied at inference. Results on a ResNet trained on Imagenette are compared with standard random dropout to find where dynamic and static sparsity interact best.",
+        "year": "2026",
+        "venue": "Proceedings of the International Conference on Neuromorphic Systems",
+        "citations": "1",
+        "authors": "Shira Goldhaber-Gordon, Akwasi Akwaboah, Aaron Sampson, Ralph Etienne-Cummings, Andreas Andreou, Stefan Mihalas, Ernst Niebur",
+        "url": "https://doi.org/10.1145/3822454.3822479"
+      },
+      {
+        "title": "Relaxing in Warped Spaces: Generalized Hierarchical and Modular Dynamical Neural Network",
+        "abstract": "A hierarchical, modular dynamical network is derived from an energy function involving two neuron types with very different time constants. In a learning mode, periodic inputs resembling neuronal bursting shape mappings between subspaces, in the manner of Lissajous curves. In an association mode, state variables relax within warped spaces, and the analysis suggests a trade-off between how well an input trajectory and an output trajectory can each be specified.",
+        "year": "2026",
+        "venue": "arXiv",
+        "citations": "0",
+        "authors": "Kazuyoshi TSUTSUMI, Ernst Niebur",
+        "url": "https://doi.org/10.48550/arxiv.2604.10606"
+      },
+      {
+        "title": "Overt Visual Attention in the Formation of Preference Between Complex Lottery Options",
+        "abstract": "The study asks how people form preferences between multi-attribute lottery options, using eye tracking to determine which information is attended and when. Individual participants' choices were compared against several decision models of varying complexity that take the observed gaze sequence as input. A two-layer leaky competing accumulator based on prospect theory best explained simple tasks, while a new operations-research-based model did best for complex ones. The results point to attention-guided pairwise comparisons within attributes as the main route to preference in complex choices.",
+        "year": "2025",
+        "venue": "Computational Brain & Behavior",
+        "citations": "1",
+        "authors": "Xinhao Fan, Jacob Elsey, Aurelien Wyngaard, Aaron L. Sampson, You-Ping Yang, Erik E. Emeric, Moshe Glickman, Marius Usher, Dino Levy, Veit Stuphorn, Ernst Niebur",
+        "url": "https://doi.org/10.1007/s42113-025-00239-7"
+      },
+      {
+        "title": "Quantifying Phase- Amplitude Modulation in Neural Data",
+        "abstract": "Phase-amplitude coupling, where the phase of a slow oscillation modulates the amplitude of faster activity, is widely reported in neural recordings. Existing measures test deviation from a uniform amplitude distribution and are not tuned to the sinusoidal modulation pattern commonly seen. The authors develop a measure with higher sensitivity to that pattern.",
+        "year": "2023",
+        "venue": "2023 57th Annual Conference on Information Sciences and Systems (CISS)",
+        "citations": "0",
+        "authors": "Victoria Subritzky-Katz, Aaron L. Sampson, Erik Emeric, Witold Lipski, Sophia Moreira-González, Jorge González-Martínez, Sridevi Sarma, Veit Stuphorn, Ernst Niebur",
+        "url": "https://doi.org/10.1109/ciss56502.2023.10089691"
+      }
+    ],
+    "primary_subfield": "Attention",
+    "subfields": [
+      {
+        "subfield": "Attention",
+        "score": 1.0
+      },
+      {
+        "subfield": "Decision Making",
+        "score": 0.5
+      },
+      {
+        "subfield": "Theory & Computation",
+        "score": 0.5
+      }
+    ],
+    "profile_pic": "ernst_niebur_E381.jpg",
+    "umap_projection": {
+      "x": 4.485706329345703,
+      "y": 7.695446968078613
+    },
+    "cluster": 0,
+    "total_citations": 27444,
+    "h_index": 44,
+    "similar": [
+      {
+        "id": "E013",
+        "score": 0.8974
+      },
+      {
+        "id": "E064",
+        "score": 0.8948
+      },
+      {
+        "id": "0473",
+        "score": 0.8944
+      },
+      {
+        "id": "E044",
+        "score": 0.8903
+      },
+      {
+        "id": "0235",
+        "score": 0.8882
+      },
+      {
+        "id": "0324",
+        "score": 0.8879
+      },
+      {
+        "id": "0101",
+        "score": 0.8863
+      },
+      {
+        "id": "0285",
+        "score": 0.885
+      },
+      {
+        "id": "0510",
+        "score": 0.8845
+      },
+      {
+        "id": "0244",
+        "score": 0.8828
+      }
+    ]
+  },
+  "E382": {
+    "id": "E382",
+    "name": "Christopher Fetsch",
+    "institution": "Johns Hopkins University",
+    "country": "United States",
+    "department": "Solomon H. Snyder Department of Neuroscience; Zanvyl Krieger Mind/Brain Institute",
+    "lab_name": "Fetsch Lab @ Johns Hopkins",
+    "lab_url": "https://www.fetschlab.org/",
+    "main_research_area": "Perceptual decision confidence",
+    "bio": "Fetsch studies how the brain forms perceptual decisions and the accompanying sense of confidence, and how signals from multiple senses are combined to guide action. Their work uses quantitative behavior in nonhuman primates together with neural recordings and causal manipulation of neural activity. A central focus is the dynamics of evidence accumulation in parietal cortex, including how choice and confidence are computed. A related line concerns visual-vestibular integration and the perception of self-motion heading.",
+    "research_direction": "Dr. Fetsch has recently been investigating how the brain forms a perceptual decision and, at the same time, an estimate of confidence in it. Their recent work explores how neurons in parietal area LIP of macaque monkeys reflect choice and confidence in parallel during evidence accumulation, and how confidence on one trial adjusts the decision process on the next. They have also been reviewing how decisions arise from distributed, recurrent population dynamics across brain areas, and the computational and neuronal basis of visual confidence and metacognition. A complementary thread examines multisensory decision-making and self-motion perception, including how visual and vestibular heading signals are combined over time and with confidence.",
+    "papers": [
+      {
+        "title": "Macaque Area LIP Reflects Confidence-Dependent Changes in Decision Policy",
+        "abstract": "Monkeys reported a choice and a confidence judgment in a reaction-time motion discrimination task. They repeated rewarded choices more often after low-confidence trials and changed their reaction times more after surprising outcomes. LIP activity encoded the previous trial's choice and confidence more strongly after low-confidence correct trials and tracked a trial-by-trial estimate of choice bias, and decoded decision-variable ramps depended on the previous confidence and reward. The results suggest LIP may take part in confidence-guided adjustment of the next decision.",
+        "year": "2026",
+        "venue": "bioRxiv",
+        "citations": "0",
+        "authors": "Mengyu Serene Tu, Miguel Vivar-Lazo, Christopher R. Fetsch",
+        "url": "https://doi.org/10.64898/2026.04.27.721150"
+      },
+      {
+        "title": "Neural basis of concurrent deliberation toward a choice and confidence judgment",
+        "abstract": "Monkeys reported both a perceptual choice and their confidence with a single eye movement on each trial. Behavior was captured by a bounded accumulator in which choice and confidence are computed concurrently rather than by a serial model with post-decision accumulation. Neurons in area LIP showed covarying choice and confidence signals and within-trial dynamics consistent with near-zero-lag parallel updating, which points to LIP as a substrate for pursuing two computational goals from one evidence stream.",
+        "year": "2025",
+        "venue": "Nature Neuroscience",
+        "citations": "22",
+        "authors": "Miguel Vivar-Lazo, Christopher R. Fetsch",
+        "url": "https://doi.org/10.1038/s41593-025-02116-9"
+      },
+      {
+        "title": "No Central Executive? Decision Formation Through Multi-Area Population Dynamics",
+        "abstract": "This review contrasts the classic feedforward-hierarchy view of perceptual decisions with newer evidence that decisions arise from recurrent computation distributed across many areas. It describes how high-density electrophysiology, well-designed tasks, causal manipulations such as optogenetics, methods for inter-area communication, and theory linking population dynamics to representational geometry are being combined to build an updated framework for decision formation.",
+        "year": "2025",
+        "venue": "The Journal of Neuroscience",
+        "citations": "10",
+        "authors": "Chandramouli Chandrasekaran, Diksha Gupta, Mitra Javadzadeh, Tian Wang, Miguel Vivar-Lazo, Tatiana Engel, Paul Cisek, Christopher R. Fetsch",
+        "url": "https://doi.org/10.1523/jneurosci.1633-25.2025"
+      },
+      {
+        "title": "Computational and Neuronal Basis of Visual Confidence",
+        "abstract": "The review examines the neuronal basis of confidence in perceptual decisions, with a focus on vision, treating confidence as metacognition about the quality of a perceptual interpretation. It surveys the computational processes and neural operations that underlie and constrain how visual signals are transformed into a confidence estimate.",
+        "year": "2025",
+        "venue": "Annual Review of Vision Science",
+        "citations": "4",
+        "authors": "Robbe L.T. Goris, Zhongzheng Fu, Christopher R. Fetsch",
+        "url": "https://doi.org/10.1146/annurev-vision-110323-120909"
+      },
+      {
+        "title": "Self-motion perception and sequential decision-making: where are we heading?",
+        "abstract": "The article reviews how visual and vestibular signals are combined for heading perception using ideal-observer models and neurophysiology. It then covers extensions that add time, through stimulus dynamics and the speed-accuracy tradeoff, and confidence in heading discrimination. It closes with ongoing work on closed-loop virtual reality, active self-motion and large-scale neural recording aimed at connecting self-motion perception to navigation.",
+        "year": "2023",
+        "venue": "Philosophical Transactions of the Royal Society B",
+        "citations": "7",
+        "authors": "Steven J. Jerjian, Devin R. Harsch, Christopher R. Fetsch",
+        "url": "https://doi.org/10.1098/rstb.2022.0333"
+      }
+    ],
+    "primary_subfield": "Decision Making",
+    "subfields": [
+      {
+        "subfield": "Decision Making",
+        "score": 1.0
+      },
+      {
+        "subfield": "Multisensory Processing",
+        "score": 0.5
+      },
+      {
+        "subfield": "Theory & Computation",
+        "score": 0.5
+      }
+    ],
+    "profile_pic": "christopher_fetsch_E382.jpg",
+    "umap_projection": {
+      "x": 5.529464244842529,
+      "y": 4.6971564292907715
+    },
+    "cluster": 0,
+    "total_citations": 3394,
+    "h_index": 17,
+    "similar": [
+      {
+        "id": "E252",
+        "score": 0.9123
+      },
+      {
+        "id": "0013",
+        "score": 0.9085
+      },
+      {
+        "id": "0524",
+        "score": 0.9081
+      },
+      {
+        "id": "0465",
+        "score": 0.9067
+      },
+      {
+        "id": "0362",
+        "score": 0.9065
+      },
+      {
+        "id": "E167",
+        "score": 0.906
+      },
+      {
+        "id": "E246",
+        "score": 0.9057
+      },
+      {
+        "id": "E379",
+        "score": 0.8958
+      },
+      {
+        "id": "E312",
+        "score": 0.8956
+      },
+      {
+        "id": "0293",
+        "score": 0.8954
+      }
+    ]
+  },
+  "E383": {
+    "id": "E383",
+    "name": "Veit Stuphorn",
+    "institution": "Johns Hopkins University",
+    "country": "United States",
+    "department": "Department of Psychological & Brain Sciences; Zanvyl Krieger Mind/Brain Institute; Neuroscience (School of Medicine)",
+    "lab_name": "Veit Stuphorn Laboratory",
+    "lab_url": "https://www.hopkinsmedicine.org/research/labs/v/veit-stuphorn-laboratory",
+    "main_research_area": "Neural basis of decision making",
+    "bio": "Stuphorn studies the neural mechanisms of value-based decision making and self-control, mainly by recording single neurons in awake macaques and comparing the results with human behavior and EEG. Their work centers on medial frontal areas, including the supplementary eye field and pre-supplementary motor area, and on anterior insular cortex. Questions include how attention to options and attributes shapes the accumulation of value information, how proactive control signals predict yielding to temptation, and how the brain represents mood after gains and losses. Methods combine neurophysiology, behavioral modeling, and human EEG with time-resolved decoding.",
+    "research_direction": "Dr. Stuphorn has recently been investigating how the primate brain turns options into choices and how it resists temptation. Their recent work explores how attention to individual options and attributes modulates value-related activity in frontal cortex during complex, multi-attribute decisions, using single-neuron recordings in monkeys. They are also studying self-control, asking whether supplementary eye field neurons and pre-choice human EEG signals predict whether someone yields to a smaller-sooner reward, and whether those states are set before the first choice. A further thread asks how experiences of gains and losses are integrated into a mood signal in anterior insular cortex, using a model fit to human happiness reports and applied to monkey neurons. They have also written commentary on neural mechanisms of timing in cooperative action.",
+    "papers": [
+      {
+        "title": "Neural Dynamics of Self-Control: Pre-Choice EEG Signals Predict Yielding to Temptation",
+        "abstract": "Twenty-six participants performed an effort-based task with larger-later and smaller-sooner rewards, in which they could keep or switch their initial commitment, while 32-channel EEG was recorded. Switching toward the smaller-sooner option was frequent. The late positive potential before the first choice distinguished stay from switch trials, and time-resolved multivariate decoding separated them from about 300 ms after option onset. The authors conclude that a bias toward yielding is set before the initial choice, and that the EEG activity preceding switches reflects reward anticipation rather than a self-control signal.",
+        "year": "2026",
+        "venue": "bioRxiv",
+        "citations": "0",
+        "authors": "Alisa Weng Leong, Veit Stuphorn",
+        "url": "https://doi.org/10.64898/2026.09.15.751887"
+      },
+      {
+        "title": "Decide when to cooperate",
+        "abstract": "A preview commentary in Neuron on a study showing that activity in dorsomedial frontal cortex accumulates socially relevant visual information to guide the timing of actions coordinated with a partner. It frames this as a mechanism for synchronizing actions in social cooperation.",
+        "year": "2026",
+        "venue": "Neuron",
+        "citations": "0",
+        "authors": "Veit Stuphorn",
+        "url": "https://doi.org/10.1016/j.neuron.2026.06.009"
+      },
+      {
+        "title": "The role of attention in multi attribute decision making",
+        "abstract": "Monkeys made choices among options that each carried several value-relevant attributes while their attention was tracked, and the authors recorded neurons in pre-supplementary motor area. Attention raised the activity of neurons representing the option currently being sampled, regardless of its value, without abolishing the representation of the other options. It also increased the gain with which incoming value information is integrated into the attended option's evolving value estimate. The data argue against an account in which only the attended option is represented, and favor parallel accumulation and competition whose input strength is modulated by attention.",
+        "year": "2025",
+        "venue": "Nature Communications",
+        "citations": "6",
+        "authors": "Aaron L. Sampson, You-Ping Yang, Marius Usher, Dino J. Levy, Ernst Niebur, Veit Stuphorn",
+        "url": "https://doi.org/10.1038/s41467-025-66579-x"
+      },
+      {
+        "title": "The representation of mood in primate anterior insular cortex",
+        "abstract": "The authors built a mood model that predicts fluctuations in human self-reported happiness across wins and losses in a gambling task. They then applied the same operationalization to two monkeys performing the same task. Persistent responses of units in anterior insular cortex matched the model's signatures, including its timescale of integration over events, whereas dorsolateral prefrontal cortex reflected them only weakly. The results fit a recurrent excitatory-inhibitory network that integrates experiences into mood.",
+        "year": "2025",
+        "venue": "bioRxiv",
+        "citations": "3",
+        "authors": "Nicole C Rust, You-Ping C Yang, Catrina M Hacker, Veit Stuphorn",
+        "url": "https://doi.org/10.1101/2025.04.22.650010"
+      },
+      {
+        "title": "Neural basis of self-control",
+        "abstract": "Using a task for monkeys designed to separate states of high and low self-control from ordinary value-based choice, the study recorded from the supplementary eye field. Neurons there carried signals related to self-control and predicted whether, and when, the animals gave in to temptation. This activity appeared early in the trial, even before the choice options were shown. The authors interpret this as supplementary eye field contributing to a circuit for proactive self-control that supports pursuit of costly long-term goals.",
+        "year": "2024",
+        "venue": "bioRxiv",
+        "citations": "0",
+        "authors": "Ka Eun Lee, Jacob Elsey, Jaewon Hwang, Erik E. Emeric, Veit Stuphorn",
+        "url": "https://doi.org/10.1101/2024.02.07.578652"
+      }
+    ],
+    "primary_subfield": "Decision Making",
+    "subfields": [
+      {
+        "subfield": "Decision Making",
+        "score": 1.0
+      },
+      {
+        "subfield": "Attention",
+        "score": 0.5
+      }
+    ],
+    "profile_pic": "veit_stuphorn_E383.jpg",
+    "umap_projection": {
+      "x": 5.263861179351807,
+      "y": 4.915292739868164
+    },
+    "cluster": 0,
+    "total_citations": 5617,
+    "h_index": 33,
+    "similar": [
+      {
+        "id": "E252",
+        "score": 0.8845
+      },
+      {
+        "id": "E246",
+        "score": 0.8784
+      },
+      {
+        "id": "E167",
+        "score": 0.8756
+      },
+      {
+        "id": "E187",
+        "score": 0.8742
+      },
+      {
+        "id": "0629",
+        "score": 0.8699
+      },
+      {
+        "id": "E262",
+        "score": 0.8673
+      },
+      {
+        "id": "0568",
+        "score": 0.8654
+      },
+      {
+        "id": "E296",
+        "score": 0.8653
+      },
+      {
+        "id": "E136",
+        "score": 0.8652
+      },
+      {
+        "id": "E382",
+        "score": 0.8648
+      }
+    ]
+  },
+  "E384": {
+    "id": "E384",
+    "name": "Marina Bedny",
+    "institution": "Johns Hopkins University",
+    "country": "United States",
+    "department": "Department of Psychological & Brain Sciences",
+    "lab_name": "Neuroplasticity and Development Lab (BednyLab)",
+    "lab_url": "https://www.bednylab.com",
+    "main_research_area": "Cortical plasticity in blindness",
+    "bio": "Bedny studies how developmental experience shapes the human mind and brain, mainly by comparing congenitally blind, late blind and sighted people, and also deaf signers. A central question is what 'visual' cortex does in people who have never seen, including its involvement in language, logical reasoning and executive control. The work also examines how sensory and linguistic experience contribute to conceptual knowledge, for example of animates and visual events. A further line asks how cultural skills such as reading Braille and computer programming are implemented in the brain. Methods include fMRI (univariate, multivariate and connectivity analyses), TMS and behavioral experiments.",
+    "research_direction": "Dr. Bedny has recently been investigating how experience shapes the human cortex, especially the 'visual' cortex of people who are blind or deaf. Their recent work explores how resting-state connectivity of occipital cortex differs between blind adults, sighted adults and infants, and how signers process narrative structure across timescales, including in ventral occipital and parietal regions. They also ask whether neural codes for visually grounded concepts such as living things and light events depend on seeing, using fMRI with word-similarity judgments in blind and sighted adults. A further thread tests whether learning a cultural skill like computer programming reuses existing frontoparietal logical-reasoning representations, and a theoretical review frames developing cortex as functionally flexible, constrained by innate connectivity and experience.",
+    "papers": [
+      {
+        "title": "Visual experience shapes functional connectivity between occipital and non-visual networks",
+        "abstract": "The study compares resting-state connectivity of visual cortices in blind adults, blindfolded sighted adults and a large cohort of infants from the Developing Human Connectome Project. Sighted adults' visual cortices couple more with auditory and somatomotor networks than with prefrontal cortex, whereas blind adults show the opposite pattern. Infant secondary visual cortices resemble the blind-adult profile, and primary visual cortex falls in between, implying that visual experience modifies the long-range connectivity profile of sighted adults.",
+        "year": "2026",
+        "venue": "eLife",
+        "citations": "19",
+        "authors": "Mengyu Tian, Xiang Xiao, Huiqing Hu, Rhodri Cusack, Marina Bedny",
+        "url": "https://doi.org/10.7554/elife.93067.4"
+      },
+      {
+        "title": "Sign language narrative reveals universal and modality-specific features of cortical timescale hierarchy",
+        "abstract": "Native signers watched a 20-minute Polish Sign Language narrative and scrambled versions of it during fMRI to separate speech-specific from modality-general parts of the language timescale hierarchy. Frontotemporal regions tracked sentence-level structure and the default mode network tracked plot, as reported for spoken narratives. Two features not seen for speech appeared: superior parietal cortex synchronized at long discourse timescales and ventral occipital cortex responded to word- and sentence-level structure.",
+        "year": "2026",
+        "venue": "Nature Communications",
+        "citations": "0",
+        "authors": "Maria Zimmermann, Piotr Tomaszewski, Artur Marchewka, Marcin Szwed, Marina Bedny",
+        "url": "https://doi.org/10.1038/s41467-026-73895-3"
+      },
+      {
+        "title": "Neural specialization for 'visual' concepts emerges in the absence of vision",
+        "abstract": "Sighted and congenitally blind adults judged the similarity of words while undergoing fMRI, using nouns for living things and places and verbs for visual versus non-visual events. Blind participants still showed distinctive univariate and multivariate responses to living things in a temporo-parietal semantic network including the precuneus. Signatures of visual light-event verbs were also preserved in left middle temporal gyrus, so neural representations of visually grounded concepts do not require visual experience.",
+        "year": "2025",
+        "venue": "Cognition",
+        "citations": "10",
+        "authors": "Miriam Hauptman, Giulia Elli, Rashi Pant, Marina Bedny",
+        "url": "https://doi.org/10.1016/j.cognition.2024.106058"
+      },
+      {
+        "title": "Learning to Program \"Recycles\" Preexisting Frontoparietal Population Codes of Logical Algorithms",
+        "abstract": "Students were scanned with fMRI before and after their first Python course to test whether programming builds new neural representations or reuses existing ones. A left frontoparietal reasoning network was engaged by pseudocode even before instruction, and its multivariate patterns distinguished 'for' loops from 'if' conditionals both before and after the course. Representational similarity analysis showed shared information across time, supporting a neural recycling account of programming.",
+        "year": "2025",
+        "venue": "The Journal of Neuroscience",
+        "citations": "4",
+        "authors": "Yun-Fei Liu, Marina Bedny",
+        "url": "https://doi.org/10.1523/jneurosci.0314-25.2025"
+      },
+      {
+        "title": "Developing cortex is functionally pluripotent: Evidence from blindness",
+        "abstract": "This review synthesizes evidence on what visual cortices do in people born blind, weighing accounts of drastic repurposing for higher cognition against metamodal accounts in which ventral occipitotemporal areas keep perceptual functions such as face recognition. The authors argue that in blindness visual cortices become incorporated into higher-cognitive frontoparietal networks. They propose a connectivity-constrained experience-dependent account in which the same anatomical constraints can develop into different functions depending on experience.",
+        "year": "2024",
+        "venue": "Developmental Cognitive Neuroscience",
+        "citations": "25",
+        "authors": "Elizabeth J. Saccone, Mengyu Tian, Marina Bedny",
+        "url": "https://doi.org/10.1016/j.dcn.2024.101360"
+      }
+    ],
+    "primary_subfield": "Perceptual Learning & Plasticity",
+    "subfields": [
+      {
+        "subfield": "Perceptual Learning & Plasticity",
+        "score": 1.0
+      },
+      {
+        "subfield": "Multisensory Processing",
+        "score": 0.5
+      },
+      {
+        "subfield": "Development",
+        "score": 0.5
+      }
+    ],
+    "profile_pic": "marina_bedny_E384.jpg",
+    "umap_projection": {
+      "x": 6.105546951293945,
+      "y": 6.26742696762085
+    },
+    "cluster": 0,
+    "total_citations": 5937,
+    "h_index": 35,
+    "similar": [
+      {
+        "id": "0100",
+        "score": 0.9153
+      },
+      {
+        "id": "0199",
+        "score": 0.9126
+      },
+      {
+        "id": "0522",
+        "score": 0.9102
+      },
+      {
+        "id": "0523",
+        "score": 0.9027
+      },
+      {
+        "id": "0658",
+        "score": 0.8965
+      },
+      {
+        "id": "0607",
+        "score": 0.8911
+      },
+      {
+        "id": "0446",
+        "score": 0.8907
+      },
+      {
+        "id": "0445",
+        "score": 0.8904
+      },
+      {
+        "id": "0493",
+        "score": 0.8898
+      },
+      {
+        "id": "0145",
+        "score": 0.8898
+      }
+    ]
+  },
+  "E385": {
+    "id": "E385",
+    "name": "Hey-Kyoung Lee",
+    "institution": "Johns Hopkins University",
+    "country": "United States",
+    "department": "Department of Neuroscience, Zanvyl Krieger Mind/Brain Institute (School of Medicine)",
+    "lab_name": "Lee Lab",
+    "lab_url": "https://sites.krieger.jhu.edu/lee-lab/",
+    "main_research_area": "Cross-modal cortical plasticity",
+    "bio": "Lee studies how sensory experience and sensory loss reshape synapses and circuits in adult sensory cortex and thalamus, mainly in mice. The work combines slice electrophysiology, in vivo two-photon calcium imaging, activity-dependent labeling of active neurons, and optogenetic and ultrasound-based manipulations. A central theme is cross-modal plasticity, in which loss of vision (by dark exposure or enucleation) changes excitatory and inhibitory transmission in visual cortex and in the spared auditory and somatosensory cortices. Lee also examines homeostatic and Hebbian plasticity, metaplasticity, and interneuron-specific synaptic changes as mechanisms for adaptation in the adult brain.",
+    "research_direction": "Dr. Lee has been recently exploring how adult sensory cortex and thalamus adapt when vision is lost or when plasticity is deliberately induced. Their recent work uses two-photon calcium imaging and activity-dependent labeling in mice to ask how spontaneous network architecture and brain-wide activity patterns in visual, auditory and somatosensory cortex change after dark exposure or enucleation. At the synaptic level, they examine how fast and slow excitatory inputs onto somatostatin interneurons in visual cortex are regulated by visual or cross-modal auditory deprivation. They have also been testing whether noninvasive focused ultrasound can induce long-term depression at thalamocortical synapses in adults, and they place these findings in a sliding-threshold metaplasticity framework for cross-modal plasticity.",
+    "papers": [
+      {
+        "title": "Rapid plasticity of default-mode local network architectures following adult-onset blindness",
+        "abstract": "Two-photon calcium imaging of layer 2/3 mouse V1 was used to track spontaneous activity of pyramidal, PV, VIP and SOM neurons before and after bilateral enucleation. Pyramidal and PV cells showed rapid, lasting increases in spontaneous firing, but only the pyramidal network rearranged and stabilized into a new architecture. VIP networks also restructured, although their rate increase came later, whereas the SOM network stayed stable. The authors conclude that blindness quickly and selectively remodels intrinsic network structure in V1, separately from changes in firing rate.",
+        "year": "2026",
+        "venue": "Cell Reports",
+        "citations": "4",
+        "authors": "Lukas Mesik, Katie Hang Thanh Pham, Keqin Ding, Yiyang Martin Huang, Daniel Severin, Alfredo Kirkwood, Andrei Dragomir, Nitish Thakor, Hey-Kyoung Lee",
+        "url": "https://doi.org/10.1016/j.celrep.2025.116720"
+      },
+      {
+        "title": "Transcranial Low-Intensity Focused Ultrasound Stimulation of the Visual Thalamus Produces Long-Term Depression of Thalamocortical Synapses in the Adult Visual Cortex",
+        "abstract": "The study tests whether noninvasive low-intensity focused ultrasound aimed at the dorsal lateral geniculate nucleus can induce lasting synaptic change in adult mice. Sonication produced NMDA-receptor-dependent long-term depression of thalamic input onto layer 4 neurons in V1. It did so without large increases in cFos-labeled activity or microglial activation. A SONIC model based on the intramembrane cavitation theory suggests that dLGN activity during sonication falls in a range suited to inducing depression, pointing to a way of restoring plasticity at adult thalamocortical synapses.",
+        "year": "2024",
+        "venue": "Journal of Neuroscience",
+        "citations": "19",
+        "authors": "Lukas Mesik, Samuel Parkins, Daniel Severin, Bryce D. Grier, Gabrielle Ewall, Sumasri Kotha, Christian Wesselborg, Cristian Moreno, Yanis Jaoui, Adrianna Felder, Brian Huang, Marina B. Johnson, Timothy P. Harrigan, Anna E. Knight, Shane W. Lani, Théo Lemaire, Alfredo Kirkwood, Grace M. Hwang, Hey-Kyoung Lee",
+        "url": "https://doi.org/10.1523/jneurosci.0784-23.2024"
+      },
+      {
+        "title": "Spatial Mapping of Activity Changes across Sensory Areas Following Visual Deprivation in Adults",
+        "abstract": "Using a cFos-TRAP2 reporter line to label active cells, the study maps how activity changes across sensory cortices of adult mice after dark exposure or enucleation. V1 and lateral V2 first lose active cells and then partly recover, mostly in superficial layers. Spared primary somatosensory barrel and auditory cortices adapt differently, depending on deprivation duration and mode, while secondary cortices and retrosplenial cortex change little. The pattern fits cross-modal recruitment of the deprived visual cortex alongside compensatory plasticity in the spared senses.",
+        "year": "2024",
+        "venue": "Journal of Neuroscience",
+        "citations": "3",
+        "authors": "Samuel Parkins, Yidong Song, Yanis Jaoui, Aryan Gala, Kaven T. Konda, Crispo Richardson, Hey-Kyoung Lee",
+        "url": "https://doi.org/10.1523/jneurosci.0969-24.2024"
+      },
+      {
+        "title": "Selective plasticity of fast and slow excitatory synapses on somatostatin interneurons in adult visual cortex",
+        "abstract": "Recordings from layer 2/3 of mouse V1 show that excitatory synapses onto somatostatin interneurons divide into fast and slow types according to AMPA-receptor current kinetics, and that each interneuron carries both in varying proportions. Most local pyramidal-to-SOM connections use both types, and a minority use only one. The two types are regulated differently by experience: fast synapses change with visual deprivation, while slow synapses change with cross-modal auditory deprivation. This indicates a mechanism for adjusting SOM recruitment in the adult cortex.",
+        "year": "2023",
+        "venue": "Nature Communications",
+        "citations": "9",
+        "authors": "Bryce D. Grier, Samuel Parkins, Jarra Omar, Hey-Kyoung Lee",
+        "url": "https://doi.org/10.1038/s41467-023-42968-y"
+      },
+      {
+        "title": "Metaplasticity framework for cross-modal synaptic plasticity in adults",
+        "abstract": "This mini review covers how loss of one sensory modality drives cross-modal plasticity in adult primary sensory cortices, including recruitment of the deprived cortex and compensatory changes in the spared cortices. It argues that these changes arise mainly from functional plasticity of existing circuits, through homeostatic and Hebbian mechanisms. It evaluates the sliding-threshold metaplasticity model as a framework for explaining how neurons adjust their feature selectivity after sensory loss.",
+        "year": "2023",
+        "venue": "Frontiers in Synaptic Neuroscience",
+        "citations": "36",
+        "authors": "Hey-Kyoung Lee",
+        "url": "https://doi.org/10.3389/fnsyn.2022.1087042"
+      }
+    ],
+    "primary_subfield": "Perceptual Learning & Plasticity",
+    "subfields": [
+      {
+        "subfield": "Perceptual Learning & Plasticity",
+        "score": 1.0
+      },
+      {
+        "subfield": "Multisensory Processing",
+        "score": 0.5
+      }
+    ],
+    "profile_pic": "hey-kyoung_lee_E385.jpg",
+    "umap_projection": {
+      "x": 5.9603190422058105,
+      "y": 5.757084846496582
+    },
+    "cluster": 0,
+    "total_citations": 14726,
+    "h_index": 50,
+    "similar": [
+      {
+        "id": "0523",
+        "score": 0.917
+      },
+      {
+        "id": "E272",
+        "score": 0.9111
+      },
+      {
+        "id": "0310",
+        "score": 0.9102
+      },
+      {
+        "id": "0298",
+        "score": 0.9055
+      },
+      {
+        "id": "E386",
+        "score": 0.9018
+      },
+      {
+        "id": "0100",
+        "score": 0.9016
+      },
+      {
+        "id": "0378",
+        "score": 0.901
+      },
+      {
+        "id": "0161",
+        "score": 0.8998
+      },
+      {
+        "id": "E018",
+        "score": 0.8983
+      },
+      {
+        "id": "0583",
+        "score": 0.8968
+      }
+    ]
+  },
+  "E386": {
+    "id": "E386",
+    "name": "Alfredo Kirkwood",
+    "institution": "Johns Hopkins University",
+    "country": "United States",
+    "department": "Zanvyl Krieger Mind/Brain Institute; Solomon H. Snyder Department of Neuroscience (School of Medicine)",
+    "lab_name": "Alfredo Kirkwood Laboratory",
+    "lab_url": "https://www.hopkinsmedicine.org/research/labs/a/alfredo-kirkwood-laboratory",
+    "main_research_area": "Visual cortical synaptic plasticity",
+    "bio": "Kirkwood studies the synaptic mechanisms that allow sensory experience to modify cortical circuits, with a focus on the visual cortex. Their work uses brain-slice electrophysiology and in vivo recordings to examine long-term potentiation and depression, homeostatic plasticity, and ocular dominance plasticity after monocular deprivation. A central theme is how inhibition, the excitation/inhibition balance, and neuromodulators gate when and how synapses change. The lab also studies daily oscillations of excitation and inhibition, and how these mechanisms are altered in aging and in disease models.",
+    "research_direction": "Dr. Kirkwood has recently been studying how synaptic plasticity is regulated in cortical and hippocampal circuits. Their recent work explores how inhibition and the balance of excitation to inhibition set when synapses can potentiate or depress, including how this balance oscillates across the day, reverses with age, and is altered in autism-related mouse models and aged rats. In the visual cortex, they have examined the role of GluN2B-containing NMDA receptors in the changes in synaptic strength that follow monocular deprivation during ocular dominance plasticity. They have also been examining eligibility traces, slowly decaying synaptic tags that link neuromodulator-dependent potentiation and depression to delayed reward, and what they imply for learning rules. Methods centre on slice electrophysiology, in vivo recordings and viral manipulation of interneuron-related proteins.",
+    "papers": [
+      {
+        "title": "Circadian Changes in CA1 LTP Are Driven by Shifts in Excitation–Inhibition Balance and Reverse Direction after Puberty in Mice",
+        "abstract": "Using slice recordings at the CA3-to-CA1 synapse in mice, the study finds that the capacity for LTP does not differ between light and dark phases. Instead, theta-burst LTP tracks daily changes in the synaptic excitation/inhibition ratio, and blocking inhibition or using pairing-induced LTP removes the day-night difference. The oscillation is absent in an Alzheimer's disease model, and it reverses direction between 2 and 8 months of age, higher in the dark phase in young mice and higher in the light phase in older mice.",
+        "year": "2026",
+        "venue": "The Journal of Neuroscience",
+        "citations": "3",
+        "authors": "Gonzalo Valdivia, Cristian Moreno, Kaiwen He, Darwin Contreras, Trinh Tran, Anthony D. Ramnaugh, William Xu, Altagracia Contreras, Diego C. Fernandez, Daniel Severin, Samer Hattar, Michela Gallagher, Alfredo Kirkwood",
+        "url": "https://doi.org/10.1523/jneurosci.2244-25.2026"
+      },
+      {
+        "title": "Eligibility traces as a synaptic substrate for learning",
+        "abstract": "This review addresses how neural circuits bridge the delay between an action or stimulus and a later reward. It surveys recent experimental evidence for synaptic eligibility traces, slowly decaying synaptic tags that depend on neuromodulators or plateau potentials and can drive plasticity once reward arrives. The authors argue that having both potentiation and depression traces creates a synaptic stopping rule that keeps synapses from saturating and losing selectivity. They also discuss candidate mechanisms and the functional and theoretical implications.",
+        "year": "2025",
+        "venue": "Current Opinion in Neurobiology",
+        "citations": "16",
+        "authors": "Harel Z. Shouval, Alfredo Kirkwood",
+        "url": "https://doi.org/10.1016/j.conb.2025.102978"
+      },
+      {
+        "title": "NPTX2 transfection improves synaptic E/I balance and performance in learning impaired aged rats",
+        "abstract": "In aged rats, learning impairment is linked to weak feedforward inhibition of dentate granule cells driven by lateral entorhinal inputs. Overexpressing neuronal pentraxin 2 (NPTX2) in the lateral entorhinal cortex, which stabilizes excitatory input onto fast-spiking interneurons, strengthens this feedforward inhibition and improves spatial memory in impaired animals. Fast-spiking interneurons in unimpaired aged rats also receive stronger excitatory drive than those in young rats, consistent with a compensatory mechanism that preserves memory performance.",
+        "year": "2025",
+        "venue": "Progress in Neurobiology",
+        "citations": "4",
+        "authors": "Daniel Severin, Ming Teng Koh, Cristian Moreno, Darwin Contreras, Altagracia Contreras, Christian Wesselborg, Michelle Bridi, Jala Atufa, Audrey Branch, Paul Worley, Michela Gallagher, Alfredo Kirkwood",
+        "url": "https://doi.org/10.1016/j.pneurobio.2025.102746"
+      },
+      {
+        "title": "Daily oscillation of the excitation/inhibition ratio is disrupted in two mouse models of autism",
+        "abstract": "Because the cortical excitation/inhibition ratio normally oscillates across the 24-hour day, the authors tested whether its regulation, rather than its average level, is disrupted in Fmr1 KO and BTBR mice. The oscillation is lost in Fmr1 KO mice and reversed in BTBR mice. Both phenotypes coincide with altered timing of excitatory and inhibitory transmission and endocannabinoid signaling, but not with altered sleep, which suggests a mismatch between E/I state and behavioral state.",
+        "year": "2024",
+        "venue": "iScience",
+        "citations": "7",
+        "authors": "Michelle C.D. Bridi, Nancy Luo, Grace Kim, Benjamin J. Menarchek, Rachel A. Lee, Bryan Rodriguez, Daniel Severin, Cristian Moreno, Altagracia Contreras, Christian Wesselborg, Caroline O’Ferrall, Ruchit Patel, Sarah Bertrand, Sujatha Kannan, Alfredo Kirkwood",
+        "url": "https://doi.org/10.1016/j.isci.2024.111494"
+      },
+      {
+        "title": "Blockade of GluN2B-Containing NMDA Receptors Prevents Potentiation and Depression of Responses during Ocular Dominance Plasticity",
+        "abstract": "After monocular deprivation, juvenile mouse visual cortex first loses deprived-eye responses through LTD and later shows a homeostatic increase whose mechanism is debated (synaptic scaling versus a sliding LTP threshold). Selectively blocking GluN2B-containing NMDA receptors prevented the later rise in mEPSC amplitude in slices and in visually evoked responses in vivo, and also blocked the initial decrease. The results favor a role for GluN2B first in LTD and then in sliding the plasticity threshold toward LTP.",
+        "year": "2024",
+        "venue": "The Journal of Neuroscience",
+        "citations": "1",
+        "authors": "Michelle C. D. Bridi, Su Hong, Daniel Severin, Cristian Moreno, Altagracia Contreras, Alfredo Kirkwood",
+        "url": "https://doi.org/10.1523/jneurosci.0021-23.2024"
+      }
+    ],
+    "primary_subfield": "Perceptual Learning & Plasticity",
+    "subfields": [
+      {
+        "subfield": "Perceptual Learning & Plasticity",
+        "score": 1.0
+      },
+      {
+        "subfield": "Development",
+        "score": 0.5
+      },
+      {
+        "subfield": "Theory & Computation",
+        "score": 0.5
+      }
+    ],
+    "profile_pic": "alfredo_kirkwood_E386.jpg",
+    "umap_projection": {
+      "x": 4.629388332366943,
+      "y": 6.339599609375
+    },
+    "cluster": 0,
+    "total_citations": 16272,
+    "h_index": 57,
+    "similar": [
+      {
+        "id": "E385",
+        "score": 0.9018
+      },
+      {
+        "id": "E272",
+        "score": 0.8826
+      },
+      {
+        "id": "E018",
+        "score": 0.8819
+      },
+      {
+        "id": "0053",
+        "score": 0.8803
+      },
+      {
+        "id": "0161",
+        "score": 0.88
+      },
+      {
+        "id": "0717",
+        "score": 0.8776
+      },
+      {
+        "id": "E082",
+        "score": 0.8771
+      },
+      {
+        "id": "0523",
+        "score": 0.8748
+      },
+      {
+        "id": "0603",
+        "score": 0.8677
+      },
+      {
+        "id": "0515",
+        "score": 0.8661
+      }
+    ]
+  },
+  "E387": {
+    "id": "E387",
+    "name": "Gislin Dagnelie",
+    "institution": "Johns Hopkins University",
+    "country": "United States",
+    "department": "Department of Ophthalmology, School of Medicine (Wilmer Eye Institute; Lions Vision Research and Rehabilitation Center)",
+    "lab_name": "Dagnelie Ultra Low Vision Lab",
+    "lab_url": "https://www.ultralowvisionlabjhu.net/",
+    "main_research_area": "Ultra-low vision and visual prosthetics",
+    "bio": "Dagnelie studies how people with profound vision loss, including those using retinal and cortical visual prostheses, use limited or artificial vision in daily activities. Their work develops standardized outcome measures for ultra-low vision, combining patient-reported questionnaires with performance tests in virtual reality and the real world. Analyses typically use signal-detection and Rasch-type latent-variable models to place task difficulty and person ability on common scales. They also test image-processing strategies, such as thermal and distance filtering, for prosthesis users' mobility, and study phosphene mapping and psychophysical assessment for visual prostheses.",
+    "research_direction": "Dr. Dagnelie has been developing ways to measure and improve functional vision in people with ultra-low vision and in users of visual prostheses. Their recent work explores virtual-reality performance tests of visual information gathering (localization, motion detection, direction of motion) and of visually guided hand-eye coordination, calibrated with signal-detection and Rasch-type latent-variable models. They have compared questionnaire-based self-reports with measured task performance, and have extended VR assessments to everyday activities validated against matching real-world tasks. In prosthetic vision, they have tested whether thermal-camera and distance-filtered video improve people-finding and obstacle avoidance for Argus II wearers.",
+    "papers": [
+      {
+        "title": "Low Vision Assessment in Virtual Reality (LVAVR): Spatial Computing in Virtual Reality and Real-World",
+        "abstract": "This project builds virtual-reality performance assessments of daily-living activities for a broad low vision population. The authors recreated a rehabilitation-space kitchen and living room in photorealistic Unity VR, created 25 activities based on their earlier visual functioning questionnaire, and ran a validation study against matching real-world activities.",
+        "year": "2026",
+        "venue": "2026 IEEE Conference on Virtual Reality and 3D User Interfaces Abstracts and Workshops (VRW)",
+        "citations": "0",
+        "authors": "Elnaz Tafrihi Bailey, Priyanka Roy, Kristen Shifflett, Judith Goldstein, Gislin Dagnelie",
+        "url": "https://doi.org/10.1109/vrw70859.2026.00284"
+      },
+      {
+        "title": "Benefits of thermal and distance-filtered imaging for wayfinding with prosthetic vision",
+        "abstract": "Argus II retinal prosthesis users have limited function in cluttered everyday scenes, so the authors tested whether extra image processing could help indoor mobility. A mobile system fed thermal-camera or distance-filtered video to the implant, and four participants used it to find a person and to navigate a hallway with obstacles. Filtered video led to much higher success in locating the target person and detecting obstacles than unfiltered video, and success rose faster over elapsed time, despite individual variation.",
+        "year": "2024",
+        "venue": "Scientific Reports",
+        "citations": "6",
+        "authors": "Roksana Sadeghi, Arathy Kartha, Michael P. Barry, Paul Gibson, Avi Caspi, Arup Roy, Duane R. Geruschat, Gislin Dagnelie",
+        "url": "https://doi.org/10.1038/s41598-024-51798-x"
+      },
+      {
+        "title": "Self-Reported Visual Ability Versus Task Performance in Individuals With Ultra-Low Vision",
+        "abstract": "The study asked how well questionnaire self-reports predict measured task performance in people with ultra-low vision. Twenty-seven participants completed matched items from the ULV-VFQ questionnaire and the Wilmer VRI virtual-reality performance test, analyzed with Rasch and latent-variable signal-detection models respectively. Item difficulty and person ability correlated only modestly between instruments, indicating that direct performance testing is needed in clinical trials.",
+        "year": "2023",
+        "venue": "Translational Vision Science & Technology",
+        "citations": "10",
+        "authors": "Arathy Kartha, Ravnit Kaur Singh, Chris Bradley, Gislin Dagnelie",
+        "url": "https://doi.org/10.1167/tvst.12.10.14"
+      },
+      {
+        "title": "Measuring visual information gathering in individuals with ultra low vision using virtual reality",
+        "abstract": "The authors built a set of 19 virtual-reality activities involving spatial localization, motion detection and direction-of-motion judgments to assess visual performance in people with ultra-low vision. Using a signal-detection-based latent-variable analysis, they placed item difficulty and person ability on a relative d-prime axis. Items spanned a range of difficulty across a heterogeneous participant group, supporting use of the instrument as a clinical-trial outcome measure.",
+        "year": "2023",
+        "venue": "Scientific Reports",
+        "citations": "8",
+        "authors": "Arathy Kartha, Roksana Sadeghi, Chris Bradley, Chau Thi Thuy Tran, Will Gee, Gislin Dagnelie",
+        "url": "https://doi.org/10.1038/s41598-023-30249-z"
+      },
+      {
+        "title": "Measuring visually guided motor performance in ultra low vision using virtual reality",
+        "abstract": "This paper presents Wilmer VRH, a virtual-reality test of hand-eye coordination for ultra-low vision with 55 activities such as reaching, grasping, stacking, sorting, pointing, throwing and cutting. Data from normally sighted volunteers under normal and simulated ultra-low vision and from 33 participants with ultra-low vision were calibrated with a polytomous Rasch model (method of successive dichotomizations). Fit statistics and reliabilities supported unidimensionality, and items were well targeted to the ULV sample.",
+        "year": "2023",
+        "venue": "Frontiers in Neuroscience",
+        "citations": "4",
+        "authors": "Arathy Kartha, Roksana Sadeghi, Chris Bradley, Brittnee Livingston, Chau Thi Thuy Tran, Will Gee, Gislin Dagnelie",
+        "url": "https://doi.org/10.3389/fnins.2023.1251935"
+      }
+    ],
+    "primary_subfield": "Perception & Action",
+    "subfields": [
+      {
+        "subfield": "Perception & Action",
+        "score": 1.0
+      },
+      {
+        "subfield": "Decision Making",
+        "score": 0.5
+      },
+      {
+        "subfield": "Perceptual Learning & Plasticity",
+        "score": 0.5
+      }
+    ],
+    "profile_pic": "gislin_dagnelie_E387.jpg",
+    "umap_projection": {
+      "x": 8.021425247192383,
+      "y": 2.0535290241241455
+    },
+    "cluster": 0,
+    "total_citations": 14747,
+    "h_index": 59,
+    "similar": [
+      {
+        "id": "0060",
+        "score": 0.937
+      },
+      {
+        "id": "0709",
+        "score": 0.8686
+      },
+      {
+        "id": "0711",
+        "score": 0.8568
+      },
+      {
+        "id": "0547",
+        "score": 0.8566
+      },
+      {
+        "id": "0644",
+        "score": 0.8561
+      },
+      {
+        "id": "0172",
+        "score": 0.8531
+      },
+      {
+        "id": "0229",
+        "score": 0.8389
+      },
+      {
+        "id": "E279",
+        "score": 0.8387
+      },
+      {
+        "id": "0023",
+        "score": 0.834
+      },
+      {
+        "id": "0066",
+        "score": 0.832
       }
     ]
   }

@@ -12761,5 +12761,133 @@
    "arousal states"
   ],
   "card": "area V4; superior colliculus; locus coeruleus; macaque multi-electrode recordings; prefrontal microstimulation; memory-guided saccades; visual change detection; compact deep neural network models; shared trial-to-trial variability; arousal states"
+ },
+ "E380": {
+  "hash": "818f324512af9000",
+  "keywords": [
+   "inattentional blindness",
+   "event-based warping",
+   "aphantasia",
+   "residual visual sensitivity",
+   "visual-object vs. spatial imagery",
+   "model-based self-simulation",
+   "perceived time distortion",
+   "cognitive penetration",
+   "perception-cognition boundary",
+   "visual adaptation"
+  ],
+  "card": "inattentional blindness; event-based warping; aphantasia; residual visual sensitivity; visual-object vs. spatial imagery; model-based self-simulation; perceived time distortion; cognitive penetration; perception-cognition boundary; visual adaptation"
+ },
+ "E381": {
+  "hash": "8b29752846ef78d4",
+  "keywords": [
+   "proto-object saliency",
+   "visual selective attention",
+   "saliency-guided object detection",
+   "saliency-informed gating",
+   "eye tracking in decision making",
+   "multi-attribute choice",
+   "leaky competing accumulator",
+   "phase-amplitude coupling",
+   "neural oscillations",
+   "hierarchical dynamical neural networks"
+  ],
+  "card": "proto-object saliency; visual selective attention; saliency-guided object detection; saliency-informed gating; eye tracking in decision making; multi-attribute choice; leaky competing accumulator; phase-amplitude coupling; neural oscillations; hierarchical dynamical neural networks"
+ },
+ "E382": {
+  "hash": "1e05db8b99686740",
+  "keywords": [
+   "perceptual decision-making",
+   "visual confidence",
+   "metacognition",
+   "lateral intraparietal area (LIP)",
+   "evidence accumulation",
+   "visual-vestibular integration",
+   "heading perception",
+   "nonhuman primates (macaques)",
+   "bounded accumulator models",
+   "population dynamics"
+  ],
+  "card": "perceptual decision-making; visual confidence; metacognition; lateral intraparietal area (LIP); evidence accumulation; visual-vestibular integration; heading perception; nonhuman primates (macaques); bounded accumulator models; population dynamics"
+ },
+ "E383": {
+  "hash": "ca499431eea28ddf",
+  "keywords": [
+   "supplementary eye field",
+   "pre-supplementary motor area",
+   "anterior insular cortex",
+   "awake macaque single-neuron recording",
+   "multi-attribute decision making",
+   "proactive self-control",
+   "time-resolved multivariate decoding",
+   "late positive potential",
+   "mood representation",
+   "larger-later vs smaller-sooner rewards"
+  ],
+  "card": "supplementary eye field; pre-supplementary motor area; anterior insular cortex; awake macaque single-neuron recording; multi-attribute decision making; proactive self-control; time-resolved multivariate decoding; late positive potential; mood representation; larger-later vs smaller-sooner rewards"
+ },
+ "E384": {
+  "hash": "1064a8e1f27974f3",
+  "keywords": [
+   "congenital blindness",
+   "cross-modal plasticity",
+   "cortical pluripotency",
+   "language processing in visual cortex",
+   "sign language processing",
+   "cortical timescale hierarchy",
+   "visually grounded concepts",
+   "neural recycling",
+   "resting-state functional connectivity",
+   "representational similarity analysis (RSA)"
+  ],
+  "card": "congenital blindness; cross-modal plasticity; cortical pluripotency; language processing in visual cortex; sign language processing; cortical timescale hierarchy; visually grounded concepts; neural recycling; resting-state functional connectivity; representational similarity analysis (RSA)"
+ },
+ "E385": {
+  "hash": "a0d081dbae4e0e1d",
+  "keywords": [
+   "cross-modal plasticity",
+   "sliding-threshold metaplasticity",
+   "low-intensity focused ultrasound",
+   "thalamocortical long-term depression",
+   "somatostatin interneurons",
+   "two-photon calcium imaging",
+   "cFos-TRAP2",
+   "visual deprivation",
+   "dorsal lateral geniculate nucleus (dLGN)",
+   "homeostatic synaptic plasticity"
+  ],
+  "card": "cross-modal plasticity; sliding-threshold metaplasticity; low-intensity focused ultrasound; thalamocortical long-term depression; somatostatin interneurons; two-photon calcium imaging; cFos-TRAP2; visual deprivation; dorsal lateral geniculate nucleus (dLGN); homeostatic synaptic plasticity"
+ },
+ "E386": {
+  "hash": "4c2e1325d8dc00f2",
+  "keywords": [
+   "ocular dominance plasticity",
+   "monocular deprivation",
+   "excitation-inhibition balance",
+   "synaptic eligibility traces",
+   "GluN2B-containing NMDA receptors",
+   "homeostatic plasticity",
+   "slice electrophysiology",
+   "circadian E/I oscillations",
+   "fast-spiking interneurons",
+   "neuronal pentraxin 2"
+  ],
+  "card": "ocular dominance plasticity; monocular deprivation; excitation-inhibition balance; synaptic eligibility traces; GluN2B-containing NMDA receptors; homeostatic plasticity; slice electrophysiology; circadian E/I oscillations; fast-spiking interneurons; neuronal pentraxin 2"
+ },
+ "E387": {
+  "hash": "26208ccd94406b98",
+  "keywords": [
+   "ultra-low vision (ULV)",
+   "retinal and cortical visual prostheses",
+   "Argus II retinal prosthesis",
+   "phosphene mapping",
+   "virtual reality performance assessment",
+   "thermal and distance-filtered imaging",
+   "polytomous Rasch models",
+   "latent-variable signal-detection models",
+   "visually guided motor performance",
+   "ULV-VFQ"
+  ],
+  "card": "ultra-low vision (ULV); retinal and cortical visual prostheses; Argus II retinal prosthesis; phosphene mapping; virtual reality performance assessment; thermal and distance-filtered imaging; polytomous Rasch models; latent-variable signal-detection models; visually guided motor performance; ULV-VFQ"
  }
 }

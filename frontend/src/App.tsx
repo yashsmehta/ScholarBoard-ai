@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { Header } from './components/Header'
 import { Onboarding } from './components/Onboarding'
 import { MethodologyModal } from './components/MethodologyModal'
@@ -35,10 +35,9 @@ function App() {
   const askOpen = tab === 'ai'
   const [askResults, setAskResults] = useState<AskResult[] | null>(null)
   const [askRunning, setAskRunning] = useState(false)
-  const askHighlightIds = useMemo(() => askResults?.map((r) => r.id) ?? [], [askResults])
 
-  // The map is hidden while AI Search is open; once it is back (and resized), frame all dots
-  // so the highlighted matches are in view.
+  // The map is hidden while Agentic Search is open; once it is back (and resized), frame all dots.
+  // Agentic Search results never change what the Directory shows.
   const wasAskOpenRef = useRef(false)
   useEffect(() => {
     if (wasAskOpenRef.current && !askOpen) {
@@ -287,7 +286,6 @@ function App() {
               activeCountries={state.activeCountries}
               activeSubfields={state.activeSubfields}
               subfieldFilterMode={state.subfieldFilterMode}
-              highlightIds={askHighlightIds}
               hoveredScholarId={state.hoveredScholarId}
               selectedScholarId={state.selectedScholarId}
               resetNonce={state.resetNonce}

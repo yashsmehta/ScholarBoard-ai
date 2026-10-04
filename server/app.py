@@ -59,6 +59,12 @@ JOB_TTL_S = 3600
 # CLAUDE_SLOTS at once (subscription concurrency); overflow goes to Antigravity.
 ENABLED_ENGINES = [e for e in os.getenv("NL_SEARCH_ENGINES", "agy,claude").split(",") if e in ENGINES]
 CLAUDE_SLOTS = int(os.getenv("NL_SEARCH_CLAUDE_SLOTS", "3"))
+# After a Claude failure every search goes to Antigravity for a while: until the reset time
+# when the subscription reports a usage/rate limit (else CLAUDE_LIMIT_COOLDOWN_S), or
+# CLAUDE_ERROR_COOLDOWN_S after any other error (expired login, crash, timeout).
+CLAUDE_LIMIT_COOLDOWN_S = int(os.getenv("NL_SEARCH_CLAUDE_LIMIT_COOLDOWN_S", "1800"))
+CLAUDE_ERROR_COOLDOWN_S = int(os.getenv("NL_SEARCH_CLAUDE_ERROR_COOLDOWN_S", "300"))
+_LIMIT_RE = re.compile(r"usage limit|rate.?limit|hit your .*limit|limit reached|overloaded|\b429\b|\b529\b", re.I)
 ALLOWED_ORIGINS = os.getenv(
     "NL_SEARCH_ALLOWED_ORIGINS",
     "https://yashsmehta.com,https://www.yashsmehta.com,http://localhost:5173",
@@ -80,6 +86,7 @@ _ip_hits: dict[str, deque] = defaultdict(deque)
 _daily = {"day": "", "count": 0}
 _active_ip: dict[str, str] = {}  # ip → its queued/running job id
 _claude_active = 0
+_claude_paused_until = 0.0
 # Recent run times per engine, for the client's "about N s left" (median of the last EXPECT_WINDOW)
 EXPECT_WINDOW = 30
 EXPECT_DEFAULT_S = {"claude": 25.0, "agy": 55.0}
@@ -158,10 +165,11 @@ def _check_limits(ip: str, now: float) -> None:
 
 
 def _take_engine() -> str:
-    """Claude while a subscription slot is free, else Antigravity."""
+    """Claude while a subscription slot is free and Claude isn't paused, else Antigravity."""
     global _claude_active
     with _lock:
-        if "claude" in ENABLED_ENGINES and _claude_active < CLAUDE_SLOTS:
+        if ("claude" in ENABLED_ENGINES and _claude_active < CLAUDE_SLOTS
+                and time.time() >= _claude_paused_until):
             _claude_active += 1
             return "claude"
     return "agy" if "agy" in ENABLED_ENGINES else ENABLED_ENGINES[0]
@@ -174,6 +182,22 @@ def _release_engine(engine: str) -> None:
             _claude_active -= 1
 
 
+def _pause_claude(err: Exception) -> None:
+    """Route every search to Antigravity for a while after a Claude failure."""
+    global _claude_paused_until
+    msg = str(err)
+    if _LIMIT_RE.search(msg):
+        # Claude Code reports a usage limit as "...|<reset epoch>"; use it when it's sane.
+        m = re.search(r"\|(\d{10})\b", msg)
+        reset = int(m.group(1)) if m else 0
+        until = reset if time.time() < reset < time.time() + 7 * 86400 else time.time() + CLAUDE_LIMIT_COOLDOWN_S
+    else:
+        until = time.time() + CLAUDE_ERROR_COOLDOWN_S
+    with _lock:
+        _claude_paused_until = max(_claude_paused_until, until)
+    logger.warning("claude paused until %s: %s", datetime.fromtimestamp(until, timezone.utc).isoformat(), msg[:200])
+
+
 def _run_job(job_id: str, query: str, key: str, ip: str) -> None:
     t0 = time.time()
     engine = _take_engine()
@@ -184,10 +208,11 @@ def _run_job(job_id: str, query: str, key: str, ip: str) -> None:
     try:
         try:
             results = search(query, top_n=10, corpus_dir=CORPUS_DIR, engine=engine, trace=trace)
-        except Exception:
+        except Exception as err:
             if engine != "claude" or "agy" not in ENABLED_ENGINES:
                 raise
             logger.exception("claude search failed; retrying on agy")
+            _pause_claude(err)
             _release_engine(engine)
             spent = (trace.get("usage") or {}).get("cost_usd") or 0.0
             fallback_from, engine = engine, "agy"
@@ -279,4 +304,6 @@ def health() -> dict:
     n = len(list((CORPUS_DIR / "profiles").glob("*.json"))) if CORPUS_DIR.exists() else 0
     if n == 0:
         raise HTTPException(503, "search corpus missing")
-    return {"ok": True, "pis": n, "engines": ENABLED_ENGINES}
+    paused = max(0, round(_claude_paused_until - time.time()))
+    return {"ok": True, "pis": n, "engines": ENABLED_ENGINES, "claude_active": _claude_active,
+            "claude_paused_s": paused}

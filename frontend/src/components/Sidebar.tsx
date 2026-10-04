@@ -15,13 +15,15 @@ interface SidebarProps {
 interface NearbyScholar {
   scholar: Scholar
   distance: number
+  /** Cosine similarity of the full embeddings, when precomputed. */
+  score?: number
 }
 
 export function Sidebar({ scholar, allScholars, onClose, onSelectNearby, onSubfieldClick }: SidebarProps) {
   const [expanded, setExpanded] = useState(false)
   const touchStartY = React.useRef<number | null>(null)
   const nearby = useMemo(
-    () => (scholar ? findSimilarScholars(scholar, allScholars, 5) : []),
+    () => (scholar ? findSimilarScholars(scholar, allScholars, 10) : []),
     [scholar?.id, allScholars],
   )
 
@@ -120,10 +122,19 @@ function ProfileTab({
             <h3>{scholar.name}</h3>
             <p>{scholar.institution ?? 'Unknown institution'}</p>
             {scholar.department && <p className="muted">{scholar.department}</p>}
-            {scholar.labUrl && (
-              <a href={scholar.labUrl} target="_blank" rel="noreferrer" className="profile-card__lab-link">
-                {scholar.labName ?? 'Lab website'}
-              </a>
+            {(scholar.labUrl || scholar.scholarUrl) && (
+              <div className="profile-card__links">
+                {scholar.labUrl && (
+                  <a href={scholar.labUrl} target="_blank" rel="noreferrer" className="profile-card__lab-link">
+                    {scholar.labName ?? 'Lab website'}
+                  </a>
+                )}
+                {scholar.scholarUrl && (
+                  <a href={scholar.scholarUrl} target="_blank" rel="noreferrer" className="profile-card__lab-link">
+                    Google Scholar
+                  </a>
+                )}
+              </div>
             )}
           </div>
           {(scholar.totalCitations != null || scholar.hIndex != null) && (
@@ -231,6 +242,9 @@ function ProfileTab({
 
       <section className="sidebar-section">
         <h3>Similar Researchers</h3>
+        {nearby.some((item) => item.score != null) && (
+          <p className="nearby-list__note muted">Ranked by similarity of their recent work (cosine, 0–1)</p>
+        )}
         <div className="nearby-list">
           {nearby.map((item) => (
             <button
@@ -248,6 +262,11 @@ function ProfileTab({
                 <strong>{item.scholar.name}</strong>
                 <small>{item.scholar.institution ?? 'Unknown institution'}</small>
               </span>
+              {item.score != null && (
+                <span className="nearby-list__score" title="Cosine similarity of research embeddings">
+                  {item.score.toFixed(2)}
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -304,7 +323,7 @@ function findSimilarScholars(scholar: Scholar, scholars: Scholar[], count: numbe
     for (const entry of scholar.similar) {
       const match = byId.get(entry.id)
       if (match && match.id !== scholar.id) {
-        ranked.push({ scholar: match, distance: 1 - entry.score })
+        ranked.push({ scholar: match, distance: 1 - entry.score, score: entry.score })
       }
       if (ranked.length >= count) break
     }

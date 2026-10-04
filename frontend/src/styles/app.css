@@ -1331,6 +1331,12 @@ input {
   text-decoration: underline;
 }
 
+.profile-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 12px;
+}
+
 .sidebar-section {
   margin-top: 14px;
   padding-top: 14px;
@@ -1426,7 +1432,7 @@ input {
 
 .nearby-list__item {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   gap: 8px;
   align-items: center;
   border: 1px solid var(--border-subtle);
@@ -1461,6 +1467,18 @@ input {
 
 .nearby-list__text small {
   color: var(--ink-2);
+  font-size: 0.72rem;
+}
+
+.nearby-list__score {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.nearby-list__note {
+  margin: -4px 0 8px;
   font-size: 0.72rem;
 }
 

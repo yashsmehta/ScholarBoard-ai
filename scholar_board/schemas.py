@@ -49,6 +49,7 @@ class Scholar(BaseModel):
     department: Optional[str] = None
     lab_name: Optional[str] = None
     lab_url: Optional[str] = None
+    scholar_profile_url: Optional[str] = None
     main_research_area: Optional[str] = None
     bio: Optional[str] = None
     research_direction: Optional[str] = None

@@ -71,7 +71,7 @@ App.tsx (useReducer)
 
 **Mobile bottom sheet (< 480px):** When a scholar is selected, a drag handle (pill bar + chevron) appears at the top of the sidebar. Tap or swipe up to expand the sidebar to full screen (`position: fixed; inset: 0`); tap or swipe down to collapse back to half height. The `expanded` state is local to Sidebar, resets on scholar change or close. The handle is hidden on desktop (`display: none` by default, shown via mobile media query). Expanded overlay uses opaque `#faf8f5` background with `env(safe-area-inset-top)` padding for iOS notch. CSS class: `sidebar--expanded`.
 
-**Profile:** Avatar (with fallback chain: profile pic → default avatar → initials), name, institution, department, lab link, bio, subfield badges (clickable — triggers subfield filter), recent papers (top 5), education, similar researchers (5 nearest by UMAP distance).
+**Profile:** Avatar (with fallback chain: profile pic → default avatar → initials), name, institution, department, lab link + Google Scholar link, bio, subfield badges (clickable — triggers subfield filter), recent papers (top 5), education, similar researchers (top 10 by embedding cosine, score shown; 2D map distance only as fallback).
 
 ## File Structure
 

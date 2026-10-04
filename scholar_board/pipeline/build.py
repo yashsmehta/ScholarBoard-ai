@@ -252,7 +252,6 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
         d.pop("is_pi", None)
         d.pop("pic_downloaded_at", None)
         d.pop("source", None)
-        d.pop("scholar_profile_url", None)
 
         if sid in papers_by_sid:
             d["papers"] = [

@@ -205,6 +205,7 @@ function normalizeScholar(fallbackId: string, raw: RawScholar): Scholar | null {
     department: normalizeString(raw.department),
     labName: normalizeString(raw.lab_name),
     labUrl: normalizeString(raw.lab_url),
+    scholarUrl: normalizeString(raw.scholar_profile_url),
     mainResearchArea: normalizeString(raw.main_research_area),
     bio: normalizeString(raw.bio),
     researchDirection: normalizeString(raw.research_direction),

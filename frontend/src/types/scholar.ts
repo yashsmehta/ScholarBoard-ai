@@ -39,6 +39,7 @@ export interface RawScholar {
   department?: string
   lab_name?: string
   lab_url?: string
+  scholar_profile_url?: string
   main_research_area?: string
   bio?: string
   research_direction?: string
@@ -64,6 +65,8 @@ export interface Scholar {
   department?: string
   labName?: string
   labUrl?: string
+  /** Google Scholar profile. */
+  scholarUrl?: string
   mainResearchArea?: string
   bio?: string
   researchDirection?: string

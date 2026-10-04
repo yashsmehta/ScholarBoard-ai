@@ -1334,7 +1334,19 @@ input {
 .profile-card__links {
   display: flex;
   flex-wrap: wrap;
-  column-gap: 12px;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.profile-card__scholar-link {
+  display: inline-flex;
+  margin-top: 4px;
+  opacity: 0.85;
+  transition: opacity 120ms ease;
+}
+
+.profile-card__scholar-link:hover {
+  opacity: 1;
 }
 
 .sidebar-section {

@@ -130,8 +130,20 @@ function ProfileTab({
                   </a>
                 )}
                 {scholar.scholarUrl && (
-                  <a href={scholar.scholarUrl} target="_blank" rel="noreferrer" className="profile-card__lab-link">
-                    Google Scholar
+                  <a
+                    href={scholar.scholarUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="profile-card__scholar-link"
+                    aria-label="Google Scholar profile"
+                    title="Google Scholar profile"
+                  >
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                      <path
+                        fill="#4285F4"
+                        d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"
+                      />
+                    </svg>
                   </a>
                 )}
               </div>

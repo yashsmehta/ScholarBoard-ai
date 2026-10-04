@@ -234,6 +234,7 @@
 - Alexander Schütz (on request): profile broadened beyond the five most recent papers; added three representative papers found via Crossref/OpenAlex (Schütz et al. 2008 Nat Neurosci, smooth pursuit sensitivity; Schütz et al. 2012 PNAS, salience and value; Schütz et al. 2011 J Vis, eye movements and perception review). AI summary rewritten to cover the earlier eye-movement work as well as recent metacognition work. Map position unchanged; a larger publication window in the map itself is not implemented.
 - Andrea Facoetti (on request): AI summary replaced with the lab profile Dr. Facoetti sent (attention and perception in learning and neurodevelopment, dyslexia, autism, AVG training).
 - Arash Afraz (on request): removed the incorrect spatial-frequency sentence from the AI summary, replaced with his wording, and dropped "also".
+- Stephen Engel (on request): AI summary replaced with the lab profile Dr. Engel sent (fMRI/EEG and behavior, visual plasticity, adaptation and perceptual learning, visual snow syndrome, reading aids for central vision loss, binocular rivalry).
 - Benjamin Balas (on request): removed from the map, search and profile pics at his request (2026-09-28); recorded as an opt-out so rebuilds and outreach do not re-add him.
 - Added Tyler Bonnen (University of Pennsylvania, Psychology; E377), new lab starting Fall 2026.
   Five 2023+ first-author papers hand-picked and checked on Crossref/OpenAlex (multi-view 3D

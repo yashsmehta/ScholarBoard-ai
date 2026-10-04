@@ -183,6 +183,10 @@
     "name": "Stephen Adamo",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
+  "0634": {
+    "name": "Stephen Engel",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
   "0660": {
     "name": "Thomas B. Christophel",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
@@ -205,6 +209,10 @@
   },
   "E083": {
     "name": "Benoit Cottereau",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
+  "E119": {
+    "name": "Janice Chen",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
   "E145": {
@@ -249,10 +257,6 @@
   },
   "E360": {
     "name": "Adrian Staub",
-    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
-  },
-  "E119": {
-    "name": "Janice Chen",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   }
 }

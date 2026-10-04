@@ -7996,20 +7996,20 @@
   "card": "subsequent search misses; satisfaction of search; multiple-target visual search; digital breast tomosynthesis; mammography; medical image perception; radiological expertise; AI-based decision support; eye tracking; electroencephalography (EEG)"
  },
  "0634": {
-  "hash": "36e2c479fdd28cc4",
+  "hash": "453d050bd5048223",
   "keywords": [
    "visual snow syndrome",
    "binocular rivalry",
-   "frequency-tagged steady-state EEG",
    "spatial remapping",
-   "simulated central scotoma",
+   "central field loss",
+   "perceptual adaptation",
    "retinotopic mapping",
-   "motion aftereffect",
+   "frequency tagging",
    "cortical plasticity",
-   "macular degeneration",
+   "motion aftereffect",
    "color tuning"
   ],
-  "card": "visual snow syndrome; binocular rivalry; frequency-tagged steady-state EEG; spatial remapping; simulated central scotoma; retinotopic mapping; motion aftereffect; cortical plasticity; macular degeneration; color tuning"
+  "card": "visual snow syndrome; binocular rivalry; spatial remapping; central field loss; perceptual adaptation; retinotopic mapping; frequency tagging; cortical plasticity; motion aftereffect; color tuning"
  },
  "0635": {
   "hash": "3abead9b6d1727bd",

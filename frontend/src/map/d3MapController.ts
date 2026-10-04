@@ -5,7 +5,7 @@ import { subfieldColor } from './colorScale'
 const DOT_RADIUS = 3.0
 const DOT_RADIUS_HOVER = 4.5
 const DOT_RADIUS_SELECTED = 5.0
-const DOT_HIT_RADIUS = 10
+const HOVER_RADIUS_PX = 9
 const BASE_STROKE = 'rgba(255,255,255,0.84)'
 const SELECTED_STROKE = 'rgba(13, 92, 99, 0.85)'
 const MAP_PADDING = 72
@@ -41,7 +41,6 @@ export function createD3MapController(
   const root = svg.append('g').attr('class', 'scholar-map__zoom-root')
   const ringLayer = root.append('g').attr('class', 'scholar-map__ring-layer')
   const dotLayer = root.append('g').attr('class', 'scholar-map__dot-layer')
-  const hitLayer = root.append('g').attr('class', 'scholar-map__hit-layer')
   const brushLayer = svg.append('g').attr('class', 'scholar-map__brush-layer')
   const selectionRing = ringLayer
     .append('circle')
@@ -56,7 +55,7 @@ export function createD3MapController(
   container.appendChild(tooltipEl)
 
   let dots = dotLayer.selectAll<SVGCircleElement, Scholar>('circle.scholar-map__dot')
-  let hitDots = hitLayer.selectAll<SVGCircleElement, Scholar>('circle.scholar-map__dot-hit')
+  let hoveredLocalId: string | null = null
   let scholars: Scholar[] = []
   let xScale = d3.scaleLinear()
   let yScale = d3.scaleLinear()
@@ -95,9 +94,7 @@ export function createD3MapController(
     .tapDistance(12)
     .scaleExtent([0.3, 20])
     .on('zoom', (event) => {
-      const kChanged = event.transform.k !== currentTransform.k
       currentTransform = event.transform
-      if (kChanged) updateHitRadius()
       root.attr('transform', event.transform.toString())
       if (boxZoomModifierActive && dotCursorActive) {
         setDotCursor(false)
@@ -110,9 +107,20 @@ export function createD3MapController(
   svg.on('mousemove.cursor', (event) => {
     const [x, y] = d3.pointer(event, svg.node())
     updateDotCursorAtPoint(x, y)
+    // Hover = the nearest visible dot within a fixed on-screen radius, so crowded
+    // neighbours never shadow each other (per-dot hit circles did).
+    if (boxZoomModifierActive) return
+    const hit = findNearestVisibleScholarAtViewportPoint(x, y, hoverThreshold())
+    if (!hit) {
+      setHovered(null)
+      return
+    }
+    setHovered(hit.id)
+    showTooltip(event, hit)
   })
   svg.on('mouseleave.cursor', () => {
     setDotCursor(false)
+    setHovered(null)
   })
   svg.on('pointerdown.selection', (event) => {
     if ((event.button ?? 0) !== 0) return
@@ -247,66 +255,8 @@ export function createD3MapController(
       .attr('cy', (d) => yScale(d.y))
       .attr('fill', (d) => subfieldColor(d.subfields[0]?.subfield))
 
-    hitDots = hitLayer
-      .selectAll<SVGCircleElement, Scholar>('circle.scholar-map__dot-hit')
-      .data(scholars, (datum) => datum.id)
-      .join(
-        (enter) =>
-          enter
-            .append('circle')
-            .attr('class', 'scholar-map__dot-hit')
-            .attr('r', hitRadius())
-            .attr('fill', 'transparent')
-            .on('pointerdown', (event, d) => {
-              recordPointerDownSnapshot(event, d)
-              try {
-                ;(event.currentTarget as SVGCircleElement).setPointerCapture?.(event.pointerId)
-              } catch {
-                // Pointer capture can fail on some browsers/input types; selection still falls back.
-              }
-              raiseScholarDotById(d.id)
-              callbacks.onHoverScholarId(d.id)
-              commitSelection(d.id)
-              event.preventDefault()
-              event.stopPropagation()
-            })
-            .on('mouseenter', (_event, d) => {
-              // Apply hover visual immediately in D3 (no React round-trip delay)
-              const isSelected = interactionState.selectedScholarId === d.id
-              if (!isSelected) {
-                dots.filter((dd) => dd.id === d.id)
-                  .attr('r', DOT_RADIUS_HOVER)
-                  .attr('stroke-width', 1.5)
-              }
-              callbacks.onHoverScholarId(d.id)
-            })
-            .on('mousemove', (event, d) => showTooltip(event, d))
-            .on('mouseleave', (_event, d) => {
-              // Reset hover visual immediately in D3
-              const isSelected = interactionState.selectedScholarId === d.id
-              if (!isSelected) {
-                dots.filter((dd) => dd.id === d.id)
-                  .attr('r', DOT_RADIUS)
-                  .attr('stroke', BASE_STROKE)
-                  .attr('stroke-width', 0.95)
-              }
-              callbacks.onHoverScholarId(null)
-              hideTooltip()
-            })
-            .on('pointerup', (event, d) => {
-              if ((event.button ?? 0) !== 0) return
-              event.stopPropagation()
-              raiseScholarDotById(d.id)
-              commitSelection(d.id)
-            }),
-        (update) => update,
-        (exit) => exit.remove(),
-      )
-      .attr('cx', (d) => xScale(d.x))
-      .attr('cy', (d) => yScale(d.y))
-
     svg.on('click', () => {
-      callbacks.onHoverScholarId(null)
+      setHovered(null)
       hideTooltip()
     })
   }
@@ -334,20 +284,35 @@ export function createD3MapController(
     }
 
     // If native dot click fires, this is harmless duplication; selection is idempotent.
-    const candidate = findNearestVisibleScholarAtViewportPoint(x, y, 16)
+    const candidate = findNearestVisibleScholarAtViewportPoint(x, y, hoverThreshold())
     if (!candidate) return
     callbacks.onHoverScholarId(candidate.id)
     commitSelection(candidate.id)
   }
 
-  // Hit targets live inside the zoomed group, so a fixed local radius grows with zoom
-  // and neighbouring targets swallow each other. Keep the on-screen size constant.
-  function hitRadius() {
-    return Math.max(DOT_RADIUS + 1, DOT_HIT_RADIUS / currentTransform.k)
+  function hoverThreshold() {
+    return Math.max(HOVER_RADIUS_PX, DOT_RADIUS * currentTransform.k + 2)
   }
 
-  function updateHitRadius() {
-    hitDots.attr('r', hitRadius())
+  // Apply the hover visual immediately in D3 (no React round-trip delay).
+  function setHovered(id: string | null) {
+    if (hoveredLocalId === id) return
+    const prev = hoveredLocalId
+    hoveredLocalId = id
+    if (prev) {
+      if (interactionState.selectedScholarId !== prev) {
+        dots.filter((dd) => dd.id === prev).attr('r', DOT_RADIUS).attr('stroke', BASE_STROKE).attr('stroke-width', 0.95)
+      }
+    }
+    if (id) {
+      raiseScholarDotById(id)
+      if (interactionState.selectedScholarId !== id) {
+        dots.filter((dd) => dd.id === id).attr('r', DOT_RADIUS_HOVER).attr('stroke-width', 1.5)
+      }
+    } else {
+      hideTooltip()
+    }
+    callbacks.onHoverScholarId(id)
   }
 
   function refreshDotStyles() {
@@ -363,13 +328,6 @@ export function createD3MapController(
         .attr('opacity', isVisible ? 1 : 0.08)
     })
 
-    hitDots.each(function applyHitTarget(datum) {
-      const isVisible = isScholarVisible(datum, interactionState)
-
-      d3.select(this)
-        .attr('r', hitRadius())
-        .style('pointer-events', isVisible ? 'auto' : 'none')
-    })
   }
 
   function updateSelectionRing() {
@@ -413,7 +371,6 @@ export function createD3MapController(
     }
 
     dots.attr('cx', (d) => xScale(d.x)).attr('cy', (d) => yScale(d.y))
-    hitDots.attr('cx', (d) => xScale(d.x)).attr('cy', (d) => yScale(d.y))
     updateSelectionRing()
   }
 
@@ -579,24 +536,9 @@ export function createD3MapController(
   }
 
   function raiseScholarDotById(scholarId: string) {
-    for (const layer of [dots, hitDots]) {
-      layer.filter((d) => d.id === scholarId).each(function () {
-        (this as SVGCircleElement).parentNode?.appendChild(this)
-      })
-    }
-  }
-
-  function recordPointerDownSnapshot(event: MouseEvent | PointerEvent, scholar: Scholar) {
-    const [x, y] = d3.pointer(event, svg.node())
-    pointerDownSnapshot = {
-      x,
-      y,
-      targetWasDot: true,
-      targetScholarId: scholar.id,
-      transformX: currentTransform.x,
-      transformY: currentTransform.y,
-      transformK: currentTransform.k,
-    }
+    dots.filter((d) => d.id === scholarId).each(function () {
+      (this as SVGCircleElement).parentNode?.appendChild(this)
+    })
   }
 
   function commitSelection(scholarId: string) {

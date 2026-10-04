@@ -1902,20 +1902,20 @@
   "card": "visual working memory; internal attention; retro-cue paradigm; sensory gating; distractor suppression; blink-locked EEG; alpha and beta oscillations; task interruptions; cross-phase decoding; motor planning"
  },
  "0153": {
-  "hash": "8724d32c78b770db",
+  "hash": "7af7b11783311471",
   "keywords": [
-   "action video game play",
-   "visual attention",
+   "action video games",
+   "learning and transfer",
    "attentional control",
    "brain plasticity",
-   "learning-to-learn",
-   "cognitive transfer",
    "dynamic difficulty adjustment",
-   "executive function assessment",
    "Internet Gaming Disorder",
+   "executive function assessment",
+   "gameplay telemetry",
+   "psychomotor performance",
    "deafness"
   ],
-  "card": "action video game play; visual attention; attentional control; brain plasticity; learning-to-learn; cognitive transfer; dynamic difficulty adjustment; executive function assessment; Internet Gaming Disorder; deafness"
+  "card": "action video games; learning and transfer; attentional control; brain plasticity; dynamic difficulty adjustment; Internet Gaming Disorder; executive function assessment; gameplay telemetry; psychomotor performance; deafness"
  },
  "0154": {
   "hash": "c3ca187e01a012ab",
@@ -6475,20 +6475,20 @@
   "card": "ensemble perception; categorical frequency judgments; binocular rivalry; perceptual rhythms; Parametric Analysis of Temporal Structure (PATS); rhythmic cumulative distribution function (rCDF); holistic face processing; multistable perception; neural oscillations; visual awareness"
  },
  "0517": {
-  "hash": "ef678c731085ef79",
+  "hash": "4d04a25875f0bff7",
   "keywords": [
+   "Bayesian perceptual inference",
    "visual-vestibular heading estimation",
-   "attractive and repulsive biases",
    "generative adversarial networks",
-   "motion and position perception",
+   "attractive and repulsive biases",
+   "temporal psychophysics",
    "time dilation",
-   "transient twinkle perception",
-   "temporal filtering",
+   "twinkle perception",
    "ideomotor theory",
-   "sensory history",
-   "Bayesian modeling"
+   "motion and position interaction",
+   "sensory history"
   ],
-  "card": "visual-vestibular heading estimation; attractive and repulsive biases; generative adversarial networks; motion and position perception; time dilation; transient twinkle perception; temporal filtering; ideomotor theory; sensory history; Bayesian modeling"
+  "card": "Bayesian perceptual inference; visual-vestibular heading estimation; generative adversarial networks; attractive and repulsive biases; temporal psychophysics; time dilation; twinkle perception; ideomotor theory; motion and position interaction; sensory history"
  },
  "0518": {
   "hash": "6a39d78b1dff6491",
@@ -12806,5 +12806,21 @@
    "resting-state functional connectomics"
   ],
   "card": "multiple object tracking (MOT); multiple identity tracking (MIT); gaze coherence; scene memorability; representational distinctiveness; scene typicality; visual free recall; drawing from memory; detail retention in visual memory; resting-state functional connectomics"
+ },
+ "E389": {
+  "hash": "cf0caace17521748",
+  "keywords": [
+   "contextual cueing",
+   "naturalistic visual search",
+   "immersive virtual reality",
+   "accommodative esotropia",
+   "intermittent exotropia",
+   "smooth pursuit",
+   "anticipatory saccades",
+   "fixation duration",
+   "spatial memory",
+   "task-irrelevant distractors"
+  ],
+  "card": "contextual cueing; naturalistic visual search; immersive virtual reality; accommodative esotropia; intermittent exotropia; smooth pursuit; anticipatory saccades; fixation duration; spatial memory; task-irrelevant distractors"
  }
 }

@@ -237,6 +237,9 @@
 - Michael Crognale: removed from the map by request (`pi_overrides.json`, is_pi=false).
 - Curtis L. Baker (on request): bio lists only Ophthalmology & Visual Sciences as his department (Biomedical Engineering dropped) and adds his Associate Memberships in Physiology and the Integrated Program in Neuroscience. Added to protected PIs.
 - Jeremy Wilmer (on request): bio rewritten around his graph-interpretation work (ISWYM Lab, ShowMyData.org); lab name set; Attention added as a secondary topic area; Agentic Search keywords set by hand (graph interpretation, data visualization, perceptual organization, decision making, attention, spatial thinking, ensemble processing).
+- Oh-Sang Kwon (on request): name written "Oh-Sang Kwon" instead of all caps.
+- Daphne Bavelier (on request): AI summary now credits the Internet Gaming Disorder work to her lab together with Ben Bediou. Added to protected PIs.
+- M. Pilar Aivar: added on a collaborator's suggestion (profile agent, visual search / scene perception work at UAM). Contact email stored privately, not shipped.
 - Alex S. Baldwin (on request): photo replaced with the portrait from his own McGill page (old one was a different person). Map position unchanged.
 - Alexander Schütz (on request): profile broadened beyond the five most recent papers; added three representative papers found via Crossref/OpenAlex (Schütz et al. 2008 Nat Neurosci, smooth pursuit sensitivity; Schütz et al. 2012 PNAS, salience and value; Schütz et al. 2011 J Vis, eye movements and perception review). AI summary rewritten to cover the earlier eye-movement work as well as recent metacognition work. Map position unchanged; a larger publication window in the map itself is not implemented.
 - Andrea Facoetti (on request): AI summary replaced with the lab profile Dr. Facoetti sent (attention and perception in learning and neurodevelopment, dyslexia, autism, AVG training).

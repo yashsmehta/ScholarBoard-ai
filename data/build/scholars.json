@@ -11023,6 +11023,10 @@
         "score": 0.8743
       },
       {
+        "id": "E389",
+        "score": 0.8741
+      },
+      {
         "id": "0567",
         "score": 0.8737
       },
@@ -11033,10 +11037,6 @@
       {
         "id": "0094",
         "score": 0.8702
-      },
-      {
-        "id": "0389",
-        "score": 0.8697
       }
     ]
   },
@@ -14094,7 +14094,7 @@
     "scholar_profile_url": "https://scholar.google.com/citations?user=KLnfuU8AAAAJ&hl=en",
     "main_research_area": "cognitive neuroscience and brain plasticity",
     "bio": "Daphné Bavelier is a cognitive neuroscientist and Professor at the University of Geneva, where they direct the Brain and Learning Lab at Campus Biotech. Bavelier investigates the mechanisms of human brain plasticity and learning, focusing on how the brain adapts to experiences such as deafness or training with digital media. Bavelier’s research indicates that action video games can serve as tools to enhance visual attention, perception, and spatial cognition. Utilizing fMRI, psychophysics, and eye-tracking, Bavelier currently identifies factors that promote learning and the transfer of cognitive skills across different domains.",
-    "research_direction": "Dr. Bavelier has recently been investigating the cognitive impacts of action video game play, specifically exploring the theoretical mechanisms through which gaming might strengthen broad attentional control and transfer to high-stakes psychomotor tasks like aviation screening. To better measure and harness these phenomena, their recent work explores methodological improvements in cognitive assessment and training, including designing multidimensional dynamic difficulty algorithms to personalize game-based interventions and evaluating how different psychometric scoring practices affect the reliability of executive function models. Additionally, they are examining the clinical aspects of heavy gaming behavior. By combining actual gameplay telemetry with psychological batteries, they are investigating whether raw gaming consumption predicts Internet Gaming Disorder, or if such symptoms are better accounted for by underlying mental health and personality traits.",
+    "research_direction": "Dr. Bavelier has recently been investigating the cognitive impacts of action video game play, specifically exploring the theoretical mechanisms through which gaming might strengthen broad attentional control and transfer to high-stakes psychomotor tasks like aviation screening. To better measure and harness these phenomena, their recent work explores methodological improvements in cognitive assessment and training, including designing multidimensional dynamic difficulty algorithms to personalize game-based interventions and evaluating how different psychometric scoring practices affect the reliability of executive function models. Additionally, together with Ben Bediou, her lab is examining the clinical aspects of heavy gaming behavior. By combining actual gameplay telemetry with psychological batteries, the lab is investigating whether raw gaming consumption predicts Internet Gaming Disorder, or if such symptoms are better accounted for by underlying mental health and personality traits.",
     "papers": [
       {
         "title": "Action video game playing impacts occupational screening for high-stakes professionals",
@@ -20109,16 +20109,16 @@
         "score": 0.8746
       },
       {
+        "id": "E389",
+        "score": 0.8731
+      },
+      {
         "id": "E341",
         "score": 0.8723
       },
       {
         "id": "0464",
         "score": 0.8716
-      },
-      {
-        "id": "0112",
-        "score": 0.8709
       }
     ]
   },
@@ -46794,6 +46794,10 @@
         "score": 0.881
       },
       {
+        "id": "E389",
+        "score": 0.8803
+      },
+      {
         "id": "0555",
         "score": 0.8793
       },
@@ -46808,10 +46812,6 @@
       {
         "id": "E156",
         "score": 0.8765
-      },
-      {
-        "id": "0119",
-        "score": 0.8756
       }
     ]
   },
@@ -47983,7 +47983,7 @@
   },
   "0517": {
     "id": "0517",
-    "name": "OH-SANG KWON",
+    "name": "Oh-Sang Kwon",
     "institution": "Ulsan National Institute of Science and Technology",
     "country": "South Korea",
     "department": "Department of Biomedical Engineering",
@@ -62884,6 +62884,10 @@
         "score": 0.92
       },
       {
+        "id": "E389",
+        "score": 0.92
+      },
+      {
         "id": "0109",
         "score": 0.9186
       },
@@ -62902,10 +62906,6 @@
       {
         "id": "0452",
         "score": 0.9154
-      },
-      {
-        "id": "0294",
-        "score": 0.9152
       }
     ]
   },
@@ -94650,6 +94650,131 @@
       {
         "id": "0665",
         "score": 0.8927
+      }
+    ]
+  },
+  "E389": {
+    "id": "E389",
+    "name": "M. Pilar Aivar",
+    "institution": "Universidad Autónoma de Madrid",
+    "country": "Spain",
+    "department": "Facultad de Psicología; Departamento de Psicología Básica",
+    "lab_name": "Cognition, Attention and Learning Lab (UAM); research group Percepción y Movimiento",
+    "lab_url": "https://www.psicologiauam.es/aivar/index.html",
+    "scholar_profile_url": "https://scholar.google.com/citations?user=0_xhVtUAAAAJ",
+    "main_research_area": "Visual search and eye movements",
+    "bio": "Aivar studies how people search for and act on objects, focusing on the role of memory and eye, head and body movements in visual search. Their work uses eye tracking, immersive virtual reality environments and contextual-cueing paradigms to examine how repeated exposure changes search behavior and fixation patterns. Related work examines whether irrelevant distractors are truly ignored during learned search. They also record smooth pursuit and saccades in children with strabismus, and have written on teaching sensation and perception with class demonstrations.",
+    "research_direction": "Dr. Aivar has recently been studying how memory and learning shape visual search, in both natural and laboratory settings. Their recent work explores how people searching an immersive virtual apartment use spatial memory to guide eye, head and body movements, and how eye movements change when the same display is searched repeatedly, including adjustments of fixation duration, saccade amplitude and landing position. They also investigate whether task-irrelevant distractors are truly ignored in contextual-cueing experiments, using eye tracking to measure whether participants look at them. A separate thread uses eye tracking to compare smooth pursuit and saccades in children with different types of strabismus. They have also published a collection of classroom demonstrations for teaching sensation and perception.",
+    "papers": [
+      {
+        "title": "Hold it there! Dynamic adjustment of fixation duration in visual search tasks",
+        "abstract": "Three eye-tracking experiments examined how oculomotor behavior changes when the same search display is repeated, with one experiment mixing repeated and new displays. The number of fixations needed to find the target fell with repetition, while search fixations grew longer and fixations on the target grew shorter. Saccade amplitudes also decreased and fixations landed progressively closer to the target. The pattern is interpreted as a dynamic, strategic adjustment of fixation durations during search.",
+        "year": "2026",
+        "venue": "Journal of Vision",
+        "citations": "1",
+        "authors": "M. Pilar Aivar, Laura Cepero Amores, Elena Sanz, Miguel A. Vadillo, Victoria Plaza",
+        "url": "https://doi.org/10.1167/jov.26.6.3"
+      },
+      {
+        "title": "Differences in Smooth Pursuit and Associated Saccades in Children With Two Common Types of Strabismus",
+        "abstract": "Eye movements of 58 children, 24 with accommodative esotropia, 18 with intermittent exotropia and 16 controls, were recorded with a 120 Hz eye tracker during sinusoidal smooth pursuit. Pursuit gain was lower in intermittent exotropia than in controls, whereas accommodative esotropia showed more anticipatory saccades during pursuit. Latency did not differ between groups, and rightward pursuit outperformed leftward pursuit. The authors suggest the pursuit system is mainly affected in intermittent exotropia and the saccadic system in accommodative esotropia.",
+        "year": "2026",
+        "venue": "Investigative Ophthalmology & Visual Science",
+        "citations": "0",
+        "authors": "Elena Sanz, M. Pilar Aivar, Jaime Tejedor",
+        "url": "https://doi.org/10.1167/iovs.67.2.28"
+      },
+      {
+        "title": "Knowing where to go: Spatial memory guides eye and body movements in a naturalistic visual search task",
+        "abstract": "Participants searched for geometric 3D objects inside an immersive virtual-reality apartment while eye and head positions were recorded, with the location and visibility of the targets manipulated. Repeated searches for objects with stable locations shortened search time, reduced fixations and errors, and objects seen earlier but searched for the first time were found more easily, which suggests incidental learning of context. Body trajectories became shorter and faster only for repeatedly searched objects. The authors argue that memory for 3D space and target location is central to natural search and shapes movement kinematics.",
+        "year": "2024",
+        "venue": "Journal of Vision",
+        "citations": "10",
+        "authors": "M. Pilar Aivar, Chia-Ling Li, Matthew H. Tong, Dmitry M. Kit, Mary M. Hayhoe",
+        "url": "https://doi.org/10.1167/jov.24.9.1"
+      },
+      {
+        "title": "Measuring learning and attention to irrelevant distractors in contextual cueing.",
+        "abstract": "Contextual-cueing studies have asked participants to ignore task-irrelevant distractors and taken learning from them as evidence that the effect does not need selective attention. Across a series of experiments, the authors show that this instruction often fails to prevent selection, since search is slower when many irrelevant distractors are present. Eye-tracking data show that participants fixate on these distractors. The results question earlier claims that contextual cueing is independent of selective attention.",
+        "year": "2024",
+        "venue": "Journal of Experimental Psychology: Human Perception and Performance",
+        "citations": "6",
+        "authors": "Miguel A. Vadillo, Patricia Aniento, David Hernández-Gutiérrez, Luca Saini, M. Pilar Aivar",
+        "url": "https://doi.org/10.1037/xhp0001230"
+      },
+      {
+        "title": "“Experiencing perception”: A collection of class demonstrations and activities to engage students in sensation & perception courses",
+        "abstract": "The paper presents a set of 15 class activities for sensation and perception courses, each paired with reading assignments and reflection questions to increase student engagement. The collection grew out of the need for demonstrations that could be done remotely during the pandemic. The author also reflects on the challenges and opportunities of using demonstrations with groups of different sizes and cultural backgrounds.",
+        "year": "2024",
+        "venue": "Visual Cognition",
+        "citations": "3",
+        "authors": "M. Pilar Aivar",
+        "url": "https://doi.org/10.1080/13506285.2023.2250519"
+      }
+    ],
+    "primary_subfield": "Visual Search",
+    "subfields": [
+      {
+        "subfield": "Visual Search",
+        "score": 1.0
+      },
+      {
+        "subfield": "Eye Movements",
+        "score": 0.5
+      },
+      {
+        "subfield": "Visual Memory",
+        "score": 0.5
+      }
+    ],
+    "profile_pic": "m._pilar_aivar_E389.jpg",
+    "umap_projection": {
+      "x": 11.054167747497559,
+      "y": 5.939302921295166
+    },
+    "cluster": 0,
+    "total_citations": 651,
+    "h_index": 12,
+    "similar": [
+      {
+        "id": "0681",
+        "score": 0.92
+      },
+      {
+        "id": "0166",
+        "score": 0.909
+      },
+      {
+        "id": "0262",
+        "score": 0.908
+      },
+      {
+        "id": "0555",
+        "score": 0.9077
+      },
+      {
+        "id": "0109",
+        "score": 0.9067
+      },
+      {
+        "id": "0728",
+        "score": 0.9019
+      },
+      {
+        "id": "0443",
+        "score": 0.901
+      },
+      {
+        "id": "0043",
+        "score": 0.9007
+      },
+      {
+        "id": "0565",
+        "score": 0.9
+      },
+      {
+        "id": "0019",
+        "score": 0.8996
       }
     ]
   }

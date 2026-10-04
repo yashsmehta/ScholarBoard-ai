@@ -321,3 +321,5 @@
   the empty profile panel is hidden until a scholar is picked, the map hint says
   "Pinch to zoom · Drag to pan · Tap a dot" on touch screens, and header/filter buttons are
   larger tap targets.
+
+- Janice Chen (E119): added her 2026 Nature Communications "agency" paper (Li et al., last author; DOI 10.1038/s41467-026-73907-2, verified on Crossref) as paper #1; list kept at 5. Protected.

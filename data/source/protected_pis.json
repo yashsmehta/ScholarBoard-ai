@@ -250,5 +250,9 @@
   "E360": {
     "name": "Adrian Staub",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
+  "E119": {
+    "name": "Janice Chen",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   }
 }

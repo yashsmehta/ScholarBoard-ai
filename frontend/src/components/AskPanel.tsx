@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import type { Scholar } from '../types/scholar'
 import type { AskEngine, AskOutcome, AskResult } from '../lib/nlSearch'
@@ -7,7 +7,6 @@ import { SPINNER_VERBS } from '../lib/spinnerVerbs'
 import { ListAvatar } from './ScholarList'
 import { cx } from '../lib/cx'
 import { AskScan } from './AskScan'
-import type { LandedDot } from './AskScan'
 
 interface AskPanelProps {
   open: boolean
@@ -33,14 +32,10 @@ const MOD_KEY = /Mac|iPhone|iPad/.test(navigator.userAgent) ? '⌘' : 'Ctrl'
 // Claude Code's status-line sparkle cycle (same as aos-ai); the verb changes every VERB_SECONDS.
 const STARS = ['·', '✻', '✽', '✶', '*']
 const VERB_SECONDS = 8
-const FLY_MS = 750
-const FLY_STAGGER_MS = 60
 
 type Phase =
   | { kind: 'idle' }
   | { kind: 'running'; startedAt: number; queuePosition: number; seed: number; engine: AskEngine | null }
-  // Results are in and the scan is lighting up the matches before the list takes over
-  | { kind: 'landing'; startedAt: number; endedAt: number; engine: AskEngine | null; found: AskResult[]; meta: Omit<AskOutcome, 'results'> }
   | { kind: 'error'; message: string }
 
 declare global {
@@ -64,11 +59,8 @@ export function AskPanel({
   const [outcome, setOutcome] = useState<Omit<AskOutcome, 'results'> | null>(null)
   const abortRef = useRef<AbortController | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
-  const listRef = useRef<HTMLOListElement | null>(null)
-  const flightsRef = useRef<Map<string, LandedDot> | null>(null)
 
-  const landing = phase.kind === 'landing'
-  const running = phase.kind === 'running' || landing
+  const running = phase.kind === 'running'
   const byId = new Map(scholars.map((s) => [s.id, s]))
 
   useEffect(() => {
@@ -109,70 +101,14 @@ export function AskPanel({
           : prev),
         controller.signal,
       )
-      const animate = open && found.length > 0 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      if (animate) {
-        setPhase((prev) => prev.kind === 'running'
-          ? { kind: 'landing', startedAt: prev.startedAt, endedAt: Date.now(), engine: meta.engine ?? prev.engine, found, meta }
-          : prev)
-      } else {
-        onResults(found)
-        setOutcome(meta)
-        setPhase({ kind: 'idle' })
-      }
+      onResults(found)
+      setOutcome(meta)
+      setPhase({ kind: 'idle' })
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') return
       setPhase({ kind: 'error', message: error instanceof Error ? error.message : 'Search failed — please try again.' })
     }
   }
-
-  // The scan has lit up the matches: hand over to the list, and fly each dot into its avatar
-  function land(dots: Map<string, LandedDot>) {
-    if (phase.kind !== 'landing') return
-    flightsRef.current = dots
-    onResults(phase.found)
-    setOutcome(phase.meta)
-    setPhase({ kind: 'idle' })
-  }
-
-  useLayoutEffect(() => {
-    const dots = flightsRef.current
-    const list = listRef.current
-    flightsRef.current = null
-    if (!dots || dots.size === 0 || !list) return
-    const ghosts: HTMLElement[] = []
-    list.querySelectorAll<HTMLElement>('li[data-ask-id]').forEach((li, i) => {
-      const dot = dots.get(li.dataset.askId ?? '')
-      const avatar = li.querySelector<HTMLElement>('.scholar-list__avatar')
-      if (!dot || !avatar) return
-      const to = avatar.getBoundingClientRect()
-      const ghost = document.createElement('div')
-      ghost.className = 'ask-ghost'
-      Object.assign(ghost.style, {
-        left: `${to.left}px`, top: `${to.top}px`, width: `${to.width}px`, height: `${to.height}px`, background: dot.color,
-      })
-      const face = avatar.cloneNode(true) as HTMLElement
-      ghost.appendChild(face)
-      document.body.appendChild(ghost)
-      ghosts.push(ghost)
-      avatar.style.visibility = 'hidden'
-
-      const dx = dot.x - (to.left + to.width / 2)
-      const dy = dot.y - (to.top + to.height / 2)
-      const timing = { duration: FLY_MS, delay: i * FLY_STAGGER_MS, easing: 'cubic-bezier(0.65, 0, 0.25, 1)', fill: 'both' as const }
-      // A slight arc: the ghost overshoots sideways at the midpoint, so the ten don't fly in a straight sheet
-      ghost.animate([
-        { transform: `translate(${dx}px, ${dy}px) scale(${(dot.r * 2) / to.width})` },
-        { transform: `translate(${dx * 0.45 - 18}px, ${dy * 0.5}px) scale(0.8)`, offset: 0.5 },
-        { transform: 'none' },
-      ], timing)
-      face.animate([{ opacity: 0 }, { opacity: 0, offset: 0.4 }, { opacity: 1 }], timing).finished
-        .then(() => {
-          avatar.style.visibility = ''
-          ghost.remove()
-        }, () => ghost.remove())
-    })
-    return () => ghosts.forEach((g) => g.remove())
-  }, [results])
 
   function fill(text: string) {
     setQuery(text)
@@ -184,11 +120,10 @@ export function AskPanel({
     })
   }
 
-  const elapsedMs = phase.kind === 'running' ? Math.max(0, now - phase.startedAt)
-    : landing ? phase.endedAt - phase.startedAt : 0
+  const elapsedMs = phase.kind === 'running' ? Math.max(0, now - phase.startedAt) : 0
   const elapsed = Math.floor(elapsedMs / 1000)
-  const star = landing ? '✓' : STARS[Math.floor(elapsedMs / 260) % STARS.length]
-  const verb = phase.kind === 'running'
+  const star = STARS[Math.floor(elapsedMs / 260) % STARS.length]
+  const verb = running
     ? SPINNER_VERBS[(phase.seed + Math.floor(elapsed / VERB_SECONDS) * 37) % SPINNER_VERBS.length] : ''
   const queuePosition = phase.kind === 'running' ? phase.queuePosition : 0
 
@@ -266,13 +201,11 @@ export function AskPanel({
               waiting={queuePosition > 0}
               status={(
                 <>
-                  <span className={cx('ask__star', landing && 'is-done')} aria-hidden="true">{star}</span>
-                  {landing ? 'Found them' : queuePosition > 0 ? `Waiting for a free slot (#${queuePosition})` : `${verb}…`}
+                  <span className="ask__star" aria-hidden="true">{star}</span>
+                  {queuePosition > 0 ? `Waiting for a free slot (#${queuePosition})` : `${verb}…`}
                   <span className="ask__time">{elapsed}s</span>
                 </>
               )}
-              hits={landing ? phase.found.map((r) => r.id) : null}
-              onLanded={land}
             />
           </div>
         )}
@@ -310,11 +243,11 @@ export function AskPanel({
             {results.length === 0 && (
               <p className="ask__note">Nobody in the directory is a plausible fit. Try describing the topic or methods differently.</p>
             )}
-            <ol className="ask__list" ref={listRef}>
+            <ol className="ask__list">
               {results.map((r, i) => {
                 const scholar = byId.get(r.id)
                 return scholar && (
-                  <li key={r.id} data-ask-id={r.id} style={{ '--i': i } as CSSProperties}>
+                  <li key={r.id} style={{ '--i': i } as CSSProperties}>
                     <button
                       type="button"
                       className={cx('ask-row', r.id === selectedScholarId && 'is-selected')}

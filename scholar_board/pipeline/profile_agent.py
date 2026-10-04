@@ -7,11 +7,11 @@ from its environment) researches the person on the web and with small exact tool
 scholar_board/prompts/profile_agent.md:
 
   identity → current affiliation + lab link + PI status → photo → citation stats →
-  candidate papers (2023+, first/last author) → the 5 most impactful recent works →
+  candidate papers (2023+, first/last/second-to-last author) → the 5 most impactful recent works →
   bio + AI summary (research direction) → VSS topic areas, country, sex → self-check
 
 It writes everything into one profile.json in its workspace (data/pipeline/agent_runs/).
-This module then re-verifies every paper on OpenAlex/Crossref (exists, PI first/last,
+This module then re-verifies every paper on OpenAlex/Crossref (exists, PI first/last/second-to-last,
 2023+, not a meeting abstract), checks the photo, and writes the DB plus the usual JSON
 artifacts. New PIs are then embedded and placed on the map with the saved UMAP model
 (no refit, every other dot stays put), `build` runs, and their AI Search keywords are
@@ -198,6 +198,9 @@ def lookup_paper(paper: dict) -> tuple[str, str, str, list[str]] | None:
     return None
 
 
+SENIOR_POSITIONS = ("first", "last", "second-to-last")
+
+
 def _position(pi_name: str, authors: list[str]) -> str:
     surname = _norm(pi_name).split()[-1]
     toks = [_norm(a).split() for a in authors if a.strip()]
@@ -207,6 +210,8 @@ def _position(pi_name: str, authors: list[str]) -> str:
         return "first"
     if surname in toks[-1]:
         return "last"
+    if len(toks) > 2 and surname in toks[-2]:
+        return "second-to-last"  # often co-senior (shared senior authorship)
     return "middle" if any(surname in t for t in toks) else "absent"
 
 
@@ -224,14 +229,14 @@ def verify_paper(pi_name: str, p: dict) -> tuple[bool, list[str]]:
     if rec is None:
         # e.g. OpenReview-only conference papers: fall back to the agent's author list
         pos = _position(pi_name, re.split(r",\s*", p.get("authors") or ""))
-        if pos not in ("first", "last"):
+        if pos not in SENIOR_POSITIONS:
             return False, [f"not found on OpenAlex/Crossref and PI is {pos} in the listed authors"]
         return True, ["not found on OpenAlex/Crossref (kept on the agent's verification)"]
     title, pub_date, venue, authors = rec
     if difflib.SequenceMatcher(None, _norm(title), _norm(p.get("title"))).ratio() < 0.8:
         return False, [f"DOI resolves to a different title: {title[:80]}"]
     pos = _position(pi_name, authors)
-    if pos not in ("first", "last") and p.get("author_position") not in ("co-first", "co-last"):
+    if pos not in SENIOR_POSITIONS and p.get("author_position") not in ("co-first", "co-last"):
         return False, [f"PI is {pos} author per the record"]
     if pub_date and pub_date[:4] < PAPERS_SINCE[:4]:
         notes.append(f"record date {pub_date} (agent said {p.get('year')})")

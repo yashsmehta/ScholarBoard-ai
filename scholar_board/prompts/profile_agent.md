@@ -6,7 +6,7 @@ Institution on file (may be OUTDATED — people move; do not trust it): {institu
 ## Tools
 Helper scripts in `tools/` (use these for data; they are faster and exact):
 - `python3 tools/openalex.py authors "<name>"` — candidate OpenAlex author profiles (id, works, citations, institution history, topics).
-- `python3 tools/openalex.py works <A-id>[,<A-id>...]` — EVERY first/last-author work since 2023-01-01 with exact author position (`*` = corresponding author), type, venue, citations, citations/year, DOI, and flags: `ABSTRACT?` (meeting-abstract venue), `ERRATUM`, `DUPLICATE(preprint...)`, `SAME-TITLE-TWIN`. Add `--all` to also see middle-author works.
+- `python3 tools/openalex.py works <A-id>[,<A-id>...]` — EVERY first/last/second-to-last-author work since 2023-01-01 with exact author position (`*` = corresponding author), type, venue, citations, citations/year, DOI, and flags: `ABSTRACT?` (meeting-abstract venue), `ERRATUM`, `DUPLICATE(preprint...)`, `SAME-TITLE-TWIN`. Add `--all` to also see middle-author works.
 - `python3 tools/openalex.py abstract <doi>` — real abstract and full author list for one paper.
 - `python3 tools/crossref.py <doi> [<doi>...]` — Crossref record: title, type, venue, date, full author order.
 - `python3 tools/gscholar.py "<scholar profile url>"` — Scholar name, affiliation line, homepage link, citations/h-index (All and Since columns), and the latest 40 papers by date with citation counts.
@@ -29,7 +29,7 @@ From `tools/gscholar.py`: the "ALL" citations and h-index. If the PI has no Scho
 
 ## Step 5 — Candidates
 `tools/openalex.py works <ids>` gives the OpenAlex list. Compare it with the `tools/gscholar.py` paper list and the PI's own publications page: add any 2026/2025 paper or preprint that OpenAlex lacks (verify its author order with `tools/crossref.py` or the landing page).
-Fixed rules: dated 2023-01-01 or later (2023 included); the PI is FIRST or LAST author (co-first / co-senior with stated equal contribution counts).
+Fixed rules: dated 2023-01-01 or later (2023 included); the PI is FIRST, LAST or SECOND-TO-LAST author (second-to-last is often shared senior authorship; co-first with stated equal contribution also counts).
 Not papers: meeting abstracts (`ABSTRACT?`: VSS, Journal of Vision meeting supplements, CCN, COSYNE, SfN, OHBM — a Journal of Vision supplement entry sharing a title with a full paper is the abstract; regular Journal of Vision articles are fine), errata (`ERRATUM`), and duplicates — when a work has a preprint and a published version, list ONLY the published version, under its journal or conference. Full conference papers (NeurIPS, ICLR, ICML, CVPR, ICCV, ECCV, ACL, CogSci) are papers.
 
 ## Step 6 — Choose the 5 most impactful recent works
@@ -51,7 +51,7 @@ For each chosen paper: `tools/openalex.py abstract <doi>` (or Crossref / the lan
 - `sex`: "female" or "male" only when a page about the PI uses gendered pronouns for them (their own site, a university profile or news piece); otherwise "unknown". Never infer it from the name or photo. This field is private and never shown on the site.
 
 ## Step 9 — Self-check
-Affiliation matches the PI's own (current) pages today? Every paper >= 2023, first/last author, not abstract/erratum/duplicate, verified, authors copied exactly? Photo from an official page, opened and confirmed? Stats from the ALL column? Subfield names exactly from the list?
+Affiliation matches the PI's own (current) pages today? Every paper >= 2023, first/last/second-to-last author, not abstract/erratum/duplicate, verified, authors copied exactly? Photo from an official page, opened and confirmed? Stats from the ALL column? Subfield names exactly from the list?
 
 ## Output
 
@@ -72,7 +72,7 @@ Write ONE file, `profile.json`, in the current directory (Write tool), with exac
   "papers": [
     {"title": "", "abstract": "2-4 sentences IN YOUR OWN WORDS", "year": "2026", "publication_date": "YYYY-MM-DD",
      "venue": "", "citations": "12", "authors": "Full, Comma, Separated, List", "url": "https://doi.org/...",
-     "author_position": "first|last|co-first|co-last", "why_selected": "one line"}
+     "author_position": "first|last|second-to-last|co-first|co-last", "why_selected": "one line"}
   ],
   "excluded_notable": [{"title": "", "reason": "why a notable 2023+ paper was left out"}],
   "research_direction": "the AI summary paragraph",

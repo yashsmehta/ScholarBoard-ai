@@ -6,7 +6,8 @@
   python3 tools/openalex.py works A123,A456 [--since 2023-01-01] [--all]
       every work since the date, with the PI's exact author position, type, venue,
       citations and citations/year, plus flags (abstract venue, erratum, preprint with
-      a published twin). First/last-author works only unless --all.
+      a published twin). First, last and second-to-last (co-senior) author works only
+      unless --all.
   python3 tools/openalex.py abstract <doi or W-id>
       reconstructed abstract + full author list
 """
@@ -70,7 +71,8 @@ def works(ids, since, show_all):
         pos = [i for i, a in enumerate(A) if (a["author"].get("id") or "").split("/")[-1] in ids]
         if not pos:
             continue
-        p = "first" if 0 in pos else "last" if len(A) - 1 in pos else "middle"
+        p = ("first" if 0 in pos else "last" if len(A) - 1 in pos
+             else "second-to-last" if len(A) > 2 and len(A) - 2 in pos else "middle")
         if p == "middle" and not show_all:
             continue
         src = (w.get("primary_location") or {}).get("source") or {}
@@ -90,7 +92,7 @@ def works(ids, since, show_all):
         out.append((pd, p + ("*" if corr else ""), w.get("type"), w.get("cited_by_count", 0),
                     w.get("cited_by_count", 0) / age, venue, w.get("doi") or w["id"], w["title"], len(A), flags))
     out.sort(reverse=True)
-    print(f"{len(out)} works ({'all positions' if show_all else 'first/last author only'}; *=corresponding)")
+    print(f"{len(out)} works ({'all positions' if show_all else 'first/last/second-to-last author only'}; *=corresponding)")
     print("date | pos | type | cites | cites/yr | venue | doi | n_auth | title | flags")
     for r in out:
         print(f"{r[0]} | {r[1]} | {r[2]} | {r[3]} | {r[4]:.1f} | {r[5][:45]} | {r[6]} | {r[8]} | {r[7]} | {' '.join(r[9])}")

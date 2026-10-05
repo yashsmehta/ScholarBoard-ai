@@ -18,8 +18,9 @@ Abuse and quota protection (each search spends Gemini API credits):
 - global NL_SEARCH_DAILY_LIMIT uncached searches per UTC day;
 - identical queries (normalized) are served from an in-memory cache.
 
-Logs each search (query, engine, latency, cost, filter, result ids; never the IP) to
-$NL_SEARCH_DATA_DIR/searches.jsonl.
+Logs each request (query, outcome, engine, latency, cost, filter, result ids, and a salted-hash
+visitor id + country/city/device; never the IP itself, see analytics.py) to
+$NL_SEARCH_DATA_DIR/searches.jsonl. Summarize with `python -m server.stats`.
 
 Run locally:
     uv run --with-requirements server/requirements.txt uvicorn server.app:app --port 8001
@@ -43,6 +44,7 @@ from pydantic import BaseModel, Field
 
 from scholar_board.config import SEARCH_CORPUS_DIR
 from scholar_board.nlsearch.rank import ENGINES, MAX_QUERY_CHARS, live_steps, search
+from server.analytics import visitor_info
 
 logger = logging.getLogger("scholarboard.nlsearch")
 
@@ -198,7 +200,7 @@ def _pause_claude(err: Exception) -> None:
     logger.warning("claude paused until %s: %s", datetime.fromtimestamp(until, timezone.utc).isoformat(), msg[:200])
 
 
-def _run_job(job_id: str, query: str, key: str, ip: str) -> None:
+def _run_job(job_id: str, query: str, key: str, ip: str, who: dict) -> None:
     t0 = time.time()
     engine = _take_engine()
     trace: dict = {}
@@ -225,7 +227,7 @@ def _run_job(job_id: str, query: str, key: str, ip: str) -> None:
             _jobs[job_id].update(status="error", error="Search failed — please try again.")
             _active_ip.pop(ip, None)
         _log_search({"ts": time.time(), "query": query, "engine": engine, "error": str(err)[:300],
-                     "seconds": round(time.time() - t0, 1), **trace})
+                     "outcome": "error", "seconds": round(time.time() - t0, 1), **who, **trace})
         return
     finally:
         _release_engine(engine)
@@ -241,9 +243,9 @@ def _run_job(job_id: str, query: str, key: str, ip: str) -> None:
         _cache.move_to_end(key)
         while len(_cache) > CACHE_SIZE:
             _cache.popitem(last=False)
-    _log_search({"ts": time.time(), "query": query, "engine": engine, "seconds": payload["seconds"],
-                 "cost_usd": payload["cost_usd"], "fallback_from": fallback_from,
-                 "ids": [r["id"] for r in results], **{k: v for k, v in trace.items() if k != "engine"}})
+    _log_search({"ts": time.time(), "query": query, "engine": engine, "outcome": "ok",
+                 "seconds": payload["seconds"], "cost_usd": payload["cost_usd"], "fallback_from": fallback_from,
+                 "ids": [r["id"] for r in results], **who, **{k: v for k, v in trace.items() if k != "engine"}})
 
 
 def _public(job_id: str, job: dict) -> dict:
@@ -271,22 +273,29 @@ def create_search(body: SearchRequest, request: Request) -> dict:
         raise HTTPException(422, "Query is too short.")
     now = time.time()
     ip = request.client.host if request.client else "unknown"
+    who = visitor_info(ip, request.headers, DATA_DIR)
     key = _cache_key(query)
     job_id = uuid.uuid4().hex
-    with _lock:
-        _prune_jobs(now)
-        running = _jobs.get(_active_ip.get(ip, ""))
-        if running and running["status"] in ("queued", "running"):
-            raise HTTPException(409, "Your previous search is still running — please wait for it to finish.")
-        if key in _cache:
-            _cache.move_to_end(key)
-            _jobs[job_id] = {"status": "done", "created": now, "cached": True, **_cache[key]}
-            _log_search({"ts": now, "query": query, "cached": True})
-            return _public(job_id, _jobs[job_id])
-        _check_limits(ip, now)
-        _jobs[job_id] = {"status": "queued", "created": now}
-        _active_ip[ip] = job_id
-    _pool.submit(_run_job, job_id, query, key, ip)
+    try:
+        with _lock:
+            _prune_jobs(now)
+            running = _jobs.get(_active_ip.get(ip, ""))
+            if running and running["status"] in ("queued", "running"):
+                raise HTTPException(409, "Your previous search is still running — please wait for it to finish.")
+            if key in _cache:
+                _cache.move_to_end(key)
+                _jobs[job_id] = {"status": "done", "created": now, "cached": True, **_cache[key]}
+                _log_search({"ts": now, "query": query, "outcome": "cached", "engine": _cache[key].get("engine"),
+                             "ids": [r["id"] for r in _cache[key]["results"]], **who})
+                return _public(job_id, _jobs[job_id])
+            _check_limits(ip, now)
+            _jobs[job_id] = {"status": "queued", "created": now}
+            _active_ip[ip] = job_id
+    except HTTPException as err:
+        _log_search({"ts": now, "query": query, "outcome": {409: "busy_self", 429: "rate_limited"}.get(
+            err.status_code, "refused"), **who})
+        raise
+    _pool.submit(_run_job, job_id, query, key, ip, who)
     return _public(job_id, _jobs[job_id])
 
 

@@ -26,6 +26,7 @@ PI_OVERRIDES_PATH = SOURCE_DIR / "pi_overrides.json"  # manual is_pi decisions, 
 NAME_ALIASES_PATH = SOURCE_DIR / "name_aliases.json"  # nicknames / alternate names matched by frontend search
 INSTITUTION_COUNTRIES_PATH = SOURCE_DIR / "institution_countries.json"  # institution → country, filled by the countries step
 SEX_OVERRIDES_PATH = SOURCE_DIR / "sex_overrides.json"  # manual sex labels (private, untracked), win over the classifier
+SUMMARY_VISIBLE_PATH = SOURCE_DIR / "summary_visible.json"  # PIs who wrote or approved their summary — only these show it on the site
 PROTECTED_PIS_PATH = SOURCE_DIR / "protected_pis.json"  # PIs whose profiles were hand-edited at their request — never overwritten by AI
 
 # Pipeline intermediates

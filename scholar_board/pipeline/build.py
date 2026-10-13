@@ -24,6 +24,7 @@ from scholar_board.config import (
     SCHOLARS_DIR,
     BUILD_DIR,
     NAME_ALIASES_PATH,
+    SUMMARY_VISIBLE_PATH,
     INSTITUTION_COUNTRIES_PATH,
     EMBEDDINGS_PATH,
 )
@@ -228,6 +229,11 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
         with open(NAME_ALIASES_PATH, encoding="utf-8") as f:
             aliases_by_sid = {sid: e["aliases"] for sid, e in json.load(f).items()}
 
+    summary_visible: set[str] = set()
+    if SUMMARY_VISIBLE_PATH.exists():
+        with open(SUMMARY_VISIBLE_PATH, encoding="utf-8") as f:
+            summary_visible = set(json.load(f))
+
     country_by_institution: dict[str, str] = {}
     if INSTITUTION_COUNTRIES_PATH.exists():
         with open(INSTITUTION_COUNTRIES_PATH, encoding="utf-8") as f:
@@ -235,7 +241,7 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
 
     print("\nBuilding scholar objects...")
     scholars: list[Scholar] = []
-    stats = {k: 0 for k in ("umap", "papers", "bio", "area", "subfield", "pic", "country")}
+    stats = {k: 0 for k in ("umap", "papers", "bio", "area", "subfield", "pic", "country", "summary")}
     unmapped_institutions: set[str] = set()
 
     for row in scholar_rows:
@@ -278,6 +284,9 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
         if sid in aliases_by_sid:
             d["aliases"] = aliases_by_sid[sid]
 
+        # The summary text always ships (Agentic Search ranks on it); the sidebar shows it only when visible
+        d["summary_visible"] = sid in summary_visible
+
         if row["institution"] in country_by_institution:
             d["country"] = country_by_institution[row["institution"]]
             stats["country"] += 1
@@ -286,6 +295,8 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
 
         if row["bio"]:
             stats["bio"] += 1
+        if d["summary_visible"]:
+            stats["summary"] += 1
         if row["main_research_area"]:
             stats["area"] += 1
         if row["profile_pic"]:
@@ -308,6 +319,7 @@ def export_scholars(conn, write_individual: bool = True) -> list[Scholar]:
     print(f"  With subfield tags:  {stats['subfield']}")
     print(f"  With profile pic:    {stats['pic']}")
     print(f"  With country:        {stats['country']}")
+    print(f"  Summary shown:       {stats['summary']}")
     if unmapped_institutions:
         print(f"  Warning: {len(unmapped_institutions)} institutions have no country — "
               f"run `uv run -m scholar_board.pipeline.countries`: {sorted(unmapped_institutions)}")

@@ -48,9 +48,9 @@ export function MethodologyModal({ onClose }: MethodologyModalProps) {
                 current-research summary from those papers; (8) assign VSS topic areas; (9) check its own work. Every chosen paper is then verified again
                 against OpenAlex and Crossref before it is saved. Profiles from the first release were
                 built with <code>gemini-3.8-flash</code> and <code>gemini-3.1-pro-preview</code>, then
-                re-checked by per-PI Claude Code research agents in September 2026. Summaries are
-                AI-generated, not written or endorsed by the researcher, unless the researcher sent
-                their own text.
+                re-checked by per-PI Claude Code research agents in September 2026. A profile shows its
+                research summary only when the researcher wrote it or approved it; the other summaries
+                are still used, unseen, by Agentic Search and the map layout.
               </p>
             </div>
           </div>

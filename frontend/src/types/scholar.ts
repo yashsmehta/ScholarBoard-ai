@@ -43,6 +43,7 @@ export interface RawScholar {
   main_research_area?: string
   bio?: string
   research_direction?: string
+  summary_visible?: boolean
   primary_subfield?: string
   total_citations?: number
   h_index?: number
@@ -70,6 +71,8 @@ export interface Scholar {
   mainResearchArea?: string
   bio?: string
   researchDirection?: string
+  /** Only PIs who wrote or approved their summary have it shown. */
+  summaryVisible: boolean
   primarySubfield?: string
   totalCitations?: number
   hIndex?: number

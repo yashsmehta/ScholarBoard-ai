@@ -219,6 +219,7 @@ Manual trigger: `workflow_dispatch` is enabled, so you can also run the workflow
 - All pipeline logic lives in `scholar_board/pipeline/`; `scripts/` contains only the orchestrator (`run_pipeline.py`)
 - **DB-first**: all pipeline steps load scholars via `load_scholars(is_pi_only=...)` from `scholar_board/db.py` — never from CSV directly
 - **`is_pi` flag**: the profile agent decides `is_pi` (`pi_overrides.json` wins); embed, UMAP, build and search cards use `is_pi=1` only
+- **Summary visibility**: a PI's research summary is shown on the site only if their id is in `data/source/summary_visible.json` (they wrote or approved it in correspondence); everyone else's is hidden but still shipped for Agentic Search. Add a PI there when they approve their text
 - **Hand edits are ground truth**: when a PI sends corrections, edit their data by hand, add them to `data/source/protected_pis.json`, note it in `CHANGELOG.md`, then run `search_cards` — no AI step overwrites a protected PI
 - Shared paths, API key helpers, and common functions go in `scholar_board/config.py`
 - **Gemini gateway**: ALL Gemini API calls must go through `scholar_board/gemini.py` — never call `client.models.*` directly in pipeline modules. Use `embed_texts()`, `generate_image()`, etc.

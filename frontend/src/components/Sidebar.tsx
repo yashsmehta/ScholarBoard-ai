@@ -111,7 +111,7 @@ function ProfileTab({
   onSelectNearby: (scholarId: string) => void
   onSubfieldClick?: (subfield: string) => void
 }) {
-  const researchSummary = splitOpeningSentence(scholar.researchDirection)
+  const researchSummary = scholar.summaryVisible ? splitOpeningSentence(scholar.researchDirection) : null
 
   return (
     <>

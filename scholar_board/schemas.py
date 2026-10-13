@@ -53,6 +53,7 @@ class Scholar(BaseModel):
     main_research_area: Optional[str] = None
     bio: Optional[str] = None
     research_direction: Optional[str] = None
+    summary_visible: bool = False  # shown on the site only if the PI wrote or approved it
     papers: list[Paper] = Field(default_factory=list)
     primary_subfield: Optional[str] = None
     subfields: list[SubfieldTag] = Field(default_factory=list)

@@ -96,20 +96,20 @@
   "card": "object-based attention; shift direction anisotropy; visual field meridians; neural attention gradients; retinotopic cortex; cross-modal attention; multivariate pattern analysis (MVPA); probabilistic scaling; Attentional Network Test (ANT); cochlear implantation"
  },
  "0009": {
-  "hash": "26c6f40c63e27226",
+  "hash": "a3ebeb5729bf0d56",
   "keywords": [
-   "mobile eye-tracking",
-   "overground virtual reality",
-   "vision-in-action",
    "quiet eye",
+   "vision-in-action",
+   "mobile eye-tracking",
+   "immersive virtual reality",
    "visuomotor control",
    "collision avoidance",
-   "visual scanning patterns",
    "nonlinear dynamics",
-   "complex adaptive systems",
-   "explainable machine learning"
+   "explainable machine learning",
+   "gaze-contingent VR",
+   "sport phenomics"
   ],
-  "card": "mobile eye-tracking; overground virtual reality; vision-in-action; quiet eye; visuomotor control; collision avoidance; visual scanning patterns; nonlinear dynamics; complex adaptive systems; explainable machine learning"
+  "card": "quiet eye; vision-in-action; mobile eye-tracking; immersive virtual reality; visuomotor control; collision avoidance; nonlinear dynamics; explainable machine learning; gaze-contingent VR; sport phenomics"
  },
  "0011": {
   "hash": "e1cfb8fe40f2f936",
@@ -1198,20 +1198,20 @@
   "card": "sparse coding; natural scene statistics; simple-cell receptive fields; resonator networks; convolutional sparse coding; residue hyperdimensional computing; vector-symbolic operations; minimal diffusion models; denoising score matching; unique hues"
  },
  "0102": {
-  "hash": "4f3a083f1c8b2e99",
+  "hash": "341b47048d7751fb",
   "keywords": [
    "fast periodic visual stimulation (FPVS)",
-   "intracerebral EEG (sEEG)",
    "acquired prosopagnosia",
+   "intracerebral EEG (sEEG)",
+   "ventral occipito-temporal cortex (VOTC)",
    "holistic face perception",
    "N170",
-   "ventral occipito-temporal cortex (VOTC)",
-   "anterior fusiform gyrus",
    "face pareidolia",
-   "human single-unit recordings",
-   "non-hierarchical visual recognition"
+   "anterior fusiform gyrus",
+   "human single-neuron recordings",
+   "face identity recognition"
   ],
-  "card": "fast periodic visual stimulation (FPVS); intracerebral EEG (sEEG); acquired prosopagnosia; holistic face perception; N170; ventral occipito-temporal cortex (VOTC); anterior fusiform gyrus; face pareidolia; human single-unit recordings; non-hierarchical visual recognition"
+  "card": "fast periodic visual stimulation (FPVS); acquired prosopagnosia; intracerebral EEG (sEEG); ventral occipito-temporal cortex (VOTC); holistic face perception; N170; face pareidolia; anterior fusiform gyrus; human single-neuron recordings; face identity recognition"
  },
  "0104": {
   "hash": "70c511d6f8d751de",
@@ -3038,20 +3038,20 @@
   "card": "object-based attention; induced motion; contour completion; Flying Bluebottle Illusion; Dueling Orbit Illusion; attentional spreading; form and motion integration; spatial localization biases; retinotopic visual cortex; octopus cognitive processes"
  },
  "0241": {
-  "hash": "b09b950932013d02",
+  "hash": "96ce6c4c70a88978",
   "keywords": [
    "technological cognition",
    "technical reasoning",
    "left area PF",
-   "mechanical versus digital technology",
-   "ventro-dorsal visual stream",
-   "technological opacity",
+   "mechanical versus digital tools",
    "cumulative technological culture",
+   "technological opacity",
+   "ventro-dorsal stream",
    "hub-and-processors framework",
    "high-density EEG",
-   "human-AI interaction"
+   "fMRI"
   ],
-  "card": "technological cognition; technical reasoning; left area PF; mechanical versus digital technology; ventro-dorsal visual stream; technological opacity; cumulative technological culture; hub-and-processors framework; high-density EEG; human-AI interaction"
+  "card": "technological cognition; technical reasoning; left area PF; mechanical versus digital tools; cumulative technological culture; technological opacity; ventro-dorsal stream; hub-and-processors framework; high-density EEG; fMRI"
  },
  "0242": {
   "hash": "f3ce238a8b00dfc0",
@@ -3438,20 +3438,20 @@
   "card": "face perception; prosopagnosia; autism spectrum disorder; retinal fundus imaging; diabetic retinopathy; retinal biomarkers; synthetic fMRI; BOLD5000; egocentric visual exposure; visual psychophysics"
  },
  "0276": {
-  "hash": "41e6f9226c77b716",
+  "hash": "11932d0e24675b50",
   "keywords": [
    "size constancy",
    "continuous flash suppression",
-   "size-distance scaling",
    "Ebbinghaus illusion",
-   "EEG-kinematics",
-   "dynamic causal modeling",
-   "visual awareness",
-   "perception and action",
-   "pre-conscious visual processing",
+   "grasping kinematics",
+   "size-distance scaling",
+   "dynamic causal modelling",
+   "pupillometry",
+   "facial EMG",
+   "visuo-proprioceptive integration",
    "psychotic-like experiences"
   ],
-  "card": "size constancy; continuous flash suppression; size-distance scaling; Ebbinghaus illusion; EEG-kinematics; dynamic causal modeling; visual awareness; perception and action; pre-conscious visual processing; psychotic-like experiences"
+  "card": "size constancy; continuous flash suppression; Ebbinghaus illusion; grasping kinematics; size-distance scaling; dynamic causal modelling; pupillometry; facial EMG; visuo-proprioceptive integration; psychotic-like experiences"
  },
  "0277": {
   "hash": "9c9e2e27b0db9b05",
@@ -4107,20 +4107,20 @@
   "card": "attentional capture; abrupt onsets; forced-response paradigm; distractor suppression; response preparation model; spatial working memory; Simon and Flanker tasks; temporal dynamics of visual attention; physical salience; adult ADHD"
  },
  "0324": {
-  "hash": "8f7bcec285e5ab9b",
+  "hash": "a0b8eabcc127459e",
   "keywords": [
-   "Selective Tuning (ST) theory",
+   "Selective Tuning theory",
+   "active vision",
    "convergent binocular stereo",
-   "border-ownership cells",
-   "equiluminant color contrast",
-   "active visual search",
-   "viewpoint selection",
-   "hierarchical winner-take-all",
+   "equiluminant border ownership",
+   "figure-ground segregation",
    "top-down attentional control",
-   "driver gaze prediction",
-   "perceptual grouping"
+   "viewpoint selection",
+   "driver gaze allocation",
+   "hierarchical winner-take-all networks",
+   "perceptual grouping in vision transformers"
   ],
-  "card": "Selective Tuning (ST) theory; convergent binocular stereo; border-ownership cells; equiluminant color contrast; active visual search; viewpoint selection; hierarchical winner-take-all; top-down attentional control; driver gaze prediction; perceptual grouping"
+  "card": "Selective Tuning theory; active vision; convergent binocular stereo; equiluminant border ownership; figure-ground segregation; top-down attentional control; viewpoint selection; driver gaze allocation; hierarchical winner-take-all networks; perceptual grouping in vision transformers"
  },
  "0325": {
   "hash": "cdb2992de4d74087",
@@ -4811,20 +4811,20 @@
   "card": "central vision loss; macular degeneration; preferred retinal locus (PRL); gaze-contingent simulated scotoma; peripheral vision training; cortical plasticity; idiosyncratic functional connectivity; network segregation; resting-state fMRI; oldest-old"
  },
  "0380": {
-  "hash": "1f238ba7206ea0e6",
+  "hash": "0bd96cadaaa99327",
   "keywords": [
    "cortical blindness",
    "perceptual retraining",
-   "laser refractive index change (LIRIC)",
    "hemianopia",
-   "occipital stroke",
-   "corneal myofibroblasts",
+   "laser refractive index change (LIRIC)",
    "corneal fibrosis",
+   "exogenous spatial attention",
+   "residual visual processing",
+   "contrast sensitivity restoration",
    "Humphrey perimetry",
-   "mitochondrial pyruvate carrier",
-   "learning transfer"
+   "non-invasive brain stimulation"
   ],
-  "card": "cortical blindness; perceptual retraining; laser refractive index change (LIRIC); hemianopia; occipital stroke; corneal myofibroblasts; corneal fibrosis; Humphrey perimetry; mitochondrial pyruvate carrier; learning transfer"
+  "card": "cortical blindness; perceptual retraining; hemianopia; laser refractive index change (LIRIC); corneal fibrosis; exogenous spatial attention; residual visual processing; contrast sensitivity restoration; Humphrey perimetry; non-invasive brain stimulation"
  },
  "0381": {
   "hash": "cab1a4a2d607bd23",
@@ -7114,20 +7114,20 @@
   "card": "covert spatial attention; feature-based attention; visual working memory; microsaccades; lateral pulvinar; laminar electrophysiology; optogenetic inactivation; synchronous neuronal firing; attentional gain modulation; naturalistic movie watching fMRI"
  },
  "0569": {
-  "hash": "7bf57518a68fd726",
+  "hash": "72fe954573c6a5e6",
   "keywords": [
-   "microsaccades",
    "fixational eye movements",
+   "microsaccades",
+   "ocular drift",
    "fixation stability",
    "medical image perception",
-   "radiologic expertise",
+   "perceptual expertise",
    "pulmonary nodule detection",
+   "chest radiography",
    "oculomotor biomarkers",
-   "ocular drift",
-   "high-resolution eye-tracking",
-   "art perception"
+   "high-resolution eye-tracking"
   ],
-  "card": "microsaccades; fixational eye movements; fixation stability; medical image perception; radiologic expertise; pulmonary nodule detection; oculomotor biomarkers; ocular drift; high-resolution eye-tracking; art perception"
+  "card": "fixational eye movements; microsaccades; ocular drift; fixation stability; medical image perception; perceptual expertise; pulmonary nodule detection; chest radiography; oculomotor biomarkers; high-resolution eye-tracking"
  },
  "0570": {
   "hash": "eb26b4411feb07d9",
@@ -7210,20 +7210,20 @@
   "card": "material perception; gloss perception; shape-from-shading; elasticity perception; orientation fields; image-computable features; tiny convolutional neural networks; surface curvature; specular reflectance; dynamic physical properties"
  },
  "0576": {
-  "hash": "85ce50149de3ef82",
+  "hash": "22880b5c2c73b299",
   "keywords": [
    "visual working memory",
    "sensory recruitment theory",
    "early visual cortex",
+   "representational geometry",
+   "categorical representations",
    "forward-encoding models",
-   "model mimicry",
-   "allocentric vs retinocentric reference frames",
-   "mnemonic format transformations",
-   "top-down feedback",
    "recurrent neural network modeling",
+   "top-down feedback",
+   "retinocentric and allocentric reference frames",
    "high-field fMRI"
   ],
-  "card": "visual working memory; sensory recruitment theory; early visual cortex; forward-encoding models; model mimicry; allocentric vs retinocentric reference frames; mnemonic format transformations; top-down feedback; recurrent neural network modeling; high-field fMRI"
+  "card": "visual working memory; sensory recruitment theory; early visual cortex; representational geometry; categorical representations; forward-encoding models; recurrent neural network modeling; top-down feedback; retinocentric and allocentric reference frames; high-field fMRI"
  },
  "0577": {
   "hash": "c5689801f33f4e39",
@@ -7897,20 +7897,20 @@
   "card": "dense longitudinal neuroimaging; diffusion tractography; white matter microstructure; dorsal-ventral pathways; sensorimotor learning; visual-motor development; handwriting and drawing; symbol recognition; associative white matter tracts; action-perception coupling"
  },
  "0629": {
-  "hash": "7cf7ad419673a08e",
+  "hash": "d84136d1be9ed6f8",
   "keywords": [
    "contextual cueing",
    "saccadic re-referencing",
-   "attentional reweighting",
-   "probabilistic foraging",
-   "patch-leaving behavior",
-   "exploit-explore decisions",
-   "frontopolar cortex",
+   "attentional dimension weighting",
    "gaze sequences",
-   "memory-guided saccades",
-   "dimension change"
+   "naturalistic social viewing",
+   "probabilistic foraging",
+   "frontopolar cortex",
+   "target and distractor templates",
+   "multivariate pattern analysis (MVPA)",
+   "central vision loss"
   ],
-  "card": "contextual cueing; saccadic re-referencing; attentional reweighting; probabilistic foraging; patch-leaving behavior; exploit-explore decisions; frontopolar cortex; gaze sequences; memory-guided saccades; dimension change"
+  "card": "contextual cueing; saccadic re-referencing; attentional dimension weighting; gaze sequences; naturalistic social viewing; probabilistic foraging; frontopolar cortex; target and distractor templates; multivariate pattern analysis (MVPA); central vision loss"
  },
  "0630": {
   "hash": "a1c0c50b38dd5563",
@@ -8105,20 +8105,20 @@
   "card": "visual short-term memory; retinotopic coordinates; visuotopic mapping; mnemonic fidelity; continuous report task; change-detection paradigm; hemispheric asymmetries; attentional filtering; parietal cortex; hemispatial neglect"
  },
  "0643": {
-  "hash": "40928f539d62fae3",
+  "hash": "5ffdde7c2bc2b113",
   "keywords": [
    "rapid invisible frequency tagging (RIFT)",
    "breaking continuous flash suppression (b-CFS)",
    "conscious access",
-   "alpha lateralization",
-   "gaze bias",
-   "memory-guided selection",
-   "statistical learning",
+   "covert visuo-spatial attention",
+   "perceptual competition",
    "attentional templates",
-   "covert spatial attention",
-   "audiovisual integration"
+   "memory-guided visual selection",
+   "statistical learning",
+   "alpha lateralization",
+   "audiovisual motion integration"
   ],
-  "card": "rapid invisible frequency tagging (RIFT); breaking continuous flash suppression (b-CFS); conscious access; alpha lateralization; gaze bias; memory-guided selection; statistical learning; attentional templates; covert spatial attention; audiovisual integration"
+  "card": "rapid invisible frequency tagging (RIFT); breaking continuous flash suppression (b-CFS); conscious access; covert visuo-spatial attention; perceptual competition; attentional templates; memory-guided visual selection; statistical learning; alpha lateralization; audiovisual motion integration"
  },
  "0644": {
   "hash": "38df7001dce29543",
@@ -8569,20 +8569,20 @@
   "card": "intuitive physics; material property perception; things and stuff distinction; substance perception; elasticity perception; ensemble physics; physics-based simulations; fMRI; psychophysics; infant physical reasoning"
  },
  "0687": {
-  "hash": "cd772652e7c69df9",
+  "hash": "622678ab1835d338",
   "keywords": [
-   "multisensory integration",
    "crossmodal correspondences",
-   "audio-tactile sound-shape matching",
-   "facial emotion perception",
-   "face adaptation",
-   "angry-happy morph continua",
-   "social anxiety perceptual biases",
+   "bouba-kiki effect",
+   "audio-tactile integration",
    "haptic exploration strategies",
-   "point of subjective equality (PSE)",
-   "bouba/kiki"
+   "facial expression adaptation",
+   "social anxiety perceptual biases",
+   "morphed facial expressions",
+   "crossmodal intuitive physics",
+   "sensory recalibration",
+   "point of subjective equality"
   ],
-  "card": "multisensory integration; crossmodal correspondences; audio-tactile sound-shape matching; facial emotion perception; face adaptation; angry-happy morph continua; social anxiety perceptual biases; haptic exploration strategies; point of subjective equality (PSE); bouba/kiki"
+  "card": "crossmodal correspondences; bouba-kiki effect; audio-tactile integration; haptic exploration strategies; facial expression adaptation; social anxiety perceptual biases; morphed facial expressions; crossmodal intuitive physics; sensory recalibration; point of subjective equality"
  },
  "0688": {
   "hash": "3cc6275736bd1ed7",
@@ -9129,20 +9129,20 @@
   "card": "visual foraging; serial dependence; statistical learning; ensemble perception; attentional priming; feature frequency reports; spatiotemporal routines; saccadic eye movements; sensory substitution; EEG"
  },
  "0730": {
-  "hash": "bb54d5090eb65c46",
+  "hash": "8ae4c3c8a5dccf02",
   "keywords": [
-   "probabilistic attentional templates",
-   "resource-rationality",
    "texture accretion and deletion",
-   "serial dependence in depth",
    "contour geometry",
-   "virtual reality psychophysics",
+   "probabilistic attentional templates",
+   "serial dependence",
+   "resource-rationality",
    "optic flow",
-   "figure-ground cues",
-   "3D object representations",
-   "Bayesian cognitive science"
+   "relative depth perception",
+   "figure-ground organization",
+   "Bayesian models of perception",
+   "virtual reality psychophysics"
   ],
-  "card": "probabilistic attentional templates; resource-rationality; texture accretion and deletion; serial dependence in depth; contour geometry; virtual reality psychophysics; optic flow; figure-ground cues; 3D object representations; Bayesian cognitive science"
+  "card": "texture accretion and deletion; contour geometry; probabilistic attentional templates; serial dependence; resource-rationality; optic flow; relative depth perception; figure-ground organization; Bayesian models of perception; virtual reality psychophysics"
  },
  "E001": {
   "hash": "4fcade16f9d966b4",
@@ -10089,20 +10089,20 @@
   "card": "spatial navigation; wayfinding; Sea Hero Quest; neuroarchitecture; environmental neuroscience; decision precaching; hierarchical route planning; spatial complexity; virtual reality navigation; hippocampus"
  },
  "E114": {
-  "hash": "da60ded207ad0f01",
+  "hash": "0f56798c1455c83e",
   "keywords": [
    "path integration",
+   "entorhinal grid-like coding",
+   "head-direction network",
    "spatial updating",
-   "entorhinal grid-cell-like coding",
-   "head-direction signals",
    "environmental boundary coding",
-   "ring-attractor networks",
-   "tau PET",
+   "ring-attractor models",
+   "spatial memory leak",
    "subjective cognitive decline",
-   "immersive virtual reality",
-   "high-field fMRI"
+   "immersive virtual reality navigation",
+   "tau PET"
   ],
-  "card": "path integration; spatial updating; entorhinal grid-cell-like coding; head-direction signals; environmental boundary coding; ring-attractor networks; tau PET; subjective cognitive decline; immersive virtual reality; high-field fMRI"
+  "card": "path integration; entorhinal grid-like coding; head-direction network; spatial updating; environmental boundary coding; ring-attractor models; spatial memory leak; subjective cognitive decline; immersive virtual reality navigation; tau PET"
  },
  "E119": {
   "hash": "91a3be90c6d2288e",
@@ -10409,20 +10409,20 @@
   "card": "observational motor learning; MotorNet; savings in motor learning; sensorimotor feedback loops; motor adaptation; differentiable biomechanical models; somatosensory plasticity; mechanical perturbations; peripheral nerve stimulation; multi-joint movement coordination"
  },
  "E155": {
-  "hash": "a6f62dc29b7fc538",
+  "hash": "0e368f1fcbb0b664",
   "keywords": [
-   "visuomotor control",
+   "reaching and grasping",
    "maximum grip aperture (MGA)",
    "obstacle avoidance",
+   "visually guided action",
+   "motion tracking",
    "dorsal and ventral streams",
    "visual agnosia",
-   "motion tracking",
-   "stereoscopic depth cues",
-   "action perception",
-   "kinematic discrimination",
-   "approach bias"
+   "haptic perception",
+   "motor expertise",
+   "virtual reality (VR)"
   ],
-  "card": "visuomotor control; maximum grip aperture (MGA); obstacle avoidance; dorsal and ventral streams; visual agnosia; motion tracking; stereoscopic depth cues; action perception; kinematic discrimination; approach bias"
+  "card": "reaching and grasping; maximum grip aperture (MGA); obstacle avoidance; visually guided action; motion tracking; dorsal and ventral streams; visual agnosia; haptic perception; motor expertise; virtual reality (VR)"
  },
  "E156": {
   "hash": "7c41fa4aa26922fd",
@@ -10905,20 +10905,20 @@
   "card": "foveal crowding; perceptual learning; lateral masking; binocular summation; texture discrimination task; amblyopia; presbyopia; spatial integration; contrast sensitivity; ADHD visual processing"
  },
  "E229": {
-  "hash": "3f6dd5327967b839",
+  "hash": "a36ae0382367797d",
   "keywords": [
    "sound-induced flash illusion",
    "Bayesian causal inference",
    "multisensory integration",
    "temporal binding window",
+   "audiovisual interactions",
+   "crossmodal binding",
    "unisensory precision",
-   "audiovisual integration",
-   "multisensory binding",
+   "sensory recalibration",
    "crossmodal perceptual learning",
-   "crossmodal memory encoding",
-   "sensory recalibration"
+   "computational psychophysics"
   ],
-  "card": "sound-induced flash illusion; Bayesian causal inference; multisensory integration; temporal binding window; unisensory precision; audiovisual integration; multisensory binding; crossmodal perceptual learning; crossmodal memory encoding; sensory recalibration"
+  "card": "sound-induced flash illusion; Bayesian causal inference; multisensory integration; temporal binding window; audiovisual interactions; crossmodal binding; unisensory precision; sensory recalibration; crossmodal perceptual learning; computational psychophysics"
  },
  "E230": {
   "hash": "ab7e9fc748046b24",
@@ -11337,20 +11337,20 @@
   "card": "predictive coding; laminar fMRI; magnetoencephalography (MEG); visual prediction errors; successor representation; prior expectations; scene context; temporal sequence prediction; deep generative models; early visual cortex"
  },
  "E266": {
-  "hash": "cf187ba27c0c33e8",
+  "hash": "60a4dee3c3e49644",
   "keywords": [
    "statistical learning",
-   "infant visual perception",
    "cross-modal transfer",
-   "awake infant fMRI",
-   "fNIRS",
-   "neural hyperscanning",
    "visual sequence learning",
    "orthographic statistical learning",
-   "infant attention",
-   "infant language acquisition"
+   "awake infant fMRI",
+   "fNIRS",
+   "caregiver-child neural hyperscanning",
+   "infant eye-tracking",
+   "infant MEG",
+   "infant visual perception"
   ],
-  "card": "statistical learning; infant visual perception; cross-modal transfer; awake infant fMRI; fNIRS; neural hyperscanning; visual sequence learning; orthographic statistical learning; infant attention; infant language acquisition"
+  "card": "statistical learning; cross-modal transfer; visual sequence learning; orthographic statistical learning; awake infant fMRI; fNIRS; caregiver-child neural hyperscanning; infant eye-tracking; infant MEG; infant visual perception"
  },
  "E267": {
   "hash": "61c6ecb006733c42",
@@ -11561,20 +11561,20 @@
   "card": "multivariate pattern analysis (MVPA); fMRI decoding; visual working memory (VWM); sensory recruitment hypothesis; neural subspaces; iconic memory decay; aphantasia; categorical memory codes; intention decoding; neural correlates of consciousness"
  },
  "E284": {
-  "hash": "56c5f0707c57fa7d",
+  "hash": "3c945b0377dcd6f6",
   "keywords": [
-   "naturalistic scene perception",
-   "context-based prediction",
-   "attentional templates",
-   "anchor objects",
-   "object co-occurrence",
+   "object and scene perception",
    "context-guided visual search",
+   "predictive processing",
+   "visual imagery",
+   "attentional templates",
    "multivariate pattern analysis (MVPA)",
-   "occluded object representation",
-   "3D scene structure",
-   "visual imagery"
+   "internally-directed attention",
+   "dynamic context-based updating",
+   "fMRI and MEG",
+   "anchor objects"
   ],
-  "card": "naturalistic scene perception; context-based prediction; attentional templates; anchor objects; object co-occurrence; context-guided visual search; multivariate pattern analysis (MVPA); occluded object representation; 3D scene structure; visual imagery"
+  "card": "object and scene perception; context-guided visual search; predictive processing; visual imagery; attentional templates; multivariate pattern analysis (MVPA); internally-directed attention; dynamic context-based updating; fMRI and MEG; anchor objects"
  },
  "E286": {
   "hash": "f67fb39c8fc96512",
@@ -11881,20 +11881,20 @@
   "card": "amblyopia; motion-defined form perception; global motion coherence; dichoptic video-game treatment; contrast sensitivity function maturation; fixation instability; deprivation amblyopia; developmental dyslexia; stereopsis; visual attention networks"
  },
  "E312": {
-  "hash": "58c2e2adb7d2db77",
+  "hash": "f76901e380b523cc",
   "keywords": [
-   "3D motion selectivity",
    "area FST",
    "area CIP",
    "area V3A",
+   "cue-invariant 3D motion",
    "3D orientation selectivity",
-   "binocular disparity",
-   "macaque electrophysiology",
+   "binocular disparity coding",
    "sensorimotor transformations",
    "divisive normalization",
-   "choice-related activity"
+   "macaque electrophysiology",
+   "dorsal visual stream"
   ],
-  "card": "3D motion selectivity; area FST; area CIP; area V3A; 3D orientation selectivity; binocular disparity; macaque electrophysiology; sensorimotor transformations; divisive normalization; choice-related activity"
+  "card": "area FST; area CIP; area V3A; cue-invariant 3D motion; 3D orientation selectivity; binocular disparity coding; sensorimotor transformations; divisive normalization; macaque electrophysiology; dorsal visual stream"
  },
  "E319": {
   "hash": "7bc602663cc6bc9f",

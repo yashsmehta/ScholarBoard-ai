@@ -3,6 +3,10 @@
     "name": "Adam Reeves",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); his data is ground truth."
   },
+  "0009": {
+    "name": "Adam W. Kiefer",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
   "0023": {
     "name": "Alex S. Baldwin",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
@@ -37,6 +41,10 @@
   },
   "0095": {
     "name": "Brian A. Anderson",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
+  "0102": {
+    "name": "Bruno Rossion",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
   "0104": {
@@ -87,6 +95,10 @@
     "name": "Ipek Oruc",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
+  "0276": {
+    "name": "Irene Sperandio",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
   "0283": {
     "name": "James Bisley",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
@@ -99,6 +111,10 @@
     "name": "Jeremy B Wilmer",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
+  "0324": {
+    "name": "John K. Tsotsos",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
   "0356": {
     "name": "Katharina Dobs",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
@@ -109,6 +125,10 @@
   },
   "0370": {
     "name": "Kohitij Kar",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
+  "0380": {
+    "name": "Krystel Huxlin",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
   "0381": {
@@ -175,6 +195,14 @@
     "name": "Richard A. Abrams",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
+  "0569": {
+    "name": "Robert G. Alexander",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
+  "0576": {
+    "name": "Rosanne L. Rademaker",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
   "0582": {
     "name": "Ruth Rosenholtz",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
@@ -185,6 +213,10 @@
   },
   "0615": {
     "name": "Shinsuke Shimojo",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
+  "0629": {
+    "name": "Stefan Pollmann",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
   "0633": {
@@ -199,12 +231,24 @@
     "name": "Stephen Heinen",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); his data is ground truth."
   },
+  "0643": {
+    "name": "Surya Gayet",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
   "0660": {
     "name": "Thomas B. Christophel",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
+  "0687": {
+    "name": "Vivian M Ciaramitaro",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
   "0714": {
     "name": "Yoshiyuki Ueda",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
+  "0730": {
+    "name": "Ömer Dağlar Tanrikulu",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
   "E026": {
@@ -223,6 +267,10 @@
     "name": "Benoit Cottereau",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
+  "E114": {
+    "name": "Thomas Wolbers",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
   "E119": {
     "name": "Janice Chen",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
@@ -233,6 +281,10 @@
   },
   "E153": {
     "name": "J. Douglas Crawford",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
+  "E155": {
+    "name": "Constanze Hesse",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
   "E180": {
@@ -251,12 +303,24 @@
     "name": "Merav Ahissar",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
+  "E229": {
+    "name": "Ladan Shams",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
   "E247": {
     "name": "Joshua I. Gold",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
+  "E266": {
+    "name": "Richard Aslin",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
   "E281": {
     "name": "Elizabeth Spelke",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
+  "E284": {
+    "name": "Marius Peelen",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
   "E295": {
@@ -265,6 +329,10 @@
   },
   "E300": {
     "name": "Marla Feller",
+    "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
+  },
+  "E312": {
+    "name": "Ari Rosenberg",
     "reason": "Profile hand-edited at the PI's request (see CHANGELOG); their data is ground truth."
   },
   "E344": {

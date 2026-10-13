@@ -1,0 +1,834 @@
+{
+  "0002": {
+    "name": "A. Mike Burton",
+    "basis": "approved"
+  },
+  "0005": {
+    "name": "Aaron Seitz",
+    "basis": "approved"
+  },
+  "0007": {
+    "name": "Adam Reeves",
+    "basis": "own_text"
+  },
+  "0009": {
+    "name": "Adam W. Kiefer",
+    "basis": "own_text"
+  },
+  "0013": {
+    "name": "Aihua Chen",
+    "basis": "approved"
+  },
+  "0019": {
+    "name": "Alejandro Lleras",
+    "basis": "approved"
+  },
+  "0023": {
+    "name": "Alex S. Baldwin",
+    "basis": "approved"
+  },
+  "0024": {
+    "name": "Alex White",
+    "basis": "approved"
+  },
+  "0027": {
+    "name": "Alfredo Spagna",
+    "basis": "approved"
+  },
+  "0028": {
+    "name": "Alice J. O'Toole",
+    "basis": "approved"
+  },
+  "0033": {
+    "name": "Alon Zivony",
+    "basis": "approved"
+  },
+  "0039": {
+    "name": "Andrea Facoetti",
+    "basis": "own_text"
+  },
+  "0040": {
+    "name": "Andreas Hierlemann",
+    "basis": "own_text"
+  },
+  "0041": {
+    "name": "Andreas Keil",
+    "basis": "approved"
+  },
+  "0053": {
+    "name": "Anne Churchland",
+    "basis": "approved"
+  },
+  "0059": {
+    "name": "Arash Afraz",
+    "basis": "own_text"
+  },
+  "0082": {
+    "name": "Bianca M. van Kemenade",
+    "basis": "approved_after_fix"
+  },
+  "0091": {
+    "name": "Bradford Z. Mahon",
+    "basis": "approved"
+  },
+  "0092": {
+    "name": "Bradley Duchaine",
+    "basis": "own_text"
+  },
+  "0095": {
+    "name": "Brian A. Anderson",
+    "basis": "own_text"
+  },
+  "0102": {
+    "name": "Bruno Rossion",
+    "basis": "own_text"
+  },
+  "0104": {
+    "name": "Carlos Ponce",
+    "basis": "own_text"
+  },
+  "0106": {
+    "name": "Caroline Blais",
+    "basis": "approved"
+  },
+  "0108": {
+    "name": "Catherine L. Reed",
+    "basis": "approved"
+  },
+  "0110": {
+    "name": "Chai-Youn Kim",
+    "basis": "approved"
+  },
+  "0116": {
+    "name": "Cheryl Olman",
+    "basis": "approved_after_fix"
+  },
+  "0127": {
+    "name": "Christopher DiMattina",
+    "basis": "approved"
+  },
+  "0134": {
+    "name": "Claus-Christian Carbon",
+    "basis": "approved"
+  },
+  "0135": {
+    "name": "Clayton E Curtis",
+    "basis": "approved"
+  },
+  "0136": {
+    "name": "Clayton Hickey",
+    "basis": "approved"
+  },
+  "0143": {
+    "name": "Curtis L. Baker Jr.",
+    "basis": "approved_after_fix"
+  },
+  "0145": {
+    "name": "Daniel D. Dilks",
+    "basis": "own_text"
+  },
+  "0149": {
+    "name": "Daniel Linares",
+    "basis": "approved"
+  },
+  "0153": {
+    "name": "Daphne Bavelier",
+    "basis": "own_text"
+  },
+  "0159": {
+    "name": "David Brainard",
+    "basis": "approved"
+  },
+  "0162": {
+    "name": "David Leopold",
+    "basis": "approved"
+  },
+  "0166": {
+    "name": "David Souto",
+    "basis": "approved"
+  },
+  "0172": {
+    "name": "Dennis Levi",
+    "basis": "approved"
+  },
+  "0174": {
+    "name": "Diane M. Beck",
+    "basis": "approved"
+  },
+  "0178": {
+    "name": "Dirk Bernhardt-Walther",
+    "basis": "approved"
+  },
+  "0182": {
+    "name": "Domenica Bueti",
+    "basis": "approved"
+  },
+  "0206": {
+    "name": "Eren Günseli",
+    "basis": "approved"
+  },
+  "0207": {
+    "name": "Erez Freud",
+    "basis": "approved"
+  },
+  "0220": {
+    "name": "Frank Bremmer",
+    "basis": "approved"
+  },
+  "0224": {
+    "name": "Freek van Ede",
+    "basis": "approved"
+  },
+  "0226": {
+    "name": "Fuat Balci",
+    "basis": "approved"
+  },
+  "0228": {
+    "name": "Fumiko Hoeft",
+    "basis": "approved"
+  },
+  "0230": {
+    "name": "Galit Yovel",
+    "basis": "approved"
+  },
+  "0232": {
+    "name": "Gene Brewer",
+    "basis": "approved"
+  },
+  "0236": {
+    "name": "George R. Mangun",
+    "basis": "approved"
+  },
+  "0237": {
+    "name": "George Sperling",
+    "basis": "own_text"
+  },
+  "0240": {
+    "name": "Gideon Caplovitz",
+    "basis": "approved"
+  },
+  "0241": {
+    "name": "Giovanni Federico",
+    "basis": "own_text"
+  },
+  "0249": {
+    "name": "Haluk Öǧmen",
+    "basis": "approved"
+  },
+  "0254": {
+    "name": "Heiko H. Schütt",
+    "basis": "approved"
+  },
+  "0258": {
+    "name": "Herwig Baier",
+    "basis": "approved"
+  },
+  "0260": {
+    "name": "Holger Wiese",
+    "basis": "own_text"
+  },
+  "0275": {
+    "name": "Ipek Oruc",
+    "basis": "own_text"
+  },
+  "0276": {
+    "name": "Irene Sperandio",
+    "basis": "own_text"
+  },
+  "0281": {
+    "name": "Jack Gallant",
+    "basis": "approved"
+  },
+  "0289": {
+    "name": "Jan R. Wiersema",
+    "basis": "approved"
+  },
+  "0290": {
+    "name": "Jan Theeuwes",
+    "basis": "approved"
+  },
+  "0292": {
+    "name": "Jarrod Lewis-Peacock",
+    "basis": "approved"
+  },
+  "0298": {
+    "name": "Jennifer K. E. Steeves",
+    "basis": "approved"
+  },
+  "0301": {
+    "name": "Jeremy B Wilmer",
+    "basis": "own_text"
+  },
+  "0313": {
+    "name": "Joan Danielle K. Ongchoco",
+    "basis": "approved"
+  },
+  "0314": {
+    "name": "Joan López-Moliner",
+    "basis": "approved"
+  },
+  "0323": {
+    "name": "John Jonides",
+    "basis": "approved"
+  },
+  "0324": {
+    "name": "John K. Tsotsos",
+    "basis": "own_text"
+  },
+  "0327": {
+    "name": "Jonathan Cant",
+    "basis": "approved"
+  },
+  "0331": {
+    "name": "Jonathan Winawer",
+    "basis": "approved"
+  },
+  "0332": {
+    "name": "Joo-Hyun Song",
+    "basis": "approved"
+  },
+  "0336": {
+    "name": "Joseph DeGutis",
+    "basis": "approved"
+  },
+  "0338": {
+    "name": "Joy Geng",
+    "basis": "approved"
+  },
+  "0344": {
+    "name": "Julie D. Golomb",
+    "basis": "approved"
+  },
+  "0345": {
+    "name": "Julie M. Harris",
+    "basis": "approved"
+  },
+  "0356": {
+    "name": "Katharina Dobs",
+    "basis": "approved_after_fix"
+  },
+  "0363": {
+    "name": "Kelly Bijanki",
+    "basis": "approved_after_fix"
+  },
+  "0370": {
+    "name": "Kohitij Kar",
+    "basis": "approved"
+  },
+  "0380": {
+    "name": "Krystel Huxlin",
+    "basis": "own_text"
+  },
+  "0381": {
+    "name": "Lana M. Trick",
+    "basis": "approved_after_fix"
+  },
+  "0386": {
+    "name": "Laure Pisella",
+    "basis": "own_text"
+  },
+  "0387": {
+    "name": "Laurence Harris",
+    "basis": "approved"
+  },
+  "0393": {
+    "name": "Liad Mudrik",
+    "basis": "own_text"
+  },
+  "0396": {
+    "name": "Linda B. Smith",
+    "basis": "approved"
+  },
+  "0400": {
+    "name": "Lisa M. Oakes",
+    "basis": "approved"
+  },
+  "0402": {
+    "name": "Lisa S. Scott",
+    "basis": "approved"
+  },
+  "0403": {
+    "name": "Lotfi B. Merabet",
+    "basis": "approved"
+  },
+  "0408": {
+    "name": "M.D. Rutherford",
+    "basis": "own_text"
+  },
+  "0415": {
+    "name": "Marianne Maertens",
+    "basis": "approved"
+  },
+  "0421": {
+    "name": "Mark D. Lescroart",
+    "basis": "approved"
+  },
+  "0429": {
+    "name": "Martin Arguin",
+    "basis": "approved"
+  },
+  "0432": {
+    "name": "Martin Rolfs",
+    "basis": "approved"
+  },
+  "0434": {
+    "name": "Martin Wiener",
+    "basis": "approved"
+  },
+  "0440": {
+    "name": "Maryam Vaziri-Pashkam",
+    "basis": "own_text"
+  },
+  "0443": {
+    "name": "Matteo Valsecchi",
+    "basis": "approved"
+  },
+  "0444": {
+    "name": "Matthew Davidson",
+    "basis": "approved"
+  },
+  "0446": {
+    "name": "Maximilian Riesenhuber",
+    "basis": "approved"
+  },
+  "0458": {
+    "name": "Michael Beyeler",
+    "basis": "approved"
+  },
+  "0461": {
+    "name": "Michael H. Herzog",
+    "basis": "approved"
+  },
+  "0462": {
+    "name": "Michael J Tarr",
+    "basis": "approved"
+  },
+  "0468": {
+    "name": "Michael. S. Beauchamp",
+    "basis": "approved"
+  },
+  "0483": {
+    "name": "Monica D. Rosenberg",
+    "basis": "own_text"
+  },
+  "0492": {
+    "name": "Nancy B. Carlisle",
+    "basis": "approved"
+  },
+  "0493": {
+    "name": "Nancy Kanwisher",
+    "basis": "approved"
+  },
+  "0494": {
+    "name": "Naseem Al-Aidroos",
+    "basis": "approved"
+  },
+  "0504": {
+    "name": "Nicholas Gaspelin",
+    "basis": "approved"
+  },
+  "0507": {
+    "name": "Nihong Chen",
+    "basis": "approved"
+  },
+  "0517": {
+    "name": "Oh-Sang Kwon",
+    "basis": "approved"
+  },
+  "0523": {
+    "name": "Paola Binda",
+    "basis": "approved"
+  },
+  "0526": {
+    "name": "Patrick Cavanagh",
+    "basis": "approved"
+  },
+  "0533": {
+    "name": "Peter Kok",
+    "basis": "approved"
+  },
+  "0545": {
+    "name": "Qasim Zaidi",
+    "basis": "approved"
+  },
+  "0554": {
+    "name": "Ralf M. Haefner",
+    "basis": "approved_after_fix"
+  },
+  "0556": {
+    "name": "Randi Starrfelt",
+    "basis": "approved"
+  },
+  "0565": {
+    "name": "Richard A. Abrams",
+    "basis": "approved"
+  },
+  "0569": {
+    "name": "Robert G. Alexander",
+    "basis": "own_text"
+  },
+  "0576": {
+    "name": "Rosanne L. Rademaker",
+    "basis": "own_text"
+  },
+  "0577": {
+    "name": "Roy Luria",
+    "basis": "approved"
+  },
+  "0578": {
+    "name": "Roy Mukamel",
+    "basis": "approved"
+  },
+  "0582": {
+    "name": "Ruth Rosenholtz",
+    "basis": "approved_after_fix"
+  },
+  "0588": {
+    "name": "Sami R. Yousif",
+    "basis": "approved"
+  },
+  "0597": {
+    "name": "Sashank Varma",
+    "basis": "approved"
+  },
+  "0615": {
+    "name": "Shinsuke Shimojo",
+    "basis": "own_text"
+  },
+  "0617": {
+    "name": "Shlomit Yuval-Greenberg",
+    "basis": "approved"
+  },
+  "0618": {
+    "name": "Shruti Japee",
+    "basis": "approved"
+  },
+  "0628": {
+    "name": "Sophia Vinci-Booher",
+    "basis": "approved"
+  },
+  "0629": {
+    "name": "Stefan Pollmann",
+    "basis": "own_text"
+  },
+  "0632": {
+    "name": "Stella F. Lourenco",
+    "basis": "approved"
+  },
+  "0633": {
+    "name": "Stephen Adamo",
+    "basis": "own_text"
+  },
+  "0634": {
+    "name": "Stephen Engel",
+    "basis": "own_text"
+  },
+  "0635": {
+    "name": "Stephen Heinen",
+    "basis": "approved_after_fix"
+  },
+  "0643": {
+    "name": "Surya Gayet",
+    "basis": "own_text"
+  },
+  "0654": {
+    "name": "Tao Gao",
+    "basis": "approved"
+  },
+  "0655": {
+    "name": "Taosheng Liu",
+    "basis": "approved"
+  },
+  "0658": {
+    "name": "Tessa Dekker",
+    "basis": "approved"
+  },
+  "0661": {
+    "name": "Thomas C. Sprague",
+    "basis": "approved"
+  },
+  "0663": {
+    "name": "Thérèse Collins",
+    "basis": "approved"
+  },
+  "0664": {
+    "name": "Tijl Grootswagers",
+    "basis": "approved"
+  },
+  "0681": {
+    "name": "Victoria Plaza",
+    "basis": "approved"
+  },
+  "0687": {
+    "name": "Vivian M Ciaramitaro",
+    "basis": "own_text"
+  },
+  "0692": {
+    "name": "Weiwei Zhang",
+    "basis": "approved"
+  },
+  "0697": {
+    "name": "Wilma A Bainbridge",
+    "basis": "approved_after_fix"
+  },
+  "0703": {
+    "name": "Xuexin Wei",
+    "basis": "approved"
+  },
+  "0714": {
+    "name": "Yoshiyuki Ueda",
+    "basis": "approved"
+  },
+  "0718": {
+    "name": "Kareem Zaghloul",
+    "basis": "approved"
+  },
+  "0721": {
+    "name": "Zeynep M. Saygin",
+    "basis": "approved"
+  },
+  "0730": {
+    "name": "Ömer Dağlar Tanrikulu",
+    "basis": "own_text"
+  },
+  "E005": {
+    "name": "Thomas Euler",
+    "basis": "approved"
+  },
+  "E006": {
+    "name": "Greg Field",
+    "basis": "approved"
+  },
+  "E026": {
+    "name": "SueYeon Chung",
+    "basis": "approved"
+  },
+  "E042": {
+    "name": "Thomas Serre",
+    "basis": "approved"
+  },
+  "E043": {
+    "name": "Yukiyasu Kamitani",
+    "basis": "approved"
+  },
+  "E055": {
+    "name": "Pieter Roelfsema",
+    "basis": "approved"
+  },
+  "E060": {
+    "name": "Rufin VanRullen",
+    "basis": "approved"
+  },
+  "E063": {
+    "name": "Mauro Manassi",
+    "basis": "approved"
+  },
+  "E064": {
+    "name": "Heiko Neumann",
+    "basis": "approved"
+  },
+  "E066": {
+    "name": "Duje Tadin",
+    "basis": "own_text"
+  },
+  "E076": {
+    "name": "Anitha Pasupathy",
+    "basis": "approved"
+  },
+  "E080": {
+    "name": "Stella Yu",
+    "basis": "approved"
+  },
+  "E083": {
+    "name": "Benoit Cottereau",
+    "basis": "own_text"
+  },
+  "E114": {
+    "name": "Thomas Wolbers",
+    "basis": "own_text"
+  },
+  "E119": {
+    "name": "Janice Chen",
+    "basis": "approved"
+  },
+  "E121": {
+    "name": "Moshe Bar",
+    "basis": "approved"
+  },
+  "E144": {
+    "name": "Eli Brenner",
+    "basis": "approved"
+  },
+  "E145": {
+    "name": "Jeroen Smeets",
+    "basis": "own_text"
+  },
+  "E149": {
+    "name": "Stephen H. Scott",
+    "basis": "approved"
+  },
+  "E153": {
+    "name": "J. Douglas Crawford",
+    "basis": "own_text"
+  },
+  "E155": {
+    "name": "Constanze Hesse",
+    "basis": "own_text"
+  },
+  "E177": {
+    "name": "Klaus Oberauer",
+    "basis": "approved"
+  },
+  "E178": {
+    "name": "Bradley Postle",
+    "basis": "approved"
+  },
+  "E180": {
+    "name": "Paul Bays",
+    "basis": "approved_after_fix"
+  },
+  "E210": {
+    "name": "Joshua A. Solomon",
+    "basis": "approved"
+  },
+  "E217": {
+    "name": "C. Shawn Green",
+    "basis": "approved"
+  },
+  "E226": {
+    "name": "Merav Ahissar",
+    "basis": "own_text"
+  },
+  "E229": {
+    "name": "Ladan Shams",
+    "basis": "own_text"
+  },
+  "E232": {
+    "name": "Uta Noppeney",
+    "basis": "approved"
+  },
+  "E245": {
+    "name": "Salvador Soto-Faraco",
+    "basis": "approved"
+  },
+  "E247": {
+    "name": "Joshua I. Gold",
+    "basis": "approved"
+  },
+  "E249": {
+    "name": "Stephen M. Fleming",
+    "basis": "approved"
+  },
+  "E254": {
+    "name": "Tobias H. Donner",
+    "basis": "approved"
+  },
+  "E259": {
+    "name": "Alexandre Pouget",
+    "basis": "approved"
+  },
+  "E260": {
+    "name": "Christopher Summerfield",
+    "basis": "approved"
+  },
+  "E263": {
+    "name": "Marius Usher",
+    "basis": "approved"
+  },
+  "E264": {
+    "name": "Floris P. de Lange",
+    "basis": "approved"
+  },
+  "E266": {
+    "name": "Richard Aslin",
+    "basis": "approved_after_fix"
+  },
+  "E273": {
+    "name": "Robert Hess",
+    "basis": "approved"
+  },
+  "E280": {
+    "name": "Karthik Shekhar",
+    "basis": "approved"
+  },
+  "E281": {
+    "name": "Elizabeth Spelke",
+    "basis": "approved_after_fix"
+  },
+  "E284": {
+    "name": "Marius Peelen",
+    "basis": "own_text"
+  },
+  "E290": {
+    "name": "Hee-Yeon Im",
+    "basis": "approved"
+  },
+  "E295": {
+    "name": "Alessandra Angelucci",
+    "basis": "own_text"
+  },
+  "E297": {
+    "name": "Adam Kohn",
+    "basis": "approved"
+  },
+  "E300": {
+    "name": "Marla Feller",
+    "basis": "approved"
+  },
+  "E302": {
+    "name": "Greg Horwitz",
+    "basis": "approved"
+  },
+  "E312": {
+    "name": "Ari Rosenberg",
+    "basis": "own_text"
+  },
+  "E323": {
+    "name": "Takehiro Nagai",
+    "basis": "approved"
+  },
+  "E343": {
+    "name": "Todd Horowitz",
+    "basis": "approved"
+  },
+  "E344": {
+    "name": "Carly Leonard",
+    "basis": "approved"
+  },
+  "E350": {
+    "name": "Marc Brysbaert",
+    "basis": "approved"
+  },
+  "E351": {
+    "name": "Elizabeth Schotter",
+    "basis": "approved"
+  },
+  "E353": {
+    "name": "Kathleen Rastle",
+    "basis": "approved"
+  },
+  "E356": {
+    "name": "Victor Kuperman",
+    "basis": "approved"
+  },
+  "E360": {
+    "name": "Adrian Staub",
+    "basis": "own_text"
+  },
+  "E361": {
+    "name": "Jon Andoni Duñabeitia",
+    "basis": "approved"
+  },
+  "E364": {
+    "name": "Bruce McCandliss",
+    "basis": "approved"
+  },
+  "E372": {
+    "name": "S. P. Arun",
+    "basis": "approved"
+  },
+  "E376": {
+    "name": "Sridharan Devarajan",
+    "basis": "approved"
+  }
+}

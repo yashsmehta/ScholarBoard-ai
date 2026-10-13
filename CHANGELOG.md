@@ -3,6 +3,12 @@
 ## Next release (in progress, 2026-09-25)
 
 ### Pipeline
+- **Research summaries are hidden unless the PI wrote or approved them.** `data/source/summary_visible.json`
+  (tracked) lists the 208 PIs whose summary is shown: 45 who sent their own text, 150 who replied
+  approvingly, and 13 whose requested wording fix was applied. It was built by reading all 240 outreach
+  reply threads. `build` adds `summary_visible` to every PI in `scholars.json`; the sidebar shows the summary only
+  when it is true. The text still ships for everyone because Agentic Search ranks on it and the map is
+  embedded from it. New PIs are hidden by default. Methodology and onboarding text updated.
 - **New PIs are profiled by a headless Claude Code agent** (`profile_agent`, Sonnet 5.5 on the
   Claude subscription). One agent per PI finds the current affiliation and lab link, an official
   headshot, Google Scholar citations and h-index, every 2023+ first/last-author paper, and picks the
@@ -63,6 +69,15 @@
   of the classifier, so hand fixes survive re-runs.
 
 ### Data
+- Applied the research summaries PIs sent to be used word for word, which had been waiting since the Oct 1
+  replies: Marius Peelen, Vivian Ciaramitaro, Surya Gayet, Ari Rosenberg, Thomas Wolbers, Ömer Dağlar Tanrikulu
+  (his first-person text, as sent), Constanze Hesse, Irene Sperandio, Rosanne Rademaker, Robert Alexander,
+  Krystel Huxlin, Adam Kiefer, Ladan Shams and Stefan Pollmann (full replacements); John Tsotsos (everything after
+  the opening sentence); Bruno Rossion (his edited version of the emailed paragraph, capitals in normal case);
+  Giovanni Federico (now exactly his text, including the citation, instead of the earlier light rewording).
+  Richard Aslin: "has recently been investigating" → "investigates" (his work spans 30 years). Brian Anderson keeps
+  the condensed version he approved. All 18 re-embedded and placed with the saved UMAP model (other dots
+  unchanged), added to protected PIs, and their Agentic Search keywords regenerated.
 - **Full PI refresh (papers, photos, affiliations, lab links, summaries)**: one research agent per PI
   re-checked the profile photo, current affiliation and lab site, and re-selected the 5 most
   representative 2023+ papers (first/last author, no conference abstracts, weighted toward recent and
